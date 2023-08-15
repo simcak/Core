@@ -6,19 +6,38 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 11:40:46 by psimcak           #+#    #+#              #
-#    Updated: 2023/08/14 16:36:09 by psimcak          ###   ########.fr        #
+#    Updated: 2023/08/15 18:02:35 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-HEADER = LIBFT.h
+HEADER = libft.h
 AR = ar	# The archiver tool used to create static libraries
 CC = cc
 RM = rm
 COMPILER_FLAGS = -Wall -Wextra -Werror
 
-SRC = 	ft_atoi.c\
-		ft_strlen.c
+SRC = 	ft_isalpha.c\
+		ft_isdigit.c\
+		ft_isalnum.c\
+		ft_isascii.c\
+		ft_isprint.c\
+		ft_strlen.c\
+		ft_atoi.c\
+		ft_memset.c\
+		ft_bzero.c\
+		ft_strlcpy.c\
+		# ft_memcpy.c\
+		# ft_memmove.c\
+		# ft_strlcat.c\
+		# ft_toupper.c\
+		# ft_tolower.c\
+		# strchr.c\
+		# strrchr.c\
+		# strncmp.c\
+		# memchr.c\
+		# memcmp.c\
+		# strnstr.c
 
 OBJ = $(SRC:%.c=%.o)
 # OBJ is var for names of the object files only
