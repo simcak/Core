@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   LIBFT.h                                            :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 12:23:08 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/14 12:30:25 by psimcak          ###   ########.fr       */
+/*   Created: 2023/08/15 13:43:31 by psimcak           #+#    #+#             */
+/*   Updated: 2023/08/15 15:52:12 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t			i;
 
-int		ft_strlen(char *str);
-
-#endif
+	i = 0;
+	if (!s)
+		return (0);
+	while (i < n)
+	{
+		*(unsigned char*)(s + i) = (unsigned char)c;
+		i++;
+	}
+	return (s);
+}
