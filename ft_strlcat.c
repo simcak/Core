@@ -1,44 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 17:01:06 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/16 19:06:14 by psimcak          ###   ########.fr       */
+/*   Created: 2023/08/16 12:59:47 by psimcak           #+#    #+#             */
+/*   Updated: 2023/08/16 15:48:52 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+size_t	ft_conststrlen(const char *str)
 {
 	int	i;
-	int	sign;
-	int	number;
 
 	i = 0;
-	sign = 1;
-	number = 0;
-	if (!str)
-		return (0);
-	while (str[i] < 33 && str[i] > 0)
-		i++;
-	if (str[i] == '-')
-		sign *= -1;
-	if (str[i + 1] < '0' || str[i + 1] > '9')
-		return (0);
 	while (str[i])
+		i++;
+	return (i);
+}
+
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	j;
+	size_t	dest_len;
+	size_t	src_len;
+
+	src_len = ft_conststrlen(src);
+	dest_len = ft_strlen(dst);
+	j = dest_len;
+	i = 0;
+	if (dest_len < (size - 1) && size > 0)
 	{
-		while (str[i] >= '0' && str[i] <= '9')
+		while (src[i] && dest_len + i < size - 1)
 		{
-			number = number * 10 + (str[i] - '0');
-			if (!(str[i + 1] >= '0' && str[i + 1] <= '9'))
-				return (number * sign);
+			dst[j] = src[i];
+			j++;
 			i++;
 		}
-		i++;
+		dst[j] = 0;
 	}
-	return (0);
+	if (dest_len >= size)
+		dest_len = size;
+	return (dest_len + src_len);
 }
