@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 11:40:46 by psimcak           #+#    #+#              #
-#    Updated: 2023/08/16 19:16:28 by psimcak          ###   ########.fr        #
+#    Updated: 2023/08/18 16:41:33 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,11 @@ SRC = 	ft_isalpha.c\
 		ft_strrchr.c\
 		ft_strncmp.c\
 		ft_memchr.c\
+		ft_memcmp.c\
+		ft_strnstr.c\
 		ft_atoi.c\
-		# ft_memcmp.c\
-		# ft_strnstr.c
+		ft_calloc.c\
+		ft_strdup.c\
 
 OBJ = $(SRC:%.c=%.o)
 # OBJ is var for names of the object files only

@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 11:50:48 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/18 18:48:52 by psimcak          ###   ########.fr       */
+/*   Created: 2023/08/18 11:53:46 by psimcak           #+#    #+#             */
+/*   Updated: 2023/08/18 12:28:32 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strlen(const char *str)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	int	i;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
-	while (str[i])
+	if (!little[0])
+		return ((char *)big);
+	while (big[i] && i < len)
+	{
+		j = 0;
+		while (i + j < len && big[i + j] == little[j] && little[j])
+			j++;
+		if (!little [j])
+			return ((char *)big + i);
 		i++;
-	return (i);
+	}
+	return (0);
 }
