@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:32:05 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/16 16:51:53 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/18 12:57:31 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@ int	ft_cstrlen(const char *str)
 char	*ft_strrchr(const char *s, int c)
 {
 	int	i;
+	unsigned char	c2;
 
 	i = ft_cstrlen(s);
-	if (!s || !c)
-		return (0);
+	c2 = (unsigned char)c;
 	
+	if (!c2)
+		return (&((char *)s)[i]);
 	while (i >= 0)
 	{
-		if (s[i] == c)
-			return(&((char *)s)[i]);
+		if (s[i] == c2)
+			return (&((char *)s)[i]);
 		i--;
 	}
 	return (0);
