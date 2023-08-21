@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:31:13 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/18 17:53:40 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/21 14:31:44 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,8 @@ int	main(void)
 	printf("\n");
 	free(arr2);
 
+	printf("FT_SUBSTR: %s \n", ft_substr("Hello world!", 6, 3));
+	printf("FT_STRJOIN: %s \n", ft_strjoin("Hello world! ", "It is 42 here"));
+	printf("FT_STRTRIM: %s \n", ft_strtrim("Hello world! ", " orld! "));
+	printf("FT_SPLIT: %s \n", *ft_split("Hello world! ", 'w'));
 }
