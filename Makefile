@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 11:40:46 by psimcak           #+#    #+#              #
-#    Updated: 2023/08/21 14:19:42 by psimcak          ###   ########.fr        #
+#    Updated: 2023/08/22 14:26:33 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC = 	ft_isalpha.c\
 		ft_strjoin.c\
 		ft_strtrim.c\
 		ft_split.c\
+		ft_itoa.c\
 
 OBJ = $(SRC:%.c=%.o)
 # OBJ is var for names of the object files only
