@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 11:40:46 by psimcak           #+#    #+#              #
-#    Updated: 2023/08/22 14:26:33 by psimcak          ###   ########.fr        #
+#    Updated: 2023/08/24 15:27:29 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,12 @@ SRC = 	ft_isalpha.c\
 		ft_strtrim.c\
 		ft_split.c\
 		ft_itoa.c\
+		ft_strmapi.c\
+		ft_striteri.c\
+		ft_putchar_fd.c\
+		ft_putstr_fd.c\
+		ft_putendl_fd.c\
+		ft_putnbr_fd.c\
 
 OBJ = $(SRC:%.c=%.o)
 # OBJ is var for names of the object files only
@@ -72,6 +78,9 @@ fclean: clean
 	$(RM) -f $(NAME)
 
 re: fclean all
+
+so: re
+	cc -shared -o libft.so $(OBJ)
 
 .PHONY: all clean fclean re
 # if there is a file called all clean etc. - it will not mess up the code

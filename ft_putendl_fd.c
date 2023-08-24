@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 13:43:31 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/23 16:33:47 by psimcak          ###   ########.fr       */
+/*   Created: 2023/08/24 15:20:54 by psimcak           #+#    #+#             */
+/*   Updated: 2023/08/24 15:26:39 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+void ft_putendl_fd(char *s, int fd)
 {
-	c++;
-	while (n && s)
-		((unsigned char*)s)[--n] = (unsigned char)c;
-	return (s);
+	write(fd, s, ft_strlen(s));
+	write(fd, "\n", 1);
 }
