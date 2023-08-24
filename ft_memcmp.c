@@ -6,13 +6,13 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:04:04 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/18 11:51:18 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/24 17:28:45 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_memcmp(const void *s1, const void *s2, size_t n)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
 	size_t	i;
 
@@ -23,5 +23,5 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n)
 			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
 		i++;
 	}
-	return (0);	
+	return (0);
 }

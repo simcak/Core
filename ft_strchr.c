@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:01:31 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/21 15:20:23 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/24 17:27:24 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ char	*ft_strchr(const char *s, int c)
 	while (s[i])
 	{
 		if (s[i] == (char)c)
-			// return (&((char *)s)[i]);
-			return (char *)(s + i);
+			return ((char *)(s + i));
 		i++;
 	}
 	if (!c)
 		return (&((char *)s)[i]);
 	return (0);
 }
+
+// return (&((char *)s)[i]);

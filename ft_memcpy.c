@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 11:28:32 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/16 18:52:10 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/24 17:23:59 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	i;
-	
+
 	i = 0;
 	if (!dest)
 		return (0);

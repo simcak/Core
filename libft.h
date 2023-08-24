@@ -6,20 +6,20 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:23:08 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/24 15:27:46 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/24 17:22:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
 
-typedef struct	s_split_next
+typedef struct s_split_next
 {
-	size_t start;
-	size_t length;
+	size_t	start;
+	size_t	length;
 }				t_split_next;
 
 int		ft_isalpha(int c);
