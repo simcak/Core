@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 09:52:26 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/21 13:45:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/23 14:14:05 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	s_len = ft_strlen(s);
 	if (start >= s_len)
 		return (ft_strdup(""));
-	str = (char *)malloc(sizeof(s) * len + 1);
+	if (start + len > s_len)
+		len = s_len - start;
+	str = (char *)malloc(len + 1);
 	if (!str)
 		return (0);
 	while (s[i])
