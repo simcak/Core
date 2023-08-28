@@ -6,26 +6,26 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 14:41:20 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/22 14:21:48 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/28 10:47:54 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_count_parts(const char *s, char c)
+static int	ft_count_parts(const char *str, char c)
 {
 	int	count;
 	int	i;
 
 	count = 0;
 	i = 0;
-	while (s[i])
+	while (str[i])
 	{
-		while (s[i] == c)
+		while (str[i] == c)
 			i++;
-		if (s[i])
+		if (str[i])
 			count++;
-		while (s[i] && s[i] != c)
+		while (str[i] && str[i] != c)
 			i++;
 	}
 	return (count);

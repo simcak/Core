@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 11:40:46 by psimcak           #+#    #+#              #
-#    Updated: 2023/08/24 15:27:29 by psimcak          ###   ########.fr        #
+#    Updated: 2023/08/28 17:13:21 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,16 +52,19 @@ SRC = 	ft_isalpha.c\
 		ft_putendl_fd.c\
 		ft_putnbr_fd.c\
 
+BON =	ft_lstnew.c\
+		ft_lstadd_front.c\
+		ft_lstsize.c\
+		ft_lstlast.c\
+		ft_lstadd_back.c\
+		ft_lstdelone.c\
+		ft_lstclear.c\
+		ft_lstiter.c\
+		ft_lstmap.c
+
 OBJ = $(SRC:%.c=%.o)
+OBJ_BON = $(BON:%.c=%.o)
 # OBJ is var for names of the object files only
-
-all: $(NAME)
-
-$(NAME) : $(OBJ)
-	$(AR) -rcs $@ $(OBJ)
-# r = Replace or insert .o files into archive (if it doesn't exist, create it)
-# c = Don't warn if the archive had to be created
-# s = Create an archive index (time saving)
 
 # Object File Compilation
 %.o: %.c	# %.o = target = $@ AND %.c = prerequisite = $<
@@ -71,8 +74,17 @@ and the Object File Compilation rule tells 'make' how to create them.
 # c = This flag tells the compiler to generate an .o file (compile not link)
 # o = This flag specifies the output file name
 
+all: $(OBJ)
+	$(AR) -rcs $(NAME) $(OBJ)
+# r = Replace or insert .o files into archive (if it doesn't exist, create it)
+# c = Don't warn if the archive had to be created
+# s = Create an archive index (time saving)
+
+bonus: $(OBJ) $(OBJ_BON)
+	$(AR) -rcs $(NAME) $(OBJ) $(OBJ_BON)
+
 clean:
-	$(RM) -f $(OBJ)
+	$(RM) -f $(OBJ) $(OBJ_BON)
 
 fclean: clean
 	$(RM) -f $(NAME)
