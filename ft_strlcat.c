@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:59:47 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/24 15:15:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/29 18:38:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	size_t	i;
 	size_t	j;
 	size_t	dest_len;
-	size_t	src_len;
 
-	src_len = ft_strlen(src);
+	if ((!dst || !src) && !size)
+		return (0);
 	dest_len = ft_strlen(dst);
 	j = dest_len;
 	i = 0;
@@ -35,5 +35,5 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	}
 	if (dest_len > size)
 		dest_len = size;
-	return (dest_len + src_len);
+	return (dest_len + ft_strlen(src));
 }

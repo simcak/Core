@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:54:47 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/22 17:07:20 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/29 18:08:22 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,16 @@ char	*ft_itoa(int n)
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
 	ptr = safe_malloc(n);
+	if (!ptr)
+		return (0);
 	index = count_int(n, temp_n);
 	if (n < 0)
 		n = -n;
 	index = count_int(n, temp_n) - 1;
 	while (n > 0)
 	{
-		ptr[index] = (n % 10) + '0';
+		ptr[index--] = (n % 10) + '0';
 		n /= 10;
-		index--;
 	}
 	if (temp_n < 0)
 		ptr[0] = '-';

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:01:06 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/23 14:11:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/29 18:23:45 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_atoi(const char *str)
 	if (!str)
 		return (0);
 	i = 0;
-	while (str[i] && str[i] <= 32)
+	while (str[i] && ((str[i] >= 9 && str[i] <= 13) || str[i] == ' '))
 		i++;
 	sign = 1;
 	if (str[i] == '-' || str[i] == '+')

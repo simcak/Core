@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 11:40:46 by psimcak           #+#    #+#              #
-#    Updated: 2023/08/28 17:13:21 by psimcak          ###   ########.fr        #
+#    Updated: 2023/08/29 18:25:17 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,8 +91,8 @@ fclean: clean
 
 re: fclean all
 
-so: re
-	cc -shared -o libft.so $(OBJ)
+# so: re
+# 	cc -shared -o libft.so $(OBJ)
 
 .PHONY: all clean fclean re
 # if there is a file called all clean etc. - it will not mess up the code
