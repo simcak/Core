@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:53:46 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/18 12:28:32 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/29 20:08:05 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	size_t	j;
 
 	i = 0;
+	if (!big)
+		return (0);
 	if (!little[0])
 		return ((char *)big);
 	while (big[i] && i < len)

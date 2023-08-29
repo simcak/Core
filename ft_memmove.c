@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:10:38 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/24 17:24:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/08/29 18:33:30 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 {
 	int	i;
 
+	if (!dest && !src)
+		return (dest);
 	if (dest > src)
 	{
 		i = (int)n - 1;
