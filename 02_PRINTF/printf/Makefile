@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 11:40:46 by psimcak           #+#    #+#              #
-#    Updated: 2023/08/30 13:39:48 by psimcak          ###   ########.fr        #
+#    Updated: 2023/09/01 17:22:09 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,4 +30,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-

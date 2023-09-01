@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:35:02 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/01 16:47:29 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/09/01 17:20:22 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,6 @@ void	ft_pointer(unsigned long u_int_num, int *count)
 	char	*str_hex;
 
 	str_hex = "0123456789abcdef";
-	if (u_int_num == 0)
-	{
-		ft_putchar_and_strlen('0', count);
-		return ;
-	}
 	if (u_int_num > 15)
 		ft_pointer(u_int_num / 16, count);
 	ft_putchar_and_strlen(str_hex[u_int_num % 16], count);

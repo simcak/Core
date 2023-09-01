@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 12:28:55 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/01 16:44:22 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/09/01 17:45:59 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_putchar_and_strlen(char c, int *count)
 
 void	ft_specifier_clasificator(char specifier, va_list args, int *count)
 {
+	unsigned long	ulong_args;
+
 	if (specifier == 'd' || specifier == 'i')
 		ft_num_to_str(va_arg(args, int), count);
 	else if (specifier == 'c')
@@ -28,9 +30,14 @@ void	ft_specifier_clasificator(char specifier, va_list args, int *count)
 		ft_putstr(va_arg(args, char *), count);
 	else if (specifier == 'p')
 	{
-		ft_putchar_and_strlen('0', count);
-		ft_putchar_and_strlen('x', count);
-		ft_pointer(va_arg(args, unsigned long), count);
+		ulong_args = va_arg(args, unsigned long);
+		if (!ulong_args)
+			ft_putstr("(nil)", count);
+		else
+		{
+			ft_putstr("0x", count);
+			ft_pointer(ulong_args, count);
+		}
 	}
 	else if (specifier == 'u')
 		ft_u_int_to_str(va_arg(args, unsigned int), count);
