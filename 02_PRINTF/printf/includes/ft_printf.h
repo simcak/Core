@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 12:27:29 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/01 13:08:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/09/01 14:18:31 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ void	ft_num_to_str(int num, int *count);
 void	ft_putstr(char *str, int *count);
 void	ft_u_int_to_str(unsigned int u, int *count);
 void	ft_int_to_hex(char specifier, unsigned int uint_num, int *count);
+void	ft_pointer(unsigned long u_int_num, int *count);
 
 #endif

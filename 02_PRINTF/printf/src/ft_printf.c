@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 12:28:55 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/01 13:14:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/09/01 16:44:22 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ void	ft_specifier_clasificator(char specifier, va_list args, int *count)
 		ft_putchar_and_strlen(va_arg(args, int), count);
 	else if (specifier == 's')
 		ft_putstr(va_arg(args, char *), count);
-	// else if (specifier == 'p')
-	// 	;
+	else if (specifier == 'p')
+	{
+		ft_putchar_and_strlen('0', count);
+		ft_putchar_and_strlen('x', count);
+		ft_pointer(va_arg(args, unsigned long), count);
+	}
 	else if (specifier == 'u')
 		ft_u_int_to_str(va_arg(args, unsigned int), count);
 	else if (specifier == 'x' || specifier == 'X')
@@ -45,6 +49,8 @@ int	ft_printf(const char *format, ...)
 	i = 0;
 	count = 0;
 	va_start(args, format);
+	if (!format)
+		return (-1);
 	while (format[i])
 	{
 		if (format[i] == '%')
