@@ -29,16 +29,6 @@ static int	count_int(int n, int temp_n)
 	return (count);
 }
 
-static char	*safe_malloc(int n)
-{
-	char	*ptr;
-
-	ptr = (char *)malloc(sizeof(char) * (count_int(n, n) + 1));
-	if (!ptr)
-		return (0);
-	return (ptr);
-}
-
 char	*ft_itoa(int n)
 {
 	char	*ptr;
@@ -50,7 +40,7 @@ char	*ft_itoa(int n)
 		return (ft_strdup("0"));
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
-	ptr = safe_malloc(n);
+	ptr = (char *)malloc(sizeof(char) * (count_int(n, n) + 1));
 	if (!ptr)
 		return (0);
 	index = count_int(n, temp_n);
