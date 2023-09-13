@@ -6,12 +6,11 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 11:40:46 by psimcak           #+#    #+#              #
-#    Updated: 2023/08/29 18:25:17 by psimcak          ###   ########.fr        #
+#    Updated: 2023/09/11 10:48:53 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-HEADER = libft.h
 AR = ar	# The archiver tool used to create static libraries
 CC = cc
 RM = rm
