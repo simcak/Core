@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 11:31:11 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/19 18:36:49 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/09/20 17:03:38 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,22 @@ char	*ft_strjoin(char const *str1, char const *str2)
 		joined[j++] = str2[s++];
 	joined[j] = '\0';
 	return (joined);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	size_t	alloc_mem_size;
+	void	*ptr;
+
+	if (nmemb && ((size_t)(-1) / nmemb) < size)
+		return (0);
+	alloc_mem_size = nmemb * size;
+	ptr = (void *)malloc(alloc_mem_size);
+	if (!ptr)
+		return (0);
+	while (alloc_mem_size && ptr)
+		((char *)ptr)[--alloc_mem_size] = 0;
+	return (ptr);
 }
 
 int	ft_strlen(const char *str)
@@ -58,39 +74,11 @@ char	*ft_strchr(const char *str, int character)
 	return (NULL);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_join_and_free(char *str1, char *str2)
 {
-	char	*str;
-	int		i;
-	int		j;
+	char	*str_temp;
 
-	str = (void *)malloc((ft_strlen(s1) - ft_strlen(set) + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	i = ft_strlen(set);
-	j = 0;
-	while (s1[i])
-		str[j++] = s1[i++];
-	str[j] = '\0';
-	return (str);
-}
-
-char	*ft_strdup(const char *s)
-{
-	char	*dup;
-	size_t	len;
-	int		i;
-
-	len = ft_strlen((char *)s) + 1;
-	dup = (char *)malloc(len);
-	if (!dup)
-		return (0);
-	i = 0;
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = 0;
-	return (dup);
+	str_temp = ft_strjoin(str1, str2);
+	free(str1);
+	return (str_temp);
 }

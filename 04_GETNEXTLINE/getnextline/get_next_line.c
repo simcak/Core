@@ -6,81 +6,95 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 11:30:27 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/19 18:48:32 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/09/20 17:05:14 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_cleaned_line(char *raw_line)
+char	*ft_raw_line(int fd, char *raw_line)
 {
-	char	*one_line;
-	int		i;
+	char	*block_of_chars;
+	int		fd_readed_chars;
 
 	if (!raw_line)
+		raw_line = ft_calloc(1, 1);
+	block_of_chars = (void *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!block_of_chars)
 		return (NULL);
-	i = ft_strlen(ft_strchr(raw_line, '\n'));
-	one_line = (void *)malloc((i + 1) * sizeof(char));
-	if (!one_line)
-		return (NULL);
+	fd_readed_chars = 1;
+	while (fd_readed_chars > 0)
+	{
+		fd_readed_chars = read(fd, block_of_chars, BUFFER_SIZE);
+		if (fd_readed_chars == -1)
+		{
+			free(block_of_chars);
+			return (NULL);
+		}
+		block_of_chars[fd_readed_chars] = '\0';
+		raw_line = ft_join_and_free(raw_line, block_of_chars);
+		if (ft_strchr(block_of_chars, '\n'))
+			break ;
+	}
+	free(block_of_chars);
+	return (raw_line);
+}
+
+char	*ft_cleaned_line(char *raw_line)
+{
+	char	*cleaned_line;
+	int		i;
+
+	i = 0;
+	while (raw_line[i] && raw_line[i] != '\n')
+		i++;
+	cleaned_line = ft_calloc(i + 2, sizeof(char));
 	i = 0;
 	while (raw_line[i] && raw_line[i] != '\n')
 	{
-		one_line[i] = raw_line[i];
+		cleaned_line[i] = raw_line[i];
 		i++;
 	}
-	if (raw_line[i] == '\n')
-		one_line[i++] = '\n';
-	one_line[i] = '\0';
-	return (one_line);
+	if (raw_line[i] == '\n' || raw_line[i] == '\0')
+		cleaned_line[i] = '\n';
+	return (cleaned_line);
 }
-// raw_line = there could be zero \n or multiple \n
-// one_line = cleaned line ending with \n
 
-char	*ft_trim_buff(char *buff, char *one_line)
+char	*ft_next_line(char *buff)
 {
-	char	*trimmed_buff;
+	char	*next_buff;
+	int		i;
+	int		j;
 
-	trimmed_buff = ft_strtrim(buff, one_line);
-	return (trimmed_buff);
+	i = 0;
+	while (buff[i] && buff[i] != '\n')
+		i++;
+	if (buff[i] == '\0')
+	{
+		free(buff);
+		return (NULL);
+	}
+	next_buff = ft_calloc((ft_strlen(buff) - i + 1), sizeof(char));
+	i++;
+	j = 0;
+	while (buff[i])
+		next_buff[j++] = buff[i++];
+	free(buff);
+	return (next_buff);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*buff;
-	char		*temp_line;
-	int			fd_read_out;
-	char		*new_buff;
+	char		*one_line;
 
-	fd_read_out = 1;
-	if (fd == -1 || BUFFER_SIZE <= 0)
-		return (NULL);
-	temp_line = (void *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!temp_line)
-		return (NULL);
+	buff = ft_raw_line(fd, buff);
 	if (!buff)
-		buff = ft_strdup("");
-	while (fd_read_out && !(ft_strchr(buff, '\n')))
-	{
-		fd_read_out = read(fd, temp_line, BUFFER_SIZE);
-		if (fd_read_out <= 0)
-		{
-			free (temp_line);
-			return (NULL);
-		}
-		temp_line[fd_read_out] = '\0';
-		new_buff = buff;
-		buff = ft_strjoin(new_buff, temp_line);
-		free(new_buff);
-	}
-	free (temp_line);
-	temp_line = ft_cleaned_line(buff);
-	new_buff = ft_trim_buff(buff, temp_line);
-	free (buff);
-	buff = new_buff;
-	return (temp_line);
+		return (NULL);
+	one_line = ft_cleaned_line(buff);
+	buff = ft_next_line(buff);
+	return(one_line);
 }
-// fd_read_out = number of bytes readed (the output from read function)
 
 int	main(void)
 {
