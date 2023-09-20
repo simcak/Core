@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 11:30:27 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/20 17:05:14 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/09/20 17:43:46 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ char	*ft_raw_line(int fd, char *raw_line)
 
 	if (!raw_line)
 		raw_line = ft_calloc(1, 1);
-	block_of_chars = (void *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!block_of_chars)
-		return (NULL);
+	block_of_chars = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	fd_readed_chars = 1;
 	while (fd_readed_chars > 0)
 	{
@@ -46,6 +44,8 @@ char	*ft_cleaned_line(char *raw_line)
 	int		i;
 
 	i = 0;
+	if (!raw_line[i])
+		return (NULL);
 	while (raw_line[i] && raw_line[i] != '\n')
 		i++;
 	cleaned_line = ft_calloc(i + 2, sizeof(char));
@@ -55,7 +55,7 @@ char	*ft_cleaned_line(char *raw_line)
 		cleaned_line[i] = raw_line[i];
 		i++;
 	}
-	if (raw_line[i] == '\n' || raw_line[i] == '\0')
+	if (raw_line[i] == '\n')
 		cleaned_line[i] = '\n';
 	return (cleaned_line);
 }
@@ -88,30 +88,32 @@ char	*get_next_line(int fd)
 	static char	*buff;
 	char		*one_line;
 
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (NULL);
 	buff = ft_raw_line(fd, buff);
 	if (!buff)
 		return (NULL);
 	one_line = ft_cleaned_line(buff);
 	buff = ft_next_line(buff);
-	return(one_line);
+	return (one_line);
 }
 
-int	main(void)
-{
-	int		fd;
+// int	main(void)
+// {
+// 	int		fd;
 
-	fd = open("pokus.txt", O_RDONLY);
-	if (fd == -1)
-		return (1);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	close(fd);
-	return (0);
-}
+// 	fd = open("pokus.txt", O_RDONLY);
+// 	if (fd == -1)
+// 		return (1);
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	close(fd);
+// 	return (0);
+// }
