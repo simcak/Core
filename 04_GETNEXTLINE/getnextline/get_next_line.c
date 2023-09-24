@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 11:30:27 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/20 17:47:35 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/09/24 18:07:21 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*ft_raw_line(int fd, char *raw_line)
 		fd_readed_chars = read(fd, block_of_chars, BUFFER_SIZE);
 		if (fd_readed_chars == -1)
 		{
+			free(raw_line);
 			free(block_of_chars);
 			return (NULL);
 		}
@@ -88,7 +89,7 @@ char	*get_next_line(int fd)
 	static char	*buff;
 	char		*one_line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buff = ft_raw_line(fd, buff);
 	if (!buff)
