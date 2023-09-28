@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 11:30:27 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/24 18:07:21 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/09/27 16:32:55 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,22 +99,33 @@ char	*get_next_line(int fd)
 	return (one_line);
 }
 
-// int	main(void)
-// {
-// 	int		fd;
+int	main(void)
+{
+	char	**list_of_lines = (void *)malloc(sizeof(char *) * BUFFER_SIZE);
+	int		fd;
+	int		i = 0;
 
-// 	fd = open("pokus.txt", O_RDONLY);
-// 	if (fd == -1)
-// 		return (1);
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	close(fd);
-// 	return (0);
-// }
+	fd = open("pokus.txt", O_RDONLY);
+	if (fd == -1)
+		return (1);
+		
+	while (i < 10)
+	{
+		list_of_lines[i] = get_next_line(fd);
+		printf("%s", list_of_lines[i]);
+		free(list_of_lines[i++]);
+	}
+
+	// printf("%s", get_next_line(fd));
+	// printf("%s", get_next_line(fd));
+	// printf("%s", get_next_line(fd));
+	// printf("%s", get_next_line(fd));
+	// printf("%s", get_next_line(fd));
+	// printf("%s", get_next_line(fd));
+	// printf("%s", get_next_line(fd));
+	// printf("%s", get_next_line(fd));
+	// printf("%s", get_next_line(fd));
+	free (list_of_lines);
+	close(fd);
+	return (0);
+}
