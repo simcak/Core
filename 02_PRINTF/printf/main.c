@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:00:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/01 16:43:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/09/29 15:43:34 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/ft_printf.h"
 #include <stdio.h>
+#include <limits.h>
+
 
 int	main(void)
 {
@@ -31,7 +33,10 @@ int	main(void)
 	ft_printf("-> length is: %i \n", len);
 	len = ft_printf("FT_PRINTF hehex-num with up test: %X \t \t", 3501);
 	ft_printf("-> length is: %i \n", len);
-	len = ft_printf("FT_PRINTF percen test: %% \t \t \t");
-	ft_printf("-> length is: %i \n", len);
+	len = ft_printf("FT_PRINTF percen test: %% \t \t \t \n");
+	ft_printf("Maximum pro náš print: %d \n", INT_MAX);
+	printf("Maximum pro origo print: %d \n", INT_MAX);
+	ft_printf("Minimum pro náš print: %d \n", INT_MIN);
+	printf("Maximum pro origo print: %d \n", INT_MIN);
 	return (0);
 }
