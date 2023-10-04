@@ -6,31 +6,47 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:17:14 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/03 18:16:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/04 18:20:50 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+#include <string.h>
+// i need to write strcat
 
 void	ft_child_process(char *argv[], char **envp, int *fd)
 {
 	char	**splited_argv;
+	char	**splited_path;
+	char	*path;
 	int		i;
+
+	i = 0;
+	while (envp[i++] != NULL)
+		if (ft_strnstr(envp[i], "PATH=", 5))
+		{
+			path = envp[i] + 5;
+			break;
+		}
+	splited_argv = ft_split(argv[2], ' ');
+	splited_path = ft_split(path, ':');
 
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
-	printf("we are here");
-	// splited_argv = ft_split(argv[2], ' ');
-	// execve("/nfs/homes/psimcak/bin/ls", splited_argv, envp);
+	execve(strcat(splited_path[5], "/ls"), splited_argv, envp);
 }
 
 void	ft_parent_process(char *argv[], char **envp, int *fd)
 {
+	char	**splited_argv;
+	// int		i;
+
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
-	execlp("grep", "grep", "rtt", NULL);
+	splited_argv = ft_split(argv[3], ' ');
+	execve("/usr/bin/grep", splited_argv, envp);
 }
 
 int	main(int argc, char *argv[], char **envp)

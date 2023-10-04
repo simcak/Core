@@ -6,29 +6,29 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:53:46 by psimcak           #+#    #+#             */
-/*   Updated: 2023/08/29 20:08:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/04 17:32:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/pipex.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char	*ft_strnstr(const char *str, const char *sub_string, size_t len)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
-	if (!big)
+	if (!str)
 		return (0);
-	if (!little[0])
-		return ((char *)big);
-	while (big[i] && i < len)
+	if (!sub_string[0])
+		return ((char *)str);
+	while (str[i] && i < len)
 	{
 		j = 0;
-		while (i + j < len && big[i + j] == little[j] && little[j])
+		while (i + j < len && str[i + j] == sub_string[j] && sub_string[j])
 			j++;
-		if (!little [j])
-			return ((char *)big + i);
+		if (!sub_string [j])
+			return ((char *)str + i);
 		i++;
 	}
 	return (0);
