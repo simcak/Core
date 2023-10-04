@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 17:17:23 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/03 16:43:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/04 17:53:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ void	ft_execute(char *argv, char **envp);
 void	ft_error(char *str);
 void	ft_putstr_fd(char *str, int fd);
 char	**ft_split(char const *str2split, char char4split);
+char	*ft_strnstr(const char *str, const char *sub_string, size_t len);
 
 #endif
