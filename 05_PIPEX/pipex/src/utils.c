@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 18:01:08 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/05 14:42:54 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/05 18:54:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ char	*ft_final_path(char **splited_paths, char **cmd)
 		free(path);
 		i++;
 	}
-	if (!path)
-	{
-		ft_free_array_of_strings(cmd);
-		ft_error("Error with array of strings");
-	}
+
+	ft_free_array_of_strings(cmd);
+	ft_error(path);
 	return (0);
 }
 

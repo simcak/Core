@@ -1,2 +1,2 @@
-Exit status: 1
+Exit status: 240 (Leak special exit code)
 Expected: <128

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:17:14 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/05 14:45:13 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/05 19:08:24 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	ft_child_process(char *argv[], char **envp, int *fd)
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
 	close(fd_in);
-	if (execve(path, splited_argv, envp) == -1)
-		ft_error("EXECVE failed");
+	execve(path, splited_argv, envp);
+	ft_error("Error");
 }
 
 void	ft_parent_process(char *argv[], char **envp, int *fd)
@@ -58,8 +58,28 @@ void	ft_parent_process(char *argv[], char **envp, int *fd)
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd[0]);
 	close(fd_out);
-	if (execve(path, splited_argv, envp) == -1)
-		ft_error("EXECVE failed");
+	execve(path, splited_argv, envp);
+	ft_error("Error");
+}
+
+void	ft_error_police(char *argv[], char **envp)
+{
+	char	**splited_paths;
+	char	**splited_argv_2;
+	char	**splited_argv_3;
+	char	*all_paths;
+	char	*path_2;
+	char	*path_3;
+
+	all_paths = ft_find_paths(envp);
+	splited_argv_2 = ft_split(argv[2], ' ');
+	splited_argv_3 = ft_split(argv[3], ' ');
+	splited_paths = ft_split(all_paths, ':');
+	path_2 = ft_final_path(splited_paths, splited_argv_2);
+	path_3 = ft_final_path(splited_paths, splited_argv_3);
+	ft_free_array_of_strings(splited_paths);
+	ft_free_array_of_strings(splited_argv_2);
+	ft_free_array_of_strings(splited_argv_3);
 }
 
 int	main(int argc, char *argv[], char **envp)
@@ -69,6 +89,7 @@ int	main(int argc, char *argv[], char **envp)
 
 	if (argc == 5)
 	{
+		// ft_error_police(argv, envp);
 		if (pipe(fd) == -1)
 			ft_error("Error with PIPE");
 		pid_1 = fork();
