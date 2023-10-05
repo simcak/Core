@@ -1,0 +1,2 @@
+[31mError: Bad arguments
+[0mEx: ./pipex <file1> <cmd1> <cmd2> <file2>
