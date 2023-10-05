@@ -1,0 +1,5 @@
+==195505== Memcheck, a memory error detector
+==195505== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==195505== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==195505== Command: ../pipex/pipex /dev/null env_var cat outs/test-14.txt
+==195505== 

@@ -1,1 +1,9 @@
-[32m----Pipex Compiled!----\e[0m
+make: Entering directory '/nfs/homes/psimcak/Core/05_PIPEX/pipex'
+Makefile:30: warning: ignoring prerequisites on suffix rule definition
+[33m----Compiling lib----
+make[1]: Entering directory '/nfs/homes/psimcak/Core/05_PIPEX/pipex/libft'
+Makefile:31: warning: ignoring prerequisites on suffix rule definition
+make[1]: Leaving directory '/nfs/homes/psimcak/Core/05_PIPEX/pipex/libft'
+[32mPipex Compiled! ᕦ([31m♥[32m_[31m♥[32m)ᕤ[0m
+
+make: Leaving directory '/nfs/homes/psimcak/Core/05_PIPEX/pipex'

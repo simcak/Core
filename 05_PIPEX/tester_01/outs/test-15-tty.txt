@@ -1,0 +1,5 @@
+==195516== Memcheck, a memory error detector
+==195516== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==195516== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==195516== Command: ../pipex/pipex assets/deepthought.txt cat hostname outs/test-15.txt
+==195516== 
