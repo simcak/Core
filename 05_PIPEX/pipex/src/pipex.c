@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:17:14 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/04 18:20:50 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/05 07:21:59 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,9 @@ void	ft_child_process(char *argv[], char **envp, int *fd)
 	char	**splited_argv;
 	char	**splited_path;
 	char	*path;
-	int		i;
 
-	i = 0;
-	while (envp[i++] != NULL)
-		if (ft_strnstr(envp[i], "PATH=", 5))
-		{
-			path = envp[i] + 5;
-			break;
-		}
 	splited_argv = ft_split(argv[2], ' ');
+	path = find_path(envp, splited_argv[0]);
 	splited_path = ft_split(path, ':');
 
 	close(fd[0]);
