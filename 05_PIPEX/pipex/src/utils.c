@@ -6,45 +6,17 @@
 /*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 18:01:08 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/05 07:18:09 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/05 14:42:54 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-// char	*ft_find_path(char *cmd, char **envp)
-// {
-// 	char	**paths;
-// 	char	*path;
-// 	int		i;
-// 	char	*part_path;
-
-// 	i = 0;
-// 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-// 		i++;
-// 	paths = ft_split(envp[i] + 5, ':');
-// 	i = 0;
-// 	while (paths[i])
-// 	{
-// 		part_path = ft_strjoin(paths[i], "/");
-// 		path = ft_strjoin(part_path, cmd);
-// 		free(part_path);
-// 		if (access(path, F_OK) == 0)
-// 			return (path);
-// 		free(path);
-// 		i++;
-// 	}
-// 	i = -1;
-// 	while (paths[++i])
-// 		free(paths[i]);
-// 	free(paths);
-// 	return (0);
-// }
-char	*ft_find_path(char **envp)
+char	*ft_find_paths(char **envp)
 {
 	char	*path;
 	int		i;
-	
+
 	i = 0;
 	while (envp[i] != NULL)
 	{
@@ -58,25 +30,40 @@ char	*ft_find_path(char **envp)
 	return (0);
 }
 
-// void	ft_execute(char *argv, char **envp)
-// {
-// 	char	**cmd;
-// 	int 	i;
-// 	char	*path;
-	
-// 	i = 0;
-// 	cmd = ft_split(argv, ' ');
-// 	path = ft_find_path(cmd[0], envp);
-// 	if (!path)	
-// 	{
-// 		while (cmd[i])
-// 			free(cmd[i++]);
-// 		free(cmd);
-// 		ft_error("Error with PATH");
-// 	}
-// 	if (execve(path, cmd, envp) == -1)
-// 		ft_error("EXECVE failed");
-// }
+char	*ft_final_path(char **splited_paths, char **cmd)
+{
+	char	*path;
+	char	*part_path;
+	int		i;
+
+	i = 0;
+	while (splited_paths[i])
+	{
+		part_path = ft_strjoin(splited_paths[i], "/");
+		path = ft_strjoin(part_path, cmd[0]);
+		free(part_path);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free(path);
+		i++;
+	}
+	if (!path)
+	{
+		ft_free_array_of_strings(cmd);
+		ft_error("Error with array of strings");
+	}
+	return (0);
+}
+
+void	ft_free_array_of_strings(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i++])
+		free(str[i]);
+	free(str);
+}
 
 void	ft_error(char *str)
 {
