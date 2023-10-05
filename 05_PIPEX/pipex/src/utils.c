@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 18:01:08 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/04 17:27:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/05 07:18:09 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,23 @@
 // 	free(paths);
 // 	return (0);
 // }
+char	*ft_find_path(char **envp)
+{
+	char	*path;
+	int		i;
+	
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		if (ft_strnstr(envp[i], "PATH=", 5))
+		{
+			path = envp[i] + 5;
+			return (path);
+		}
+		i++;
+	}
+	return (0);
+}
 
 // void	ft_execute(char *argv, char **envp)
 // {
