@@ -1,58 +1,15 @@
-==195489== Memcheck, a memory error detector
-==195489== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==195489== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==195489== Command: ../pipex/pipex assets/deepthought.txt cat not-executable outs/test-12.txt
-==195489== 
-[31mError: Permission denied
-==195489== 
-==195489== HEAP SUMMARY:
-==195489==     in use at exit: 395 bytes in 16 blocks
-==195489==   total heap usage: 17 allocs, 1 frees, 446 bytes allocated
-==195489== 
-==195489== 15 bytes in 1 blocks are still reachable in loss record 1 of 5
-==195489==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==195489==    by 0x109B98: ft_split (in /nfs/homes/psimcak/Core/05_PIPEX/pipex/pipex)
-==195489==    by 0x1096D8: execute (utils.c:62)
-==195489==    by 0x109433: parent_process (pipex.c:42)
-==195489==    by 0x1094D3: main (pipex.c:62)
-==195489== 
-==195489== 16 bytes in 1 blocks are still reachable in loss record 2 of 5
-==195489==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==195489==    by 0x109B2B: ft_split (in /nfs/homes/psimcak/Core/05_PIPEX/pipex/pipex)
-==195489==    by 0x1096D8: execute (utils.c:62)
-==195489==    by 0x109433: parent_process (pipex.c:42)
-==195489==    by 0x1094D3: main (pipex.c:62)
-==195489== 
-==195489== 65 bytes in 1 blocks are still reachable in loss record 3 of 5
-==195489==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==195489==    by 0x109CAF: ft_strjoin (in /nfs/homes/psimcak/Core/05_PIPEX/pipex/pipex)
-==195489==    by 0x1095D5: find_path (utils.c:32)
-==195489==    by 0x1096F2: execute (utils.c:63)
-==195489==    by 0x109433: parent_process (pipex.c:42)
-==195489==    by 0x1094D3: main (pipex.c:62)
-==195489== 
-==195489== 195 bytes in 12 blocks are indirectly lost in loss record 4 of 5
-==195489==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==195489==    by 0x109B98: ft_split (in /nfs/homes/psimcak/Core/05_PIPEX/pipex/pipex)
-==195489==    by 0x10958B: find_path (utils.c:27)
-==195489==    by 0x1096F2: execute (utils.c:63)
-==195489==    by 0x109433: parent_process (pipex.c:42)
-==195489==    by 0x1094D3: main (pipex.c:62)
-==195489== 
-==195489== 299 (104 direct, 195 indirect) bytes in 1 blocks are definitely lost in loss record 5 of 5
-==195489==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==195489==    by 0x109B2B: ft_split (in /nfs/homes/psimcak/Core/05_PIPEX/pipex/pipex)
-==195489==    by 0x10958B: find_path (utils.c:27)
-==195489==    by 0x1096F2: execute (utils.c:63)
-==195489==    by 0x109433: parent_process (pipex.c:42)
-==195489==    by 0x1094D3: main (pipex.c:62)
-==195489== 
-==195489== LEAK SUMMARY:
-==195489==    definitely lost: 104 bytes in 1 blocks
-==195489==    indirectly lost: 195 bytes in 12 blocks
-==195489==      possibly lost: 0 bytes in 0 blocks
-==195489==    still reachable: 96 bytes in 3 blocks
-==195489==         suppressed: 0 bytes in 0 blocks
-==195489== 
-==195489== For lists of detected and suppressed errors, rerun with: -s
-==195489== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 0 from 0)
+==263093== Memcheck, a memory error detector
+==263093== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==263093== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==263093== Command: ../pipex/pipex assets/deepthought.txt cat not-executable outs/test-12.txt
+==263093== 
+Error: Permission denied
+==263093== 
+==263093== HEAP SUMMARY:
+==263093==     in use at exit: 0 bytes in 0 blocks
+==263093==   total heap usage: 63 allocs, 63 frees, 1,538 bytes allocated
+==263093== 
+==263093== All heap blocks were freed -- no leaks are possible
+==263093== 
+==263093== For lists of detected and suppressed errors, rerun with: -s
+==263093== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
