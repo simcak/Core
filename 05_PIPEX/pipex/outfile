@@ -1,7 +1,1 @@
-includes
-infile
-Makefile
-outfile
-pipex
-PIPEX_TESTER
-src
+hello
