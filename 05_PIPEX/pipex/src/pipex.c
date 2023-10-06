@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:17:14 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/06 17:10:37 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/06 19:38:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,29 +64,6 @@ void	ft_parent_process(char *argv[], char **envp, int *fd)
 	ft_free_array_of_strings(splited_argv);
 	free(path);
 	ft_error("Error");
-}
-
-int	ft_error_police(char *argv, char **envp)
-{
-	char	**splited_paths;
-	char	**splited_argv;
-	char	*all_paths;
-	char	*path;
-
-	all_paths = ft_find_paths(envp);
-	splited_argv = ft_split(argv, ' ');
-	splited_paths = ft_split(all_paths, ':');
-	path = ft_final_path(splited_paths, splited_argv);
-	ft_free_array_of_strings(splited_paths);
-	ft_free_array_of_strings(splited_argv);
-	if (path == 0)
-	{
-		if (path != NULL)
-			free(path);
-		return (0);
-	}
-	free(path);
-	return (1);
 }
 
 int	main(int argc, char *argv[], char **envp)

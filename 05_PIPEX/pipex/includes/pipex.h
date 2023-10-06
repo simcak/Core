@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 17:17:23 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/05 14:36:27 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/06 19:04:35 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	**ft_split(char const *str2split, char char4split);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strnstr(const char *str, const char *sub_string, size_t len);
 void	ft_free_array_of_strings(char **str);
+int		ft_error_police(char *argv, char **envp);
 
 #endif
 
