@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:17:14 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/06 19:38:20 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/06 20:59:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int argc, char *argv[], char **envp)
 		i = 3;
 		while (i > 1)
 			if (ft_error_police(argv[i--], envp) == 0)
-				ft_error("ERERRORO: command not found");
+				ft_error(argv[++i]);
 		if (pipe(fd) == -1)
 			ft_error("Error with PIPE");
 		pid_1 = fork();

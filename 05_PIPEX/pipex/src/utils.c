@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 18:01:08 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/06 19:38:50 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/06 20:52:46 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_error_police(char *argv, char **envp)
 void	ft_error(char *str)
 {
 	perror(str);
-	exit(127);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_putstr_fd(char *str, int fd)
