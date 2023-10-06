@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 18:01:08 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/05 18:54:23 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/06 16:51:43 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ char	*ft_final_path(char **splited_paths, char **cmd)
 		free(path);
 		i++;
 	}
-
-	ft_free_array_of_strings(cmd);
-	ft_error(path);
-	return (0);
+	return (NULL);
 }
 
 void	ft_free_array_of_strings(char **str)
@@ -58,15 +55,18 @@ void	ft_free_array_of_strings(char **str)
 	int	i;
 
 	i = 0;
-	while (str[i++])
+	while (str[i])
+	{
 		free(str[i]);
+		i++;
+	}
 	free(str);
 }
 
 void	ft_error(char *str)
 {
 	perror(str);
-	exit(EXIT_FAILURE);
+	exit(127);
 }
 
 void	ft_putstr_fd(char *str, int fd)
