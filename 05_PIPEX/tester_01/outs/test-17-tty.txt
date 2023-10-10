@@ -1,5 +1,0 @@
-==263141== Memcheck, a memory error detector
-==263141== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==263141== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==263141== Command: ../pipex/pipex assets/deepthought.txt grep\ Now head\ -2 outs/test-17.txt
-==263141== 

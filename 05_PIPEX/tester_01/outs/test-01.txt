@@ -1,3 +1,0 @@
-make: Entering directory '/nfs/homes/psimcak/Core/05_PIPEX/pipex'
-[32m----Pipex Compiled!----[0m
-make: Leaving directory '/nfs/homes/psimcak/Core/05_PIPEX/pipex'
