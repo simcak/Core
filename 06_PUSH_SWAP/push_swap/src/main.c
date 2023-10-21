@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:25 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/18 16:40:57 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/21 19:49:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ int	main(int argc, char *argv[])
 		return (1);
 	else if (argc == 2)
 		argv = ft_split(argv[1], ' ');
-	ft_create_list(&a, argv + 1);
+	ft_create_stack(&a, argv);
+	if (!sorted_stack(a))
+	{
+		if (ft_lstlen(a) == 2)
+			ft_sa(&a, false);
+		// if (ft_lstlen(a) == 3)
+		// 	ft_minips();
+		// if (ft_lstlen(a) == 5)
+		// 	ft_minips2();
+		// else
+		// 	ft_push_swap();
+	}
+	// free_stack();
 	return (0);
 }

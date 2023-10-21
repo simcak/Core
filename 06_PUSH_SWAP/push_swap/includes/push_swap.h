@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/21 15:55:01 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/21 19:41:34 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdbool.h>
 
 # define INT_MIN -2147483648
 # define INT_MAX 2147483647
@@ -37,7 +38,10 @@ typedef struct s_node
 }	t_node;
 
 char	**ft_split(char const *s, char c);
-void	ft_create_list(t_node **list, char **argv);
+void	ft_create_stack(t_node **list, char **argv);
 long	ft_atol(char *argv_i);
+bool	sorted_stack(t_node *list);
+int		ft_lstlen(t_node *list);
+void	ft_sa(t_node **a, bool checker);
 
 #endif
