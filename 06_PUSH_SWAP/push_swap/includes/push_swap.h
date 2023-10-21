@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/18 16:32:25 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/21 15:55:01 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ typedef struct s_node
 }	t_node;
 
 char	**ft_split(char const *s, char c);
+void	ft_create_list(t_node **list, char **argv);
+long	ft_atol(char *argv_i);
 
 #endif
