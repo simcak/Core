@@ -8,6 +8,17 @@
 		"ranges": "c",
 		"span": "c",
 		"utility": "c",
-		"*.tcc": "c"
+		"*.tcc": "c",
+		"libft.h": "c",
+		"optional": "c",
+		"istream": "c",
+		"ostream": "c",
+		"ratio": "c",
+		"system_error": "c",
+		"functional": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"variant": "c",
+		"sstream": "c"
 	}
 }
