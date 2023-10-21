@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/10 17:01:57 by psimcak           #+#    #+#              #
-#    Updated: 2023/10/10 17:07:07 by psimcak          ###   ########.fr        #
+#    Updated: 2023/10/21 19:50:15 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,11 @@ all: $(OBJ)
 
 clean:
 		@rm -f $(OBJ)
-		@echo "\033[31m----Deleting object files!----\e[0m"
+		@echo "\033[31m----Deleting o-files!----\e[0m"
 
 fclean: clean
 		@rm -f $(NAME)
-		@echo "\033[31m----Deleting o-files & pipex!----\e[0m"
+		@echo "\033[31m----Deleting o-files & push_swap!----\e[0m"
 
 re: 	fclean all
 
