@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 15:54:11 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/21 15:54:28 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/23 10:43:31 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ long	ft_atol(char *argv_i)
 	sign = 1;
 	i = 0;
 	while (argv_i[i] && 
-			(argv_i[i] == ' ' || argv_i[i] == '\n' || argv_i[i] == '\t' 
+		(argv_i[i] == ' ' || argv_i[i] == '\n' || argv_i[i] == '\t' 
 			|| argv_i[i] == '\v' || argv_i[i] == '\f' || argv_i[i] == '\r'))
 		i++;
 	if (argv_i[i] == '+')

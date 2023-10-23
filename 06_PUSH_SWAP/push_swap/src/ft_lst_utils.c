@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:55:03 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/21 19:33:35 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/23 10:45:02 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ bool	sorted_stack(t_node *list)
 	return (true);
 }
 
-int		ft_lstlen(t_node *list)
+int	ft_lstlen(t_node *list)
 {
 	int	count;
 
