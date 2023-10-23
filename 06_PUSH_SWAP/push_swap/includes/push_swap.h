@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/21 19:41:34 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/23 11:48:43 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,17 @@ void	ft_create_stack(t_node **list, char **argv);
 long	ft_atol(char *argv_i);
 bool	sorted_stack(t_node *list);
 int		ft_lstlen(t_node *list);
+t_node	*ft_find_last_node(t_node *list_head);
 void	ft_sa(t_node **a, bool checker);
+void	ft_sb(t_node **b, bool checker);
+void	ft_ss(t_node **a, t_node **b, bool checker);
+void	ft_ra(t_node **a, bool checker);
+void	ft_rb(t_node **b, bool checker);
+void	ft_rr(t_node **a, t_node **b, bool checker);
+void	ft_rra(t_node **a, bool checker);
+void	ft_rrb(t_node **b, bool checker);
+void	ft_rrr(t_node **a, t_node **b, bool checker);
+void	ft_pa(t_node **a, t_node **b, bool checker);
+void	ft_pb(t_node **a, t_node **b, bool checker);
 
 #endif
