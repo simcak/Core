@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:25 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/23 11:53:25 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/25 18:15:26 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	main(int argc, char *argv[])
 	{
 		if (ft_lstlen(a) == 2)
 			ft_sa(&a, false);
-		// if (ft_lstlen(a) == 3)
-		// 	ft_minips();
+		if (ft_lstlen(a) == 3)
+			ft_baby_swap(&a);
 		// else
 		// 	ft_push_swap();
 	}

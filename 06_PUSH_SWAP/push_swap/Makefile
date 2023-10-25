@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/10 17:01:57 by psimcak           #+#    #+#              #
-#    Updated: 2023/10/21 19:50:15 by psimcak          ###   ########.fr        #
+#    Updated: 2023/10/25 17:10:07 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ NAME 	= push_swap
 FLAGS	= -Wall -Wextra -Werror -g
 
 SRC 	= $(shell find ./src -iname "*.c")
-
 OBJ 	= $(SRC:%.c=%.o)
 
 %.o: %.c
