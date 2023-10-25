@@ -19,6 +19,7 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"variant": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"push_swap.h": "c"
 	}
 }
