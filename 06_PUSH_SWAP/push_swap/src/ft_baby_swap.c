@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_baby_swap.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 17:16:19 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/25 18:49:45 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/27 12:15:11 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_node	*ft_find_max(t_node *head)
 	return (temp_max);
 }
 
-void	ft_baby_swap(t_node **head)
+void	ft_baby_swap_3(t_node **head)
 {
 	t_node	*max_node;
 
