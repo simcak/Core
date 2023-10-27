@@ -6,7 +6,7 @@
 /*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/27 12:15:38 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/27 17:52:41 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <limits.h>
 
 # define INT_MIN -2147483648
 # define INT_MAX 2147483647
@@ -28,10 +29,12 @@ cost: how far away is 'value' from the 'rank'
 typedef struct s_node
 {
 	int				value;
-	int				rank;
+	int				current_index;
 	int				cost;
-	int				size;
+	bool			up_from_median;
+	bool			cheapest;
 
+	struct s_node	*aimed_node;
 	struct s_node	*next;
 	struct s_node	*prev;
 
@@ -42,10 +45,16 @@ char	**ft_split(char const *s, char c);
 bool	sorted_stack(t_node *list);
 void	ft_create_stack(t_node **list, char **argv);
 t_node	*ft_find_last_node(t_node *list_head);
+t_node	*ft_smallest_node(t_node *list);
 int		ft_lstlen(t_node *list);
 
-void	ft_baby_swap_3(t_node **head);
 void	ft_push_swap(t_node **a, t_node **b);
+void	ft_baby_sort_3(t_node **head);
+void	ft_adult_sort(t_node **a, t_node **b);
+
+void	ft_up_from_median(t_node *list);
+void	ft_aim(t_node *a, t_node *b);
+void	ft_how_much_it_cost(t_node *a, t_node *b);
 
 void	ft_sa(t_node **a, bool checker);
 void	ft_sb(t_node **b, bool checker);

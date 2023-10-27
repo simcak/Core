@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_push_swap.c                                     :+:      :+:    :+:   */
+/*   ft_adult_sort.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/27 12:10:38 by peta              #+#    #+#             */
-/*   Updated: 2023/10/27 15:35:44 by peta             ###   ########.fr       */
+/*   Created: 2023/10/27 15:07:21 by peta              #+#    #+#             */
+/*   Updated: 2023/10/27 17:22:18 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	ft_push_swap(t_node **a, t_node **b)
+void	ft_adult_sort(t_node **a, t_node **b)
 {
-	if (ft_lstlen(*a) == 2)
-		ft_sa(a, false);
-	if (ft_lstlen(*a) == 3)
-		ft_baby_sort_3(a);
-	// if (ft_lstlen(*a) == 5)
-		// ft_teen_sort_5(a, b);
-	if (ft_lstlen(*a) > 5 && ft_lstlen(*a) <= 200)
-		ft_adult_sort(a, b);
-	// if (ft_lstlen(*a) > 200 && ft_lstlen(*a) <= 500)
-	// 	ft_adult_sort_500(a, b);
+	while (ft_lstlen(*a) > 3)
+		ft_pa(a, b, false);
+	ft_baby_sort_3(a);
+	while (*b)
+	{
+		ft_up_from_median(*a);
+		ft_up_from_median(*b);
+		ft_aim(*a, *b);
+		ft_how_much_it_cost(*a, *b);
+		ft_cheapest(*b);
+		ft_shoot(*a, *b);
+	}
+	ft_locker_rotation(*a);
 }
