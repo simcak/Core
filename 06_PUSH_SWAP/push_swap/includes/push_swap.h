@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/25 18:52:22 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/27 12:15:38 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,15 @@ typedef struct s_node
 
 }	t_node;
 
-char	**ft_split(char const *s, char c);
-void	ft_create_stack(t_node **list, char **argv);
 long	ft_atol(char *argv_i);
+char	**ft_split(char const *s, char c);
 bool	sorted_stack(t_node *list);
-int		ft_lstlen(t_node *list);
-void	ft_baby_swap(t_node **head);
+void	ft_create_stack(t_node **list, char **argv);
 t_node	*ft_find_last_node(t_node *list_head);
+int		ft_lstlen(t_node *list);
+
+void	ft_baby_swap_3(t_node **head);
+void	ft_push_swap(t_node **a, t_node **b);
 
 void	ft_sa(t_node **a, bool checker);
 void	ft_sb(t_node **b, bool checker);
