@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:07:21 by peta              #+#    #+#             */
-/*   Updated: 2023/10/28 16:45:17 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/28 18:27:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	ft_locker_rotation(t_node **head, t_node *stop_node, char name)
 			if (name == 'b')
 				ft_rrb(head);
 		}
-	
 }
 
 static void	ft_shoot(t_node **a, t_node **b)
@@ -90,8 +89,11 @@ static void ft_final_rotation(t_node **a)
 
 void	ft_adult_sort(t_node **a, t_node **b)
 {
-	while (ft_lstlen(*a) > 3)
-		ft_pa(a, b);
+	int	len_a;
+
+	len_a = ft_lstlen(*a);
+	while (len_a-- > 3)
+		ft_pb(a, b);
 	ft_baby_sort_3(a);
 	while (*b)
 	{
