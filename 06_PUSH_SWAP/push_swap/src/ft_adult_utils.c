@@ -6,7 +6,7 @@
 /*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:47:38 by peta              #+#    #+#             */
-/*   Updated: 2023/10/27 17:46:43 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/28 13:53:06 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,26 @@ void	ft_up_from_median(t_node *list)
 	}
 }
 
+// potential error maker
+
 void	ft_aim(t_node *a, t_node *b)
 {
-	
+	t_node	*temp_a;
+	t_node	*aimed_node;
+
+	while (b)
+	{
+		temp_a = a;
+		aimed_node = a;
+		while (temp_a)
+		{
+			if (b->value < temp_a->value)
+				aimed_node = temp_a;
+			temp_a = temp_a->next;
+		}
+		b->aimed_node = aimed_node;
+		b = b->next;
+	}
 }
 
 void	ft_how_much_it_cost(t_node *a, t_node *b)
@@ -66,4 +83,24 @@ void	ft_how_much_it_cost(t_node *a, t_node *b)
 			b->cost += ft_lstlen(a) - (b->aimed_node->current_index);
 		b = b->next;
 	}
+}
+
+void	ft_cheapest(t_node *list)
+{
+	long	best_match_value;
+	t_node	*cheapest_node;
+
+	if (list == NULL)
+		return ;
+	best_match_value = LONG_MAX;
+	while (list)
+	{
+		if (list->cost < best_match_value)
+		{
+			best_match_value = list->value;
+			cheapest_node = list;
+		}
+		list = list->next;
+	}
+	cheapest_node->cheapest = true;
 }

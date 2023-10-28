@@ -6,7 +6,7 @@
 /*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/27 17:52:41 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/27 19:18:07 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	**ft_split(char const *s, char c);
 bool	sorted_stack(t_node *list);
 void	ft_create_stack(t_node **list, char **argv);
 t_node	*ft_find_last_node(t_node *list_head);
-t_node	*ft_smallest_node(t_node *list);
 int		ft_lstlen(t_node *list);
 
 void	ft_push_swap(t_node **a, t_node **b);
