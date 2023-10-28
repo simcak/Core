@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_baby_sort.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 17:16:19 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/27 15:05:01 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/28 15:39:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	ft_baby_sort_3(t_node **head)
 
 	max_node = ft_find_max(*head);
 	if (max_node == *head)
-		ft_ra(head, false);
+		ft_ra(head);
 	else if (max_node == (*head)->next)
-		ft_rra(head, false);
+		ft_rra(head);
 	if ((*head)->value > (*head)->next->value)
-		ft_sa(head, false);
+		ft_sa(head);
 }
 
 // void	ft_baby_sort_5(t_node **a, t_node **b)

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 09:18:16 by peta              #+#    #+#             */
-/*   Updated: 2023/10/25 18:51:46 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:37:13 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,14 @@ static void	push(t_node **dest, t_node **src)
 	}
 }
 
-void	ft_pa(t_node **a, t_node **b, bool checker)
+void	ft_pa(t_node **a, t_node **b)
 {
 	push(a, b);
-	if (!checker)
-		write(1, "pa\n", 3);
+	write(1, "pa\n", 3);
 }
 
-void	ft_pb(t_node **a, t_node **b, bool checker)
+void	ft_pb(t_node **a, t_node **b)
 {
 	push(b, a);
-	if (!checker)
-		write(1, "pb\n", 3);
+	write(1, "pb\n", 3);
 }

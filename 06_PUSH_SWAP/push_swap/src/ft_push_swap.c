@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_push_swap.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 12:10:38 by peta              #+#    #+#             */
-/*   Updated: 2023/10/27 15:35:44 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/28 15:39:32 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_push_swap(t_node **a, t_node **b)
 {
 	if (ft_lstlen(*a) == 2)
-		ft_sa(a, false);
+		ft_sa(a);
 	if (ft_lstlen(*a) == 3)
 		ft_baby_sort_3(a);
 	// if (ft_lstlen(*a) == 5)

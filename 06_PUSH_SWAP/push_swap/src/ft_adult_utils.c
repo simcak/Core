@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_adult_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:47:38 by peta              #+#    #+#             */
-/*   Updated: 2023/10/28 13:53:06 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/28 15:23:24 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,22 +85,23 @@ void	ft_how_much_it_cost(t_node *a, t_node *b)
 	}
 }
 
-void	ft_cheapest(t_node *list)
+t_node	*ft_cheapest(t_node *list)
 {
-	long	best_match_value;
+	long	lowest_value_in_list;
 	t_node	*cheapest_node;
 
 	if (list == NULL)
 		return ;
-	best_match_value = LONG_MAX;
+	lowest_value_in_list = LONG_MAX;
 	while (list)
 	{
-		if (list->cost < best_match_value)
+		if (list->cost < lowest_value_in_list)
 		{
-			best_match_value = list->value;
+			lowest_value_in_list = list->value;
 			cheapest_node = list;
 		}
 		list = list->next;
 	}
 	cheapest_node->cheapest = true;
+	return (cheapest_node);
 }
