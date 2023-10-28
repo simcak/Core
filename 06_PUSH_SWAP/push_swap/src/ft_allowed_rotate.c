@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 09:56:23 by peta              #+#    #+#             */
-/*   Updated: 2023/10/25 18:51:36 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:38:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,21 @@ static void	rotate(t_node **head)
 	*head = second_node;
 }
 
-void	ft_ra(t_node **a, bool checker)
+void	ft_ra(t_node **a)
 {
 	rotate(a);
-	if (!checker)
-		write(1, "ra\n", 3);
+	write(1, "ra\n", 3);
 }
 
-void	ft_rb(t_node **b, bool checker)
+void	ft_rb(t_node **b)
 {
 	rotate(b);
-	if (!checker)
-		write(1, "rb\n", 3);
+	write(1, "rb\n", 3);
 }
 
-void	ft_rr(t_node **a, t_node **b, bool checker)
+void	ft_rr(t_node **a, t_node **b)
 {
 	rotate(a);
 	rotate(b);
-	if (!checker)
-		write(1, "rr\n", 3);
+	write(1, "rr\n", 3);
 }

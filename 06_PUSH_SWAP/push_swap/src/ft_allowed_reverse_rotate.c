@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:05:35 by peta              #+#    #+#             */
-/*   Updated: 2023/10/25 18:51:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:37:48 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,21 @@ static void	reverse_rotate(t_node **head)
 	*head = last_node;
 }
 
-void	ft_rra(t_node **a, bool checker)
+void	ft_rra(t_node **a)
 {
 	reverse_rotate(a);
-	if (!checker)
-		write(1, "rra\n", 4);
+	write(1, "rra\n", 4);
 }
 
-void	ft_rrb(t_node **b, bool checker)
+void	ft_rrb(t_node **b)
 {
 	reverse_rotate(b);
-	if (!checker)
-		write(1, "rrb\n", 4);
+	write(1, "rrb\n", 4);
 }
 
-void	ft_rrr(t_node **a, t_node **b, bool checker)
+void	ft_rrr(t_node **a, t_node **b)
 {
 	reverse_rotate(a);
 	reverse_rotate(b);
-	if (!checker)
-		write(1, "rrr\n", 4);
+	write(1, "rrr\n", 4);
 }

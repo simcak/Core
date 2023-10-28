@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/27 19:18:07 by peta             ###   ########.fr       */
+/*   Updated: 2023/10/28 15:36:39 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,18 @@ void	ft_adult_sort(t_node **a, t_node **b);
 void	ft_up_from_median(t_node *list);
 void	ft_aim(t_node *a, t_node *b);
 void	ft_how_much_it_cost(t_node *a, t_node *b);
+t_node	*ft_cheapest(t_node *list);
 
-void	ft_sa(t_node **a, bool checker);
-void	ft_sb(t_node **b, bool checker);
-void	ft_ss(t_node **a, t_node **b, bool checker);
-void	ft_ra(t_node **a, bool checker);
-void	ft_rb(t_node **b, bool checker);
-void	ft_rr(t_node **a, t_node **b, bool checker);
-void	ft_rra(t_node **a, bool checker);
-void	ft_rrb(t_node **b, bool checker);
-void	ft_rrr(t_node **a, t_node **b, bool checker);
-void	ft_pa(t_node **a, t_node **b, bool checker);
-void	ft_pb(t_node **a, t_node **b, bool checker);
+void	ft_sa(t_node **a);
+void	ft_sb(t_node **b);
+void	ft_ss(t_node **a, t_node **b);
+void	ft_ra(t_node **a);
+void	ft_rb(t_node **b);
+void	ft_rr(t_node **a, t_node **b);
+void	ft_rra(t_node **a);
+void	ft_rrb(t_node **b);
+void	ft_rrr(t_node **a, t_node **b);
+void	ft_pa(t_node **a, t_node **b);
+void	ft_pb(t_node **a, t_node **b);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 19:36:01 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/25 18:51:28 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:39:03 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,21 @@ static void	swap(t_node **head)
 	second->prev = NULL;
 }
 
-void	ft_sa(t_node **a, bool checker)
+void	ft_sa(t_node **a)
 {
 	swap(a);
-	if (!checker)
-		write(1, "sa\n", 3);
+	write(1, "sa\n", 3);
 }
 
-void	ft_sb(t_node **b, bool checker)
+void	ft_sb(t_node **b)
 {
 	swap(b);
-	if (!checker)
-		write(1, "sb\n", 3);
+	write(1, "sb\n", 3);
 }
 
-void	ft_ss(t_node **a, t_node **b, bool checker)
+void	ft_ss(t_node **a, t_node **b)
 {
 	swap(a);
 	swap(b);
-	if (!checker)
-		write(1, "ss\n", 3);
+	write(1, "ss\n", 3);
 }
