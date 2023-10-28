@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/28 15:36:39 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/28 16:36:07 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <limits.h>
-
-# define INT_MIN -2147483648
-# define INT_MAX 2147483647
 
 /*
 value: acuall value of the node
