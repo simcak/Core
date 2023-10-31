@@ -6,45 +6,30 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:47:38 by peta              #+#    #+#             */
-/*   Updated: 2023/10/28 16:45:53 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/31 19:10:32 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-static void	ft_set_current_index(t_node *list)
-{
-	int	counter;
-
-	if (list == NULL)
-		return ;
-	counter = 0;
-	while (list)
-	{
-		list->current_index = counter;
-		counter++;
-		list = list->next;
-	}
-}
-
 void	ft_up_from_median(t_node *list)
 {
+	int	i;
 	int	median_index;
 
+	i = 0;
 	if (list == NULL)
 		return ;
-	ft_set_current_index(list);
 	median_index = ft_lstlen(list) / 2;
-	while (median_index > 0)
-	{
-		list->up_from_median = true;
-		list = list->next;
-		median_index--;
-	}
 	while (list)
 	{
-		list->up_from_median = false;
+		list->current_index = i;
+		if (i <= median_index)
+			list->up_from_median = true;
+		else
+			list->up_from_median = false;
 		list = list->next;
+		i++;
 	}
 }
 
@@ -52,20 +37,28 @@ void	ft_up_from_median(t_node *list)
 
 void	ft_aim(t_node *a, t_node *b)
 {
-	t_node	*temp_a;
+	t_node	*current_a;
 	t_node	*aimed_node;
+	long	best_match;
 
 	while (b)
 	{
-		temp_a = a;
-		aimed_node = a;
-		while (temp_a)
+		best_match = LONG_MAX;
+		current_a = a;
+		while (current_a)
 		{
-			if (b->value < temp_a->value)
-				aimed_node = temp_a;
-			temp_a = temp_a->next;
+			if (current_a->value > b->value
+				&& current_a->value < best_match)
+			{
+				best_match = current_a->value;
+				aimed_node = current_a;
+			}
+			current_a = current_a->next;
 		}
-		b->aimed_node = aimed_node;
+		if (LONG_MAX == best_match)
+			b->aimed_node = find_smallest(a);
+		else
+			b->aimed_node = aimed_node;
 		b = b->next;
 	}
 }

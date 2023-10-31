@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:07:21 by peta              #+#    #+#             */
-/*   Updated: 2023/10/31 17:22:48 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/31 19:20:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,15 @@ static void	ft_shoot(t_node **a, t_node **b)
 	{
 		while (chpst != *b && chpst->aimed_node != *a)
 			ft_rr(a, b);
+		// ft_up_from_median(*a);
+		// ft_up_from_median(*b);
 	}
 	else if (!(chpst->up_from_median) && !(chpst->aimed_node->up_from_median))
 	{
 		while (chpst != *b && chpst->aimed_node != *a)
 			ft_rrr(a, b);
+		// ft_up_from_median(*a);
+		// ft_up_from_median(*b);
 	}
 	ft_locker_rotation(a, chpst->aimed_node, 'a');
 	ft_locker_rotation(b, chpst, 'b');
@@ -87,33 +91,6 @@ static void ft_final_rotation(t_node **a)
 			ft_rra(a);
 }
 
-static void	ft_printab(t_node **a, t_node **b)
-{
-	t_node	*temp_a;
-	t_node	*temp_b;
-
-	temp_a = *a;
-	temp_b = *b;
-	while (temp_a || temp_b)
-	{
-		if (temp_a)
-			printf("\t%i", (temp_a)->value);
-		else if (!temp_a)
-			printf("\t  ");
-		if (temp_b)
-			printf("\t%i", (temp_b)->value);
-		else if (!temp_b)
-			printf(" ");
-		printf("\n");
-		if (temp_a)
-			(temp_a) = (temp_a)->next;
-		if (temp_b)
-			(temp_b) = (temp_b)->next;
-	}
-	printf("\t_\t_\n");
-	printf("\ta\tb\n");
-}
-
 void	ft_adult_sort(t_node **a, t_node **b)
 {
 	int	len_a;
@@ -121,7 +98,7 @@ void	ft_adult_sort(t_node **a, t_node **b)
 	len_a = ft_lstlen(*a);
 	while (len_a-- > 3)
 		ft_pb(a, b);
-	ft_printab(a, b); // SMAZAT !!!
+	// ft_printab(a, b); // SMAZAT !!!
 	ft_baby_sort_3(a);
 	while (*b)
 	{
@@ -130,7 +107,7 @@ void	ft_adult_sort(t_node **a, t_node **b)
 		ft_aim(*a, *b);
 		ft_how_much_it_cost(*a, *b);
 		ft_shoot(a, b);
-		ft_printab(a, b); // SMAZAT !!!
+		// ft_printab(a, b); // SMAZAT !!!
 	}
 	ft_final_rotation(a);
 }
