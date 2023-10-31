@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:25 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/31 17:20:28 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/10/31 19:25:16 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char *argv[])
 	else if (argc == 2)
 		argv = ft_split(argv[1], ' ');
 	ft_create_stack(&a, argv);
-	ft_printa(&a); // SMAZAT !!!
+	// ft_printa(&a); SMAZAT !!!
 	if (!sorted_stack(a))
 	 	ft_push_swap(&a, &b);
 	// free_stack();
