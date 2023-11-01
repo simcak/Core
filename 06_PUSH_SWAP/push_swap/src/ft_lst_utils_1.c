@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:55:03 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/31 16:30:37 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/01 18:04:36 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_crate_append_node(t_node **list, int num)
 	}
 }
 
-void	ft_create_stack(t_node **list, char **argv)
+void	ft_create_stack(t_node **list, char **argv, bool input_string)
 {
 	long	nbr;
 	int		i;
@@ -60,6 +60,8 @@ void	ft_create_stack(t_node **list, char **argv)
 		ft_crate_append_node(list, (int)nbr);
 		i++;
 	}
+	if (input_string)
+		ft_free_matrix(argv);
 }
 
 bool	sorted_stack(t_node *list)
