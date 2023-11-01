@@ -6,13 +6,13 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 18:53:26 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/31 19:11:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/01 16:46:41 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-t_node	*find_smallest(t_node *stack)
+t_node	*ft_find_smallest(t_node *stack)
 {
 	long	smallest;
 	t_node	*smallest_node;

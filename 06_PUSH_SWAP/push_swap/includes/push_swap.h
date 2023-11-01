@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/31 19:23:08 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/01 16:46:50 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_up_from_median(t_node *list);
 void	ft_aim(t_node *a, t_node *b);
 void	ft_how_much_it_cost(t_node *a, t_node *b);
 t_node	*ft_cheapest(t_node *list);
-t_node	*find_smallest(t_node *stack);
+t_node	*ft_find_smallest(t_node *stack);
 
 void	ft_sa(t_node **a);
 void	ft_sb(t_node **b);
@@ -67,6 +67,7 @@ void	ft_rrr(t_node **a, t_node **b);
 void	ft_pa(t_node **a, t_node **b);
 void	ft_pb(t_node **a, t_node **b);
 
-// void	ft_printab(t_node **a, t_node **b);
+void	ft_printab(t_node **a, t_node **b);
+void	ft_printa(t_node **a);
 
 #endif

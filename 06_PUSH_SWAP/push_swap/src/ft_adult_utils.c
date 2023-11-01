@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:47:38 by peta              #+#    #+#             */
-/*   Updated: 2023/10/31 19:10:32 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/01 16:47:52 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_aim(t_node *a, t_node *b)
 			current_a = current_a->next;
 		}
 		if (LONG_MAX == best_match)
-			b->aimed_node = find_smallest(a);
+			b->aimed_node = ft_find_smallest(a);
 		else
 			b->aimed_node = aimed_node;
 		b = b->next;
