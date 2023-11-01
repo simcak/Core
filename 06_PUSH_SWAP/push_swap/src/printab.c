@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 18:34:50 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/31 18:35:00 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/01 16:43:34 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,16 @@ void	ft_printab(t_node **a, t_node **b)
 	}
 	printf("\t_\t_\n");
 	printf("\ta\tb\n");
+}
+
+void	ft_printa(t_node **a)
+{
+	t_node	*temp_a;
+
+	temp_a = *a;
+	while (temp_a)
+	{
+		printf("\t%i\n", (temp_a)->value);
+		(temp_a) = (temp_a)->next;
+	}
 }

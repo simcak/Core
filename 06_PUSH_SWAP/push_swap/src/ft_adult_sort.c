@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:07:21 by peta              #+#    #+#             */
-/*   Updated: 2023/10/31 19:20:58 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/01 16:50:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,39 +42,15 @@ static void	ft_shoot(t_node **a, t_node **b)
 	{
 		while (chpst != *b && chpst->aimed_node != *a)
 			ft_rr(a, b);
-		// ft_up_from_median(*a);
-		// ft_up_from_median(*b);
 	}
 	else if (!(chpst->up_from_median) && !(chpst->aimed_node->up_from_median))
 	{
 		while (chpst != *b && chpst->aimed_node != *a)
 			ft_rrr(a, b);
-		// ft_up_from_median(*a);
-		// ft_up_from_median(*b);
 	}
 	ft_locker_rotation(a, chpst->aimed_node, 'a');
 	ft_locker_rotation(b, chpst, 'b');
 	ft_pa(a, b);
-}
-
-static t_node	*ft_find_smallest(t_node *a)
-{
-	long	smlst_value;
-	t_node	*smlst_node;
-
-	if (NULL == a)
-		return (NULL);
-	smlst_value = LONG_MAX;
-	while (a)
-	{
-		if (a->value < smlst_value)
-		{
-			smlst_value = a->value;
-			smlst_node = a;
-		}
-		a = a->next;
-	}
-	return (smlst_node);
 }
 
 static void ft_final_rotation(t_node **a)
