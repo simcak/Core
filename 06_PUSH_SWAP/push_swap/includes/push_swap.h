@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/01 16:46:50 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/01 18:33:22 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <limits.h>
-#include <stdio.h>
+# include <stdio.h>
 
 /*
 value: acuall value of the node
@@ -39,11 +39,12 @@ typedef struct s_node
 }	t_node;
 
 long	ft_atol(char *argv_i);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char *s, char c);
 bool	sorted_stack(t_node *list);
-void	ft_create_stack(t_node **list, char **argv);
+void	ft_create_stack(t_node **list, char **argv, bool input_string);
 t_node	*ft_find_last_node(t_node *list_head);
 int		ft_lstlen(t_node *list);
+void	ft_final_rotation(t_node **a);
 
 void	ft_push_swap(t_node **a, t_node **b);
 void	ft_baby_sort_3(t_node **head);
@@ -54,6 +55,10 @@ void	ft_aim(t_node *a, t_node *b);
 void	ft_how_much_it_cost(t_node *a, t_node *b);
 t_node	*ft_cheapest(t_node *list);
 t_node	*ft_find_smallest(t_node *stack);
+void	ft_shoot(t_node **a, t_node **b);
+
+void	ft_free_stack(t_node **list);
+void	ft_free_matrix(char **matrix);
 
 void	ft_sa(t_node **a);
 void	ft_sb(t_node **b);
