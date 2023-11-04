@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:55:03 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/01 18:04:36 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/04 17:27:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,13 @@ void	ft_create_stack(t_node **list, char **argv, bool input_string)
 	i = 0;
 	while (argv[i])
 	{
+		if (input_isnt_num(argv[i]))
+			ft_free_error(list, argv, input_string);
 		nbr = ft_atol(argv[i]);
+		if (ft_duplicate_num(*list, (int)nbr))
+			ft_free_error(list, argv, input_string);
 		if (nbr > INT_MAX || nbr < INT_MIN)
-			exit(1);
+			ft_free_error(list, argv, input_string);
 		ft_crate_append_node(list, (int)nbr);
 		i++;
 	}
