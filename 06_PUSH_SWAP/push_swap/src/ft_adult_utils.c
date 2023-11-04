@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:47:38 by peta              #+#    #+#             */
-/*   Updated: 2023/11/01 16:47:52 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/04 15:38:35 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	ft_up_from_median(t_node *list)
 	}
 }
 
-// potential error maker
-
 void	ft_aim(t_node *a, t_node *b)
 {
 	t_node	*current_a;
@@ -47,8 +45,7 @@ void	ft_aim(t_node *a, t_node *b)
 		current_a = a;
 		while (current_a)
 		{
-			if (current_a->value > b->value
-				&& current_a->value < best_match)
+			if (current_a->value > b->value && current_a->value < best_match)
 			{
 				best_match = current_a->value;
 				aimed_node = current_a;
@@ -65,11 +62,14 @@ void	ft_aim(t_node *a, t_node *b)
 
 void	ft_how_much_it_cost(t_node *a, t_node *b)
 {
+	int	len_b;
+
+	len_b = ft_lstlen(b);
 	while (b)
 	{
 		b->cost = b->current_index;
 		if (!(b->up_from_median))
-			b->cost = ft_lstlen(b) - (b->current_index);
+			b->cost = len_b - (b->current_index);
 		if (b->aimed_node->up_from_median)
 			b->cost += b->aimed_node->current_index;
 		else
@@ -80,17 +80,17 @@ void	ft_how_much_it_cost(t_node *a, t_node *b)
 
 t_node	*ft_cheapest(t_node *list)
 {
-	long	lowest_value_in_list;
+	long	lowest_cost_in_list;
 	t_node	*cheapest_node;
 
 	if (list == NULL)
 		return (NULL);
-	lowest_value_in_list = LONG_MAX;
+	lowest_cost_in_list = LONG_MAX;
 	while (list)
 	{
-		if (list->cost < lowest_value_in_list)
+		if (list->cost < lowest_cost_in_list)
 		{
-			lowest_value_in_list = list->value;
+			lowest_cost_in_list = list->cost;
 			cheapest_node = list;
 		}
 		list = list->next;
