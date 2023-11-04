@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:01:15 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/04 15:11:31 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/04 17:21:08 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ void	ft_create_stack(t_node **list, char **argv, bool input_string);
 t_node	*ft_find_last_node(t_node *list_head);
 int		ft_lstlen(t_node *list);
 void	ft_final_rotation(t_node **a);
+
+int		input_isnt_num(char *str);
+void	ft_free_error(t_node **list, char **argv, bool input_string);
+int		ft_duplicate_num(t_node *list, int nbr);
 
 void	ft_push_swap(t_node **a, t_node **b);
 void	ft_baby_sort_3(t_node **head);

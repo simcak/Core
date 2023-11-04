@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 17:16:19 by psimcak           #+#    #+#             */
-/*   Updated: 2023/10/28 15:39:15 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/04 16:33:36 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,3 @@ void	ft_baby_sort_3(t_node **head)
 	if ((*head)->value > (*head)->next->value)
 		ft_sa(head);
 }
-
-// void	ft_baby_sort_5(t_node **a, t_node **b)
-// {
-	
-// }
