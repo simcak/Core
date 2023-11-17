@@ -7,43 +7,43 @@
 #define	SIDE_LEN		800
 
 
-/*
- * IMAGE DATA
- * 
- ***WHY LINE_LEN? 
- * Can i just make SIDE_LEN * 4 to get the bytes into a line? Nope...due to...
- *
- * 								👀 Alignment optimization 👀
- * ~https://www.youtube.com/watch?v=iz958I8Xb2g&list=PLc4DnsRQbs6ae27mFDLz5aJo6_p9uf3m-&index=51
- *
- * For instance, let's say an image is 5 pixels wide, and each pixel takes 4 bytes 
- * (assuming 32 bits or 4 bytes per pixel for colors). So, you'd expect the image width 
- * in memory to be 20 bytes. But due to the way memory alignment works, the line_length 
- * could be 24 bytes or any other suitable value that the system deems efficient.
- *
- * TL;DR
- * 		"When working with image data in memory, especially in graphics programming, 
- * 				it's crucial to be aware of how the data is aligned and stored"
- *
- ***ENDIAN? 
- *  Consider the number 0x12345678:
 
-	In Big-Endian: It's stored as 12 34 56 78 in memory.
+//  IMAGE DATA
+//  
+// **WHY LINE_LEN? 
+//  Can i just make SIDE_LEN * 4 to get the bytes into a line? Nope...due to...
+// 
+//  								👀 Alignment optimization 👀
+//  ~https://www.youtube.com/watch?v=iz958I8Xb2g&list=PLc4DnsRQbs6ae27mFDLz5aJo6_p9uf3m-&index=51
+// 
+//  For instance, let's say an image is 5 pixels wide, and each pixel takes 4 bytes 
+//  (assuming 32 bits or 4 bytes per pixel for colors). So, you'd expect the image width 
+//  in memory to be 20 bytes. But due to the way memory alignment works, the line_length 
+//  could be 24 bytes or any other suitable value that the system deems efficient.
+// 
+//  TL;DR
+//  		"When working with image data in memory, especially in graphics programming, 
+//  				it's crucial to be aware of how the data is aligned and stored"
+// 
+// **ENDIAN? 
+//   Consider the number 0x12345678:
 
-	In Little-Endian: It's stored as 78 56 34 12 in memory.
+// In Big-Endian: It's stored as 12 34 56 78 in memory.
 
-	How does this apply to graphics and MiniLibX?
-	When we're dealing with colors in graphics, we often represent them using 
-	multiple bytes. For example, ARGB format uses 4 bytes to represent a color: 
-	one byte each for the Alpha, Red, Green, and Blue components.
-	If your system is Big-Endian, the ARGB value 0x12345678 would mean the alpha value
-	is 0x12, the red value is 0x34, the green value is 0x56, and the blue value is 0x78.
-		DO WE CARE? NO. 👀
-	Direct Memory Manipulation: While the endian value becomes critical when doing 
-	direct memory manipulation byte-by-byte. 
-	The manipulation is done using (unsigned int *) for the entire color value, namely the pixel. 
-	This approach abstracts away the need for us to consider individual byte order for each color channel, thank god.
-*/
+// In Little-Endian: It's stored as 78 56 34 12 in memory.
+
+// How does this apply to graphics and MiniLibX?
+// When we're dealing with colors in graphics, we often represent them using 
+// multiple bytes. For example, ARGB format uses 4 bytes to represent a color: 
+// one byte each for the Alpha, Red, Green, and Blue components.
+// If your system is Big-Endian, the ARGB value 0x12345678 would mean the alpha value
+// is 0x12, the red value is 0x34, the green value is 0x56, and the blue value is 0x78.
+// 		DO WE CARE? NO. 👀
+// Direct Memory Manipulation: While the endian value becomes critical when doing 
+// direct memory manipulation byte-by-byte. 
+// The manipulation is done using (unsigned int *) for the entire color value, namely the pixel. 
+// This approach abstracts away the need for us to consider individual byte order for each color channel, thank god.
+
 typedef struct s_img
 {
 	void	*img_ptr;
@@ -53,10 +53,9 @@ typedef struct s_img
 	int		line_len;
 }				t_img;
 
-/*
- * This struct contains all the mlx stuff 
- * and the image where i will buffer my pixels
-*/
+
+// This struct contains all the mlx stuff 
+// and the image where i will buffer my pixels
 typedef struct	s_var
 {
 	void	*mlx;
@@ -65,9 +64,8 @@ typedef struct	s_var
 }				t_var;
 
 
-/*
- * Plot in a 2D image the pixel
-*/
+
+ //Plot in a 2D image the pixel
 void	my_pixel_put(t_img *img, int x, int y, int color)
 {
 	int	offset;
@@ -78,9 +76,8 @@ void	my_pixel_put(t_img *img, int x, int y, int color)
 	*((unsigned int *)(offset + img->img_pixels_ptr)) = color;
 }
 
-/*
- * 🔥 my_pixel_put
-*/
+
+// 🔥 my_pixel_put
 void	color_screen(t_var *data, int color)
 {
 	for (int y = 0; y < SIDE_LEN; ++y)	
@@ -99,10 +96,10 @@ void	color_screen(t_var *data, int color)
 	}
 }
 
-/*
- * This time i plug color in hexadecimal directly
- * easy vanilla
-*/
+
+// This time i plug color in hexadecimal directly
+// easy vanilla
+
 int	f(int keysym, t_var *data)
 {
 
@@ -132,14 +129,14 @@ int	f(int keysym, t_var *data)
 }
 
 
-/*
- * All the checks for errors like 
- * 		
- * 	~if (vars.mlx == NULL) exit(1);
- *
- * are not written to not clog te code!
- * But u know this stuff is a necessary evil 😂
-*/
+
+// All the checks for errors like 
+// 		
+//  ~if (vars.mlx == NULL) exit(1);
+//
+// are not written to not clog te code!
+// But u know this stuff is a necessary evil 😂
+
 int	main()
 {
 	t_var	vars;
