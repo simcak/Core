@@ -6,51 +6,26 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:52:33 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/07 19:19:45 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/17 19:32:28 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minilibx-linux/mlx.h"
-#include <stdlib.h>
+#include "fractol.h"
 
-#define MALLOC_ERROR	1
-#define WIDTH 			700
-#define HEIGHT 			900
-
-int	main(void)
+int	main(int argc, char *argv[])
 {
-	void	*mlx_connection;
-	void	*mlx_window_1;
-	void	*mlx_window_2;
-	
-	// starting the connection with the grafical server = starting the machine
-	mlx_connection = mlx_init();
-	if (mlx_connection == NULL)
-		return (MALLOC_ERROR);
-
-	// vytvoření okna = je třeba kompilace
-	mlx_window_1 = mlx_new_window(mlx_connection, WIDTH, HEIGHT, "muhaha");
-	if (mlx_window_1 == NULL)
+	if (argc == 2 && fractol_strncmp(argv[1], "mandelbrot", 10)
+		|| argc == 4 && fractol_strncmp(argv[1], "julia", 5))
 	{
-		mlx_destroy_display(mlx_connection);
-		free (mlx_window_1);
-		return (MALLOC_ERROR);
+		return (1);
 	}
-
-	mlx_window_2 = mlx_new_window(mlx_connection, WIDTH, HEIGHT, "2haha");
-	if (mlx_window_2 == NULL)
+	else
 	{
-		mlx_destroy_display(mlx_connection);
-		free (mlx_window_2);
-		return (MALLOC_ERROR);
+		write(STDERR_FILENO, ERROR_MESSAGE, ft_strlen(ERROR_MESSAGE));
+		exit(EXIT_FAILURE);
 	}
-
-	for (int i = WIDTH * 0.1; i < WIDTH * 0.9; i++)
-		for (int j = HEIGHT * 0.1; j < HEIGHT * 0.9; j++)
-			mlx_pixel_put(mlx_connection, mlx_window_1, i, j, 0xff0000);
-
-	// aby se okno hned nezavřelo, hodíme ho do loopy
-	mlx_loop(mlx_connection);
-
-	return (0);
 }
+
+/*
+`mlx_init` is like starting the engine of your car before you can drive. When you call `mlx_init`, you're getting everything ready to create windows and draw graphics on the screen. It sets up the connection between your program and the graphics system of your computer. If `mlx_init` works, it gives you a "key" (in programming, we call this a pointer) that you use to control the graphics you want to create. If it doesn't work, it means something went wrong, and you can't start drawing.
+*/

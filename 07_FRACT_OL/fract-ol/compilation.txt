@@ -1,4 +1,0 @@
-gcc *.c -L minilibx-linux -l mlx_Linux -l X11 -l Xext -o fract-ol
-
--L minilibx-linux	= path to the library
--l mlx_Linux		= name of the library
