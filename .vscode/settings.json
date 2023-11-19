@@ -21,6 +21,7 @@
 		"variant": "c",
 		"sstream": "c",
 		"push_swap.h": "c",
-		"list": "c"
+		"list": "c",
+		"fractol.h": "c"
 	}
 }
