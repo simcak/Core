@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:02:49 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/19 20:42:28 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/19 20:50:04 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	calculate_pxl(int width, int height, t_fractol *fractal)
 			return ;
 		}
 	}
-	
+	ft_pxl_put(&fractal->img, width, height, OUTRAGEOUS_ORANGE);
 }
 
 /*
