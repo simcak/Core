@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 16:13:55 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/19 19:43:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/21 21:42:04 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	necessary_evil_2(t_fractol *fractal)
 	ft_error_exit(ERROR_MALLOC);
 }
 
-void	data_init(t_fractol *fractal)
+static void	data_init(t_fractol *fractal)
 {
 	fractal->edge = 2 * 2;
 	fractal->iteration_threshold = 42;
