@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 18:46:20 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/19 18:43:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/21 21:42:43 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,18 @@ int	ft_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+/*
+return 1 = true  = input is correct
+return 0 = false = input is incorrect
+*/
+int	correct_input(int ac, char *av[])
+{
+	if (ac == 2 && fractol_strncmp(av[1], "mandelbrot", 10)
+		|| ac == 4 && fractol_strncmp(av[1], "julia", 5))
+	{
+		return (1);
+	}
+	return (0);
 }
