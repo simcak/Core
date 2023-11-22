@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 16:13:55 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/21 21:42:04 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/22 19:10:26 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,27 @@ static void	necessary_evil_2(t_fractol *fractal)
 
 static void	data_init(t_fractol *fractal)
 {
-	fractal->edge = 2 * 2;
+	fractal->edge = 4.0;
 	fractal->iteration_threshold = 42;
+	fractal->shift_re = 0.0;
+	fractal->shift_im = 0.0;
+	fractal->zoom = 1.0;
+}
+
+/*
+listen for the input.
+hooks_init() takes key-numbers and operates by this info
+Key is input from KEYboard
+Button is input from the mouse
+*/
+static void	hooks_init(t_fractol *fractal)
+{
+	mlx_hook(fractal->mlx_win, DestroyNotify, StructureNotifyMask,
+			ft_destroyer, fractal);
+	mlx_hook(fractal->mlx_win, KeyPress, KeyPressMask,
+			ft_key_handler, fractal);
+	mlx_hook(fractal->mlx_win, ButtonPress, ButtonPressMask,
+			ft_button_handler, fractal);
 }
 
 void	fractal_init(t_fractol *fractal)
@@ -50,5 +69,5 @@ void	fractal_init(t_fractol *fractal)
 											&fractal->img.line_len,
 											&fractal->img.endian);
 	data_init(fractal);
-	// hooks_init(fractal);
+	hooks_init(fractal);
 }

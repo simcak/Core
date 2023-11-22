@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:02:49 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/21 21:44:08 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/22 18:47:00 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,19 @@ MANDELBROT:		z = z^2 + c
 				z is (0, 0)
 				c is pixel by pixel the actual point in complex area
 */
-static void	calculate_pxl(int width, int height, t_fractol *fractal)
+static void	pxl_render(int width, int height, t_fractol *fractal)
 {
 	t_complex	z;
 	t_complex	c;
 	int			i;
 	int			color;
 
+	i = 0;
 	z.re = 0.0;
 	z.im = 0.0;
-	c.re = resize(width, -2, 2, WIDTH);
-	c.im = resize(height, 2, -2, HEIGHT);
-	for (i = 0; i < fractal->iteration_threshold; i++)
+	c.re = fractal->zoom * resize(width, -2, 2, WIDTH) + fractal->shift_re;
+	c.im = fractal->zoom * resize(height, 2, -2, HEIGHT) + fractal->shift_im;
+	while (i < fractal->iteration_threshold)
 	{
 		z = ft_sum_complex(ft_sqr_complex(z), c);
 		if ((z.re * z.re) + (z.im * z.im) > fractal->edge)
@@ -45,8 +46,9 @@ static void	calculate_pxl(int width, int height, t_fractol *fractal)
 			ft_pxl_put(&fractal->img, width, height, color);
 			return ;
 		}
+		i++;
 	}
-	ft_pxl_put(&fractal->img, width, height, OUTRAGEOUS_ORANGE);
+	ft_pxl_put(&fractal->img, width, height, BLACK);
 }
 
 /*
@@ -59,9 +61,13 @@ void	fractal_render(t_fractol *fractal)
 	int	width;
 	int	height;
 
-	for (height = 0; height < HEIGHT; height++)
-		for (width = 0; width < WIDTH; width++)
-			calculate_pxl(width, height, fractal);
+	height = 0;
+	while (height++ < HEIGHT)
+	{
+		width = 0;
+		while (width++ < WIDTH)
+			pxl_render(width, height, fractal);
+	}
 
 	mlx_put_image_to_window(fractal->mlx,
 							fractal->mlx_win,

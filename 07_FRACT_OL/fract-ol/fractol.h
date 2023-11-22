@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 18:25:08 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/21 21:43:01 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/22 18:19:33 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ typedef struct s_fractol
 
 	double		edge;
 	int			iteration_threshold;
+	double		shift_re;
+	double		shift_im;
+	double		zoom;
 }				t_fractol;
 
 // PROTOTYPES
@@ -109,5 +112,10 @@ void		fractal_render(t_fractol *fractal);
 
 // fractal init
 void		fractal_init(t_fractol *fractal);
+
+// event_handler
+int			ft_key_handler(int keysym, t_fractol *fractal);
+int			ft_button_handler(int button, int x, int y, t_fractol *fractal);
+int			ft_destroyer(t_fractol *fractal);
 
 #endif
