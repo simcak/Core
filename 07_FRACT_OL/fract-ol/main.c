@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:52:33 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/21 21:42:34 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/23 17:56:17 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	main(int argc, char *argv[])
 {
 	t_fractol	fractal;
 
-	if (correct_input(argc, argv))
+	if (correct_input_plus_set_data(argc, argv, &fractal))
 	{
-		fractal.name = argv[1];
 		fractal_init(&fractal);
 		fractal_render(&fractal);
 		mlx_loop(fractal.mlx);

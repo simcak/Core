@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 18:25:08 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/23 15:46:52 by peta             ###   ########.fr       */
+/*   Updated: 2023/11/23 18:59:09 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define FRACTOL_H
 
 # include "minilibx-linux/mlx.h"
-# include "mlx/mlx.h"
 # include <stdio.h> // printf
 # include <stdlib.h> // malloc free
 # include <unistd.h> // write, constands
+# include <stdbool.h>
 # include <math.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
@@ -27,6 +27,8 @@
 \n\t\t./fractol julia <value_1> <value_2>\n"
 # define ERROR_MALLOC \
 "Problems with malloc()"
+# define ERROR_DOUBLE \
+"Julina input num is NOT double\n"
 
 // WINDOW SIZE
 # define WIDTH	900
@@ -81,6 +83,8 @@ typedef struct	s_img
 typedef struct s_fractol
 {
 	char		*name;
+	double		julia_re;
+	double		julia_im;
 
 	void		*mlx;
 	void		*mlx_win;
@@ -98,12 +102,13 @@ typedef struct s_fractol
 // string utils
 int			fractol_strncmp(const char *s1, const char *s2, int n);
 int			ft_strlen(const char *str);
-int			correct_input(int ac, char *av[]);
+int			correct_input_plus_set_data(int ac, char *av[], t_fractol *f);
 
 // math utils
 double		resize(double k, double new_min, double new_max, double old_max);
 t_complex	ft_sum_complex(t_complex z, t_complex c);
 t_complex	ft_sqr_complex(t_complex z);
+double		ft_atod(char *s);
 
 // police
 void		ft_error_exit(char *error_message);
@@ -118,5 +123,6 @@ void		fractal_init(t_fractol *fractal);
 int			ft_key_handler(int keysym, t_fractol *fractal);
 int			ft_button_handler(int button, int x, int y, t_fractol *fractal);
 int			ft_destroyer(t_fractol *fractal);
+int			julia_track(int x, int y, t_fractol *fractal);
 
 #endif
