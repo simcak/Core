@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: peta <peta@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 18:25:08 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/22 18:19:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/23 15:46:52 by peta             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FRACTOL_H
 
 # include "minilibx-linux/mlx.h"
+# include "mlx/mlx.h"
 # include <stdio.h> // printf
 # include <stdlib.h> // malloc free
 # include <unistd.h> // write, constands
