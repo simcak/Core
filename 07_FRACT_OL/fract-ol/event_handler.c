@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:36:31 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/22 19:25:29 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/23 18:55:09 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,18 @@ int	ft_button_handler(int button, int x, int y, t_fractol *fractal)
 	else if (button == Button5)
 		fractal->zoom += 0.5;
 	fractal_render(fractal);
+	return (0);
+}
+
+int	julia_track(int x, int y, t_fractol *fractal)
+{
+	if (fractol_strncmp(fractal->name, "julia", 5))
+	{
+		fractal->julia_re = (fractal->zoom * resize(x, -2, 2, WIDTH))
+			+ fractal->shift_re;
+		fractal->julia_im = (fractal->zoom * resize(y, 2, -2, HEIGHT))
+			+ fractal->shift_im;
+		fractal_render(fractal);
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:02:49 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/22 18:47:00 by psimcak          ###   ########.fr       */
+/*   Updated: 2023/11/23 19:38:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,27 @@ static void	ft_pxl_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)(img->pxl_ptr + offset) = color;
 }
 
+static void	is_julia(t_complex *z, t_complex *c, t_fractol *fractal)
+{
+	if (fractol_strncmp(fractal->name, "julia", 5))
+	{
+		c->re = fractal->julia_re;
+		c->im = fractal->julia_im;
+	}
+	else
+	{
+		c->re = z->re;
+		c->im = z->im;
+	}
+}
+
 /*
 MANDELBROT:		z = z^2 + c
 				z is (0, 0)
-				c is pixel by pixel the actual point in complex area
+				c is the actual point
+
+JUILIA:			./fract-ol <real> <imaginary>
+				
 */
 static void	pxl_render(int width, int height, t_fractol *fractal)
 {
@@ -33,10 +50,9 @@ static void	pxl_render(int width, int height, t_fractol *fractal)
 	int			color;
 
 	i = 0;
-	z.re = 0.0;
-	z.im = 0.0;
-	c.re = fractal->zoom * resize(width, -2, 2, WIDTH) + fractal->shift_re;
-	c.im = fractal->zoom * resize(height, 2, -2, HEIGHT) + fractal->shift_im;
+	z.re = fractal->zoom * resize(width, -2, 2, WIDTH) + fractal->shift_re;
+	z.im = fractal->zoom * resize(height, 2, -2, HEIGHT) + fractal->shift_im;
+	is_julia(&z, &c, fractal);
 	while (i < fractal->iteration_threshold)
 	{
 		z = ft_sum_complex(ft_sqr_complex(z), c);
@@ -68,9 +84,8 @@ void	fractal_render(t_fractol *fractal)
 		while (width++ < WIDTH)
 			pxl_render(width, height, fractal);
 	}
-
 	mlx_put_image_to_window(fractal->mlx,
-							fractal->mlx_win,
-							fractal->img.img_ptr,
-							0, 0);
+		fractal->mlx_win,
+		fractal->img.img_ptr,
+		0, 0);
 }
