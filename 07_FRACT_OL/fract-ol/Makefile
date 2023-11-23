@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
+#    By: peta <peta@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/17 18:55:21 by psimcak           #+#    #+#              #
-#    Updated: 2023/11/19 16:58:48 by psimcak          ###   ########.fr        #
+#    Updated: 2023/11/23 15:48:53 by peta             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,14 +19,16 @@ NAME_OF_ARCHIVE = -l mlx_Linux
 # gcc *.c -L minilibx-linux -l mlx_Linux -l X11 -l Xext -o fract-ol
 
 all:
-		@gcc *.c $(PATH_TO_LIBRARY) $(NAME_OF_ARCHIVE) -l X11 -l Xext -o fract-ol
+		@gcc *.c $(PATH_TO_LIBRARY) $(NAME_OF_ARCHIVE) -l X11 -l Xext -o $(NAME)
 		@echo "\033[32m----Fract-ol Compiled!----\e[0m"
 
 mandelbrot: all
 		@./$(NAME) mandelbrot
+		@echo "\033[32m----MANDELBROT----\e[0m"
 
 julia: all
 		@./$(NAME) julia -0.8 1.156
+		@echo "\033[32m----JULIA----\e[0m"
 
 fclean:
 		@rm -f $(NAME)
