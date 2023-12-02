@@ -6,7 +6,7 @@
 #    By: peta <peta@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/17 18:55:21 by psimcak           #+#    #+#              #
-#    Updated: 2023/12/02 15:09:40 by peta             ###   ########.fr        #
+#    Updated: 2023/12/02 15:29:52 by peta             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ mandelbrot: all
 		@echo "\033[32m----MANDELBROT----\e[0m"
 
 julia: all
-		@./$(NAME) julia -0.8 1.156
+		@./$(NAME) julia -0.8 0.156
 		@echo "\033[32m----JULIA----\e[0m"
 
 fclean:
