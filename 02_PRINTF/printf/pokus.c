@@ -1,19 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pokus.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/01 16:46:09 by psimcak           #+#    #+#             */
-/*   Updated: 2023/09/01 17:16:44 by psimcak          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+# include <stdio.h>
+# include <limits.h>
 # include <unistd.h>
 # include <stdarg.h>
 # include <stddef.h>
 # include <stdlib.h>
+
+void	ft_putchar_and_strlen(char c, int *count)
+{
+	write(1, &c, 1);
+	(*count)++;
+}
 
 void	ft_num_to_str(int num, int *count)
 {
@@ -63,8 +59,6 @@ void	ft_pointer(unsigned long u_int_num, int *count)
 	char	*str_hex;
 
 	str_hex = "0123456789abcdef";
-	// ft_putchar_and_strlen('0', count);
-	// ft_putchar_and_strlen('x', count);
 	if (u_int_num > 15)
 		ft_pointer(u_int_num / 16, count);
 	ft_putchar_and_strlen(str_hex[u_int_num % 16], count);
@@ -83,14 +77,10 @@ void	ft_int_to_hex(char specifier, unsigned int uint_num, int *count)
 	ft_putchar_and_strlen(str_hex[uint_num % 16], count);
 }
 
-void	ft_putchar_and_strlen(char c, int *count)
-{
-	write(1, &c, 1);
-	(*count)++;
-}
-
 void	ft_specifier_clasificator(char specifier, va_list args, int *count)
 {
+	unsigned long	ulong_args;
+
 	if (specifier == 'd' || specifier == 'i')
 		ft_num_to_str(va_arg(args, int), count);
 	else if (specifier == 'c')
@@ -99,16 +89,14 @@ void	ft_specifier_clasificator(char specifier, va_list args, int *count)
 		ft_putstr(va_arg(args, char *), count);
 	else if (specifier == 'p')
 	{
-		unsigned long	pokus = va_arg(args, unsigned long);
-		if (!pokus)
+		ulong_args = va_arg(args, unsigned long);
+		if (!ulong_args)
+			ft_putstr("(nil)", count);
+		else
 		{
-			write(1, "(nil)", 5);
-			(*count) += 5;
-			return ;
-		}	
-		ft_putchar_and_strlen('0', count);
-		ft_putchar_and_strlen('x', count);
-		ft_pointer(pokus, count);
+			ft_putstr("0x", count);
+			ft_pointer(ulong_args, count);
+		}
 	}
 	else if (specifier == 'u')
 		ft_u_int_to_str(va_arg(args, unsigned int), count);
@@ -145,13 +133,13 @@ int	main(void)
 {
 	int	len;
 
-	len = ft_printf("FT_PRINTF decimal test: %d \t \t \t", 42);
+	len = ft_printf("FT_PRINTF decimal test: %d \t \t \t", 42.42);
 	ft_printf("-> length is: %i \n", len);
 	len = ft_printf("FT_PRINTF char test: %c \t \t \t \t", '@');
 	ft_printf("-> length is: %i \n", len);
 	len = ft_printf("FT_PRINTF string test: %s \t \t", "muhahahahaaa");
 	ft_printf("-> length is: %i \n", len);
-	len = ft_printf("FT_PRINTF pointer test: %p %p \t \t \t", 0, 3501);
+	len = ft_printf("FT_PRINTF pointer test: %p \t \t \t", 501);
 	ft_printf("-> length is: %i \n", len);
 	len = ft_printf("FT_PRINTF UINT_MAX test: %u \t \t", 4294967295);
 	ft_printf("-> length is: %i \n", len);
@@ -159,7 +147,10 @@ int	main(void)
 	ft_printf("-> length is: %i \n", len);
 	len = ft_printf("FT_PRINTF hehex-num with up test: %X \t \t", 3501);
 	ft_printf("-> length is: %i \n", len);
-	len = ft_printf("FT_PRINTF percen test: %% \t \t \t");
-	ft_printf("-> length is: %i \n", len);
+	len = ft_printf("FT_PRINTF percen test: %% \t \t \t \n");
+	ft_printf("Maximum pro náš print: %d \n", INT_MAX);
+	printf("Maximum pro origo print: %d \n", INT_MAX);
+	ft_printf("Minimum pro náš print: %d \n", INT_MIN);
+	printf("Maximum pro origo print: %d \n", INT_MIN);
 	return (0);
 }
