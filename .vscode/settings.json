@@ -23,6 +23,7 @@
 		"push_swap.h": "c",
 		"list": "c",
 		"fractol.h": "c",
-		"mlx.h": "c"
+		"mlx.h": "c",
+		"stdio.h": "c"
 	}
 }
