@@ -24,6 +24,7 @@
 		"list": "c",
 		"fractol.h": "c",
 		"mlx.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"regex": "c"
 	}
 }
