@@ -6,11 +6,11 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/18 14:18:46 by psimcak           #+#    #+#              #
-#    Updated: 2024/06/18 14:24:18 by psimcak          ###   ########.fr        #
+#    Updated: 2024/06/18 15:31:48 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 	= philosophers
+NAME 	= philo
 FLAGS	= -Wall -Wextra -Werror -g
 
 SRC 	= $(shell find ./src -iname "*.c")
@@ -21,15 +21,15 @@ OBJ 	= $(SRC:%.c=%.o)
 
 all: $(OBJ)
 		@cc ${OBJ} -o ${NAME}
-		@echo "\033[32m----Push-Swap Compiled!----\e[0m"
+		@printf "\033[32m----$(NAME)sophers Compiled!----\033[0m\n"
 
 clean:
 		@rm -f $(OBJ)
-		@echo "\033[31m----Deleting o-files!----\e[0m"
+		@printf "\033[31m----Deleting o-files!----\033[0m\n"
 
 fclean: clean
 		@rm -f $(NAME)
-		@echo "\033[31m----Deleting o-files & $(NAME)!----\e[0m"
+		@printf "\033[31m----Deleting o-files & $(NAME)sophers!----\033[0m\n"
 
 re: 	fclean all
 
