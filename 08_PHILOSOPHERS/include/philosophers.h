@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/18 17:05:47 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/19 19:54:33 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,12 @@ typedef struct	s_philosopher
 }	t_philosopher;
 
 //********** PROTOTYPES **********//
+// INIT_FILES
+t_philosopher	*init_list_of_philosophers(t_global_rules rules);
+void			set_global_rules(t_global_rules *g_rules, char **argv);
+
 // LIBFT_PHILO
-int		ft_atoi(const char *str);
-int		ft_strlen(char *str);
+int				ft_atoi(const char *str);
+int				ft_strlen(char *str);
 
 #endif
