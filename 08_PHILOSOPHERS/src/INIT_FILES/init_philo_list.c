@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:36:58 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/19 19:49:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/19 20:02:41 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	add_philosopher(t_philosopher **philo_list,
 							t_philosopher *new_philosopher)
 {
 	t_philosopher	*temp;
-	
+
 	if (!philo_list || !new_philosopher)
 		return ;
 	if (!*philo_list)
