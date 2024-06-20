@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:15:44 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/18 15:17:59 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/19 20:03:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = -1;
-	while (str[++i]);
+	while (str[++i])
+		;
 	return (i);
 }

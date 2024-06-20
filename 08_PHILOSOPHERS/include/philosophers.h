@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/19 19:54:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/19 20:06:12 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
+# include <stdbool.h>
+# include <pthread.h>
+# include <sys/time.h>
 
 //********** STRUCTURES **********//
-typedef struct	s_global_rules
+typedef struct s_global_rules
 {
 	int						number_of_philosophers;
 	int						time_to_die;
@@ -27,7 +31,7 @@ typedef struct	s_global_rules
 	int						time_to_sleep;
 }	t_global_rules;
 
-typedef struct	s_philosopher
+typedef struct s_philosopher
 {
 	int						id;
 	int						time_to_die;
