@@ -6,12 +6,12 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/18 14:18:46 by psimcak           #+#    #+#              #
-#    Updated: 2024/06/18 15:31:48 by psimcak          ###   ########.fr        #
+#    Updated: 2024/06/27 12:47:20 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 	= philo
-FLAGS	= -Wall -Wextra -Werror -g
+FLAGS	= -Wall -Wextra -Werror -pthread
 
 SRC 	= $(shell find ./src -iname "*.c")
 OBJ 	= $(SRC:%.c=%.o)

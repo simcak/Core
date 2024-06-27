@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 13:52:35 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/19 19:56:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/27 16:54:17 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
  */
 int	main(int argc, char **argv)
 {
-	t_global_rules	g_rules;
-	t_philosopher	*philo_list;
+	t_dinner	dinner;
 
-	if (argc != 5)
+	if (argc == 5)
 	{
-		printf("Error: wrong number of arguments\n");
-		return (1);
+		if (!prepare_dinner(&dinner, argv))
+			return (FAILURE);
+		// dinner_start(&dinner);	// TODO
+		// clean(&dinner);			// TODO
 	}
-	set_global_rules(&g_rules, argv);
-	philo_list = init_list_of_philosophers(g_rules);
-	return (0);
+	else
+		return (printf("%sError: wrong number of arguments%s\n", R, RST));
+	return (SUCCESS);
 }
