@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/28 17:41:35 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/28 20:25:00 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define FAILURE	1
 
 typedef pthread_mutex_t	t_mutex;
+typedef pthread_t		t_thread;
 //******************************** STRUCTURES ********************************//
 typedef struct s_fork
 {
@@ -48,7 +49,7 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	long			id;
-	pthread_t		thread_id;
+	t_thread		thread_id;
 	long			meals_counter;
 	long			last_meal_time_ms;
 	t_mutex			*l_fork;
@@ -77,7 +78,7 @@ typedef enum e_func_type
 	CREATE,
 	JOIN,
 	DETACH
-} t_func_type;
+}	t_func_type;
 
 //******************************** PROTOTYPES ********************************//
 // DINER_FUNCTIONS
@@ -87,5 +88,39 @@ int					prepare_dinner(t_dinner *dinner, char **argv);
 long				ft_atol(char *argv_i);
 int					ft_strlen(char *str);
 int					safe_mutex(t_mutex *mutex, t_func_type type);
+
+//****************************** ERROR MESSAGES ******************************//
+// Mutex
+# define ERR_EINVAL_MUTEX_LUD \
+		"The value specified by mutex is invalid.\n"
+# define ERR_EINVAL_MUTEX_I \
+		"The value specified by attr is invalid.\n"
+# define ERR_EDEADLK_MUTEX \
+		"A deadlock would occur if the thread blocked waiting for mutex.\n"
+# define ERR_EPERM_MUTEX \
+		"The current thread does not hold a lock on mutex.\n"
+# define ERR_ENOMEM_MUTEX \
+		"The process cannot allocate enough memory to create another mutex.\n"
+# define ERR_EBUSY_MUTEX "Mutex is locked.\n"
+
+// Thread
+# define ERR_EAGAIN_THREAD \
+		"The system lacked the necessary resources to create another thread, o\
+		r the system-imposed limit on the total number of threads in a process \
+		[PTHREAD_THREADS_MAX] would be exceeded.\n"
+# define ERR_EPERM_THREAD \
+		"The caller does not have appropriate permission to set the required sc\
+		heduling parameters or scheduling policy.\n"
+# define ERR_EINVAL_THREAD_C \
+		"The value specified by attr is invalid.\n"
+# define ERR_EINVAL_THREAD_JD \
+		"The implementation has detected that the value specified by thread doe\
+		s not refer to a joinable thread.\n"
+# define ERR_ESRCH_THREAD \
+		"No thread could be found corresponding to that specified by the given \
+		thread ID, thread.\n"
+# define ERR_EDEADLK_THREAD \
+		"A deadlock was detected or the value of thread specifies the calling t\
+		hread.\n"
 
 #endif
