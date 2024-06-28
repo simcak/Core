@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/27 17:06:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/28 17:41:35 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdbool.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <errno.h>
 
 //******************************* ANSI COLORES *******************************//
 # define R		"\033[1;31m"
@@ -82,8 +83,9 @@ typedef enum e_func_type
 // DINER_FUNCTIONS
 int					prepare_dinner(t_dinner *dinner, char **argv);
 
-// LIBFT_PHILO
+// LIB_PHILO
 long				ft_atol(char *argv_i);
 int					ft_strlen(char *str);
+int					safe_mutex(t_mutex *mutex, t_func_type type);
 
 #endif
