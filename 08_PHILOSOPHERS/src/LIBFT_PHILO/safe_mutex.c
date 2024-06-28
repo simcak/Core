@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:54:58 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/28 17:50:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/28 20:13:40 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 static int	invalid_type(t_func_type type)
 {
 	if (type != LOCK && type != UNLOCK && type != INIT && type != DESTROY)
-		return (printf("%sInvalid type of function%s\n", R, RST));
+		return (printf("%sInvalid type of mutex function%s\n", R, RST));
 	return (SUCCESS);
 }
 
@@ -29,22 +29,23 @@ static int	invalid_type(t_func_type type)
 static int	handle_error(int err, t_func_type type)
 {
 	if (err == EINVAL && (type == LOCK || type == UNLOCK || type == DESTROY))
-		return (printf("%sThe value specified by mutex is invalid.%s\n",
-				R, RST));
+		return (printf("%s%s%s",
+				R, ERR_EINVAL_MUTEX_LUD, RST));
 	if (err == EINVAL && type == INIT)
-		return (printf("%sThe value specified by attr is invalid.%s\n",
-				R, RST));
+		return (printf("%s%s%s",
+				R, ERR_EINVAL_MUTEX_I, RST));
 	if (err == EDEADLK && type == LOCK)
-		return (printf("%sA deadlock would occur if the thread blocked waiting \
-				for mutex.%s\n", R, RST));
+		return (printf("%s%s%s",
+				R, ERR_EDEADLK_MUTEX, RST));
 	if (err == EPERM && type == UNLOCK)
-		return (printf("%sThe current thread does not hold a lock on mutex%s\n",
-				R, RST));
+		return (printf("%s%s%s",
+				R, ERR_EPERM_MUTEX, RST));
 	if (err == ENOMEM && type == INIT)
-		return (printf("%sThe process cannot allocate enough memory to create \
-				another mutex.%s\n", R, RST));
+		return (printf("%s%s%s",
+				R, ERR_ENOMEM_MUTEX, RST));
 	if (err == EBUSY && type == DESTROY)
-		return (printf("%sMutex is locked.%s\n", R, RST));
+		return (printf("%s%s%s",
+				R, ERR_EBUSY_MUTEX, RST));
 	return (SUCCESS);
 }
 
