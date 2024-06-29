@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 11:19:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 13:48:56 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,14 @@ typedef enum e_func_type
 // DINER_FUNCTIONS
 int					prepare_dinner(t_dinner *dinner, char **argv);
 
+// ERROR_POLICE
+int					args_are_invalid(t_dinner *dinner);
+
 // LIB_PHILO
 long				ft_atol(char *argv_i);
 int					ft_strlen(char *str);
+int					philo_id_is_odd(t_philos *philo);
+int					philo_id_is_even(t_philos *philo);
 int					safe_mutex(t_mutex *mutex, t_func_type type);
 int					safe_thread(t_thread *thread, t_func_type type,
 						void *(*func)(void *), void *data);
