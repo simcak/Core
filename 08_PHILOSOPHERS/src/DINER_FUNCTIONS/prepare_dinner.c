@@ -6,32 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 12:18:29 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 14:02:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philosophers.h"
-
-/**
- * Just check if the arguments are valid or not
- */
-static int	args_are_invalid(t_dinner *dinner)
-{
-	int	err;
-
-	err = 0;
-	if (dinner->num_of_philos >= 200 || dinner->num_of_philos <= 0)
-		err = printf("%sError: ok is 0 <= num_of_philos <= 200 %s\n", R, RST);
-	if (dinner->time_to_die <= 60 * 1e3)
-		err = printf("%sError: time to die must be >= 60ms%s\n", R, RST);
-	if (dinner->time_to_eat <= 60 * 1e3)
-		err = printf("%sError: time to eat must be >= 60ms%s\n", R, RST);
-	if (dinner->time_to_sleep <= 60 * 1e3)
-		err = printf("%sError: time to sleep must be >= 60ms%s\n", R, RST);
-	if (err)
-		return (FAILURE);
-	return (SUCCESS);
-}
 
 /**
  * Initialize forks
@@ -60,6 +39,7 @@ static int	forks_init(t_dinner *dinner)
  * [1] - [2] - [3] - [4] - [5]		// 🤔🤔🤔🤔🤔
  * |  \  |  \  |  \  |  \	|  \    // assigning forks
  * 0     1     2     3     4     0	// 🍽🍽🍽🍽🍽
+ * even / odd philo logic prevents deadlock
  */
 static void	assign_forks(t_dinner *dinner, t_philos *philo)
 {
@@ -68,8 +48,17 @@ static void	assign_forks(t_dinner *dinner, t_philos *philo)
 
 	f_id = philo->id - 1;
 	p_id = philo->id;
-	philo->r_fork = &dinner->forks[f_id].fork_mutex;
-	philo->l_fork = &dinner->forks[(p_id) % dinner->num_of_philos].fork_mutex;
+	if (philo_id_is_even(philo))
+	{
+		philo->r_fork = &dinner->forks[f_id].fork_mutex;
+		philo->l_fork = &dinner->forks[(p_id) % dinner->num_of_philos].fork_mutex;
+		return ;
+	}
+	if (philo_id_is_odd(philo))
+	{
+		philo->r_fork = &dinner->forks[(p_id) % dinner->num_of_philos].fork_mutex;
+		philo->l_fork = &dinner->forks[f_id].fork_mutex;
+	}
 }
 
 /**
