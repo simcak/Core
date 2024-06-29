@@ -6,14 +6,14 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/28 20:56:45 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 12:18:29 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philosophers.h"
 
 /**
- * Check if arguments are valid
+ * Just check if the arguments are valid or not
  */
 static int	args_are_invalid(t_dinner *dinner)
 {
@@ -54,13 +54,43 @@ static int	forks_init(t_dinner *dinner)
 }
 
 /**
+ * Assign forks to philosophers
+ * right 🍽 fork is on same position as philosopher
+ * left  🍽 fork is on position (philosopher + 1) % num_of_philos
+ * [1] - [2] - [3] - [4] - [5]		// 🤔🤔🤔🤔🤔
+ * |  \  |  \  |  \  |  \	|  \    // assigning forks
+ * 0     1     2     3     4     0	// 🍽🍽🍽🍽🍽
+ */
+static void	assign_forks(t_dinner *dinner, t_philos *philo)
+{
+	long	f_id;
+	long	p_id;
+
+	f_id = philo->id - 1;
+	p_id = philo->id;
+	philo->r_fork = &dinner->forks[f_id].fork_mutex;
+	philo->l_fork = &dinner->forks[(p_id) % dinner->num_of_philos].fork_mutex;
+}
+
+/**
  * Initialize philosophers
  */
 static int	philos_init(t_dinner *dinner)
 {
+	int			i;
+	t_philos	*philo;
+
 	dinner->philos = malloc(sizeof(t_philos) * dinner->num_of_philos);
 	if (!dinner->philos)
 		return (printf("%sError: malloc failed%s\n", R, RST));
+	i = -1;
+	while (++i < dinner->num_of_philos)
+	{
+		philo = &dinner->philos[i];
+		philo->id = i + 1;
+		philo->meals_counter = 0;
+		assign_forks(dinner, philo);
+	}
 	return (SUCCESS);
 }
 
