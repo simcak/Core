@@ -6,23 +6,24 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:11:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 18:18:51 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 19:19:28 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philosophers.h"
 
-/**
- * this function returns the current time in milliseconds [ms]
- * the return form is: [seconds * 1000 + microseconds / 1000]
- */
-uint64_t	get_precize_time(void)
-{
-	struct timeval	time;
+// /**
+//  * this function returns the current time in milliseconds [ms]
+//  * the return form is: [seconds * 1000 + microseconds / 1000]
+//  */
+// uint64_t	get_precize_time(void)
+// {
+// 	struct timeval	time;
 
-	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
-}
+// 	if (gettimeofday(&time, NULL) == ERROR)
+// 		return (printf("%sError: gettimeofday() failed%s\n", R, RST), ERROR);
+// 	return ((time.tv_sec * (uint64_t)1000) + (time.tv_usec / 1000));
+// }
 
 void	*dining(void *data)
 {
@@ -31,10 +32,6 @@ void	*dining(void *data)
 
 	philo = (t_philos *)data;
 	dinner = philo->dinner;
-	uint64_t	start_time = get_precize_time();
-	usleep(1e3);
-	uint16_t	now_time = get_precize_time() - start_time;
-	printf("now_time: %d\n", now_time);
 // 	wait_before_start(dinner); // TODO
 // 	while (!dinner_finished(dinner))
 // 	{
