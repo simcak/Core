@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 14:21:40 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 17:16:31 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static int	philos_init(t_dinner *dinner)
 		philo = &dinner->philos[i];
 		philo->id = i + 1;
 		philo->meals_counter = 0;
+		philo->dinner = dinner;
 		assign_forks(dinner, philo);
 	}
 	return (SUCCESS);
@@ -99,6 +100,7 @@ int	prepare_dinner(t_dinner *dinner, char **argv)
 		return (FAILURE);
 	if (philos_init(dinner))
 		return (FAILURE);
+	dinner->all_philos_ready = false;
 	// dinner->start_dinner ; // TODO
 	dinner->end_dinner = false;
 	return (SUCCESS);
