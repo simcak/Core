@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prepare_dinner.c                                   :+:      :+:    :+:   */
+/*   1_prepare_dinner.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 14:07:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 14:21:40 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ static void	assign_forks(t_dinner *dinner, t_philos *philo)
 
 	f_id = philo->id - 1;
 	p_id = philo->id;
-	if (philo_id_is_even(philo))
+	if (philo_id_is(philo) == EVEN)
 	{
 		philo->r_fork = &dinner->forks[f_id].fork_mutex;
 		philo->l_fork = &dinner->forks[(p_id) % dinner->num_of_philos].fork_mutex;
 		return ;
 	}
-	if (philo_id_is_odd(philo))
+	if (philo_id_is(philo) == ODD)
 	{
 		philo->r_fork = &dinner->forks[(p_id) % dinner->num_of_philos].fork_mutex;
 		philo->l_fork = &dinner->forks[f_id].fork_mutex;

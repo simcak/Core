@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 14:06:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 14:18:36 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 //********************************** MACROS **********************************//
 # define SUCCESS	0
 # define FAILURE	1
+# define EVEN		0
+# define ODD		3
 
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
@@ -88,10 +90,9 @@ int					prepare_dinner(t_dinner *dinner, char **argv);
 int					args_are_invalid(t_dinner *dinner);
 
 // LIB_PHILO
+int					philo_id_is(t_philos *philo);
 long				ft_atol(char *argv_i);
 int					ft_strlen(char *str);
-bool				philo_id_is_odd(t_philos *philo);
-bool				philo_id_is_even(t_philos *philo);
 int					safe_mutex(t_mutex *mutex, t_func_type type);
 int					safe_thread(t_thread *thread, t_func_type type,
 						void *(*func)(void *), void *data);
