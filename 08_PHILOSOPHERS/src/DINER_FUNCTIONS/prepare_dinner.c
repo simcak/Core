@@ -6,14 +6,14 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 14:02:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 14:07:33 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philosophers.h"
 
 /**
- * Initialize forks
+ * Initialize forks 🍽
  */
 static int	forks_init(t_dinner *dinner)
 {
