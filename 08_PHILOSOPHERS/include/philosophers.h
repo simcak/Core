@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 17:13:37 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 19:19:19 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define RST	"\033[0m"
 
 //********************************** MACROS **********************************//
+# define ERROR		7
 # define SUCCESS	0
 # define FAILURE	1
 # define EVEN		0
@@ -55,9 +56,9 @@ typedef struct s_philo
 	t_thread		thread_id;
 	long			meals_counter;
 	long			last_meal_time_ms;
-	t_dinner		*dinner;
 	t_mutex			*l_fork;
 	t_mutex			*r_fork;
+	t_dinner		*dinner;
 }	t_philos;
 
 typedef struct s_dinner
