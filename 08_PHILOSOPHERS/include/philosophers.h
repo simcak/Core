@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 14:18:36 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 17:13:37 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
+typedef struct s_dinner	t_dinner;
 //******************************** STRUCTURES ********************************//
 typedef struct s_fork
 {
@@ -54,6 +55,7 @@ typedef struct s_philo
 	t_thread		thread_id;
 	long			meals_counter;
 	long			last_meal_time_ms;
+	t_dinner		*dinner;
 	t_mutex			*l_fork;
 	t_mutex			*r_fork;
 }	t_philos;
@@ -66,6 +68,7 @@ typedef struct s_dinner
 	long			time_to_sleep;
 	long			start_dinner;
 	bool			end_dinner;
+	bool			all_philos_ready;
 	t_fork			*forks;
 	t_philos		*philos;
 }	t_dinner;
@@ -85,17 +88,18 @@ typedef enum e_func_type
 //******************************** PROTOTYPES ********************************//
 // DINER_FUNCTIONS
 int					prepare_dinner(t_dinner *dinner, char **argv);
+int					start_dinner(t_dinner *dinner);
 
 // ERROR_POLICE
 int					args_are_invalid(t_dinner *dinner);
 
 // LIB_PHILO
-int					philo_id_is(t_philos *philo);
 long				ft_atol(char *argv_i);
-int					ft_strlen(char *str);
 int					safe_mutex(t_mutex *mutex, t_func_type type);
 int					safe_thread(t_thread *thread, t_func_type type,
 						void *(*func)(void *), void *data);
+int					philo_id_is(t_philos *philo);
+int					ft_strlen(char *str);
 
 //****************************** ERROR MESSAGES ******************************//
 // Mutex

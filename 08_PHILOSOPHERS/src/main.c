@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 13:52:35 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 14:13:43 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/06/29 14:45:30 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	main(int argc, char **argv)
 		if (prepare_dinner(&dinner, argv))
 			return (FAILURE);
 		printf("%sDinner prepared successfully%s\n", G, RST);
-		// start_dinner(&dinner);	// TODO
+		if (start_dinner(&dinner))
+			return (FAILURE);
 		// clean(&dinner);			// TODO
 	}
 	else
