@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 19:19:19 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/01 20:23:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 # define FAILURE	1
 # define EVEN		0
 # define ODD		3
+# define MILISEC	0
+# define MICROSEC	1
+# define DEBUG		0
 
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
@@ -56,8 +59,9 @@ typedef struct s_philo
 	t_thread		thread_id;
 	long			meals_counter;
 	long			last_meal_time_ms;
-	t_mutex			*l_fork;
-	t_mutex			*r_fork;
+	t_fork			*l_fork;
+	t_fork			*r_fork;
+	t_mutex			*philo_mutex;
 	t_dinner		*dinner;
 }	t_philos;
 
@@ -67,9 +71,11 @@ typedef struct s_dinner
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
-	long			start_dinner;
-	bool			end_dinner;
+	long			start_time;
+	bool			finish_dinner;
 	bool			all_philos_ready;
+	t_mutex			*dinner_mutex;
+	t_mutex			print_mutex;
 	t_fork			*forks;
 	t_philos		*philos;
 }	t_dinner;
@@ -86,6 +92,16 @@ typedef enum e_func_type
 	DETACH
 }	t_func_type;
 
+typedef enum e_philo_action
+{
+	TAKE_LF,
+	TAKE_RF,
+	EAT,
+	SLEEP,
+	THINK,
+	DIE
+}	t_status;
+
 //******************************** PROTOTYPES ********************************//
 // DINER_FUNCTIONS
 int					prepare_dinner(t_dinner *dinner, char **argv);
@@ -96,11 +112,20 @@ int					args_are_invalid(t_dinner *dinner);
 
 // LIB_PHILO
 long				ft_atol(char *argv_i);
+bool				get_bool(t_mutex *mutex, bool *val);
+void				set_bool(t_mutex *mutex, bool *dest, bool val);
+long				get_long(t_mutex *mutex, long *val);
+void				set_long(t_mutex *mutex, long *dest, long val);
 int					safe_mutex(t_mutex *mutex, t_func_type type);
 int					safe_thread(t_thread *thread, t_func_type type,
 						void *(*func)(void *), void *data);
+uint64_t			get_precize_time(int type);
+void				ft_usleep(uint64_t sleep_time, t_dinner *dinner);
 int					philo_id_is(t_philos *philo);
 int					ft_strlen(char *str);
+bool				dinner_finished(t_dinner *dinner);
+void				wait_before_start(t_dinner *dinner);
+void				write_status(t_philos *philo, t_status action, bool debug);
 
 //****************************** ERROR MESSAGES ******************************//
 // Mutex

@@ -6,24 +6,42 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:11:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 19:19:28 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/01 20:58:43 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philosophers.h"
 
-// /**
-//  * this function returns the current time in milliseconds [ms]
-//  * the return form is: [seconds * 1000 + microseconds / 1000]
-//  */
-// uint64_t	get_precize_time(void)
-// {
-// 	struct timeval	time;
+static int	philo_think(t_philos *philo)
+{
+	write_status(philo, THINK, DEBUG);
+	return (SUCCESS);
+}
 
-// 	if (gettimeofday(&time, NULL) == ERROR)
-// 		return (printf("%sError: gettimeofday() failed%s\n", R, RST), ERROR);
-// 	return ((time.tv_sec * (uint64_t)1000) + (time.tv_usec / 1000));
-// }
+static int	philo_eat(t_philos *philo)
+{
+	uint16_t	time;
+
+	if (safe_mutex(&philo->r_fork->fork_mutex, LOCK))
+		return (FAILURE);
+	write_status(philo, TAKE_RF, DEBUG);
+	if (safe_mutex(&philo->l_fork->fork_mutex, LOCK))
+		return (FAILURE);
+	write_status(philo, TAKE_LF, DEBUG);
+
+	time = get_precize_time(MILISEC);
+	if (time == ERROR)
+		return (FAILURE);
+	set_long(philo->philo_mutex, &philo->last_meal_time_ms, time);
+	write_status(philo, EAT, DEBUG);
+	ft_usleep(philo->dinner->time_to_eat, philo->dinner);
+
+	if (safe_mutex(&philo->r_fork->fork_mutex, UNLOCK))
+		return (FAILURE);
+	if (safe_mutex(&philo->l_fork->fork_mutex, UNLOCK))
+		return (FAILURE);
+	return (SUCCESS);
+}
 
 void	*dining(void *data)
 {
@@ -32,16 +50,16 @@ void	*dining(void *data)
 
 	philo = (t_philos *)data;
 	dinner = philo->dinner;
-// 	wait_before_start(dinner); // TODO
-// 	while (!dinner_finished(dinner))
-// 	{
-// 		if (philo_eat(philo))	// TODO
-// 			return (NULL);
-// 		if (philo_sleep(philo))	// TODO
-// 			return (NULL);
-// 		if (philo_think(philo))	// TODO
-// 			return (NULL);
-// 	}
+	wait_before_start(dinner);
+	while (!dinner_finished(dinner))
+	{
+		if (philo_eat(philo))	// TODO
+			return (NULL);
+		write_status(philo, SLEEP, DEBUG);
+		ft_usleep(dinner->time_to_sleep, dinner);
+		if (philo_think(philo))	// TODO
+			return (NULL);
+	}
 	return (NULL);
 }
 
@@ -58,7 +76,8 @@ int	start_dinner(t_dinner *dinner)
 	while (++i < dinner->num_of_philos)
 		if (safe_thread(&dinner->philos[i].thread_id, CREATE, dining, &dinner->philos[i]))
 			return (FAILURE);
-	// all_philos_created(dinner); // TODO
+	dinner->start_time = get_precize_time(MILISEC);
+	set_bool(dinner->dinner_mutex, &dinner->all_philos_ready, true);
 	i = -1;
 	while (++i < dinner->num_of_philos)
 		if (safe_thread(&dinner->philos[i].thread_id, JOIN, NULL, NULL))
