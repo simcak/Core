@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:54:58 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/28 20:13:40 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/01 19:22:01 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,17 @@ static int	invalid_type(t_func_type type)
 static int	handle_error(int err, t_func_type type)
 {
 	if (err == EINVAL && (type == LOCK || type == UNLOCK || type == DESTROY))
-		return (printf("%s%s%s",
-				R, ERR_EINVAL_MUTEX_LUD, RST));
+		return (printf(R"%s"RST, ERR_EINVAL_MUTEX_LUD));
 	if (err == EINVAL && type == INIT)
-		return (printf("%s%s%s",
-				R, ERR_EINVAL_MUTEX_I, RST));
+		return (printf(R"%s"RST, ERR_EINVAL_MUTEX_I));
 	if (err == EDEADLK && type == LOCK)
-		return (printf("%s%s%s",
-				R, ERR_EDEADLK_MUTEX, RST));
+		return (printf(R"%s"RST, ERR_EDEADLK_MUTEX));
 	if (err == EPERM && type == UNLOCK)
-		return (printf("%s%s%s",
-				R, ERR_EPERM_MUTEX, RST));
+		return (printf(R"%s"RST, ERR_EPERM_MUTEX));
 	if (err == ENOMEM && type == INIT)
-		return (printf("%s%s%s",
-				R, ERR_ENOMEM_MUTEX, RST));
+		return (printf(R"%s"RST, ERR_ENOMEM_MUTEX));
 	if (err == EBUSY && type == DESTROY)
-		return (printf("%s%s%s",
-				R, ERR_EBUSY_MUTEX, RST));
+		return (printf(R"%s"RST, ERR_EBUSY_MUTEX));
 	return (SUCCESS);
 }
 

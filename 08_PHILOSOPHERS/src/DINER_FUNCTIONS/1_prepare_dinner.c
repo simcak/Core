@@ -6,11 +6,24 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/06/29 17:16:31 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/01 21:12:01 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philosophers.h"
+
+void	*safe_malloc(size_t bytes)
+{
+	void	*ptr;
+
+	ptr = malloc(bytes);
+	if (!ptr)
+	{
+		printf("%sError: malloc failed%s\n", R, RST);
+		return (NULL);
+	}
+	return (ptr);
+}
 
 /**
  * Initialize forks 🍽
@@ -19,9 +32,9 @@ static int	forks_init(t_dinner *dinner)
 {
 	int	i;
 
-	dinner->forks = malloc(sizeof(t_fork) * dinner->num_of_philos);
+	dinner->forks = safe_malloc(sizeof(t_fork) * dinner->num_of_philos);
 	if (!dinner->forks)
-		return (printf("%sError: malloc failed%s\n", R, RST));
+		return (FAILURE);
 	i = -1;
 	while (++i < dinner->num_of_philos)
 	{
@@ -50,14 +63,14 @@ static void	assign_forks(t_dinner *dinner, t_philos *philo)
 	p_id = philo->id;
 	if (philo_id_is(philo) == EVEN)
 	{
-		philo->r_fork = &dinner->forks[f_id].fork_mutex;
-		philo->l_fork = &dinner->forks[(p_id) % dinner->num_of_philos].fork_mutex;
+		philo->r_fork = &dinner->forks[f_id];
+		philo->l_fork = &dinner->forks[(p_id) % dinner->num_of_philos];
 		return ;
 	}
 	if (philo_id_is(philo) == ODD)
 	{
-		philo->r_fork = &dinner->forks[(p_id) % dinner->num_of_philos].fork_mutex;
-		philo->l_fork = &dinner->forks[f_id].fork_mutex;
+		philo->r_fork = &dinner->forks[(p_id) % dinner->num_of_philos];
+		philo->l_fork = &dinner->forks[f_id];
 	}
 }
 
@@ -69,12 +82,14 @@ static int	philos_init(t_dinner *dinner)
 	int			i;
 	t_philos	*philo;
 
-	dinner->philos = malloc(sizeof(t_philos) * dinner->num_of_philos);
+	dinner->philos = safe_malloc(sizeof(t_philos) * dinner->num_of_philos);
 	if (!dinner->philos)
-		return (printf("%sError: malloc failed%s\n", R, RST));
+		return (FAILURE);
 	i = -1;
 	while (++i < dinner->num_of_philos)
 	{
+		if (safe_mutex(philo->philo_mutex, INIT))
+			return (FAILURE);
 		philo = &dinner->philos[i];
 		philo->id = i + 1;
 		philo->meals_counter = 0;
@@ -100,8 +115,9 @@ int	prepare_dinner(t_dinner *dinner, char **argv)
 		return (FAILURE);
 	if (philos_init(dinner))
 		return (FAILURE);
+	if (safe_mutex(dinner->dinner_mutex, INIT))
+		return (FAILURE);
 	dinner->all_philos_ready = false;
-	// dinner->start_dinner ; // TODO
-	dinner->end_dinner = false;
+	dinner->finish_dinner = false;
 	return (SUCCESS);
 }
