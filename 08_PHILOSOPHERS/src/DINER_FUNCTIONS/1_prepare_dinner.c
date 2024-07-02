@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/01 21:12:01 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/02 14:25:39 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static int	forks_init(t_dinner *dinner)
 	i = -1;
 	while (++i < dinner->num_of_philos)
 	{
-		dinner->forks[i].id = i;
 		if (safe_mutex(&dinner->forks[i].fork_mutex, INIT))
 			return (FAILURE);
+		dinner->forks[i].id = i;
 	}
 	return (SUCCESS);
 }
@@ -88,13 +88,13 @@ static int	philos_init(t_dinner *dinner)
 	i = -1;
 	while (++i < dinner->num_of_philos)
 	{
-		if (safe_mutex(philo->philo_mutex, INIT))
-			return (FAILURE);
-		philo = &dinner->philos[i];
+		philo = dinner->philos + i;
 		philo->id = i + 1;
 		philo->meals_counter = 0;
 		philo->dinner = dinner;
 		assign_forks(dinner, philo);
+		if (safe_mutex(&philo->philo_mutex, INIT))
+			return (FAILURE);
 	}
 	return (SUCCESS);
 }
@@ -115,9 +115,10 @@ int	prepare_dinner(t_dinner *dinner, char **argv)
 		return (FAILURE);
 	if (philos_init(dinner))
 		return (FAILURE);
-	if (safe_mutex(dinner->dinner_mutex, INIT))
+	if (safe_mutex(&dinner->dinner_mutex, INIT))
 		return (FAILURE);
-	dinner->all_philos_ready = false;
+	if (safe_mutex(&dinner->print_mutex, INIT))
+		return (FAILURE);
 	dinner->finish_dinner = false;
 	return (SUCCESS);
 }

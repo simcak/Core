@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/01 20:23:23 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/02 14:09:16 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_philo
 	long			last_meal_time_ms;
 	t_fork			*l_fork;
 	t_fork			*r_fork;
-	t_mutex			*philo_mutex;
+	t_mutex			philo_mutex;
 	t_dinner		*dinner;
 }	t_philos;
 
@@ -73,8 +73,7 @@ typedef struct s_dinner
 	long			time_to_sleep;
 	long			start_time;
 	bool			finish_dinner;
-	bool			all_philos_ready;
-	t_mutex			*dinner_mutex;
+	t_mutex			dinner_mutex;
 	t_mutex			print_mutex;
 	t_fork			*forks;
 	t_philos		*philos;

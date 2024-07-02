@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 19:07:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/01 20:33:59 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/02 13:11:38 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_usleep(uint64_t sleep_time, t_dinner *dinner)
 	uint64_t	start_time;
 	uint64_t	rem;
 
-	sleep_time *= 1e3;
+	// sleep_time *= 1e3;
 	start_time = get_precize_time(MICROSEC);
 	while (get_precize_time(MICROSEC) - start_time < sleep_time)
 	{

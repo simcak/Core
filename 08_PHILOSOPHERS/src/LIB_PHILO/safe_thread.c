@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:53:22 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/01 19:23:26 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/02 13:37:03 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	safe_thread(t_thread *thread,
 	int	err;
 
 	if (type == CREATE)
-		err = pthread_create(thread, NULL, func(data), NULL);
+		err = pthread_create(thread, NULL, func, data);
 	if (type == JOIN)
 		err = pthread_join(*thread, NULL);
 	if (type == DETACH)

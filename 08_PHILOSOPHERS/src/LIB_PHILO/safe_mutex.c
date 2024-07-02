@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:54:58 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/01 19:22:01 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/02 13:45:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ static int	invalid_type(t_func_type type)
 static int	handle_error(int err, t_func_type type)
 {
 	if (err == EINVAL && (type == LOCK || type == UNLOCK || type == DESTROY))
-		return (printf(R"%s"RST, ERR_EINVAL_MUTEX_LUD));
+		return (printf(R"%s"RST, ERR_EINVAL_MUTEX_LUD), FAILURE);
 	if (err == EINVAL && type == INIT)
-		return (printf(R"%s"RST, ERR_EINVAL_MUTEX_I));
+		return (printf(R"%s"RST, ERR_EINVAL_MUTEX_I), FAILURE);
 	if (err == EDEADLK && type == LOCK)
-		return (printf(R"%s"RST, ERR_EDEADLK_MUTEX));
+		return (printf(R"%s"RST, ERR_EDEADLK_MUTEX), FAILURE);
 	if (err == EPERM && type == UNLOCK)
-		return (printf(R"%s"RST, ERR_EPERM_MUTEX));
+		return (printf(R"%s"RST, ERR_EPERM_MUTEX), FAILURE);
 	if (err == ENOMEM && type == INIT)
-		return (printf(R"%s"RST, ERR_ENOMEM_MUTEX));
+		return (printf(R"%s"RST, ERR_ENOMEM_MUTEX), FAILURE);
 	if (err == EBUSY && type == DESTROY)
-		return (printf(R"%s"RST, ERR_EBUSY_MUTEX));
+		return (printf(R"%s"RST, ERR_EBUSY_MUTEX), FAILURE);
 	return (SUCCESS);
 }
 
@@ -51,6 +51,7 @@ int	safe_mutex(t_mutex *mutex, t_func_type type)
 {
 	int	err;
 
+	err = 0;
 	if (type == LOCK)
 		err = pthread_mutex_lock(mutex);
 	if (type == UNLOCK)
@@ -61,6 +62,7 @@ int	safe_mutex(t_mutex *mutex, t_func_type type)
 		err = pthread_mutex_destroy(mutex);
 	if (invalid_type(type))
 		return (FAILURE);
+	// printf("err: %d\n", err);
 	if (handle_error(err, type))
 		return (FAILURE);
 	return (SUCCESS);
