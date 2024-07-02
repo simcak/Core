@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 16:39:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/01 20:46:27 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/02 14:09:03 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,5 @@ int	ft_strlen(char *str)
  */
 bool	dinner_finished(t_dinner *dinner)
 {
-	return (get_bool(dinner->dinner_mutex, &dinner->finish_dinner));
-}
-
-/**
- * This function waits for all philosophers/threads to be ready
- * Spinlock till all philosophers are ready
- */
-void	wait_before_start(t_dinner *dinner)
-{
-	while (get_bool(dinner->dinner_mutex, &dinner->all_philos_ready) == false)
-		;
+	return (get_bool(&dinner->dinner_mutex, &dinner->finish_dinner));
 }

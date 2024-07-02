@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:11:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/01 20:58:43 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/02 14:26:32 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	philo_think(t_philos *philo)
 
 static int	philo_eat(t_philos *philo)
 {
-	uint16_t	time;
+	uint64_t	time;
 
 	if (safe_mutex(&philo->r_fork->fork_mutex, LOCK))
 		return (FAILURE);
@@ -32,7 +32,7 @@ static int	philo_eat(t_philos *philo)
 	time = get_precize_time(MILISEC);
 	if (time == ERROR)
 		return (FAILURE);
-	set_long(philo->philo_mutex, &philo->last_meal_time_ms, time);
+	set_long(&philo->philo_mutex, &philo->last_meal_time_ms, time);
 	write_status(philo, EAT, DEBUG);
 	ft_usleep(philo->dinner->time_to_eat, philo->dinner);
 
@@ -50,10 +50,11 @@ void	*dining(void *data)
 
 	philo = (t_philos *)data;
 	dinner = philo->dinner;
-	wait_before_start(dinner);
+	while (get_precize_time(MILISEC) < (uint64_t)dinner->start_time)
+		;
 	while (!dinner_finished(dinner))
 	{
-		if (philo_eat(philo))	// TODO
+		if (philo_eat(philo))
 			return (NULL);
 		write_status(philo, SLEEP, DEBUG);
 		ft_usleep(dinner->time_to_sleep, dinner);
@@ -73,11 +74,10 @@ int	start_dinner(t_dinner *dinner)
 	if (dinner->num_of_philos == 1)
 		; // TODO
 	i = -1;
+	dinner->start_time = get_precize_time(MILISEC) + 40;
 	while (++i < dinner->num_of_philos)
 		if (safe_thread(&dinner->philos[i].thread_id, CREATE, dining, &dinner->philos[i]))
 			return (FAILURE);
-	dinner->start_time = get_precize_time(MILISEC);
-	set_bool(dinner->dinner_mutex, &dinner->all_philos_ready, true);
 	i = -1;
 	while (++i < dinner->num_of_philos)
 		if (safe_thread(&dinner->philos[i].thread_id, JOIN, NULL, NULL))
