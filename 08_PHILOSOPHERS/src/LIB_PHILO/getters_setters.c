@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:52:20 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/01 19:08:26 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/19 18:42:04 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,11 @@ void	set_long(t_mutex *mutex, long *dest, long val)
 	safe_mutex(mutex, LOCK);
 	*dest = val;
 	safe_mutex(mutex, UNLOCK);
+}
+
+void	increse_long(t_mutex *mutex, long *num)
+{
+	safe_mutex(mutex, LOCK);
+	*num += 1;
+	safe_mutex(mutex, UNLOCK);	
 }

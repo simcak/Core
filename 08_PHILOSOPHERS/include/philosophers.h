@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/02 14:09:16 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/19 18:44:01 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # define MILISEC	0
 # define MICROSEC	1
 # define DEBUG		0
+# define CHILL_TIME	42
 
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
@@ -59,6 +60,7 @@ typedef struct s_philo
 	t_thread		thread_id;
 	long			meals_counter;
 	long			last_meal_time_ms;
+	bool			full;
 	t_fork			*l_fork;
 	t_fork			*r_fork;
 	t_mutex			philo_mutex;
@@ -72,7 +74,9 @@ typedef struct s_dinner
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			start_time;
+	long			num_of_dining_philos;
 	bool			finish_dinner;
+	t_thread		monitor;
 	t_mutex			dinner_mutex;
 	t_mutex			print_mutex;
 	t_fork			*forks;
@@ -115,15 +119,16 @@ bool				get_bool(t_mutex *mutex, bool *val);
 void				set_bool(t_mutex *mutex, bool *dest, bool val);
 long				get_long(t_mutex *mutex, long *val);
 void				set_long(t_mutex *mutex, long *dest, long val);
+void				increse_long(t_mutex *mutex, long *num);
 int					safe_mutex(t_mutex *mutex, t_func_type type);
 int					safe_thread(t_thread *thread, t_func_type type,
 						void *(*func)(void *), void *data);
-uint64_t			get_precize_time(int type);
-void				ft_usleep(uint64_t sleep_time, t_dinner *dinner);
+long				get_precise_time(int type);
+void				ft_usleep(long sleep_time, t_dinner *dinner);
 int					philo_id_is(t_philos *philo);
 int					ft_strlen(char *str);
 bool				dinner_finished(t_dinner *dinner);
-void				wait_before_start(t_dinner *dinner);
+bool				all_philos_dining(t_dinner *dinner, t_mutex *mutex);
 void				write_status(t_philos *philo, t_status action, bool debug);
 
 //****************************** ERROR MESSAGES ******************************//

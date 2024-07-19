@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/18 14:18:46 by psimcak           #+#    #+#              #
-#    Updated: 2024/07/02 14:13:43 by psimcak          ###   ########.fr        #
+#    Updated: 2024/07/03 18:55:29 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,20 +16,24 @@ FLAGS	= -Wall -Wextra -Werror -pthread
 SRC 	= $(shell find ./src -iname "*.c")
 OBJ 	= $(SRC:%.c=%.o)
 
+RED		= \033[31m
+GREEN	= \033[32m
+RST		= \033[0m
+
 %.o: %.c
 		@cc $(FLAGS) -I includes -c $< -o $(<:.c=.o)
 
 all: $(OBJ)
 		@cc ${OBJ} -o ${NAME}
-		@printf "\033[32m----$(NAME)sophers Compiled!----\033[0m\n"
+		@printf "$(GREEN)----$(NAME)sophers Compiled!----$(RST)\n"
 
 clean:
 		@rm -f $(OBJ)
-		@printf "\033[31m----Deleting o-files!----\033[0m\n"
+		@printf "$(RED)----Deleting o-files!----$(RST)\n"
 
 fclean: clean
 		@rm -f $(NAME)
-		@printf "\033[31m----Deleting o-files & $(NAME)sophers!----\033[0m\n"
+		@printf "$(RED)----Deleting o-files & $(NAME)sophers!----$(RST)\n"
 
 re: 	fclean all
 

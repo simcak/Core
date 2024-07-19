@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 19:07:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/02 13:11:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/19 17:55:10 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,43 +15,42 @@
 /**
  * this function returns the current time in miliseconds or microseconds
  */
-uint64_t	get_precize_time(int type)
+long	get_precise_time(int type)
 {
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == ERROR)
-		return (printf("%sError: gettimeofday() failed%s\n", R, RST), ERROR);
+		return (printf(R"Error: gettimeofday() failed\n"RST), ERROR);
 	if (type == MILISEC)
-		return ((time.tv_sec * (uint64_t)1e3) + (time.tv_usec / 1e3));
+		return ((time.tv_sec * (long)1e3) + (time.tv_usec / 1e3));
 	if (type == MICROSEC)
-		return ((time.tv_sec * (uint64_t)1e6) + time.tv_usec);
+		return ((time.tv_sec * (long)1e6) + time.tv_usec);
 	return (ERROR);
 }
 
 /**
  * This function sleeps for a given time in microseconds [us]
- * 0) convert input time to microseconds: [ms]->[us]
  * 1) is the dinner over?
  * 2) usleep if remaining time is more than 1ms
  * 3) spinlock if remaining time is less than 1ms
- * @param sleep_time time to sleep in miliseconds [ms]
+ * @param sleep_time time to sleep in microseconds [us]
  */
-void	ft_usleep(uint64_t sleep_time, t_dinner *dinner)
+void	ft_usleep(long sleep_time, t_dinner *dinner)
 {
-	uint64_t	start_time;
-	uint64_t	rem;
+	long	start_time;
+	long	rem;
 
 	// sleep_time *= 1e3;
-	start_time = get_precize_time(MICROSEC);
-	while (get_precize_time(MICROSEC) - start_time < sleep_time)
+	start_time = get_precise_time(MICROSEC);
+	while (get_precise_time(MICROSEC) - start_time < sleep_time)
 	{
 		if (dinner_finished(dinner))
 			return ;
-		rem = sleep_time - (get_precize_time(MICROSEC) - start_time);
+		rem = sleep_time - (get_precise_time(MICROSEC) - start_time);
 		if (rem > 1e3)
 			usleep(rem / 2);
 		else
-			while(get_precize_time(MICROSEC) - start_time < sleep_time)
+			while(get_precise_time(MICROSEC) - start_time < sleep_time)
 				;
 	}
 }
