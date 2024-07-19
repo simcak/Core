@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 16:39:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/02 14:09:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/19 19:43:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,19 @@ int	ft_strlen(char *str)
 bool	dinner_finished(t_dinner *dinner)
 {
 	return (get_bool(&dinner->dinner_mutex, &dinner->finish_dinner));
+}
+
+/**
+ * 
+ */
+bool	all_philos_dining(t_dinner *dinner, t_mutex *mutex)
+{
+	bool	ret;
+	
+	ret = false;
+	safe_mutex(mutex, LOCK);
+	if (dinner->num_of_philos == dinner->num_of_dining_philos)
+		ret = true;
+	safe_mutex(mutex, UNLOCK);
+	return (ret);
 }
