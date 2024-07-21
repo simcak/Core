@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/19 18:44:01 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/21 23:49:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 # define ODD		3
 # define MILISEC	0
 # define MICROSEC	1
-# define DEBUG		0
+# define NO_LIMIT	-1
 # define CHILL_TIME	42
 
 typedef pthread_mutex_t	t_mutex;
@@ -75,6 +75,7 @@ typedef struct s_dinner
 	long			time_to_sleep;
 	long			start_time;
 	long			num_of_dining_philos;
+	long			meal_limit;
 	bool			finish_dinner;
 	t_thread		monitor;
 	t_mutex			dinner_mutex;
@@ -109,6 +110,10 @@ typedef enum e_philo_action
 // DINER_FUNCTIONS
 int					prepare_dinner(t_dinner *dinner, char **argv);
 int					start_dinner(t_dinner *dinner);
+int					philo_think(t_philos *philo);
+int					philo_eat(t_philos *philo);
+bool				philo_died(t_philos *philo);
+
 
 // ERROR_POLICE
 int					args_are_invalid(t_dinner *dinner);
@@ -129,7 +134,7 @@ int					philo_id_is(t_philos *philo);
 int					ft_strlen(char *str);
 bool				dinner_finished(t_dinner *dinner);
 bool				all_philos_dining(t_dinner *dinner, t_mutex *mutex);
-void				write_status(t_philos *philo, t_status action, bool debug);
+void				write_status(t_philos *philo, t_status action);
 
 //****************************** ERROR MESSAGES ******************************//
 // Mutex
