@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 03:20:39 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 12:16:01 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int					start_dinner(t_dinner *dinner);
 int					philo_think(t_philos *philo, bool before);
 int					philo_eat(t_philos *philo);
 bool				philo_died(t_philos *philo);
+bool				philos_full(t_dinner *dinner);
 void				clean(t_dinner *dinner);
 
 // ERROR_POLICE

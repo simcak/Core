@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:33:17 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 03:23:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 12:31:40 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ bool	philo_died(t_philos *philo)
 	long		last_meal_time;
 	long		time_to_die;
 
-	if (get_bool(&philo->philo_mutex, &philo->full))
-		return (true);
 	time = get_precise_time(MILISEC);
 	if (time == ERROR)
 		return (FAILURE);
@@ -83,4 +81,24 @@ bool	philo_died(t_philos *philo)
 	if (time - last_meal_time > time_to_die)
 		return (true);
 	return (false);
+}
+
+/**
+ * 1) Go philo by philo
+ * 2) We are answering the question "are all philosophers full?"
+ * read the 'if condition' like:
+ * - "If the philosopher is NOT full, return false"
+ * - we return true if all philosophers are full
+ */
+bool	philos_full(t_dinner *dinner)
+{
+	int		i;
+
+	i = -1;
+	while (++i < dinner->num_of_philos)
+	{
+		if (!get_bool(&dinner->philos[i].philo_mutex, &dinner->philos[i].full))
+			return (false);
+	}
+	return (true);
 }
