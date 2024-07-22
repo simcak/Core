@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 19:07:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 00:57:25 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 03:24:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	ft_usleep(long sleep_time, t_dinner *dinner)
 	long	time;
 	long	rem;
 
-	// sleep_time *= 1e3;
 	time = get_precise_time(MICROSEC);
 	while (get_precise_time(MICROSEC) - time < sleep_time)
 	{
@@ -50,7 +49,7 @@ void	ft_usleep(long sleep_time, t_dinner *dinner)
 		if (rem > 1e3)
 			usleep(rem / 2);
 		else
-			while(get_precise_time(MICROSEC) - time < sleep_time)
+			while (get_precise_time(MICROSEC) - time < sleep_time)
 				;
 	}
 }

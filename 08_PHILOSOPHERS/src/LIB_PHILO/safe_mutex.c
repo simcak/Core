@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:54:58 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/02 13:45:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 03:23:51 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	safe_mutex(t_mutex *mutex, t_func_type type)
 		err = pthread_mutex_destroy(mutex);
 	if (invalid_type(type))
 		return (FAILURE);
-	// printf("err: %d\n", err);
 	if (handle_error(err, type))
 		return (FAILURE);
 	return (SUCCESS);

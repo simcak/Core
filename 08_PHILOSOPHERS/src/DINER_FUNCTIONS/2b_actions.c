@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:33:17 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 03:13:50 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 03:23:07 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	philo_think(t_philos *philo, bool before)
 
 	if (!before)
 		write_status(philo, THINK);
-
 	t_eat = philo->dinner->time_to_eat;
 	t_sleep = philo->dinner->time_to_sleep;
 	t_think = 2 * t_eat - t_sleep;
@@ -49,7 +48,6 @@ int	philo_eat(t_philos *philo)
 	if (safe_mutex(&philo->l_fork->fork_mutex, LOCK))
 		return (FAILURE);
 	write_status(philo, TAKE_LF);
-
 	time = get_precise_time(MILISEC);
 	if (time == ERROR)
 		return (FAILURE);
@@ -59,7 +57,6 @@ int	philo_eat(t_philos *philo)
 	increse_long(&philo->philo_mutex, &philo->meals_counter);
 	if (dinner->meal_limit > 0 && philo->meals_counter == dinner->meal_limit)
 		set_bool(&philo->philo_mutex, &philo->full, true);
-
 	if (safe_mutex(&philo->r_fork->fork_mutex, UNLOCK))
 		return (FAILURE);
 	if (safe_mutex(&philo->l_fork->fork_mutex, UNLOCK))
@@ -78,11 +75,9 @@ bool	philo_died(t_philos *philo)
 
 	if (get_bool(&philo->philo_mutex, &philo->full))
 		return (true);
-
 	time = get_precise_time(MILISEC);
 	if (time == ERROR)
 		return (FAILURE);
-
 	time_to_die = philo->dinner->time_to_die / 1e3;
 	last_meal_time = get_long(&philo->philo_mutex, &philo->last_meal_time_ms);
 	if (time - last_meal_time > time_to_die)
