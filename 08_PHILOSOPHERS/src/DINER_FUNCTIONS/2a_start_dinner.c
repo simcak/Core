@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:11:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 12:56:30 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 13:13:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ int	start_dinner(t_dinner *dinner)
 	int	i;
 
 	i = -1;
+	if (dinner->meal_limit == 0)
+		return (SUCCESS);
 	if (dinner->num_of_philos == 1)
 		safe_thread(&dinner->philos[0].thread_id, CREATE, lonely_philo,
 			&dinner->philos[0]);
