@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 13:52:35 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 02:15:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 03:21:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv)
 			return (FAILURE);
 		if (start_dinner(&dinner))
 			return (FAILURE);
-		clean(&dinner);		// TODO
+		clean(&dinner);
 	}
 	else
 		return (printf("%sError: wrong number of arguments%s\n", R, RST));

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:11:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 03:18:16 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 03:21:49 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	*lonely_philo(void *data)
 	while (!get_bool(&dinner->dinner_mutex, &dinner->all_philos_ready))
 		;
 	set_long(&dinner->dinner_mutex, &one_philo->last_meal_time_ms,
-			get_precise_time(MILISEC));
+		get_precise_time(MILISEC));
 	increse_long(&dinner->dinner_mutex, &dinner->num_of_dining_philos);
 	write_status(one_philo, TAKE_LF);
 	while (!dinner_finished(dinner))
@@ -72,7 +72,7 @@ void	*dining(void *data)
 	while (!get_bool(&dinner->dinner_mutex, &dinner->all_philos_ready))
 		;
 	set_long(&dinner->dinner_mutex, &philo->last_meal_time_ms,
-			get_precise_time(MILISEC));
+		get_precise_time(MILISEC));
 	increse_long(&dinner->dinner_mutex, &dinner->num_of_dining_philos);
 	while (!dinner_finished(dinner))
 	{
