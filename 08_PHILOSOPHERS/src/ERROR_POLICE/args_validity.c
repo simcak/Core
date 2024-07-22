@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:23:20 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 13:06:04 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 13:09:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	args_are_invalid(t_dinner *dinner)
 	int	err;
 
 	err = 0;
-	printf("Number of philosophers: %ld\n", dinner->num_of_philos);
 	if (dinner->num_of_philos > 200 || dinner->num_of_philos <= 0)
 		err = printf("%sError: ok is 0 <= num_of_philos <= 200 %s\n", R, RST);
 	if (dinner->time_to_die < 60 * 1e3)
