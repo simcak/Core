@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:11:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 03:21:49 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 12:21:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	*monitor_dinner(void *data)
 		;
 	while (!dinner_finished(dinner))
 	{
+		if (philos_full(dinner))
+			set_bool(&dinner->dinner_mutex, &dinner->finish_dinner, true);
 		i = -1;
 		while (++i < dinner->num_of_philos && !dinner_finished(dinner))
 		{

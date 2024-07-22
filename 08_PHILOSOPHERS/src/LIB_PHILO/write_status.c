@@ -6,18 +6,21 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 19:25:13 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 03:25:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 12:30:47 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philosophers.h"
 
+/**
+ * 1) we check if the philosophers are full
+ */
 void	write_status(t_philos *philo, t_status action)
 {
 	long		action_time;
 	long		id;
 
-	if (philo->full)
+	if (philos_full(philo->dinner))
 		return ;
 	safe_mutex(&philo->dinner->print_mutex, LOCK);
 	action_time = get_precise_time(MILISEC) - philo->dinner->start_time;
