@@ -54,3 +54,4 @@ dkms.conf
 # Tester folders
 06_PUSH_SWAP/push_swap_tester/
 06_PUSH_SWAP/push_swap_visualizer/
+08_PHILOSOPHERS/LazyPhilosophersTester/
