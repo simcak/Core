@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:11:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 12:21:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 12:56:30 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ void	*dining(void *data)
 	set_long(&dinner->dinner_mutex, &philo->last_meal_time_ms,
 		get_precise_time(MILISEC));
 	increse_long(&dinner->dinner_mutex, &dinner->num_of_dining_philos);
+	if (philo->dinner->num_of_philos % 2 == 0)
+		if (philo->id % 2 == 0)
+			ft_usleep(3e4, philo->dinner);
 	while (!dinner_finished(dinner))
 	{
 		if (philo_eat(philo) == FAILURE)
