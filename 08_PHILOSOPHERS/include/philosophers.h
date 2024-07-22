@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/21 23:49:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 02:56:19 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@
 # define MILISEC	0
 # define MICROSEC	1
 # define NO_LIMIT	-1
-# define CHILL_TIME	42
 
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
@@ -76,6 +75,7 @@ typedef struct s_dinner
 	long			start_time;
 	long			num_of_dining_philos;
 	long			meal_limit;
+	bool			all_philos_ready;
 	bool			finish_dinner;
 	t_thread		monitor;
 	t_mutex			dinner_mutex;
@@ -110,9 +110,10 @@ typedef enum e_philo_action
 // DINER_FUNCTIONS
 int					prepare_dinner(t_dinner *dinner, char **argv);
 int					start_dinner(t_dinner *dinner);
-int					philo_think(t_philos *philo);
+int					philo_think(t_philos *philo, bool before);
 int					philo_eat(t_philos *philo);
 bool				philo_died(t_philos *philo);
+void				clean(t_dinner *dinner);
 
 
 // ERROR_POLICE
