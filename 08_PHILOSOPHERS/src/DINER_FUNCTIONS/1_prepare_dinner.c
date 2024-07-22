@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/21 22:11:26 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 01:27:49 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int	prepare_dinner(t_dinner *dinner, char **argv)
 	if (safe_mutex(&dinner->print_mutex, INIT))
 		return (FAILURE);
 	dinner->finish_dinner = false;
+	dinner->all_philos_ready = false;
 	dinner->num_of_dining_philos = 0;
 	return (SUCCESS);
 }

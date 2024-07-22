@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 19:07:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/19 17:55:10 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 00:57:25 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@ long	get_precise_time(int type)
  */
 void	ft_usleep(long sleep_time, t_dinner *dinner)
 {
-	long	start_time;
+	long	time;
 	long	rem;
 
 	// sleep_time *= 1e3;
-	start_time = get_precise_time(MICROSEC);
-	while (get_precise_time(MICROSEC) - start_time < sleep_time)
+	time = get_precise_time(MICROSEC);
+	while (get_precise_time(MICROSEC) - time < sleep_time)
 	{
 		if (dinner_finished(dinner))
 			return ;
-		rem = sleep_time - (get_precise_time(MICROSEC) - start_time);
+		rem = sleep_time - (get_precise_time(MICROSEC) - time);
 		if (rem > 1e3)
 			usleep(rem / 2);
 		else
-			while(get_precise_time(MICROSEC) - start_time < sleep_time)
+			while(get_precise_time(MICROSEC) - time < sleep_time)
 				;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:11:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 00:39:51 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/22 03:18:16 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	*lonely_philo(void *data)
 
 	one_philo = (t_philos *)data;
 	dinner = one_philo->dinner;
-	while (get_precise_time(MILISEC) < dinner->start_time)
+	while (!get_bool(&dinner->dinner_mutex, &dinner->all_philos_ready))
 		;
 	set_long(&dinner->dinner_mutex, &one_philo->last_meal_time_ms,
 			get_precise_time(MILISEC));
@@ -69,7 +69,7 @@ void	*dining(void *data)
 
 	philo = (t_philos *)data;
 	dinner = philo->dinner;
-	while (get_precise_time(MILISEC) < dinner->start_time)
+	while (!get_bool(&dinner->dinner_mutex, &dinner->all_philos_ready))
 		;
 	set_long(&dinner->dinner_mutex, &philo->last_meal_time_ms,
 			get_precise_time(MILISEC));
@@ -80,8 +80,7 @@ void	*dining(void *data)
 			return (NULL);
 		write_status(philo, SLEEP);
 		ft_usleep(dinner->time_to_sleep, dinner);
-		if (philo_think(philo) == FAILURE)	// TODO
-			return (NULL);
+		philo_think(philo, false);
 	}
 	return (NULL);
 }
@@ -93,22 +92,24 @@ int	start_dinner(t_dinner *dinner)
 {
 	int	i;
 
-	if (dinner->meal_limit == 0)
-		return (FAILURE);
+	i = -1;
 	if (dinner->num_of_philos == 1)
 		safe_thread(&dinner->philos[0].thread_id, CREATE, lonely_philo,
 			&dinner->philos[0]);
-	dinner->start_time = get_precise_time(MILISEC) + CHILL_TIME;
+	else
+		while (++i < dinner->num_of_philos)
+			if (safe_thread(&dinner->philos[i].thread_id, CREATE, dining,
+					&dinner->philos[i]))
+				return (FAILURE);
 	safe_thread(&dinner->monitor, CREATE, monitor_dinner, dinner);
-	i = -1;
-	while (++i < dinner->num_of_philos)
-		if (safe_thread(&dinner->philos[i].thread_id, CREATE, dining,
-				&dinner->philos[i]))
-			return (FAILURE);
-	// safe_thread(&dinner->monitor, JOIN, NULL, NULL);
+	dinner->start_time = get_precise_time(MILISEC);
+	set_bool(&dinner->dinner_mutex, &dinner->all_philos_ready, true);
 	i = -1;
 	while (++i < dinner->num_of_philos)
 		if (safe_thread(&dinner->philos[i].thread_id, JOIN, NULL, NULL))
 			return (FAILURE);
+	set_bool(&dinner->dinner_mutex, &dinner->finish_dinner, true);
+	if (safe_thread(&dinner->monitor, JOIN, NULL, NULL))
+		return (FAILURE);
 	return (SUCCESS);
 }
