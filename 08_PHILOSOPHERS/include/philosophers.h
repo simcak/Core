@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 12:16:01 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/24 21:01:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef enum e_philo_action
 // DINER_FUNCTIONS
 int					prepare_dinner(t_dinner *dinner, char **argv);
 int					start_dinner(t_dinner *dinner);
-int					philo_think(t_philos *philo, bool before);
+void				philo_think(t_philos *philo);
 int					philo_eat(t_philos *philo);
 bool				philo_died(t_philos *philo);
 bool				philos_full(t_dinner *dinner);

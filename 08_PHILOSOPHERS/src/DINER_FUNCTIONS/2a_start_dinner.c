@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:11:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 13:13:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/24 21:47:49 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,7 @@
 /**
  * 
  */
-void	*monitor_dinner(void *data)
-{
-	t_dinner	*dinner;
-	int			i;
-
-	dinner = (t_dinner *)data;
-	while (!all_philos_dining(dinner, &dinner->dinner_mutex))
-		;
-	while (!dinner_finished(dinner))
-	{
-		if (philos_full(dinner))
-			set_bool(&dinner->dinner_mutex, &dinner->finish_dinner, true);
-		i = -1;
-		while (++i < dinner->num_of_philos && !dinner_finished(dinner))
-		{
-			if (philo_died(&dinner->philos[i]))
-			{
-				write_status(&dinner->philos[i], DIE);
-				set_bool(&dinner->dinner_mutex, &dinner->finish_dinner, true);
-			}
-		}
-	}
-	return (NULL);
-}
-
-/**
- * 
- */
-void	*lonely_philo(void *data)
+static void	*lonely_philo(void *data)
 {
 	t_philos	*one_philo;
 	t_dinner	*dinner;
@@ -64,7 +36,7 @@ void	*lonely_philo(void *data)
 /**
  * Philosopher's dining routine
  */
-void	*dining(void *data)
+static void	*dining(void *data)
 {
 	t_philos	*philo;
 	t_dinner	*dinner;
@@ -76,16 +48,52 @@ void	*dining(void *data)
 	set_long(&dinner->dinner_mutex, &philo->last_meal_time_ms,
 		get_precise_time(MILISEC));
 	increse_long(&dinner->dinner_mutex, &dinner->num_of_dining_philos);
-	if (philo->dinner->num_of_philos % 2 == 0)
+	if (philo->dinner->num_of_philos % 2 != 0)
+	{	
+		if (philo->id % 2 != 0)
+			philo_think(philo);
+	}
+	else
 		if (philo->id % 2 == 0)
+		{
+			write_status(philo, THINK);
 			ft_usleep(3e4, philo->dinner);
+		}
 	while (!dinner_finished(dinner))
 	{
 		if (philo_eat(philo) == FAILURE)
 			return (NULL);
 		write_status(philo, SLEEP);
 		ft_usleep(dinner->time_to_sleep, dinner);
-		philo_think(philo, false);
+		philo_think(philo);
+	}
+	return (NULL);
+}
+
+/**
+ * 
+ */
+static void	*monitor_dinner(void *data)
+{
+	t_dinner	*dinner;
+	int			i;
+
+	dinner = (t_dinner *)data;
+	while (!all_philos_dining(dinner, &dinner->dinner_mutex))
+		;
+	while (!dinner_finished(dinner))
+	{
+		if (philos_full(dinner))
+			set_bool(&dinner->dinner_mutex, &dinner->finish_dinner, true);
+		i = -1;
+		while (++i < dinner->num_of_philos && !dinner_finished(dinner))
+		{
+			if (philo_died(&dinner->philos[i]))
+			{
+				write_status(&dinner->philos[i], DIE);
+				set_bool(&dinner->dinner_mutex, &dinner->finish_dinner, true);
+			}
+		}
 	}
 	return (NULL);
 }
