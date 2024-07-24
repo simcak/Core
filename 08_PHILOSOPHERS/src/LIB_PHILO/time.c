@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 19:07:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 03:24:27 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/24 21:22:13 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ long	get_precise_time(int type)
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == ERROR)
-		return (printf(R"Error: gettimeofday() failed\n"RST), ERROR);
+		return (printf("%sError: gettimeofday() failed%s\n", R, RST), ERROR);
 	if (type == MILISEC)
 		return ((time.tv_sec * (long)1e3) + (time.tv_usec / 1e3));
 	if (type == MICROSEC)

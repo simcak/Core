@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:53:22 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/02 13:37:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/24 18:57:50 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ static int	invalid_type(t_func_type type)
 static int	handle_error(int err, t_func_type type)
 {
 	if (type == CREATE && err == EAGAIN)
-		return (printf(R"%s"RST, ERR_EAGAIN_THREAD));
+		return (printf("%s%s%s", R, ERR_EAGAIN_THREAD, RST));
 	if (type == CREATE && err == EPERM)
-		return (printf(R"%s"RST, ERR_EPERM_THREAD));
+		return (printf("%s%s%s", R, ERR_EPERM_THREAD, RST));
 	if (type == CREATE && err == EINVAL)
-		return (printf(R"%s"RST, ERR_EINVAL_THREAD_C));
+		return (printf("%s%s%s", R, ERR_EINVAL_THREAD_C, RST));
 	if ((type == JOIN || type == DETACH) && err == EINVAL)
-		return (printf(R"%s"RST, ERR_EINVAL_THREAD_JD));
+		return (printf("%s%s%s", R, ERR_EINVAL_THREAD_JD, RST));
 	if ((type == JOIN || type == DETACH) && err == ESRCH)
-		return (printf(R"%s"RST, ERR_ESRCH_THREAD));
+		return (printf("%s%s%s", R, ERR_ESRCH_THREAD, RST));
 	if (type == JOIN && err == EDEADLK)
-		return (printf(R"%s"RST, ERR_EDEADLK_THREAD));
+		return (printf("%s%s%s", R, ERR_EDEADLK_THREAD, RST));
 	return (SUCCESS);
 }
 

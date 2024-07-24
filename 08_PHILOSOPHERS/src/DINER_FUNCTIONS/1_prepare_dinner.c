@@ -6,13 +6,13 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 13:04:04 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/24 14:57:07 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philosophers.h"
 
-void	*safe_malloc(size_t bytes)
+static void	*safe_malloc(size_t bytes)
 {
 	void	*ptr;
 
@@ -50,7 +50,7 @@ static int	forks_init(t_dinner *dinner)
  * right 🍽 fork is on same position as philosopher
  * left  🍽 fork is on position (philosopher + 1) % num_of_philos
  * [1] - [2] - [3] - [4] - [5]		// 🤔🤔🤔🤔🤔
- * |  \  |  \  |  \  |  \	|  \    // assigning forks
+ * |  \  |  \  |  \  |  \  |  \     // assigning forks
  * 0     1     2     3     4     0	// 🍽🍽🍽🍽🍽
  * even / odd philo logic prevents deadlock
  */
