@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:33:17 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/26 20:52:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/26 20:59:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,9 @@ bool	philo_died(t_philos *philo)
 	long		time;
 	long		last_meal_time;
 	long		time_to_die;
-	long		time_to_eat;
 
 	time = get_precise_time(MILISEC);
 	time_to_die = philo->dinner->time_to_die / 1e3;
-	time_to_eat = philo->dinner->time_to_eat / 1e3;
 	last_meal_time = get_long(&philo->philo_mutex, &philo->last_meal_time_ms);
 	if (time - last_meal_time > time_to_die)
 		return (true);
