@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/26 18:56:18 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/26 20:10:56 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int	prepare_dinner(t_dinner *dinner, char **argv)
 		dinner->meal_limit = ft_atol(argv[5]);
 	else if (!argv[5])
 		dinner->meal_limit = NO_LIMIT;
-	if (args_are_invalid(dinner))
+	if (args_are_invalid(dinner, argv))
 		return (FAILURE);
 	if (forks_init(dinner))
 		return (FAILURE);
