@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/26 19:05:08 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/26 20:08:38 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void				pre_routine_crossroad(t_philos *philo);
 void				clean_dinner(t_dinner *dinner);
 
 // ERROR_POLICE
-int					args_are_invalid(t_dinner *dinner);
+int					args_are_invalid(t_dinner *dinner, char **argv);
 
 // LIB_PHILO
 long				ft_atol(char *argv_i);

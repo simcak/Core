@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:23:20 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 13:09:20 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/26 20:09:03 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * Just check if the arguments are valid or not
  */
-int	args_are_invalid(t_dinner *dinner)
+int	args_are_invalid(t_dinner *dinner, char **argv)
 {
 	int	err;
 
@@ -28,7 +28,7 @@ int	args_are_invalid(t_dinner *dinner)
 		err = printf("%sError: time to eat must be >= 60ms%s\n", R, RST);
 	if (dinner->time_to_sleep < 60 * 1e3)
 		err = printf("%sError: time to sleep must be >= 60ms%s\n", R, RST);
-	if (dinner->meal_limit < 0 && dinner->meal_limit != NO_LIMIT)
+	if (dinner->meal_limit < 0 && argv[5])
 		err = printf("%sError: meal limit must be >= 0%s\n", R, RST);
 	if (err)
 		return (FAILURE);
