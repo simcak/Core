@@ -6,13 +6,17 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 02:14:36 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 02:15:50 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/26 19:28:04 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philosophers.h"
 
-void	clean(t_dinner *dinner)
+/**
+ * Destroy mutex and free memory
+ * After the dinner is over, we "clean the table".
+ */
+void	clean_dinner(t_dinner *dinner)
 {
 	int	i;
 

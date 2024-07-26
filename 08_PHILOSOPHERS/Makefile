@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/18 14:18:46 by psimcak           #+#    #+#              #
-#    Updated: 2024/07/03 18:55:29 by psimcak          ###   ########.fr        #
+#    Updated: 2024/07/26 17:16:21 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ clean:
 
 fclean: clean
 		@rm -f $(NAME)
-		@printf "$(RED)----Deleting o-files & $(NAME)sophers!----$(RST)\n"
+		@printf "$(RED)----Deleting o-files & $(NAME) file----$(RST)\n"
 
 re: 	fclean all
 
