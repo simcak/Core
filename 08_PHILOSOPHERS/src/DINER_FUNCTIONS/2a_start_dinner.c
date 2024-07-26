@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:11:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/26 18:45:36 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/26 23:19:17 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  *    - Philo is dead if the last meal time is > time_to_die
  * 2) Philo eats, sleeps and thinks in a loop
  */
-static int	routine(t_philos *philo, t_dinner *dinner)
+static void	routine(t_philos *philo, t_dinner *dinner)
 {
 	while (!dinner_finished(dinner))
 	{
@@ -28,7 +28,6 @@ static int	routine(t_philos *philo, t_dinner *dinner)
 		ft_usleep(dinner->time_to_sleep, dinner);
 		philo_think(philo);
 	}
-	return (SUCCESS);
 }
 
 /**
@@ -80,8 +79,7 @@ static void	*dining(void *data)
 		get_precise_time(MILISEC));
 	increse_long(&dinner->dinner_mutex, &dinner->num_of_dining_philos);
 	pre_routine_crossroad(philo);
-	if (routine(philo, dinner) == FAILURE)
-		return (NULL);
+	routine(philo, dinner);
 	return (NULL);
 }
 
