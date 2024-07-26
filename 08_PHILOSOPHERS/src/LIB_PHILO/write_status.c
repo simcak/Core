@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 19:25:13 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 12:30:47 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/26 19:30:03 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 /**
  * 1) we check if the philosophers are full
+ * 2) we lock the print mutex
+ * 3) we print the action of the philosopher
+ * 4) we unlock the print mutex
  */
 void	write_status(t_philos *philo, t_status action)
 {

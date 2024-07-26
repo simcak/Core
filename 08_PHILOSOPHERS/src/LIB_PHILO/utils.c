@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 16:39:05 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/22 12:07:22 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/26 19:29:36 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ bool	dinner_finished(t_dinner *dinner)
 }
 
 /**
- * 
+ * Variable setter - basically a getter and setter in one function
  */
 bool	all_philos_dining(t_dinner *dinner, t_mutex *mutex)
 {

@@ -6,12 +6,18 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:53:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/24 14:57:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/26 18:56:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philosophers.h"
 
+/**
+ * Just a simple malloc, but with error handling so we don't have to check
+ * it every time we use it in other functions.
+ * We don't exit beceuse we are not allowed, but we print an error message
+ * and we return NULL so we can return level by level to stop a program.
+ */
 static void	*safe_malloc(size_t bytes)
 {
 	void	*ptr;
@@ -27,6 +33,8 @@ static void	*safe_malloc(size_t bytes)
 
 /**
  * Initialize forks 🍽
+ * We have to initialize mutexes for each fork.
+ * If we fail to INIT mutex, we destroy all previous forks and return FAILURE.
  */
 static int	forks_init(t_dinner *dinner)
 {
@@ -39,7 +47,11 @@ static int	forks_init(t_dinner *dinner)
 	while (++i < dinner->num_of_philos)
 	{
 		if (safe_mutex(&dinner->forks[i].fork_mutex, INIT))
+		{
+			while (--i >= 0)
+				safe_mutex(&dinner->forks[i].fork_mutex, DESTROY);
 			return (FAILURE);
+		}
 		dinner->forks[i].id = i;
 	}
 	return (SUCCESS);
@@ -76,6 +88,7 @@ static void	assign_forks(t_dinner *dinner, t_philos *philo)
 
 /**
  * Initialize philosophers
+ * We initialize everythig in the philo structure.
  */
 static int	philos_init(t_dinner *dinner)
 {
@@ -95,7 +108,11 @@ static int	philos_init(t_dinner *dinner)
 		philo->full = false;
 		assign_forks(dinner, philo);
 		if (safe_mutex(&philo->philo_mutex, INIT))
+		{
+			while (--i >= 0)
+				safe_mutex(&dinner->philos[i].philo_mutex, DESTROY);
 			return (FAILURE);
+		}
 	}
 	return (SUCCESS);
 }
