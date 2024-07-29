@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:14:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/26 20:08:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/29 12:33:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ typedef struct s_dinner
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
+	long			meal_limit;
 	long			start_time;
 	long			num_of_dining_philos;
-	long			meal_limit;
 	bool			all_philos_ready;
 	bool			finish_dinner;
 	t_thread		monitor;
