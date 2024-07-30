@@ -6,20 +6,12 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 13:14:53 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/30 14:49:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/07/30 15:46:28 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-
-char	ftToUpper(char c)
-{
-	if (c >= 'a' && c <= 'z')
-	{
-		return (c - 32);
-	}
-	return (c);
-}
+#include <cctype>
 
 int	main(int argc, char **argv)
 {
@@ -32,7 +24,7 @@ int	main(int argc, char **argv)
 	{
 		while (++i < argc) {
 			for (int j = 0; argv[i][j]; j++)
-				std::cout << (char)ftToUpper(argv[i][j]);
+				std::cout << (char)toupper(argv[i][j]);
 		}
 		std::cout << std::endl;
 	}
