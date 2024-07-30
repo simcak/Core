@@ -6,11 +6,11 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/30 14:51:37 by psimcak           #+#    #+#              #
-#    Updated: 2024/07/30 14:52:08 by psimcak          ###   ########.fr        #
+#    Updated: 2024/07/30 16:09:26 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME    = ex01
+NAME    = phonebook
 COM     = c++
 FLAGS   = -Wall -Wextra -Werror -std=c++98
 
