@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:03:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/08/01 08:14:00 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/08/01 08:21:21 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ PhoneBook::PhoneBook( void )
 /**
  * initialize values - runs for each contact separately
  */
-void PhoneBook::initContact(std::string data[4])
+void PhoneBook::initContact(std::string data[5])
 {
 	std::cout << BBB << "Enter Contact Information" << RST << std::endl;
 	safeGetline(data[0], "First Name: ", 0);
@@ -36,7 +36,7 @@ void PhoneBook::initContact(std::string data[4])
 /**
  * add contact to phonebook
  */
-void PhoneBook::addContact(std::string data[4])
+void PhoneBook::addContact(std::string data[5])
 {
 	int id = this->contact_id;
 	if (id == 8)
