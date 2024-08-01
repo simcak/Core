@@ -17,7 +17,7 @@ FLAGS   = -Wall -Wextra -Werror -std=c++98
 DIR     = .
 SRC_ILL = $(shell find $(DIR) -iname "*.cpp")
 
-SRC		= ./main.cpp ./src/Contact.cpp ./src/PhoneBook.cpp ./src/safeGetline.cpp
+SRC		= ./main.cpp ./src/PhoneBook.cpp ./src/safeGetline.cpp
 OBJ     = $(SRC:%.cpp=%.o)
 
 RED     = \033[31m

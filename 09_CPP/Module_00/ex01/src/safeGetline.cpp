@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 06:11:44 by psimcak           #+#    #+#             */
-/*   Updated: 2024/08/01 06:36:53 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/08/01 07:56:35 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static bool	numIsValid(std::string &str)
 /**
  * safeGetline - get line from user and check if it's empty
  */
-void	safeGetline(std::string &dest, std::string mes)
+void	safeGetline(std::string &dest, std::string mes, int index)
 {
 	std::cout << mes;
 	std::getline(std::cin, dest);
@@ -53,14 +53,14 @@ void	safeGetline(std::string &dest, std::string mes)
 	if (mes == "Phone Number: ")
 	{
 		if (!numIsValid(dest))
-			safeGetline(dest, mes);
+			safeGetline(dest, mes, 0);
 	}
 	else if (mes == "Enter index of the contact you want to see: ")
 	{
-		if (!isdigit(dest[0]) || dest[1] || !(dest[0] >= '0' && dest[0] <= '7'))
+		if (!isdigit(dest[0]) || dest[1] || !(dest[0] >= '1' && dest[0] <= '8') || dest[0] - '0' > index)
 		{
 			std::cout << RED << "Invalid index, try again: " << RST << std::endl;
-			safeGetline(dest, mes);
+			safeGetline(dest, mes, index);
 		}
 	}
 }
