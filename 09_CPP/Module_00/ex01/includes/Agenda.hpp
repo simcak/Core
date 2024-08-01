@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 04:32:38 by psimcak           #+#    #+#             */
-/*   Updated: 2024/08/01 07:00:24 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/08/01 07:51:50 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@
 #define RST		"\001\033[0;0m\002"
 
 // Prototypes
-void	safeGetline(std::string &dest, std::string mes);
+void	safeGetline(std::string &dest, std::string mes, int index);
 
 #endif

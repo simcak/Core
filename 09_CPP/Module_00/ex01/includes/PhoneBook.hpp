@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:57:12 by psimcak           #+#    #+#             */
-/*   Updated: 2024/08/01 07:01:49 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/08/01 07:33:53 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 class PhoneBook
 {
 	public:
-		Contact	contacts[8];
+		Contact	contacts[9];
 		int		contact_id;
 
 		PhoneBook( void );
