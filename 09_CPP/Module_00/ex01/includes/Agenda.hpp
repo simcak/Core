@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PhoneBook.hpp                                      :+:      :+:    :+:   */
+/*   Agenda.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 15:57:12 by psimcak           #+#    #+#             */
-/*   Updated: 2024/08/01 07:01:49 by psimcak          ###   ########.fr       */
+/*   Created: 2024/08/01 04:32:38 by psimcak           #+#    #+#             */
+/*   Updated: 2024/08/01 07:00:24 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Agenda.hpp"
-#include "Contact.hpp"
+#ifndef AGENDA_HPP
+# define AGENDA_HPP
 
-class PhoneBook
-{
-	public:
-		Contact	contacts[8];
-		int		contact_id;
+#include <iostream>
+#include <iomanip>
 
-		PhoneBook( void );
-		void initContact(std::string data[4]);
-		void addContact(std::string data[4]);
-		void searchContact();
-		~PhoneBook();
-};
+#define SUCCESS 0
+#define FAILURE 1
+
+// Color codes
+#define RED		"\001\033[1;31m\002"
+#define GRN		"\001\033[1;32m\002"
+#define BBB		"\001\033[1;34m\002"
+#define RST		"\001\033[0;0m\002"
+
+// Prototypes
+void	safeGetline(std::string &dest, std::string mes);
+
+#endif
