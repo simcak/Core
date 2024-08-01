@@ -6,17 +6,17 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:51:38 by psimcak           #+#    #+#             */
-/*   Updated: 2024/08/01 07:39:19 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/08/01 08:21:40 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/PhoneBook.hpp"
 
-int	main(void)
+int	main( void )
 {
 	PhoneBook	phonebook;
 	std::string	action;
-	std::string	data[4];
+	std::string	data[5];
 
 	phonebook.contact_id = 0;
 	while (42) {
