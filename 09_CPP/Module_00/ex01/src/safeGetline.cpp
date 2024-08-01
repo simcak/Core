@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 06:11:44 by psimcak           #+#    #+#             */
-/*   Updated: 2024/08/01 07:56:35 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/08/01 09:00:57 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	safeGetline(std::string &dest, std::string mes, int index)
 		if (!numIsValid(dest))
 			safeGetline(dest, mes, 0);
 	}
-	else if (mes == "Enter index of the contact you want to see: ")
+	else if (mes == "Enter the index of the entry to display: ")
 	{
 		if (!isdigit(dest[0]) || dest[1] || !(dest[0] >= '1' && dest[0] <= '8') || dest[0] - '0' > index)
 		{
