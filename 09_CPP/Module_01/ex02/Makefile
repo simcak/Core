@@ -5,19 +5,19 @@
 #                                                     +:+ +:+         +:+      #
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/09/11 14:27:08 by psimcak           #+#    #+#              #
-#    Updated: 2024/09/11 18:56:50 by psimcak          ###   ########.fr        #
+#    Created: 2024/09/11 19:06:11 by psimcak           #+#    #+#              #
+#    Updated: 2024/09/12 10:31:12 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME    = Moar_brainz!
+NAME    = HI_THIS_IS_BRAIN
 COM     = c++
 FLAGS   = -Wall -Wextra -Werror -std=c++98
 
 DIR     = .
 SRC_ILL = $(shell find $(DIR) -iname "*.cpp")
 
-SRC		= ./main.cpp ./Zombie.cpp ./zombieHorde.cpp
+SRC		= ./main.cpp
 OBJ     = $(SRC:%.cpp=%.o)
 
 RED     = \033[31m

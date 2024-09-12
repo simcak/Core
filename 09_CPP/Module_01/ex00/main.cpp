@@ -6,12 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 13:28:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/11 14:01:25 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:39:56 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
-
 
 /**
 Stack Allocation:

@@ -6,14 +6,15 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:10:53 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/11 14:08:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:39:12 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
 
+// Member function (from here we access the private variable[s])
 void	Zombie::announce( void ) {
-	std::cout << BB << this->_name << ": BraiiiiiiinnnzzzZ..." << RST << std::endl;
+	std::cout << BB << _name << ": BraiiiiiiinnnzzzZ..." << RST << std::endl;
 }
 
 /** Constructor
