@@ -5,19 +5,19 @@
 #                                                     +:+ +:+         +:+      #
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/09/12 16:10:58 by psimcak           #+#    #+#              #
-#    Updated: 2024/09/13 14:31:40 by psimcak          ###   ########.fr        #
+#    Created: 2024/09/13 14:30:00 by psimcak           #+#    #+#              #
+#    Updated: 2024/09/13 14:33:08 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME    = replace
+NAME    = Harl
 COM     = c++
 FLAGS   = -Wall -Wextra -Werror -std=c++98
 
 DIR     = .
 SRC_ILL = $(shell find $(DIR) -iname "*.cpp")
 
-SRC		= ./main.cpp ./Replace.cpp
+SRC		= ./Harl.cpp ./main.cpp
 OBJ     = $(SRC:%.cpp=%.o)
 
 RED     = \033[31m
