@@ -5,36 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 12:45:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/13 11:48:32 by psimcak          ###   ########.fr       */
+/*   Created: 2024/09/12 16:10:56 by psimcak           #+#    #+#             */
+/*   Updated: 2024/09/13 12:24:38 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Weapon.hpp"
-#include "HumanA.hpp"
-#include "HumanB.hpp"
+#include "Replace.hpp"
 
-int	main()
+int	main( int ac, char **av )
 {
-	{
-		Weapon club = Weapon("crude spiked club");
-		HumanA bob("Bob", club);
-
-		bob.attack();
-		club.setType("some other type of club");
-		bob.attack();
+	if ( ac != 4) {
+		std::cout << BR << ERR_INPUT << "\n" << BW << USAGE << RST << std::endl;
+		return EXIT_FAILURE;
 	}
-	{
-		Weapon club = Weapon("crude spiked club");
-		HumanB jim("Jim");
+	Replace				packet(av[1], av[2], av[3]);
 
-		jim.setWeapon(club);
-		jim.attack();
-		club.setType("some other type of club");
-		jim.attack();
-	}
+	if (packet.myReplace())
+		return EXIT_FAILURE;
 
 	return EXIT_SUCCESS;
 }
 
-/* ****************************************************************  main.cpp */
+/* ***************************************************************  main.cpp */
