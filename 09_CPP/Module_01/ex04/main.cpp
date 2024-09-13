@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:10:56 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/13 12:24:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/13 13:31:04 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ int	main( int ac, char **av )
 		std::cout << BR << ERR_INPUT << "\n" << BW << USAGE << RST << std::endl;
 		return EXIT_FAILURE;
 	}
-	Replace				packet(av[1], av[2], av[3]);
+	Replace		packet(av[1], av[2], av[3]);
 
-	if (packet.myReplace())
-		return EXIT_FAILURE;
+	packet.myReplace();
 
 	return EXIT_SUCCESS;
 }

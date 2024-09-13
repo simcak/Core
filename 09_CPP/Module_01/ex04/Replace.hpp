@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 11:24:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/13 12:30:13 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/13 13:30:09 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ class Replace {
 		
 	public:
 		Replace( std::string filename, std::string search, std::string replace );
-		int		myReplace( void );
+		void	myReplace( void );
 		~Replace( void );
 		
 };
