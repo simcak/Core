@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/16 19:42:00 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/17 21:34:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ Fixed::Fixed( void ) : _value(0) {
  */
 Fixed::Fixed( const int fp_value ) {
 	std::cout << "Int constructor called" << std::endl;
-	_value = fp_value << _fractionalBits;	// TODO
+	_value = fp_value << _fractionalBits;
 }
 
 /**
@@ -34,7 +34,7 @@ Fixed::Fixed( const int fp_value ) {
  */
 Fixed::Fixed( const float fp_value ) {
 	std::cout << "Float constructor called" << std::endl;
-	_value = roundf(fp_value * (1 << _fractionalBits));	// TODO
+	_value = roundf(fp_value * (1 << _fractionalBits));
 }
 
 /** COPY CONSTRUCTOR
@@ -44,6 +44,11 @@ Fixed::Fixed( const float fp_value ) {
 Fixed::Fixed( Fixed const &src ) {
 	std::cout << "Copy constructor called" << std::endl;
 	this->setRawBits(src.getRawBits());
+}
+
+// DESTRUCTOR
+Fixed::~Fixed() {
+	std::cout << "Destructor called" << std::endl;
 }
 
 /** COPY ASSIGNATION OPERATOR
@@ -68,17 +73,30 @@ void	Fixed::setRawBits( int const raw ) {
 	_value = raw;
 }
 
-// DESTRUCTOR
-Fixed::~Fixed() {
-	std::cout << "Destructor called" << std::endl;
-}
-
 float	Fixed::toFloat( void ) const {
-	return (float)_value / (1 << _fractionalBits); // TODO
+	return ((float)_value / (float)(1 << _fractionalBits));
 }
 
 int		Fixed::toInt( void ) const {
-	return _value >> _fractionalBits; // TODO
+	return _value >> _fractionalBits;
 }
 
+std::ostream	&operator<<(std::ostream &out, Fixed const &value) {
+	out << value.toFloat();
+	return out;
+}
+
+/* RIGHT and LEFT shift operators
+- Left Shift (<<): Multiplies the number by 2^n. Each shift left makes the
+  number larger.
+	Example: If you have 5 (00000101 in binary) and shift it left by 2 (5 << 2),
+	it becomes 20 (00010100). The binary digits are shifted to the left, adding
+	zeros at the right end.
+
+- Right Shift (>>): Divides the number by 2^n. Each shift right makes the number
+  smaller, effectively "chopping off" the less significant bits.
+	Example: If you have 20 (00010100 in binary) and shift it right by 2
+	(20 >> 2), it becomes 5 (00000101). The binary digits are shifted to the
+	right, dropping the bits at the end.
+*/
 /* ***************************************************************  Fixed.cpp */

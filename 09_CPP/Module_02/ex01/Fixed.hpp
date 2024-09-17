@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/16 19:46:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/17 21:47:35 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ class Fixed {
 		Fixed( const int );
 		Fixed( const float );
 		Fixed( Fixed const & );
-		Fixed&	operator=( Fixed const & );
 		~Fixed();
+
+		Fixed&	operator=( Fixed const & );
 
 		int		getRawBits( void ) const;
 		void	setRawBits( int const );
@@ -35,6 +36,9 @@ class Fixed {
 		int		toInt( void ) const;
 
 };
+
+std::ostream	&operator<<(std::ostream &, Fixed const &);
+
 #endif
 
 /* ***************************************************************  FIXED_HPP */
