@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/17 21:34:27 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/18 14:30:57 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,14 @@ int		Fixed::toInt( void ) const {
 	return _value >> _fractionalBits;
 }
 
+// The first contition isolates the fractional bits.
+// If it's zero, there is no fractional part = it's an integer.
 std::ostream	&operator<<(std::ostream &out, Fixed const &value) {
-	out << value.toFloat();
+	if ((value.getRawBits() & ((1 << FRAC_BITS) - 1)) == 0) {
+		out << value.toInt();
+	} else {
+		out << value.toFloat();
+	}
 	return out;
 }
 
