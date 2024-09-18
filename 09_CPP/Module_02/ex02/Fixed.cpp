@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/18 17:35:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/18 18:11:14 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,6 @@ Fixed	Fixed::operator*( Fixed const &rhs ) const {
 Fixed	Fixed::operator/( Fixed const &rhs ) const {
 	Fixed	result;
 
-	if (rhs.getRawBits() == 0) {
-		std::cout << "Error: Division by zero" << std::endl;
-		return Fixed();
-	}
 	result._value = (this->getRawBits() << _fractionalBits) / rhs.getRawBits();
 	return result;
 }
