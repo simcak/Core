@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:30:11 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 19:52:29 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/24 19:55:14 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	ScavTrap::attack( std::string const &target ) {
 void	ScavTrap::guardGate( void ) {
 }
 
+/* ****************** DESTRUCTOR ******************* */
 ScavTrap::~ScavTrap() {
 	std::cout << BR << "ScavTrap destructor called" << RST << std::endl;
 }
