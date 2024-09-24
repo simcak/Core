@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:31 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 19:58:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/24 20:43:13 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ int		main() {
 	ScavTrap	amos("Amos");
 	ScavTrap	ben("Ben");
 
+	std::cout << std::endl;
+
 	std::cout << amos << "\n" << ben << std::endl;
 
-	// 1
 	amos.attack("Ben");
 	ben.takeDamage(amos.getAttackDamage());
 
@@ -31,20 +32,11 @@ int		main() {
 	std::cout << std::endl;
 
 	std::cout << amos << "\n" << ben << std::endl;
-	
-	// 2
-	amos.attack("Ben");
-	ben.takeDamage(amos.getAttackDamage());
+
+	ben.guardGate();
 
 	std::cout << std::endl;
 
-	std::cout << amos << "\n" << ben << std::endl;
-
-	ben.beRepaired(RP);
-
-	std::cout << std::endl;
-
-	std::cout << amos << "\n" << ben << std::endl;
 
 	return EXIT_SUCCESS;
 }

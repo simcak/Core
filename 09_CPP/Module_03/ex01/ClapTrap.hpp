@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:29 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 20:32:44 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/24 20:44:05 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 #include <iostream>
 
-#define HP		100
-#define EP		50
-#define AD		20
-#define RP		10
+#define HP		10
+#define EP		10
+#define AD		0
+#define RP		5
 
 // COLORS
 #define BG		"\033[1;32m"
