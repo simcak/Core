@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:33 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 19:25:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/24 20:38:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,33 @@ ClapTrap::ClapTrap(const ClapTrap &clapTrap) {
 
 /* **************** MEMBER FUNCTIONS **************** */
 void	ClapTrap::attack(const std::string &target) {
-	if (!this->getHitPoints() || !this->getEnergyPoints()) {
+	if (!getHitPoints() || !getEnergyPoints()) {
 		std::cout << BR << "ClapTrap " << _name << " is out of necessary points!" << RST << std::endl;
 		return ;
 	}
-	this->setEnergyPoints(this->getEnergyPoints() - 1);
+	setEnergyPoints(getEnergyPoints() - 1);
 	std::cout << "ClapTrap " << _name << " attacks " << target << ", causing " << _attackDamage << " points of damage!" << std::endl;
 }
 
 void	ClapTrap::takeDamage(unsigned int amount) {
-	if (!this->getHitPoints() || !this->getEnergyPoints()) {
+	if (!getHitPoints() || !getEnergyPoints()) {
 		std::cout << BR << "ClapTrap " << _name << " is out of necessary points!" << RST << std::endl;
 		return ;
 	}
-	this->setHitPoints(this->getHitPoints() - amount);
+	setHitPoints(getHitPoints() - amount);
 	std::cout << "ClapTrap " << _name << " takes " << amount << " points of damage!" << std::endl;
-	std::cout << "Remaining hit points: " << this->getHitPoints() << std::endl;
+	std::cout << "Remaining hit points: " << getHitPoints() << std::endl;
 }
 
 void	ClapTrap::beRepaired(unsigned int amount) {
-	if (!this->getHitPoints() || !this->getEnergyPoints()) {
+	if (!getHitPoints() || !getEnergyPoints()) {
 		std::cout << BR << "ClapTrap " << _name << " is out of necessary points!" << RST << std::endl;
 		return ;
 	}
-	this->setHitPoints(this->getHitPoints() + amount);
-	this->setEnergyPoints(this->getEnergyPoints() - 1);
+	setHitPoints(getHitPoints() + amount);
+	setEnergyPoints(getEnergyPoints() - 1);
 	std::cout << "ClapTrap " << _name << " is repaired for " << amount << " points!" << std::endl;
-	std::cout << "Remaining hit points: " << this->getHitPoints() << std::endl;
+	std::cout << "Remaining hit points: " << getHitPoints() << std::endl;
 }
 
 /* **************** GETTERS & SETTERS *************** */
