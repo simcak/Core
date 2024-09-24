@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:31 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 20:43:13 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/24 20:50:30 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int		main() {
 	ben.guardGate();
 
 	std::cout << std::endl;
-
 
 	return EXIT_SUCCESS;
 }
