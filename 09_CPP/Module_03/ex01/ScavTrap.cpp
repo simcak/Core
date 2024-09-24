@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:30:11 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 19:55:14 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/24 19:57:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ ScavTrap::ScavTrap( ScavTrap &scavTrap ) {
 
 /* **************** MEMBER FUNCTIONS **************** */
 void	ScavTrap::attack( std::string const &target ) {
+	std::cout << "ScavTrap " << getName() << " attacks " << target << ", causing " << getAttackDamage() << " points of damage!" << std::endl;
 }
 
 void	ScavTrap::guardGate( void ) {
