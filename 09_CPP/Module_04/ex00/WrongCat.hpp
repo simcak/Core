@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   FragTrap.hpp                                       :+:      :+:    :+:   */
+/*   WrongCat.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 20:58:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 11:04:17 by psimcak          ###   ########.fr       */
+/*   Created: 2024/09/25 14:10:34 by psimcak           #+#    #+#             */
+/*   Updated: 2024/09/25 14:55:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRAGTRAP_HPP
-# define FRAGTRAP_HPP
+#ifndef WRONGCAT_HPP
+# define WRONGCAT_HPP
 
-#include <iostream>
-#include "ClapTrap.hpp"
+#include "WrongAnimal.hpp"
 
-class FragTrap : public ClapTrap {
+class WrongCat : public WrongAnimal {
 
 	public:
-		FragTrap();
-		FragTrap( const std::string &name );
-		FragTrap( FragTrap &fragTrap );
+		WrongCat();
+		WrongCat(WrongCat const &);
 
-		FragTrap	&operator=( FragTrap & );
+		WrongCat	&operator=(WrongCat const &);
 
-		void	attack( std::string const &target );
-		void	highFivesGuys( void );
+		void	makeSound( void ) const;
 
-		~FragTrap();
+		~WrongCat();
 
 };
 
-
 #endif
-
-/* ************************************************************  FragTrap.hpp */

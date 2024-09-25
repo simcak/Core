@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:30:11 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 20:24:21 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/25 11:03:45 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ class ScavTrap : public ClapTrap {
 		ScavTrap();
 		ScavTrap( const std::string &name );
 		ScavTrap( ScavTrap &scavTrap );
+
+		ScavTrap	&operator=( ScavTrap &scavTrap );
 
 		// Member functions
 		void	attack( std::string const &target );

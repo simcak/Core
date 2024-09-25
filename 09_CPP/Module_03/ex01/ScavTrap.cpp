@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:30:11 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 20:40:57 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/25 11:07:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,18 @@ ScavTrap::ScavTrap( const std::string &name ) : ClapTrap( name ) {
 ScavTrap::ScavTrap( ScavTrap &scavTrap ) {
 	std::cout << BG << "ScavTrap copy constructor called" << RST << std::endl;
 	*this = scavTrap;
+}
+
+/* ******************** OPERATORS ******************* */
+ScavTrap	&ScavTrap::operator=( ScavTrap &scavTrap ) {
+	std::cout << "ScavTrap assignation operator called" << std::endl;
+	if (this != &scavTrap) {
+		setName(scavTrap.getName());
+		setHitPoints(scavTrap.getHitPoints());
+		setEnergyPoints(scavTrap.getEnergyPoints());
+		setAttackDamage(scavTrap.getAttackDamage());
+	}
+	return *this;
 }
 
 /* **************** MEMBER FUNCTIONS **************** */

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:29 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 20:44:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/25 11:03:28 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ class ClapTrap {
 		ClapTrap();
 		ClapTrap(std::string name);
 		ClapTrap(const ClapTrap &clapTrap);
+
+		ClapTrap	&operator=(const ClapTrap &);
 
 		// Member functions
 		void	attack(const std::string &target);

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:33 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 20:38:18 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/25 11:06:29 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,18 @@ ClapTrap::ClapTrap(std::string name) : _name(name), _hitPoints(HP), _energyPoint
 ClapTrap::ClapTrap(const ClapTrap &clapTrap) {
 	std::cout << BG << "ClapTrap copy constructor called" << RST << std::endl;
 	*this = clapTrap;
+}
+
+/* ******************** OPERATORS ******************* */
+ClapTrap	&ClapTrap::operator=(const ClapTrap &clapTrap) {
+	std::cout << "ClapTrap assignation operator called" << std::endl;
+	if (this != &clapTrap) {
+		_name = clapTrap._name;
+		_hitPoints = clapTrap._hitPoints;
+		_energyPoints = clapTrap._energyPoints;
+		_attackDamage = clapTrap._attackDamage;
+	}
+	return *this;
 }
 
 /* **************** MEMBER FUNCTIONS **************** */
