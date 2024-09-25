@@ -6,13 +6,13 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/17 16:02:27 by psimcak           #+#    #+#              #
-#    Updated: 2024/09/17 17:26:04 by psimcak          ###   ########.fr        #
+#    Updated: 2024/09/25 17:18:39 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME    = gnl
 COM     = cc
-FLAGS   = -Wall -Wextra -Werror -D BUFFER_SIZE=1
+FLAGS   = -Wall -Wextra -Werror -D BUFFER_SIZE=42
 
 DIR     = .
 SRC_ILL = $(shell find $(DIR) -iname "*.c")
