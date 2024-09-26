@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:56:08 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/26 14:14:44 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/26 23:21:07 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	main( void )
 			tab[i]->makeSound();
 		}
 	}
-	dog_brain = tab[0]->get_brain();
-	cat_brain = tab[2]->get_brain();
+	dog_brain = tab[0]->getBrain();
+	cat_brain = tab[2]->getBrain();
 
 	cat_brain->ideas[0] = dog_brain->ideas[0] = "Kibbles, let's GO !!";
 	cat_brain->ideas[1] = dog_brain->ideas[1] = "I will rule them all";
@@ -46,13 +46,13 @@ int	main( void )
 	cat_brain->ideas[4] = dog_brain->ideas[4] = "...";
 
 	std::cout << "-----------------------------------" << std::endl;
-	std::cout << "|" << tab[0]->get_brain()->ideas[0] << "|" << std::endl;
+	std::cout << "|" << tab[0]->getBrain()->ideas[0] << "|" << std::endl;
 	*(tab[1]) = *(tab[0]);
-	std::cout << "|" << tab[1]->get_brain()->ideas[1] << "|" << std::endl;
+	std::cout << "|" << tab[1]->getBrain()->ideas[1] << "|" << std::endl;
 	std::cout << "-----------------------------------" << std::endl;
-	std::cout << "|" << tab[2]->get_brain()->ideas[2] << "|" << std::endl;
+	std::cout << "|" << tab[2]->getBrain()->ideas[2] << "|" << std::endl;
 	*(tab[3]) = *(tab[2]);
-	std::cout << "|" << tab[3]->get_brain()->ideas[3] << "|" << std::endl;
+	std::cout << "|" << tab[3]->getBrain()->ideas[3] << "|" << std::endl;
 	std::cout << "-----------------------------------" << std::endl;
 	delete tab[0];
 	delete tab[1];

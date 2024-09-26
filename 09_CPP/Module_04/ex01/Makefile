@@ -6,7 +6,7 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:53:19 by psimcak           #+#    #+#              #
-#    Updated: 2024/09/25 12:35:30 by psimcak          ###   ########.fr        #
+#    Updated: 2024/09/26 23:02:34 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ FLAGS   = -Wall -Wextra -Werror -std=c++17
 DIR     = .
 SRC_ILL = $(shell find $(DIR) -iname "*.cpp")
 
-SRC		= ./Animal.cpp ./Cat.cpp ./Dog.cpp ./main.cpp ./WrongAnimal.cpp ./WrongCat.cpp
+SRC		= ./Animal.cpp ./Brain.cpp ./Cat.cpp ./Dog.cpp ./main.cpp ./WrongAnimal.cpp ./WrongCat.cpp
 OBJ     = $(SRC:%.cpp=%.o)
 
 RED     = \033[31m

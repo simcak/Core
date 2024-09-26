@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:09:50 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 15:00:18 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/26 22:05:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@
 #define BW		"\033[1;37m"
 #define RST		"\033[0m"
 
-/*
-	Entiere point of this "wrong" implementation is by removing the virtual 
-	keyword from the makeSound method in the base class (this class). 
-	By doing so, the derived class (WrongCat) will not be able to override
-	the makeSound method, and will instead use the base class's method.
-*/
 class WrongAnimal {
 
 	protected:
