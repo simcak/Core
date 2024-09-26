@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:56:09 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 15:00:59 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/26 17:12:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ Animal::Animal(Animal const &src) {
 Animal	&Animal::operator=(Animal const &src) {
 	std::cout << "Animal assignation constructor called" << std::endl;
 	if (this != &src) {
-		// Copy data from src to this object
+		type = src.type;
 	}
 	return *this;
 }

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:23:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 12:40:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/26 17:25:53 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Dog::Dog() {
 	this->type = "Dog";
 }
 
-Dog::Dog(Dog const &src) {
+Dog::Dog(Dog const &src) : Animal(src) {
 	std::cout << BG << "Dog copy constructor called" << RST << std::endl;
 	*this = src;
 }

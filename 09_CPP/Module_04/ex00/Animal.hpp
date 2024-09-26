@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:56:06 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 14:58:01 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/09/26 17:20:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 	copy constructor, assignation operator, destructor)
 	We also create a virtual method makeSound, which will be overriden by the
 	derived classes.
+	We need virtual destructor to avoid memory leaks.
 */
 class Animal {
 
