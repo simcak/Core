@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:23:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/26 23:45:35 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/02 16:08:12 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ Dog	&Dog::operator=(Dog const &src) {
 	std::cout << BG << "Dog assignation operator called" << RST << std::endl;
 	if (this != &src) {
 		this->type = src.getType();
-		this->brain = src.getBrain();
+		*(this->brain) = *(src.getBrain());
 	}
 	return *this;
 }

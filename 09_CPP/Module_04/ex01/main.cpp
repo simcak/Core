@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:56:08 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/26 23:21:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/02 16:02:38 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	main( void )
 	delete tab[3];
 	std::cout << "===================================" << std::endl;
 
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
+	const Animal*	j = new Dog();
+	const Animal*	i = new Cat();
 	delete j;
 	delete i;
 
