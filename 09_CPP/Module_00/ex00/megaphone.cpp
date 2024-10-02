@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 13:14:53 by psimcak           #+#    #+#             */
-/*   Updated: 2024/07/30 15:46:28 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/02 17:53:03 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 
 int	main(int argc, char **argv)
 {
-	int i = 0;
+	int	i = 0;
 
-	if (argc == 1) {
+	if (argc == 1)
 		std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
-	}
 	else
 	{
 		while (++i < argc) {
@@ -28,5 +27,5 @@ int	main(int argc, char **argv)
 		}
 		std::cout << std::endl;
 	}
-	return (0);
+	return EXIT_SUCCESS;
 }
