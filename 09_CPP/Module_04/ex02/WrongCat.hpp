@@ -1,41 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   WrongAnimal.hpp                                    :+:      :+:    :+:   */
+/*   WrongCat.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 14:09:50 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/02 16:57:03 by psimcak          ###   ########.fr       */
+/*   Created: 2024/09/25 14:10:34 by psimcak           #+#    #+#             */
+/*   Updated: 2024/10/02 16:57:46 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WRONGANIMAL_HPP
-# define WRONGANIMAL_HPP
+#ifndef WRONGCAT_HPP
+# define WRONGCAT_HPP
 
-#include <iostream>
+#include "WrongAnimal.hpp"
 
-// Colors
-#define BG		"\033[1;32m"
-#define BR		"\033[1;31m"
-#define BW		"\033[1;37m"
-#define RST		"\033[0m"
+class WrongCat : public WrongAnimal {
 
-class WrongAnimal {
-
-	protected:
-		std::string		type;
-	
 	public:
-		WrongAnimal();
-		WrongAnimal(WrongAnimal const &);
+		WrongCat();
+		WrongCat(WrongCat const &);
 
-		WrongAnimal	&operator=(WrongAnimal const &);
+		WrongCat	&operator=(WrongCat const &);
 
-		std::string		getType( void ) const;
-		void			makeSound( void ) const;
+		void	makeSound( void ) const;
 
-		virtual ~WrongAnimal();
+		~WrongCat();
 
 };
 

@@ -1,41 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   WrongAnimal.hpp                                    :+:      :+:    :+:   */
+/*   A_Animal.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 14:09:50 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/02 16:57:03 by psimcak          ###   ########.fr       */
+/*   Created: 2024/09/25 10:56:06 by psimcak           #+#    #+#             */
+/*   Updated: 2024/10/02 17:28:24 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WRONGANIMAL_HPP
-# define WRONGANIMAL_HPP
+#ifndef A_ANIMAL_HPP
+# define A_ANIMAL_HPP
 
 #include <iostream>
+#include "Brain.hpp"
 
-// Colors
+// COLORS
 #define BG		"\033[1;32m"
 #define BR		"\033[1;31m"
 #define BW		"\033[1;37m"
 #define RST		"\033[0m"
 
-class WrongAnimal {
+class A_Animal {
 
 	protected:
 		std::string		type;
-	
+
 	public:
-		WrongAnimal();
-		WrongAnimal(WrongAnimal const &);
+		A_Animal();
+		A_Animal(A_Animal const &);
 
-		WrongAnimal	&operator=(WrongAnimal const &);
+		A_Animal	&operator=(A_Animal const &);
 
-		std::string		getType( void ) const;
-		void			makeSound( void ) const;
+		virtual Brain			*getBrain( void ) const;
+		virtual void			makeSound( void ) const = 0;
+		std::string				getType( void ) const;
 
-		virtual ~WrongAnimal();
+		virtual ~A_Animal();
 
 };
 
