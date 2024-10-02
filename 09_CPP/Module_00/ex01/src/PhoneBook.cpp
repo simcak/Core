@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:03:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/08/01 09:03:20 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:43:51 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ PhoneBook::PhoneBook( void )
 void PhoneBook::initContact(std::string data[5])
 {
 	std::cout << BWT << "Enter Contact Information" << RST << std::endl;
-	safeGetline(data[0], "First Name:      ", 0);
-	safeGetline(data[1], "Last Name:       ", 0);
-	safeGetline(data[2], "Nickname:        ", 0);
-	safeGetline(data[3], "Phone Number:    ", 0);
-	safeGetline(data[4], "Darkest Secret:  ", 0);
+	safeGetline(data[0], "First Name:\t", 0);
+	safeGetline(data[1], "Last Name:\t", 0);
+	safeGetline(data[2], "Nickname:\t", 0);
+	safeGetline(data[3], "Phone Number:\t", 0);
+	safeGetline(data[4], "Darkest Secret:\t", 0);
 }
 
 /**
@@ -96,11 +96,11 @@ void	PhoneBook::searchContact( void )
 	std::cout << BBB << "*******************************************" << RST << std::endl;
 	safeGetline(input_index, "Enter the index of the entry to display: ", this->contact_id);
 	i = input_index[0] - '0' - 1;
-	std::cout << "First Name: " << this->contacts[i].first_name << std::endl;
-	std::cout << "Last Name: " << this->contacts[i].last_name << std::endl;
-	std::cout << "Nickname: " << this->contacts[i].nickname << std::endl;
-	std::cout << "Phone Number: " << this->contacts[i].phone_number << std::endl;
-	std::cout << "Darkest Secret: " << this->contacts[i].darkest_secret << std::endl;
+	std::cout << "First Name:\t" << this->contacts[i].first_name << std::endl;
+	std::cout << "Last Name:\t" << this->contacts[i].last_name << std::endl;
+	std::cout << "Nickname:\t" << this->contacts[i].nickname << std::endl;
+	std::cout << "Phone Number:\t" << this->contacts[i].phone_number << std::endl;
+	std::cout << "Darkest Secret:\t" << this->contacts[i].darkest_secret << std::endl;
 	std::cout << BBB << "*******************************************" << RST << std::endl;
 }
 

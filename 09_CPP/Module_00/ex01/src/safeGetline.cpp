@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 06:11:44 by psimcak           #+#    #+#             */
-/*   Updated: 2024/08/01 09:00:57 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:46:41 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * numIsValid - check if phone number is valid
  */
-static bool	numIsValid(std::string &str)
+static bool	numIsNotValid(std::string &str)
 {
 	int i = -1;
 	
@@ -24,7 +24,7 @@ static bool	numIsValid(std::string &str)
 		if (!str[1])
 		{
 			std::cout << RED << "Invalid phone number, try again: " << RST << std::endl;
-			return (false);
+			return (true);
 		}
 		i++;
 	}
@@ -32,10 +32,10 @@ static bool	numIsValid(std::string &str)
 		if (!isdigit(str[i]))
 		{
 			std::cout << RED << "Invalid phone number, try again: " << RST << std::endl;
-			return (false);
+			return (true);
 		}
 	}
-	return (true);
+	return (false);
 }
 
 /**
@@ -49,13 +49,14 @@ void	safeGetline(std::string &dest, std::string mes, int index)
 		std::cout << RED << "Cannot be empty." << RST << std::endl;
 		std::cout << mes;
 		std::getline(std::cin, dest);
+		if (mes == "Phone Number:\t")
+			if (numIsNotValid(dest))
+				safeGetline(dest, mes, 0);
 	}
-	if (mes == "Phone Number: ")
-	{
-		if (!numIsValid(dest))
+	if (mes == "Phone Number:\t")
+		if (numIsNotValid(dest))
 			safeGetline(dest, mes, 0);
-	}
-	else if (mes == "Enter the index of the entry to display: ")
+	if (mes == "Enter the index of the entry to display: ")
 	{
 		if (!isdigit(dest[0]) || dest[1] || !(dest[0] >= '1' && dest[0] <= '8') || dest[0] - '0' > index)
 		{
