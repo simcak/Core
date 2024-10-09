@@ -10,6 +10,16 @@
 |    2     |  254 | \31|   \23   |   \15   |   \7    |
 |    1     |  255 | \32|   \24   |   \16   |   \8    |
 
+
+
+
+
+
+
+
+
+
+
 ## Reserved IP addresses
 | Address block  | Address range              | Number of addresses | Scope           | Description |
 |       -        |        -                   |         -           |   -             |      -      |
@@ -30,6 +40,13 @@
 | 233.252.0.0/24 | 233.252.0.0–233.252.0.255  | 256                 | Documentation   | Assigned as MCAST-TEST-NET, documentation and examples (Note that this is part of the above multicast space.)[10][11]
 | 240.0.0.0/4    | 240.0.0.0–255.255.255.254  | 268435455           | Internet        | Reserved for future use[12] (former Class E network)
 | 255.255.255.255/32 | 255.255.255.255        | 1                   | Subnet          | Reserved for the "limited broadcast" destination address[1]
+
+
+
+
+
+
+
 
 ## Subnet Mask Chart
 |  Subnet Mask  | CIDR | Binary Notation| Network Bits| Host Bits| Available Addresses|
@@ -60,6 +77,15 @@
 |255.128.0.0|        /9|  11111111.10000000.00000000.00000000  | 9  | 23 |  8388608   |
 |255.0.0.0|          /8|  11111111.00000000.00000000.00000000  | 8  | 24 |  16777216  |
 
+
+
+
+
+
+
+
+
+
 ### Example
 ```
 Address:   192.168.0.1           11000000.10101000.00000000 .00000001
@@ -72,6 +98,8 @@ HostMin:   192.168.0.1           11000000.10101000.00000000 .00000001
 HostMax:   192.168.0.254         11000000.10101000.00000000 .11111110
 Hosts/Net: 254                   (Private Internet)
 ```
+
+
 
 ## Resources
 - [Subnet training webside](https://subnetipv4.com/)

@@ -35,14 +35,6 @@
 
 
 
-
-
-
-
-
-
-
-
 # Level 2
 ### Blocked addresses
 - as described in the main README.md, some of the IP addresses are block. In this case, there was a **127.X.X.X** adress in **D1** and **C1**. We changed it for free/available adress **42.42.42.X**.

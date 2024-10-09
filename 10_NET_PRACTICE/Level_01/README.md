@@ -29,6 +29,7 @@
 
 
 
+
 # Level 1 - Understanding IP addresses
 
 IP addresses consist of four octets in the format **XXX.XXX.XXX.XXX**. Each octet represents an 8-bit number, ranging from **0** to **255** in decimal, or **0000 0000** to **1111 1111** in binary.
