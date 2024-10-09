@@ -43,7 +43,7 @@
 - Main task of this exercise is to choose correctly IP addresses.
 1. Look at the Mask
 2. Find the matching 'Group size'
-3. Set the range where we operate (smallest 'Network ID' - largest 'Network ID')
+3. Set the range where we operate (smallest 'Host IP' - largest 'Host IP')
 	- if there is one IP set up, you have to operate in pre-set range
 	- if both IP addresses are free to edit, choose which **subnet** we want to use
 4. Write any number in this range
@@ -57,11 +57,11 @@
 ## Cheat scheet
 |Group size|Subnet|CIDR|3rd Octet|2nd Octet|1st Octet|
 |    -     |   -  |  - |    -    |    -    |    -    |
-|   128    |  128 | \25|   \17   |   \9    |   \1    |
-|    64    |  192 | \26|   \18   |   \10   |   \2    |
-|    32    |  224 | \27|   \19   |   \11   |   \3    |
-|    16    |  240 | \28|   \20   |   \12   |   \4    |
-|    8     |  248 | \29|   \21   |   \13   |   \5    |
-|    4     |  252 | \30|   \22   |   \14   |   \6    |
-|    2     |  254 | \31|   \23   |   \15   |   \7    |
-|    1     |  255 | \32|   \24   |   \16   |   \8    |
+|   128    |  128 | /25|   /17   |   /9    |   /1    |
+|    64    |  192 | /26|   /18   |   /10   |   /2    |
+|    32    |  224 | /27|   /19   |   /11   |   /3    |
+|    16    |  240 | /28|   /20   |   /12   |   /4    |
+|    8     |  248 | /29|   /21   |   /13   |   /5    |
+|    4     |  252 | /30|   /22   |   /14   |   /6    |
+|    2     |  254 | /31|   /23   |   /15   |   /7    |
+|    1     |  255 | /32|   /24   |   /16   |   /8    |
