@@ -17,7 +17,7 @@ FLAGS   = -Wall -Wextra -Werror -std=c++98
 DIR     = .
 SRC_ILL = $(shell find $(DIR) -iname "*.cpp")
 
-SRC		= ./main.cpp ./newZombie.cpp ./randomChump.cpp ./Zombie.cpp
+SRC		= ./Zombie.cpp ./main.cpp ./newZombie.cpp ./randomChump.cpp
 OBJ     = $(SRC:%.cpp=%.o)
 
 RED     = \033[31m
