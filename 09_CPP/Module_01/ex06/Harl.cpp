@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 14:30:04 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/18 20:46:58 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 21:00:48 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,16 @@ void	Harl::complain( std::string level ) {
 	{
 		case DEBUG:
 			(this->*_levels[DEBUG].function)();
+			break;
 		case INFO:
 			(this->*_levels[INFO].function)();
+			break;
 		case WARNING:
 			(this->*_levels[WARNING].function)();
+			break;
 		case ERROR:
 			(this->*_levels[ERROR].function)();
-				break;
+			break;
 	
 		default:
 			std::cout << DEFAULT_MSG << std::endl;

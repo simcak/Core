@@ -17,7 +17,7 @@ FLAGS   = -Wall -Wextra -Werror -std=c++98
 DIR     = .
 SRC_ILL = $(shell find $(DIR) -iname "*.cpp")
 
-SRC		= ./HumanA.cpp ./HumanB.cpp ./main.cpp ./Weapon.cpp
+SRC		= ./HumanA.cpp ./HumanB.cpp ./Weapon.cpp ./main.cpp
 OBJ     = $(SRC:%.cpp=%.o)
 
 RED     = \033[31m

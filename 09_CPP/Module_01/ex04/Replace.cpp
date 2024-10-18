@@ -6,14 +6,15 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 11:43:44 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/13 14:22:00 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:53:48 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Replace.hpp"
 
 static void	safe_input_open(std::ifstream &file, std::string _inFile) {
-	file.open(_inFile);
+	const char	*filename = _inFile.c_str();
+	file.open(filename);
 	if (!file.is_open()) {
 		std::cout << BR << "Error: input file not found" << RST << std::endl;
 		exit(EXIT_FAILURE);
@@ -22,7 +23,8 @@ static void	safe_input_open(std::ifstream &file, std::string _inFile) {
 }
 
 static void	safe_output_open(std::ofstream &file, std::string _outFile) {
-	file.open(_outFile);
+	const char	*filename = _outFile.c_str();
+	file.open(filename);
 	if (!file.is_open()) {
 		std::cout << BR << "Error: output file not found" << RST << std::endl;
 		exit(EXIT_FAILURE);
