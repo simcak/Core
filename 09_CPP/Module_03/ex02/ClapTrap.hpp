@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:29 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 11:04:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:43:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CLAPTRAP_HPP
 
 #include <iostream>
+#include <cstdlib>
 
 // COLORS
 #define BG		"\033[1;32m"

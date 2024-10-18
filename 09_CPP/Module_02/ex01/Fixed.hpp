@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/18 14:31:20 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:42:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
 
 #define FRAC_BITS 8
 

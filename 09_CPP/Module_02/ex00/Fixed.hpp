@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/16 19:00:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:41:55 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FIXED_HPP
 
 #include <iostream>
+#include <cstdlib>
 
 class Fixed
 {

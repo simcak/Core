@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:56:08 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 14:54:48 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:44:14 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "Cat.hpp"
 #include "WrongAnimal.hpp"
 #include "WrongCat.hpp"
+
+#include <cstdlib>
 
 int	main( void ) {
 	const Animal* meta = new Animal();
