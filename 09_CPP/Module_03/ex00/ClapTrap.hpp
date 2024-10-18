@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:29 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 11:03:04 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:42:39 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CLAPTRAP_HPP
 
 #include <iostream>
+#include <cstdlib>
 
 #define HP		10
 #define EP		10

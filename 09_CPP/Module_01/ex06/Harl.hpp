@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 14:30:03 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/13 16:55:51 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:41:39 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 // Libraries
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 // Colors
 #define BW			"\033[1;37m"

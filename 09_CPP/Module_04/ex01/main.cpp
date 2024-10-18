@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:56:08 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/02 16:02:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:44:39 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "Dog.hpp"
 #include "Cat.hpp"
 #include "Brain.hpp"
+
+#include <cstdlib>
 
 int	main( void )
 {

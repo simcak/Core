@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   replace.hpp                                        :+:      :+:    :+:   */
+/*   Replace.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 11:24:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/13 13:30:09 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:41:04 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <string>
 #include <iostream>																// std::cout, std::endl
 #include <fstream>																// std::ifstream, std::ofstream
+#include <cstdlib>																// EXIT_SUCCESS, EXIT_FAILURE
 
 // COLOR CODES
 #define BW			"\033[1;37m"

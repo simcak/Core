@@ -6,11 +6,12 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:54:52 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/11 19:17:36 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:39:25 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <cstdlib>
 
 int	main( void ) {
 	std::string str = "HI THIS IS BRAIN";
