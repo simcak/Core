@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:23:43 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/11 16:56:43 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:48:38 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ZOMBIE_HPP
 
 #include <iostream>																// std::cout, std::endl
+#include <cstdlib>
 
 // COLOR DEFINITIONS
 # define R			"\033[31m"													// Red
