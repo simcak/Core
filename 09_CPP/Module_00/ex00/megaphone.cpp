@@ -6,12 +6,13 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 13:14:53 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/02 17:53:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/18 20:18:29 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <cctype>
+#include <cstdlib>		// EXIT_SUCCESS
 
 int	main(int argc, char **argv)
 {
