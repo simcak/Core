@@ -6,13 +6,13 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:53:19 by psimcak           #+#    #+#              #
-#    Updated: 2024/10/19 17:26:40 by psimcak          ###   ########.fr        #
+#    Updated: 2024/10/19 17:29:32 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME    = animal
 COM     = c++
-FLAGS   = -Wall -Wextra -Werror -std=c++17
+FLAGS   = -Wall -Wextra -Werror -std=c++11
 
 SRC		= ./Animal.cpp ./Brain.cpp ./Cat.cpp ./Dog.cpp ./main.cpp ./WrongAnimal.cpp ./WrongCat.cpp
 OBJ     = $(SRC:%.cpp=%.o)
