@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:30:11 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 11:09:46 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/20 19:45:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ ScavTrap::ScavTrap( const std::string &name ) : ClapTrap( name ) {
 	std::cout << BG << "ScavTrap constructor called" << RST << std::endl;
 }
 
-ScavTrap::ScavTrap( ScavTrap &scavTrap ) {
+ScavTrap::ScavTrap( ScavTrap &scavTrap ) : ClapTrap(scavTrap) {
 	std::cout << BG << "ScavTrap copy constructor called" << RST << std::endl;
 	*this = scavTrap;
 }
