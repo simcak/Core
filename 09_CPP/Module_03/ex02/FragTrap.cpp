@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 20:58:24 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/20 19:45:35 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/20 19:47:32 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ FragTrap::FragTrap( const std::string &name ) : ClapTrap( name ) {
 	std::cout << BG << "FragTrap constructor called" << RST << std::endl;
 }
 
-FragTrap::FragTrap( FragTrap &fragTrap ) : ClapTrap(fragTrap) {
+FragTrap::FragTrap( FragTrap &fragTrap ) : ClapTrap( fragTrap ) {
 	std::cout << "FragTrap copy constructor called" << std::endl;
 	*this = fragTrap;
 }
