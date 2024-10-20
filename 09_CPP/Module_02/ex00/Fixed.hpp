@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/18 20:41:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/20 19:23:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ class Fixed
 		~Fixed();
 
 		int		getRawBits( void ) const;
-		void	setRawBits( int const );
+		void	setRawBits( int const raw );
 
 };
 
