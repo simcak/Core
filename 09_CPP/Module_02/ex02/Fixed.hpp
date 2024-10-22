@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:21 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/18 20:42:29 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/22 20:02:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
+
+# define BWHITE	"\033[1;37m"
+# define BRED	"\033[1;31m"
+# define BGREEN	"\033[1;32m"
+# define BB		"\033[1;34m"
+# define RST	"\033[0m"
+# define BBS	"\033[1;34m" << "* " << RST
 
 #define FRAC_BITS 8
 
@@ -55,7 +62,7 @@ class Fixed {
 		Fixed	operator--( int );
 
 		// MEMBER FUNCTIONS
-		// - static functions are suitable for utility functions that don't need
+		// static functions are suitable for utility functions that don't need
 		// to operate on a specific object’s state.
 		static Fixed const	&min( Fixed const &, Fixed const & );
 		static Fixed const	&max( Fixed const &, Fixed const & );
