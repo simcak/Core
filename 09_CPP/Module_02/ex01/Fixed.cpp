@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/18 14:30:57 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/22 19:22:10 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // DEFAULT CONSTRUCTOR
 Fixed::Fixed( void ) : _value(0) {
-	std::cout << "Default constructor called" << std::endl;
+	std::cout << BGREEN << "Default constructor called" << RST << std::endl;
 }
 
 /** PARAMETRIZED CONSTRUCTOR
@@ -24,7 +24,7 @@ Fixed::Fixed( void ) : _value(0) {
  * const is used here tharefore the fp_value will not be changed.
  */
 Fixed::Fixed( const int fp_value ) {
-	std::cout << "Int constructor called" << std::endl;
+	std::cout << BGREEN << "Int constructor called" << RST << std::endl;
 	_value = fp_value << _fractionalBits;
 }
 
@@ -33,7 +33,7 @@ Fixed::Fixed( const int fp_value ) {
  * value is initialized to 8
  */
 Fixed::Fixed( const float fp_value ) {
-	std::cout << "Float constructor called" << std::endl;
+	std::cout << BGREEN << "Float constructor called" << RST << std::endl;
 	_value = roundf(fp_value * (1 << _fractionalBits));
 }
 
@@ -42,13 +42,13 @@ Fixed::Fixed( const float fp_value ) {
  * ensuring that any dynamically allocated resources are copied correctly.
  */
 Fixed::Fixed( Fixed const &src ) {
-	std::cout << "Copy constructor called" << std::endl;
+	std::cout << BGREEN << "Copy constructor called" << RST << std::endl;
 	this->setRawBits(src.getRawBits());
 }
 
 // DESTRUCTOR
 Fixed::~Fixed() {
-	std::cout << "Destructor called" << std::endl;
+	std::cout << BRED << "Destructor of [" << this->toFloat() << "] called" << RST << std::endl;
 }
 
 /** COPY ASSIGNATION OPERATOR
@@ -64,7 +64,7 @@ Fixed&	Fixed::operator=( Fixed const &rhs ) {
 
 // MEMBER FUNCTION
 int		Fixed::getRawBits( void ) const {
-	std::cout << "getRawBits member function called" << std::endl;
+	// std::cout << "getRawBits member function called" << std::endl;
 	return _value;
 }
 
