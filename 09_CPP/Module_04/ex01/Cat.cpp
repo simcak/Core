@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:23:52 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/26 23:45:43 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 19:29:51 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,15 @@ Cat::Cat( void ) {
 
 Cat::Cat(Cat const &src) : Animal(src) {
 	std::cout << BG << "Cat copy constructor called" << RST << std::endl;
-	this->brain = new Brain();
-	*this = src;
+	this->brain = new Brain(*src.getBrain());
 }
 
 /* ******************** OPERATORS ******************* */
 Cat	&Cat::operator=(Cat const &src) {
-	std::cout << "Cat assignation operator called" << std::endl;
+	std::cout << BG << "Cat assignation operator called" << RST << std::endl;
 	if (this != &src) {
-		this->type = src.getType();
-		*(this->brain) = *(src.getBrain());
+		type = src.getType();
+		*brain = *(src.getBrain());
 	}
 	return *this;
 }
@@ -41,11 +40,11 @@ void	Cat::makeSound( void ) const {
 }
 
 Brain	*Cat::getBrain( void ) const {
-	return (this->brain);
+	return this->brain;
 }
 
 /* ******************* DESTRUCTOR ******************* */
 Cat::~Cat( void ) {
-	std::cout << BR << "Cat destructor called" << RST << std::endl;
 	delete this->brain;
+	std::cout << BR << "Cat destructor called" << RST << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:15:27 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/02 17:01:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 19:45:50 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ Brain::Brain( void ) : ideas() {
 
 Brain::Brain(Brain const &src) {
 	std::cout << BG << "Brain copy constructor called" << RST << std::endl;
-	*this = src;
+	for (unsigned int i = 0 ; i < 100 ; ++i)
+		ideas[i] = src.ideas[i];
 }
 
 /* ******************** OPERATORS ******************* */

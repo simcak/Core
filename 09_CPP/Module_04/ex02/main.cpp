@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:52:54 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/18 20:44:48 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 20:08:03 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 
 int main()
 {
+	// Next line will not compile because A_Animal is an abstract class
+	// A_Animal* animal = new A_Animal();
+
+	// This is ok - we can create objects of the derived classes
 	A_Animal* arr[2];
 
 	arr[0] = new Dog();
@@ -26,7 +30,7 @@ int main()
 
 	delete arr[0];
 	delete arr[1];
-	std::cout << "Pass" << std::endl;
+	std::cout << BG << "Oll Korrekt = OK" << RST << std::endl;
 
 	return EXIT_SUCCESS;
 }

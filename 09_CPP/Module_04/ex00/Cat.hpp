@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:23:46 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/26 17:24:35 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:25:26 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,10 @@ class Cat : public Animal {
 	public:
 		Cat();
 		Cat(Cat const &);
-
-		Cat	&operator=(Cat const &);
-
-		void		makeSound( void ) const;
-
+		Cat		&operator=(Cat const &);
 		~Cat();
+
+		void	makeSound( void ) const;
 
 };
 

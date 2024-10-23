@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:09:50 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/02 16:57:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:33:30 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ class WrongAnimal {
 	public:
 		WrongAnimal();
 		WrongAnimal(WrongAnimal const &);
-
 		WrongAnimal	&operator=(WrongAnimal const &);
+		virtual ~WrongAnimal();
 
 		std::string		getType( void ) const;
 		void			makeSound( void ) const;
-
-		virtual ~WrongAnimal();
 
 };
 

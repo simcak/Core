@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:23:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/02 17:13:17 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 19:50:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ Dog::Dog( void ) {
 }
 
 // here we delete the Animal copy constructor call. 
-Dog::Dog(Dog const &src) {
+Dog::Dog(Dog const &src) : A_Animal(src) {
 	std::cout << BG << "Dog copy constructor called" << RST << std::endl;
-	this->brain = new Brain();
-	*this = src;
+	this->brain = new Brain(*src.getBrain());
 }
 
 /* ******************** OPERATORS ******************* */
@@ -47,6 +46,6 @@ Brain	*Dog::getBrain( void ) const {
 
 /* ******************* DESTRUCTOR ******************* */
 Dog::~Dog( void ) {
-	std::cout << BR << "Dog destructor called" << RST << std::endl;
 	delete this->brain;
+	std::cout << BR << "Dog destructor called" << RST << std::endl;
 }

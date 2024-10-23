@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:10:34 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/02 16:57:46 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 19:50:48 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,10 @@ class WrongCat : public WrongAnimal {
 	public:
 		WrongCat();
 		WrongCat(WrongCat const &);
-
 		WrongCat	&operator=(WrongCat const &);
+		~WrongCat();
 
 		void	makeSound( void ) const;
-
-		~WrongCat();
 
 };
 
