@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:33 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 11:06:29 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 14:35:44 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ ClapTrap	&ClapTrap::operator=(const ClapTrap &clapTrap) {
 
 /* **************** MEMBER FUNCTIONS **************** */
 void	ClapTrap::attack(const std::string &target) {
-	if (!getHitPoints() || !getEnergyPoints()) {
+	if (this->getHitPoints() <= 0 || this->getEnergyPoints() <= 0) {
 		std::cout << BR << "ClapTrap " << _name << " is out of necessary points!" << RST << std::endl;
 		return ;
 	}
@@ -49,7 +49,7 @@ void	ClapTrap::attack(const std::string &target) {
 }
 
 void	ClapTrap::takeDamage(unsigned int amount) {
-	if (!getHitPoints() || !getEnergyPoints()) {
+	if (this->getHitPoints() <= 0 || this->getEnergyPoints() <= 0) {
 		std::cout << BR << "ClapTrap " << _name << " is out of necessary points!" << RST << std::endl;
 		return ;
 	}
@@ -59,7 +59,7 @@ void	ClapTrap::takeDamage(unsigned int amount) {
 }
 
 void	ClapTrap::beRepaired(unsigned int amount) {
-	if (!getHitPoints() || !getEnergyPoints()) {
+	if (this->getHitPoints() <= 0 || this->getEnergyPoints() <= 0) {
 		std::cout << BR << "ClapTrap " << _name << " is out of necessary points!" << RST << std::endl;
 		return ;
 	}
