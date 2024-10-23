@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:29 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/18 20:42:39 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 14:33:08 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,17 @@
 #include <cstdlib>
 
 #define HP		10
-#define EP		10
-#define AD		0
-#define RP		1
+#define EP		7
+#define AD		3
+#define RP		2
 
 // COLORS
-#define BG		"\033[1;32m"
-#define BR		"\033[1;31m"
-#define RST		"\033[0m"
+# define BG		"\033[1;32m"
+# define BR		"\033[1;31m"
+# define BBSL	"\033[1;34m" "************************************\n" "\033[0m"
+# define BW		"\033[1;37m"
+# define BO		"\033[1;33m"
+# define RST	"\033[0m"
 
 class ClapTrap {
 

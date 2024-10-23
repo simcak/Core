@@ -6,36 +6,53 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:31:31 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/24 20:50:30 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 14:26:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScavTrap.hpp"
 
+static void	tester_loop(ClapTrap &amos, ClapTrap &ben, bool run_condition) {
+	if (run_condition) {
+		std::cout << BO << "\nLOOPloopLOOPloopLOOP" << RST << std::endl;
+		for (int i = 0; i < 100; i++) {
+			std::cout << BBSL << BW << amos << ben << RST << std::endl;
+			amos.attack("Ben");
+			ben.takeDamage(amos.getAttackDamage());
+		}
+	}
+	return ;
+}
+
 int		main() {
 	ScavTrap	amos("Amos");
 	ScavTrap	ben("Ben");
 
-	std::cout << std::endl;
-
-	std::cout << amos << "\n" << ben << std::endl;
-
+	// Tester
+	std::cout << BBSL << BW << amos << ben << RST << std::endl;
 	amos.attack("Ben");
 	ben.takeDamage(amos.getAttackDamage());
 
-	std::cout << std::endl;
-
-	std::cout << amos << "\n" << ben << std::endl;
-
+	std::cout << BBSL << BW << amos << ben << RST << std::endl;
 	ben.beRepaired(RP);
 
-	std::cout << std::endl;
+	std::cout << BBSL << BW << amos << ben << RST << std::endl;
+	amos.attack("Ben");
+	ben.takeDamage(amos.getAttackDamage());
 
-	std::cout << amos << "\n" << ben << std::endl;
+	std::cout << BBSL << BW << amos << ben << RST << std::endl;
+	ben.beRepaired(RP);
 
-	ben.guardGate();
+	std::cout << BBSL << BW << amos << ben << RST << std::endl;
+	ben.attack("Amos");
+	amos.takeDamage(ben.getAttackDamage());
 
-	std::cout << std::endl;
+	std::cout << BBSL << BW << amos << ben << RST << std::endl;
+	amos.beRepaired(RP);
+
+	std::cout << BBSL << BW << amos << ben << RST << std::endl;
+
+	tester_loop(amos, ben, true);
 
 	return EXIT_SUCCESS;
 }
