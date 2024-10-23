@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:56:06 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/26 17:20:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:25:57 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,11 @@ class Animal {
 	public:
 		Animal();
 		Animal(Animal const &);
-
 		Animal	&operator=(Animal const &);
+		virtual ~Animal();
 
 		std::string		getType( void ) const;
 		virtual void	makeSound( void ) const;
-
-		virtual ~Animal();
 
 };
 

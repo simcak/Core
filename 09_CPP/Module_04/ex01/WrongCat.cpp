@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:10:37 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 15:01:43 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:34:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ WrongCat::WrongCat() {
 	std::cout << BG << "WrongCat default constructor called" << RST << std::endl;
 }
 
-WrongCat::WrongCat(WrongCat const &src) {
+WrongCat::WrongCat(WrongCat const &src) : WrongAnimal(src) {
 	std::cout << BG << "WrongCat copy constructor called" << RST << std::endl;
 	*this = src;
 }

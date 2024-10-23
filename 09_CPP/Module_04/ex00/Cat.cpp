@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:23:52 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/25 11:53:49 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:23:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Cat::Cat() {
 	this->type = "Cat";
 }
 
-Cat::Cat(Cat const &src) {
+Cat::Cat(Cat const &src) : Animal(src) {
 	std::cout << BG << "Cat copy constructor called" << RST << std::endl;
 	*this = src;
 }

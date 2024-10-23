@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:15:25 by psimcak           #+#    #+#             */
-/*   Updated: 2024/09/26 22:32:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:32:49 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,10 @@ class Brain {
 	public:
 		Brain();
 		Brain(Brain const &src);
+		Brain		&operator=(Brain const &src);
+		~Brain();
 
 		std::string	ideas[100];
-		Brain		&operator=(Brain const &src);
-
-		~Brain();
 
 };
 
