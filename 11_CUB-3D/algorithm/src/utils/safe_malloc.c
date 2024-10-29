@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   safe_malloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/29 20:09:08 by psimcak          ###   ########.fr       */
+/*   Created: 2024/10/29 19:54:49 by psimcak           #+#    #+#             */
+/*   Updated: 2024/10/29 20:11:08 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/cub3D.h"
+#include "../../inc/cub3D.h"
 
-int	main(void)
+void	*ft_safe_malloc(size_t size, char *msg)
 {
-	t_game	*game;
+	void	*ptr;
 
-	game = ft_safe_malloc(sizeof(t_game), ERR_MALL_GAME);
-	init(EMPTY, game);
-	
-	return (EXIT_SUCCESS);
+	ptr = malloc(size);
+	if (!ptr)
+	{
+		perror(msg);
+		exit(EXIT_FAILURE);
+	}
+	return (ptr);
 }
