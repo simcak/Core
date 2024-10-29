@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safe_malloc.c                                      :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 19:54:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/29 20:43:45 by psimcak          ###   ########.fr       */
+/*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
+/*   Updated: 2024/10/29 21:01:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3D.h"
 
-void	*ft_safe_malloc(size_t size, char *msg)
+void	safe_free(t_game *game)
 {
-	void	*ptr;
-
-	ptr = malloc(size);
-	if (!ptr)
-	{
-		perror(msg);
-		exit(EXIT_FAILURE);
-	}
-	return (ptr);
+	if (game->map)
+		free(game->map);
+	free(game);
 }

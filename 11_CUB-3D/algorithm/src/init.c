@@ -6,11 +6,48 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/29 20:08:14 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/29 20:52:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3D.h"
+
+// static bool	init_animation(t_game *game)
+// {
+// 	game->animation_txt = mlx_load_png("../../maps/textures/logo.png");
+// 	if (!(game->animation_txt))
+// 	{
+// 		mlx_close_window(game->mlx);
+// 		perror(mlx_strerror(mlx_errno));
+// 		// safe_exit(game, mlx_strerror(mlx_errno));
+// 		return (false);
+// 	}
+// 	game->animation = mlx_texture_to_image(game->mlx, game->animation_txt);
+// 	if (!(game->animation))
+// 	{
+// 		mlx_close_window(game->mlx);
+// 		perror(mlx_strerror(mlx_errno));
+// 		// safe_exit(game, mlx_strerror(mlx_errno));
+// 		return (false);
+// 	}
+// 	return (true);
+// }
+
+// static bool	init_mlx42(t_game *game)
+// {
+// 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d", 0);
+// 	if (!game->mlx)
+// 		return (false);
+// 	game->image = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+// 	if (mlx_image_to_window(game->mlx, game->image, 0, 0) == -1 ||
+// 		!(game->image))
+// 	{
+// 		mlx_close_window(game->mlx);
+// 		return (false);
+// 	}
+// 	init_animation(game);
+// 	return (true);
+// }
 
 static void init_empty_map(t_game *game)
 {
@@ -54,8 +91,5 @@ void	init(int type, t_game *game)
 	// else if(type == MLX)
 	// 	init_mlx42(game);
 	else
-	{
-		perror(BR"Invalid type"RST);
-		exit(EXIT_FAILURE);
-	}
+		safe_exit(game, BR"Invalid type"RST);
 }

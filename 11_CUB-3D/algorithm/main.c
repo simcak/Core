@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/29 20:09:08 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/29 21:01:12 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main(void)
 
 	game = ft_safe_malloc(sizeof(t_game), ERR_MALL_GAME);
 	init(EMPTY, game);
-	
+	init(MLX, game);
+	safe_free(game);
 	return (EXIT_SUCCESS);
 }
