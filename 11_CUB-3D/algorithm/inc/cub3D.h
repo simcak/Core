@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/29 20:12:26 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/29 20:48:52 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
  * stdlib.h	-	Standard library definitions = malloc, free, exit, +_SUCCESS,
  * 				+_FAILURE
  * string.h	-	String operations = strerror
+ * stdbool.h-	Boolean type and values = bool, true, false
  */
 # include "../../MLX42/include/MLX42/MLX42.h"
 # include <errno.h>
@@ -33,6 +34,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <stdbool.h>
 
 /* ********************************** Color ********************************* */
 # define BR						"\033[1;31m"
@@ -127,6 +129,8 @@ typedef struct s_game
 void	init(int type, t_game *game);
 
 // Utils
+void	safe_free(t_game *game);
+void	safe_exit(t_game *game, char *msg);
 void	*ft_safe_malloc(size_t size, char *msg);
 
 #endif
