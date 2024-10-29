@@ -6,14 +6,13 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/29 14:02:39 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/29 15:26:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/cub3D.h"
 
-int		main(void)
+int	main(void)
 {
-	printf("%sHello, World!%s\n", GREEN, RST);
-	return EXIT_SUCCESS;
+	return (EXIT_SUCCESS);
 }
