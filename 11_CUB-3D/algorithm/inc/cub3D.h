@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/29 15:57:41 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/29 20:12:26 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /********************************** Macros ********************************** */
 
 /********************************** Libraries **********************************
+ * errno.h	-	Error handling = errno
  * math.h	-	Mathematical functions
  * fcntl.h	-	File control options = O_RDONLY, open
  * unistd.h	-	Standard symbolic constants and types = read, write, close
@@ -24,13 +25,23 @@
  * 				+_FAILURE
  * string.h	-	String operations = strerror
  */
-# include "../MLX42/include/MLX42/MLX42.h"
+# include "../../MLX42/include/MLX42/MLX42.h"
+# include <errno.h>
 # include <math.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+
+/* ********************************** Color ********************************* */
+# define BR						"\033[1;31m"
+# define RST					"\033[0m"
+
+/* ********************************** Init ********************************** */
+# define EMPTY					0
+# define GAME					1
+# define MLX					2
 
 /* ********************************* Screen ********************************* */
 # define SCREEN_HEIGHT			1000
@@ -59,6 +70,10 @@
 # define LEFT					123
 # define RIGHT					124
 
+/* ****************************** Error messages **************************** */
+# define ERR_MALL_MAP			BR"Memory allocation failed for map"RST
+# define ERR_MALL_GAME			BR"Memory allocation failed for game"RST
+
 /* ******************************* Structure ******************************** */
 typedef struct s_player
 {
@@ -76,19 +91,42 @@ typedef struct s_ray
 
 typedef struct s_map
 {
-	char	**map;
-	double	width;
-	double	height;
+	int				fd;
+	char			**parsed_file;
+	char			**grid;
+	int				width;
+	int				height;
+	int				start_count;
+	int				start_x;
+	int				start_y;
+	char			start_dir;
+	char			*txt_no;
+	char			*txt_so;
+	char			*txt_we;
+	char			*txt_ea;
+	mlx_texture_t	*mlx_txt_no;
+	mlx_texture_t	*mlx_txt_so;
+	mlx_texture_t	*mlx_txt_we;
+	mlx_texture_t	*mlx_txt_ea;
+	
 }	t_map;
 
-typedef struct s_mlx
+typedef struct s_game
 {
-	mlx_image_t	*img;
-	mlx_t		*mlx;
+	mlx_t			*mlx;
+	mlx_image_t		*image;
+	mlx_image_t		*animation;
+	mlx_texture_t	*animation_txt;
 
-	t_player	*player;
-	t_ray		*rays;
-	t_map		*map;
-}	t_mlx;
+	t_player		*player;
+	t_ray			*ray;
+	t_map			*map;
+}	t_game;
+
+/* ******************************* Prototypes ******************************* */
+void	init(int type, t_game *game);
+
+// Utils
+void	*ft_safe_malloc(size_t size, char *msg);
 
 #endif
