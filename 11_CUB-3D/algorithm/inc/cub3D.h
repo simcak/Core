@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/29 20:48:52 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/10/31 20:30:08 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,13 @@ typedef struct s_game
 }	t_game;
 
 /* ******************************* Prototypes ******************************* */
+// Init
+void	init_empty(t_game *game);
 void	init(int type, t_game *game);
 
 // Utils
 void	safe_free(t_game *game);
-void	safe_exit(t_game *game, char *msg);
+void	safe_exit(t_game *game, const char *msg);
 void	*ft_safe_malloc(size_t size, char *msg);
 
 #endif
