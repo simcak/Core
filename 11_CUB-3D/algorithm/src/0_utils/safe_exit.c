@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safe_free.c                                        :+:      :+:    :+:   */
+/*   safe_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/31 20:31:13 by psimcak          ###   ########.fr       */
+/*   Created: 2024/10/29 20:32:36 by psimcak           #+#    #+#             */
+/*   Updated: 2024/11/02 15:35:35 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3D.h"
+#include "../../includes/cub3D.h"
 
-void	safe_free(t_game *game)
+void	safe_exit(t_game *game, const char *msg)
 {
-	if (game->map)
-		free(game->map);
-	free(game);
+	safe_free(game);
+	perror(msg);
+	exit(EXIT_FAILURE);
 }
