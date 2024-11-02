@@ -1,20 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safe_exit.c                                        :+:      :+:    :+:   */
+/*   ft_str_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 20:32:36 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/02 16:25:19 by psimcak          ###   ########.fr       */
+/*   Created: 2024/11/02 16:19:56 by psimcak           #+#    #+#             */
+/*   Updated: 2024/11/02 16:21:51 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-void	safe_exit(t_main *game, const char *msg)
+size_t	ft_strlen(const char *s)
 {
-	safe_free(game);
-	perror(msg);
-	exit(EXIT_FAILURE);
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && i < n)
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
+	}
+	if (i == n)
+		return (0);
+	return (s1[i] - s2[i]);
 }

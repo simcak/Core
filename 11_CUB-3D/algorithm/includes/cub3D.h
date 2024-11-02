@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/02 16:06:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/02 16:22:14 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,14 @@ typedef struct s_main
 /* ******************************* Prototypes ******************************* */
 // Utils
 void	ft_debug(int type, t_main *game);
-void	safe_free(t_main *game);
+size_t	ft_strlen(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	safe_exit(t_main *game, const char *msg);
+void	safe_free(t_main *game);
 void	*ft_safe_malloc(size_t size, char *msg);
 
 // Init
-void	init_empty(t_main *game);
-void	init(int type, t_main *game);
+void	init_default(t_main *game);
+void	init(int type, t_main *game, int ac, char **av);
 
 #endif

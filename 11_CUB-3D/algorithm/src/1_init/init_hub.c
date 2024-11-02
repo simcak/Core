@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/02 16:05:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/02 16:17:39 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,27 @@
 // 	return (true);
 // }
 
-void	init(int type, t_main *game)
+void	argument_checker(int ac, char **av, t_main *game)
+{
+	int	len;
+
+	if (ac != 2)
+		safe_exit(game, BR"Invalid number of arguments"RST);
+	len = ft_strlen(av[1]);
+	if (ft_strncmp(&av[1][len - 4], ".cub", 4) != 0)
+		safe_exit(game, BR"Invalid file extension"RST);
+	game->map->fd = open(av[1], O_RDONLY);
+	if (game->map->fd < 0)
+		safe_exit(game, BR"Invalid file"RST);
+}
+
+void	init(int type, t_main *game, int ac, char **av)
 {
 	if (type == DEFAULT)
-		init_empty(game);
+	{
+		init_default(game);
+		argument_checker(ac, av, game);
+	}
 	// else if (type == GAME)
 	// 	init_game_struct(game);
 	// else if(type == MLX)
