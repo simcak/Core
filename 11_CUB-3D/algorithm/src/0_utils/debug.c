@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/02 16:06:14 by psimcak          ###   ########.fr       */
+/*   Created: 2024/11/02 15:59:30 by psimcak           #+#    #+#             */
+/*   Updated: 2024/11/02 16:00:12 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3D.h"
+#include "../../includes/cub3D.h"
 
-int	main(void)
+void	ft_debug(int type, t_main *game)
 {
-	t_main	*game;
-
-	game = ft_safe_malloc(sizeof(t_main), ERR_MALL_GAME);
-	init(DEFAULT, game);
-	// ft_debug(ALL, game);
-	init(MLX, game);
-	safe_free(game);
-	return (EXIT_SUCCESS);
+	if (type == ALL)
+	{
+		printf(BR"DEBUG\n"RST);
+	}
 }

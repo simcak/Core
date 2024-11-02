@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/31 20:30:08 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/02 16:06:03 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@
 # define RST					"\033[0m"
 
 /* ********************************** Init ********************************** */
-# define EMPTY					0
+# define DEFAULT				0
 # define GAME					1
 # define MLX					2
+
+/* ********************************* Debug ********************************** */
+# define ALL					0
 
 /* ********************************* Screen ********************************* */
 # define SCREEN_HEIGHT			1000
@@ -113,7 +116,7 @@ typedef struct s_map
 	
 }	t_map;
 
-typedef struct s_game
+typedef struct s_main
 {
 	mlx_t			*mlx;
 	mlx_image_t		*image;
@@ -123,16 +126,17 @@ typedef struct s_game
 	t_player		*player;
 	t_ray			*ray;
 	t_map			*map;
-}	t_game;
+}	t_main;
 
 /* ******************************* Prototypes ******************************* */
-// Init
-void	init_empty(t_game *game);
-void	init(int type, t_game *game);
-
 // Utils
-void	safe_free(t_game *game);
-void	safe_exit(t_game *game, const char *msg);
+void	ft_debug(int type, t_main *game);
+void	safe_free(t_main *game);
+void	safe_exit(t_main *game, const char *msg);
 void	*ft_safe_malloc(size_t size, char *msg);
+
+// Init
+void	init_empty(t_main *game);
+void	init(int type, t_main *game);
 
 #endif
