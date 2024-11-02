@@ -6,11 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/31 20:34:59 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/02 15:35:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/cub3D.h"
+#include "includes/cub3D.h"
 
 int	main(void)
 {

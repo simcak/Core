@@ -6,11 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/10/31 17:11:25 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/02 15:34:50 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3D.h"
+#include "../../includes/cub3D.h"
 
 static void	init_empty_player(t_game *game)
 {

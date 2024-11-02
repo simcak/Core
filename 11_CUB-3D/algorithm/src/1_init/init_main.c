@@ -6,11 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/01 18:02:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/02 15:35:06 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3D.h"
+#include "../../includes/cub3D.h"
 #define LP	"/Users/psimcak/Documents/Core/11_CUB-3D/maps/textures/logo.png"
 
 // static bool	init_animation(t_game *game)
