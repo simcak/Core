@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_main.c                                        :+:      :+:    :+:   */
+/*   init_hub.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/02 15:35:06 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/02 16:05:54 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 #define LP	"/Users/psimcak/Documents/Core/11_CUB-3D/maps/textures/logo.png"
 
-// static bool	init_animation(t_game *game)
+// static bool	init_animation(t_main *game)
 // {
 // 	game->animation_txt = mlx_load_png(LP);
 // 	if (!(game->animation_txt))
@@ -34,9 +34,9 @@
 // 	return (true);
 // }
 
-// static bool	init_mlx42(t_game *game)
+// static bool	init_mlx42(t_main *game)
 // {
-// 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d", 0);
+// 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D", 0);
 // 	if (!game->mlx)
 // 		return (false);
 // 	game->image = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -50,9 +50,9 @@
 // 	return (true);
 // }
 
-void	init(int type, t_game *game)
+void	init(int type, t_main *game)
 {
-	if (type == EMPTY)
+	if (type == DEFAULT)
 		init_empty(game);
 	// else if (type == GAME)
 	// 	init_game_struct(game);

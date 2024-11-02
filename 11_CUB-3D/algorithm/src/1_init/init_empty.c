@@ -6,13 +6,13 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/02 15:34:50 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/02 15:53:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-static void	init_empty_player(t_game *game)
+static void	init_empty_player(t_main *game)
 {
 	game->player = ft_safe_malloc(sizeof(t_player), ERR_MALL_GAME);
 
@@ -22,7 +22,7 @@ static void	init_empty_player(t_game *game)
 	game->player->fov_rad = 0;
 }
 
-static void	init_empty_ray(t_game *game)
+static void	init_empty_ray(t_main *game)
 {
 	game->ray = ft_safe_malloc(sizeof(t_ray), ERR_MALL_GAME);
 
@@ -30,7 +30,7 @@ static void	init_empty_ray(t_game *game)
 	game->ray->distance = 0;
 }
 
-static void init_empty_map(t_game *game)
+static void init_empty_map(t_main *game)
 {
 	game->map = ft_safe_malloc(sizeof(t_map), ERR_MALL_MAP);
 
@@ -56,7 +56,7 @@ static void init_empty_map(t_game *game)
 /**
  * @brief Initialize empty game struct
  */
-void	init_empty(t_game *game)
+void	init_empty(t_main *game)
 {
 	game->mlx = NULL;
 	game->image = NULL;

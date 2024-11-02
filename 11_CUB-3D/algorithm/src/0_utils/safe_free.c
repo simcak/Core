@@ -6,13 +6,13 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/02 15:35:46 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/02 15:53:40 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-void	safe_free(t_game *game)
+void	safe_free(t_main *game)
 {
 	if (game->map)
 		free(game->map);
