@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/02 16:22:14 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/04 09:48:34 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,14 @@ typedef struct s_map
 	int				start_x;
 	int				start_y;
 	char			start_dir;
-	char			*txt_no;
-	char			*txt_so;
-	char			*txt_we;
-	char			*txt_ea;
-	mlx_texture_t	*mlx_txt_no;
-	mlx_texture_t	*mlx_txt_so;
-	mlx_texture_t	*mlx_txt_we;
-	mlx_texture_t	*mlx_txt_ea;
+	char			*tx_no;
+	char			*tx_so;
+	char			*tx_we;
+	char			*tx_ea;
+	mlx_texture_t	*mlx_tx_no;
+	mlx_texture_t	*mlx_tx_so;
+	mlx_texture_t	*mlx_tx_we;
+	mlx_texture_t	*mlx_tx_ea;
 	
 }	t_map;
 
@@ -140,5 +140,8 @@ void	*ft_safe_malloc(size_t size, char *msg);
 // Init
 void	init_default(t_main *game);
 void	init(int type, t_main *game, int ac, char **av);
+
+// Parser
+void	parser(t_main *game);
 
 #endif
