@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:40:59 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/04 12:16:09 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:21:09 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,11 @@ void	parse_load_check_texture(t_main *game, char **parsed_file)
 }
 
 /**
- * @brief
- * CALLER: parser
- */
-void	parse_check_file(t_main *game)
-{
-	char	*line;
-
-	line = ft_get_next_line(game->map->fd);			// to free
-	game->map->parsed_file = ft_split(line, '\n');	// to free
-	// file_checker(2, NULL, game);
-}
-
-/**
  * @brief Parses the game .cub file and fill up the game map structure.
  * CALLER: main
  * 
  * This function reads the game configuration (= .cub) file and extracts the
- * necessary information: texture, colors, game map.
+ * necessary information: file content - texture, colors, game map.
  * 
  * Deeply in the functions, we have checkers for the validity of the file.
  * - The map must be composed of only 6 possible characters (0 1 2 N S W E)
@@ -99,7 +86,7 @@ void	parser(t_main *game)
 
 	map = game->map;
 	parse_check_file(game);
-	for (int i = 0; map->parsed_file[i]; i++) {
+	for (int i = 0; map->parsed_file[i]; i++) {						// debug
 		printf("Parsed file [%i]: %s\n", i, map->parsed_file[i]);
 	}
 	
