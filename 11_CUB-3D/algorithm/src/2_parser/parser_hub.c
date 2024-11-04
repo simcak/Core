@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:40:59 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/04 11:47:29 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/04 12:16:09 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*parser_value(char *key, char **parsed_file)
 		if (ft_strncmp(parsed_file[i], key, ft_strlen(key)) != 0)
 			continue ;
 		// if condition and other logic for finding the key
+		j++;
 		return (parsed_file[i]); // temporary return
 	}
 	return (NULL);
@@ -64,7 +65,10 @@ void	parse_load_check_texture(t_main *game, char **parsed_file)
  */
 void	parse_check_file(t_main *game)
 {
-	
+	char	*line;
+
+	line = ft_get_next_line(game->map->fd);			// to free
+	game->map->parsed_file = ft_split(line, '\n');	// to free
 	// file_checker(2, NULL, game);
 }
 
@@ -95,6 +99,10 @@ void	parser(t_main *game)
 
 	map = game->map;
 	parse_check_file(game);
+	for (int i = 0; map->parsed_file[i]; i++) {
+		printf("Parsed file [%i]: %s\n", i, map->parsed_file[i]);
+	}
+	
 	// parse_load_check_texture(game, map->parsed_file); // TODO
 	
 }

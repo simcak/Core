@@ -6,14 +6,14 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 11:49:12 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/04 11:51:12 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/04 11:58:49 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 #define BUFFER_SIZE_GNL 1
 
-char	*read_fd(int fd, char *s)
+static char	*read_fd(int fd, char *s)
 {
 	char	*buff;
 	int		pst_fd;
@@ -22,7 +22,7 @@ char	*read_fd(int fd, char *s)
 	buff = (char *) malloc(sizeof(char) * (BUFFER_SIZE_GNL + 1));
 	if (!buff)
 		return (NULL);
-	while (ft_strchr_custom(s, '\n') == NULL && pst_fd != 0)
+	while (ft_strchr_gnl(s, '\n') == NULL && pst_fd != 0)
 	{
 		pst_fd = read(fd, buff, BUFFER_SIZE_GNL);
 		if (pst_fd == -1)
@@ -31,13 +31,13 @@ char	*read_fd(int fd, char *s)
 			return (NULL);
 		}
 		buff[pst_fd] = '\0';
-		s = ft_strjoin_custom(s, buff);
+		s = ft_strjoin_gnl(s, buff);
 	}
 	free(buff);
 	return (s);
 }
 
-char	*process_current_line(char *s)
+static char	*process_current_line(char *s)
 {
 	char			*line;
 	unsigned int	i;
@@ -65,7 +65,7 @@ char	*process_current_line(char *s)
 	return (line);
 }
 
-char	*save_remainder_of_line(char *s)
+static char	*save_remainder_of_line(char *s)
 {
 	char			*rem;
 	unsigned int	i;
@@ -80,7 +80,7 @@ char	*save_remainder_of_line(char *s)
 		return (NULL);
 	}
 	i++;
-	rem = (char *) malloc(sizeof(char) * (ft_strlen_custom(s) + 1 - i));
+	rem = (char *) malloc(sizeof(char) * (ft_strlen_gnl(s) + 1 - i));
 	if (!rem)
 		return (NULL);
 	j = 0;
@@ -93,8 +93,10 @@ char	*save_remainder_of_line(char *s)
 
 /**
  * @brief Reads a line from a file descriptor.
+ * 
+ * allocated memory for output must be freed.
  */
-char	*get_next_line(int fd)
+char	*ft_get_next_line(int fd)
 {
 	static char	*s[1024];
 	char		*line;

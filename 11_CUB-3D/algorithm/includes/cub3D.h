@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/04 09:48:34 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/04 12:14:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,11 @@ typedef struct s_main
 /* ******************************* Prototypes ******************************* */
 // Utils
 void	ft_debug(int type, t_main *game);
+char	*ft_strchr_gnl(const char *s, int c);
+size_t	ft_strlen_gnl(const char *s);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+char	*ft_get_next_line(int fd);
+char	**ft_split(char const *s, char c);
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	safe_exit(t_main *game, const char *msg);
