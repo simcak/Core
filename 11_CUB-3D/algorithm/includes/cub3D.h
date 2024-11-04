@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/04 12:14:20 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:15:21 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@
 
 /* ********************************** Color ********************************* */
 # define BR						"\033[1;31m"
+# define BG						"\033[1;32m"
+# define BY						"\033[1;33m"
+# define BB						"\033[1;34m"
 # define RST					"\033[0m"
 
 /* ********************************** Init ********************************** */
@@ -138,6 +141,11 @@ char	*ft_get_next_line(int fd);
 char	**ft_split(char const *s, char c);
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strdup(const char *s);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+size_t	ft_strlcat(char *dest, const char *src, size_t size);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char const *str, unsigned int start, size_t len);
 void	safe_exit(t_main *game, const char *msg);
 void	safe_free(t_main *game);
 void	*ft_safe_malloc(size_t size, char *msg);
@@ -147,6 +155,7 @@ void	init_default(t_main *game);
 void	init(int type, t_main *game, int ac, char **av);
 
 // Parser
+void	parse_check_file(t_main *game);
 void	parser(t_main *game);
 
 #endif
