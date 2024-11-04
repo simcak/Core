@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/02 16:17:39 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/04 10:15:56 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,15 @@
 // 	return (true);
 // }
 
+/**
+ * @brief Checks the arguments validity.
+ * 
+ * 1) Checks the number of arguments.
+ * 2) Checks the file extension.
+ * 3) Checks the file descriptor.
+ * 
+ * If there is some problem, the program exits with an error message.
+ */
 void	argument_checker(int ac, char **av, t_main *game)
 {
 	int	len;
@@ -64,6 +73,9 @@ void	argument_checker(int ac, char **av, t_main *game)
 		safe_exit(game, BR"Invalid file"RST);
 }
 
+/**
+ * @brief Initializes the game structure with default values.
+ */
 void	init(int type, t_main *game, int ac, char **av)
 {
 	if (type == DEFAULT)
