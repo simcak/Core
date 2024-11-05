@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:09:10 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/04 13:15:08 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/05 23:33:53 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static char	**ft_parsed_file(char *full_str, int line_counter)
 	int		line_len;
 	int		i;
 
-	parsed_file = (char **) malloc(sizeof(char *) * (line_counter + 1));
+	parsed_file = ft_dalloc(sizeof(char *) * (line_counter + 1),
+			BR"Malloc failed in ft_parsed_file"RST);
 	line_start = 0;
 	line_end = 0;
 	i = -1;
@@ -77,5 +78,4 @@ void	parse_check_file(t_main *game)
 	close(game->map->fd);
 	game->map->parsed_file = ft_parsed_file(tmp_f_content, line_counter);
 	free(tmp_f_content);
-	// file_checker(); // TODO
 }

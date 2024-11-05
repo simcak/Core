@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safe_free.c                                        :+:      :+:    :+:   */
+/*   parser_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/05 23:25:19 by psimcak          ###   ########.fr       */
+/*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
+/*   Updated: 2024/11/05 23:57:05 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-void	two_d_free(char **arr)
-{
-	int	i;
+/**
+ * MAP RULES
+ * - The map must be composed of only 6 possible characters (0 1 2 N S W E)
+ * - The map must be closed/surrounded by walls
+ * - The map must be parsed as it looks in the file
+ * - Spaces are a valid part of the map and are up to us to handle
+ */
 
-	i = -1;
-	while (arr[++i])
-		free(arr[i]);
-	free(arr);
-}
-
-void	safe_free(t_main *game)
+void	parse_map(t_main *game)
 {
-	if (game->map->parsed_file)
-		two_d_free(game->map->parsed_file);
-	if (game->map->txt_paths)
-		free(game->map->txt_paths);
-	if (game->map->colors)
-		free(game->map->colors);
-	if (game->map)
-		free(game->map);
-	free(game);
+	t_map	*map;
+
+	map = game->map;
+	printf("Map example: %s\n", map->colors[1]);
 }

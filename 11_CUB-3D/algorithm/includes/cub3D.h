@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/04 13:15:21 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/05 23:57:30 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ typedef struct s_map
 {
 	int				fd;
 	char			**parsed_file;
+	char			**txt_paths;
+	char			**colors;
 	char			**grid;
 	int				width;
 	int				height;
@@ -108,10 +110,6 @@ typedef struct s_map
 	int				start_x;
 	int				start_y;
 	char			start_dir;
-	char			*tx_no;
-	char			*tx_so;
-	char			*tx_we;
-	char			*tx_ea;
 	mlx_texture_t	*mlx_tx_no;
 	mlx_texture_t	*mlx_tx_so;
 	mlx_texture_t	*mlx_tx_we;
@@ -148,6 +146,8 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *str, unsigned int start, size_t len);
 void	safe_exit(t_main *game, const char *msg);
 void	safe_free(t_main *game);
+void	two_d_free(char **arr);
+void	*ft_dalloc(size_t size, char *msg);
 void	*ft_safe_malloc(size_t size, char *msg);
 
 // Init
@@ -157,5 +157,10 @@ void	init(int type, t_main *game, int ac, char **av);
 // Parser
 void	parse_check_file(t_main *game);
 void	parser(t_main *game);
+void	parse_map(t_main *game);
+void	parse_load_check_setup(t_main *game);
+bool	we_found_flag(t_main *game, char *flag, int line);
+char	*txt_path_finder(t_main *game, char *flag, int line);
+void	checker_path_color(t_main *game, char **txt_paths);
 
 #endif
