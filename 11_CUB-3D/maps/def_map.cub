@@ -1,10 +1,17 @@
-NO ./map_textures/NO.xpm
-SO ./map_textures/SO.xpm
-WE ./map_textures/WE.xpm
-EA ./map_textures/EA.xpm
+
+        EA              ./map_textures/EA.xpm   
+
+C 225,30,0
+SO      ./map_textures/SO.xpm   
 
 F 220,100,0
-C 225,30,0
+        WE ./map_textures/WE.xpm
+
+
+NO ./map_textures/NO.xpm                
+
+
+
 
         1111111111111111111111111
         1000000000110000000000001
