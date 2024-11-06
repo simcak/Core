@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:39 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 18:06:15 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/06 18:28:25 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	parse_load_check_texture(t_main *game)
 	ft_safe_texture("WE", game, 2);
 	ft_safe_texture("EA", game, 3);
 	game->map->txt_paths[4] = NULL;
-	ft_debug(ALL, game);
 	ft_dupliempty_txt(game, game->map->txt_paths);
 
 	game->map->mlx_txt_no = mlx_load_png(game->map->txt_paths[0]);

@@ -6,32 +6,12 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 16:49:50 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/06 18:19:51 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 # define ERR_MALL_MAP		BR"Memory allocation failed for map"RST
-# define ERR_MALL_PLAYER	BR"Memory allocation failed for player"RST
-# define ERR_MALL_RAY		BR"Memory allocation failed for ray"RST
-
-static void	init_default_player(t_main *game)
-{
-	game->player = ft_safe_malloc(sizeof(t_player), ERR_MALL_PLAYER);
-
-	game->player->x = 0;
-	game->player->y = 0;
-	game->player->angle = 0;
-	game->player->fov_rad = 0;
-}
-
-static void	init_default_ray(t_main *game)
-{
-	game->ray = ft_safe_malloc(sizeof(t_ray), ERR_MALL_RAY);
-
-	game->ray->angle = 0;
-	game->ray->distance = 0;
-}
 
 static void init_default_map(t_main *game)
 {
@@ -63,7 +43,7 @@ void	init_default(t_main *game)
 	game->image = NULL;
 	game->animation = NULL;
 	game->animation_txt = NULL;
-	init_default_player(game);
-	init_default_ray(game);
+	game->player = NULL;
+	game->ray = NULL;
 	init_default_map(game);
 }
