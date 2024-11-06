@@ -6,11 +6,12 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/04 09:40:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/06 16:52:09 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3D.h"
+# define ERR_MALL_GAME	BR"Memory allocation failed for game"RST
 
 int	main(int ac, char **av)
 {
@@ -19,8 +20,8 @@ int	main(int ac, char **av)
 	game = ft_safe_malloc(sizeof(t_main), ERR_MALL_GAME);
 	init(DEFAULT, game, ac, av);
 	parser(game);
-	// ft_debug(ALL, game);
-	// init(MLX, game, 0, NULL);
+	// init(MLX, game, 0, NULL);	// TODO
+	ft_debug(ALL, game);
 	safe_free(game);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:40:59 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/05 23:59:24 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/06 16:53:28 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,8 @@ void	parser(t_main *game)
 
 	map = game->map;
 	parse_check_file(game);
-
-	// debug
-	for (int i = 0; map->parsed_file[i]; i++) {
-		printf(BG"Parsed file [%i]: %s\n"RST, i, map->parsed_file[i]);
-	}
-	// debug
-
-	parse_load_check_setup(game);
-
-	// debug
-	for (int i = 0; i < 4; i++)
-		printf(BB"txt_paths[%d]: %s\n"RST, i, game->map->txt_paths[i]);
-	for (int i = 0; i < 2; i++)
-		printf(BY"colors[%d]: %s\n"RST, i, game->map->colors[i]);
-	// debug
+	parse_load_check_texture(game);
+	parse_load_check_colors(game);
 
 	// parse_map(game); // TODO
 }

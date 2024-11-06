@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:09:10 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/05 23:33:53 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/06 17:58:43 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	**ft_parsed_file(char *full_str, int line_counter)
 	int		line_len;
 	int		i;
 
-	parsed_file = ft_dalloc(sizeof(char *) * (line_counter + 1),
+	parsed_file = ft_dalloc(sizeof(char *), line_counter + 1,
 			BR"Malloc failed in ft_parsed_file"RST);
 	line_start = 0;
 	line_end = 0;
