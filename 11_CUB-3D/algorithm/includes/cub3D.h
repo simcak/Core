@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 17:58:26 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/06 18:15:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,9 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *str, unsigned int start, size_t len);
 void	safe_exit(t_main *game, const char *msg);
-void	safe_free(t_main *game);
-void	two_d_free(char **arr);
+void	free_full(t_main *game);
+int		free_parser(t_main *game);
+int		free_str_arr(char **arr);
 void	*ft_dalloc(size_t size, int n, char *msg);
 void	*ft_safe_malloc(size_t size, char *msg);
 

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 16:52:09 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/06 18:15:52 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ int	main(int ac, char **av)
 	parser(game);
 	// init(MLX, game, 0, NULL);	// TODO
 	ft_debug(ALL, game);
-	safe_free(game);
+	free_full(game);
 	return (EXIT_SUCCESS);
 }
