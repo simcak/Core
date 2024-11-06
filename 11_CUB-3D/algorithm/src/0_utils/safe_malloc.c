@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:54:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/05 23:33:06 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/06 18:01:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,18 @@
 /**
  * Safe 2D malloc
  */
-void	*ft_dalloc(size_t size, char *msg)
+void	*ft_dalloc(size_t size, int n, char *msg)
 {
 	void	**ptr;
 
-	ptr = (void **)malloc(size);
+	ptr = (void **)malloc(size * n);
 	if (!ptr)
 	{
 		perror(msg);
 		exit(EXIT_FAILURE);
 	}
+	while (n--)
+		ptr[n] = NULL;
 	return (ptr);
 }
 

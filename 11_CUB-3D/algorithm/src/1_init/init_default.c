@@ -6,15 +6,18 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 00:01:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/06 16:49:50 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
+# define ERR_MALL_MAP		BR"Memory allocation failed for map"RST
+# define ERR_MALL_PLAYER	BR"Memory allocation failed for player"RST
+# define ERR_MALL_RAY		BR"Memory allocation failed for ray"RST
 
 static void	init_default_player(t_main *game)
 {
-	game->player = ft_safe_malloc(sizeof(t_player), ERR_MALL_GAME);
+	game->player = ft_safe_malloc(sizeof(t_player), ERR_MALL_PLAYER);
 
 	game->player->x = 0;
 	game->player->y = 0;
@@ -24,7 +27,7 @@ static void	init_default_player(t_main *game)
 
 static void	init_default_ray(t_main *game)
 {
-	game->ray = ft_safe_malloc(sizeof(t_ray), ERR_MALL_GAME);
+	game->ray = ft_safe_malloc(sizeof(t_ray), ERR_MALL_RAY);
 
 	game->ray->angle = 0;
 	game->ray->distance = 0;
@@ -36,6 +39,8 @@ static void init_default_map(t_main *game)
 
 	game->map->fd = 0;
 	game->map->parsed_file = NULL;
+	game->map->txt_paths = NULL;
+	game->map->colors = NULL;
 	game->map->grid = NULL;
 	game->map->width = 0;
 	game->map->height = 0;
@@ -43,12 +48,10 @@ static void init_default_map(t_main *game)
 	game->map->start_x = -1;
 	game->map->start_y = -1;
 	game->map->start_dir = '\0';
-	game->map->txt_paths = NULL;
-	game->map->colors = NULL;
-	game->map->mlx_tx_no = NULL;
-	game->map->mlx_tx_so = NULL;
-	game->map->mlx_tx_we = NULL;
-	game->map->mlx_tx_ea = NULL;
+	game->map->mlx_txt_no = NULL;
+	game->map->mlx_txt_so = NULL;
+	game->map->mlx_txt_we = NULL;
+	game->map->mlx_txt_ea = NULL;
 }
 
 /**
