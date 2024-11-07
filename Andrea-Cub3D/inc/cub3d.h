@@ -6,48 +6,48 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 14:17:09 by vbartos           #+#    #+#             */
-/*   Updated: 2024/11/01 18:15:58 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/05 20:47:19 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define ERR_MALLOC_GAME	"Couldn't allocate memory for struct 'game'."
-# define ERR_MALLOC_MAP		"Couldn't allocate memory for struct 'map'."
-# define ERR_ARGC			"Provide a path to your desired map only."
-# define ERR_ARGV			"Provide a .cub file."
-# define ERR_OPEN			"File cannot be opened."
-# define ERR_TXT_OPEN		"A texture file cannot be opened."
-# define ERR_DUP_VALUE		"The file contains duplicate value identifiers."
-# define ERR_MISSING_VALUE	"The provided map is missing a required value."
-# define ERR_COLOR			"Provided RGB colors must be set in 0-255 range."
-# define ERR_COLOR_FORMAT	"Provided RGB colors must be set in R,G,B format."
-# define ERR_COLOR_INTMAX	"Provided RGB colors cause INTMAX overflow."
-# define ERR_MAP_NOT_FOUND	"No valid map found in provided file."
-# define ERR_MAP_HEIGHT		"The map must be atleast 3 lines high."
-# define ERR_MAP_NOT_CLOSED	"The map's perimeter is not enclosed in walls."
-# define ERR_MAP_EMPTY_LINE	"The map must not contain empty lines."
-# define ERR_MAP_CORNERS	"The map's corners are not fully enclosed in walls."
-# define ERR_MAP_CH_INVALID	"The map contains invalid characters."
-# define ERR_MAP_START		"The map must contain precisely one starting point."
-# define ERR_MAP_ADJACENT	"The map's inner spaces must be enclosed."
-# define ERR_MAP_CORNER		"The map's corners must be enclosed."
+# define ERR_MALLOC_GAME		"Couldn't allocate memory for struct 'game'."
+# define ERR_MALLOC_MAP			"Couldn't allocate memory for struct 'map'."
+# define ERR_ARGC				"Provide a path to your desired map only."
+# define ERR_ARGV				"Provide a .cub file."
+# define ERR_OPEN				"File cannot be opened."
+# define ERR_TXT_OPEN			"A texture file cannot be opened."
+# define ERR_DUP_VALUE			"The file contains duplicate value identifiers."
+# define ERR_MISSING_VALUE		"The provided map is missing a required value."
+# define ERR_COLOR				"Provided RGB colors must be set in 0-255 range."
+# define ERR_COLOR_FORMAT		"Provided RGB colors must be set in R,G,B format."
+# define ERR_COLOR_INTMAX		"Provided RGB colors cause INTMAX overflow."
+# define ERR_MAP_NOT_FOUND		"No valid map found in provided file."
+# define ERR_MAP_HEIGHT			"The map must be atleast 3 lines high."
+# define ERR_MAP_NOT_CLOSED		"The map's perimeter is not enclosed in walls."
+# define ERR_MAP_EMPTY_LINE		"The map must not contain empty lines."
+# define ERR_MAP_CORNERS		"The map's corners are not fully enclosed in walls."
+# define ERR_MAP_CH_INVALID		"The map contains invalid characters."
+# define ERR_MAP_START			"The map must contain precisely one starting point."
+# define ERR_MAP_ADJACENT		"The map's inner spaces must be enclosed."
+# define ERR_MAP_CORNER			"The map's corners must be enclosed."
 
-# define WIDTH 1280
-# define HEIGHT 768
-# define TILE_SIZE 32
-# define TILE_SIZE_2D 16
-# define FOV 60
-# define ROTATION_SPEED 0.045
-# define PLAYER_SPEED 5
-# define PLAYER_SIZE 6
-# define MINIMAP_ZOOM 5
+# define WIDTH					1280
+# define HEIGHT					768
+# define TILE_SIZE				32
+# define TILE_SIZE_2D			16
+# define FOV					60
+# define ROTATION_SPEED			0.045
+# define PLAYER_SPEED			5
+# define PLAYER_SIZE			6
+# define MINIMAP_ZOOM			5
 
-# define COLOR_FREE_SPACE_2D 0x703023FF
-# define COLOR_WALL_2D 0xFFEEDCFF
-# define COLOR_OUTSIDE_2D 0x5B5B5BFF
-# define COLOR_PLAYER 0xFFDB58FF
+# define COLOR_FREE_SPACE_2D	0x703023FF
+# define COLOR_WALL_2D			0xFFEEDCFF
+# define COLOR_OUTSIDE_2D		0x5B5B5BFF
+# define COLOR_PLAYER			0xFFDB58FF
 
 # include "../libftprintf/ft_printf.h"
 # include "../MLX42/include/MLX42/MLX42.h"
@@ -100,8 +100,8 @@ typedef struct s_player
 	int		p_y;
 	int		mini_p_x;
 	int		mini_p_y;
-	double	p_a; // player angle
-	double	fov_rd; // field of view in radians
+	double	p_a;		// player angle
+	double	fov_rd;		// field of view in radians
 	double	move_y;
 	double	move_x;
 }	t_player;
@@ -109,19 +109,19 @@ typedef struct s_player
 typedef struct s_ray
 {
 	int			ray_counter;
-	double		r_a; // ray angle
+	double		r_a;			// ray angle
 	double		r_x;
 	double		r_y;
-	double		angle_nor; // normalized ray angle
+	double		angle_nor;		// normalized ray angle
 	double		angle_diff;
 	int			angle_orientation;
-	double		vy; // vertical ray hit
-	double		vx; // vertical ray hit
-	double		dist_ver; // vertical ray hit
-	double		hy;	// horizontal ray hit
-	double		hx;	// horizontal ray hit
-	double		dist_hor;	// horizontal ray hit
-	double		dist_total; // distance to the wall
+	double		vy;				// vertical ray hit
+	double		vx;				// vertical ray hit
+	double		dist_ver;		// vertical ray hit
+	double		hy;				// horizontal ray hit
+	double		hx;				// horizontal ray hit
+	double		dist_hor;		// horizontal ray hit
+	double		dist_total;		// distance to the wall
 	double		y_step;
 	double		x_step;
 	int			pixel;
