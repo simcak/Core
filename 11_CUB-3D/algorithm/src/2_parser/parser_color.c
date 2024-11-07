@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:01 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 19:08:46 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/07 19:23:37 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,4 @@ void	parse_load_check_colors(t_main *game)
 
 	game->map->rgb_c = split_check_rgb(game, game->map->colors[0]);
 	game->map->rgb_f = split_check_rgb(game, game->map->colors[1]);
-	
-	/* todo: parse and check rgb values - colors */
 }
