@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:46 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 17:06:40 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/07 18:13:45 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @brief Checks if there are any duplications or empty values in parsed file.
  * CALLER: parse_load_check_texture
  */
-void	ft_dupliempty_txt(t_main *game, char **txt_paths)
+void	ft_dupliempty_txtp(t_main *game, char **txt_paths)
 {
 	int	i;
 	int	j;
@@ -28,10 +28,10 @@ void	ft_dupliempty_txt(t_main *game, char **txt_paths)
 		while (txt_paths[++j])
 		{
 			if (strlen(txt_paths[j]) == 0)
-				safe_exit(game, BR"Empty value in the parsed file"RST);
+				safe_exit(game, BR"Empty value in the texture path"RST);
 			if (ft_strncmp(txt_paths[i], txt_paths[j],
 				ft_strlen(txt_paths[i])) == 0)
-				safe_exit(game, BR"Duplicate value in the parsed file"RST);
+				safe_exit(game, BR"Duplicate value of the txt path"RST);
 		}
 	}
 }

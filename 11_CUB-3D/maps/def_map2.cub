@@ -1,11 +1,11 @@
-        WE ./map_textures/WE.png        42
+        WE ./map_textures/WE.png
 SO ./map_textures/SO.png
         NO      ./map_textures/NO.png
 
-        C 225,    30 , 0  5  
+        F 225,    30 , 0  5  
 EA      ./map_textures/EA.png
 
-F              220      ,  100, 0    hello   
+C              220      ,  100, 0    hello   
  
         1111111111111111111111111
         1000000000110000000000001

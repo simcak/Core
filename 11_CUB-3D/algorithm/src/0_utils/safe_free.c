@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 18:13:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/07 18:08:41 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,19 @@ int	free_str_arr(char **arr)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * txt_paths is a 2D array of POINTERS to the parsed file. Therefore, we don't
+ * need 2D free function.
+ * same goes for colors
+ */
 int	free_map(t_map *map)
 {
 	if (map->parsed_file)
 		free_str_arr(map->parsed_file);
 	if (map->txt_paths)
-		free_str_arr(map->txt_paths);
+		free(map->txt_paths);
+	if (map->colors)
+		free(map->colors);
 	if (map->mlx_txt_no)
 		mlx_delete_texture(map->mlx_txt_no);
 	if (map->mlx_txt_so)

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 18:15:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/07 18:13:54 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,6 @@ void	parse_map(t_main *game);
 void	parse_load_check_texture(t_main *game);
 bool	we_found_flag(t_main *game, char *flag, int line);
 char	*txt_path_finder(t_main *game, char *flag, int line);
-void	ft_dupliempty_txt(t_main *game, char **txt_paths);
+void	ft_dupliempty_txtp(t_main *game, char **txt_paths);
 
 #endif
