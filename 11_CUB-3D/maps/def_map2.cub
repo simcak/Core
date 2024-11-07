@@ -2,10 +2,10 @@
 SO ./map_textures/SO.png
         NO      ./map_textures/NO.png
 
-        F 225,    30 , 0  5  
+        C   225,30,0
 EA      ./map_textures/EA.png
 
-C              220      ,  100, 0    hello   
+  F              220,100,0
  
         1111111111111111111111111
         1000000000110000000000001
