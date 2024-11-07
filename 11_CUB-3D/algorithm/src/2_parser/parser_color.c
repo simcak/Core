@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:01 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 17:57:06 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/07 18:07:43 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*rgb_finder(t_main *game, char *flag, int line)
 	spaces_1 = space_counter(parsed_file[line]);
 	flag_len = ft_strlen(flag);
 	spaces_2 = space_counter(parsed_file[line] + spaces_1 + flag_len);
-	return (ft_strdup(parsed_file[line] + spaces_1 + flag_len + spaces_2));
+	return (parsed_file[line] + spaces_1 + flag_len + spaces_2);
 }
 
 /**

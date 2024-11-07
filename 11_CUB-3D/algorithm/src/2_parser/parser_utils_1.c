@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:46 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 16:37:43 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/07 17:57:48 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,18 @@ bool	we_found_flag(t_main *game, char *flag, int line)
 	flag_len = ft_strlen(flag);
 	if (ft_strncmp(parsed_file[line] + spaces, flag, flag_len) == 0
 			&& is_space(parsed_file[line][spaces + flag_len]))
-		return (true);
+			return (true);
 	return (false);
 }
 
 /**
  * @brief Finds the path to the texture in the parsed file.
  * CALLER: ft_safe_texture
+ * In here, there is one potential controversial thing. If there is something
+ * after the texture path, it exit. This is because the subject does not specify
+ * that we should be benevolent and ignore the garbage after the texture path.
+ * = "each type of ELEMENT can be SEPARATED".
+ * I insist that this parsing is enough if not correct.
  */
 char	*txt_path_finder(t_main *game, char *flag, int line)
 {
@@ -70,17 +75,16 @@ char	*txt_path_finder(t_main *game, char *flag, int line)
 	int		flag_len;
 	int		spaces_1;
 	int		spaces_2;
-	char	*txt_path;
 	char	*txt_path_start;
-	int		txt_path_len;
+	char	*post_txt_path;
 
 	parsed_file = game->map->parsed_file;
 	spaces_1 = space_counter(parsed_file[line]);
 	flag_len = ft_strlen(flag);
 	spaces_2 = space_counter(parsed_file[line] + spaces_1 + flag_len);
 	txt_path_start = parsed_file[line] + spaces_1 + flag_len + spaces_2;
-	txt_path_len = char_counter(txt_path_start) + 1;
-	txt_path = ft_safe_malloc(txt_path_len + 1, ERR_MALL_TXT);
-	ft_strlcpy(txt_path, txt_path_start, txt_path_len);
-	return (txt_path);
+	post_txt_path = txt_path_start + char_counter(txt_path_start);
+	if (post_txt_path[0] != '\0')
+		safe_exit(game, BR"Some garbage after the texture path"RST);
+	return (txt_path_start);
 }
