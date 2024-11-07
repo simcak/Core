@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:46 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 18:13:45 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/07 18:25:55 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,4 @@ void	ft_dupliempty_txtp(t_main *game, char **txt_paths)
 				safe_exit(game, BR"Duplicate value of the txt path"RST);
 		}
 	}
-}
-
-// TODO - put to the header as well
-void	ft_dupliempty_color(void)
-{
-	return ;
 }

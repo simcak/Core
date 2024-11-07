@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 18:19:51 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/07 18:43:10 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void init_default_map(t_main *game)
 	game->map->parsed_file = NULL;
 	game->map->txt_paths = NULL;
 	game->map->colors = NULL;
+	game->map->rgb_c = NULL;
+	game->map->rgb_f = NULL;
 	game->map->grid = NULL;
 	game->map->width = 0;
 	game->map->height = 0;

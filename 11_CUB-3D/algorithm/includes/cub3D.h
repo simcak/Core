@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 18:13:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/07 19:13:52 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ typedef struct s_map
 	char			**parsed_file;
 	char			**txt_paths;
 	char			**colors;
+	char			**rgb_c;
+	char			**rgb_f;
 	char			**grid;
 	int				width;
 	int				height;
@@ -143,7 +145,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *str, unsigned int start, size_t len);
 void	safe_exit(t_main *game, const char *msg);
 void	free_full(t_main *game);
-int		free_parser(t_main *game);
 int		free_str_arr(char **arr);
 void	*ft_dalloc(size_t size, int n, char *msg);
 void	*ft_safe_malloc(size_t size, char *msg);

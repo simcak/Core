@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 18:08:41 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/07 19:13:33 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ int	free_map(t_map *map)
 		free(map->txt_paths);
 	if (map->colors)
 		free(map->colors);
+	if (map->rgb_c)
+		free_str_arr(map->rgb_c);
+	if (map->rgb_f)
+		free_str_arr(map->rgb_f);
 	if (map->mlx_txt_no)
 		mlx_delete_texture(map->mlx_txt_no);
 	if (map->mlx_txt_so)
@@ -45,15 +49,6 @@ int	free_map(t_map *map)
 	if (map->mlx_txt_ea)
 		mlx_delete_texture(map->mlx_txt_ea);
 	free(map);
-	return (EXIT_SUCCESS);
-}
-
-int	free_parser(t_main *game)
-{
-	if (game->map)
-		free_map(game->map);
-	if (game)
-		free(game);
 	return (EXIT_SUCCESS);
 }
 
