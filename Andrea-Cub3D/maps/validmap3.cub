@@ -1,7 +1,9 @@
-NO ./textures/orange_bricks.png
-SO ./textures/stone_bricks.png
+    NO ./textures/orange_bricks.png
+EA     ./textures/old_bricks.png    42
+
+
 WE ./textures/game_bricks.png
-EA ./textures/old_bricks.png
+        SO             ./textures/stone_bricks.png    
 
 F 25,230,255
 C 255,40,80
