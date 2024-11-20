@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 17:39:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 18:42:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,12 +150,18 @@ void	free_full(t_main *game);
 int		free_str_arr(char **arr);
 void	*ft_dalloc(size_t size, int n, char *msg);
 void	*ft_safe_malloc(size_t size, char *msg);
+bool	is_space(char c);
+bool	is_digit(char c);
+int		space_counter(char *input);
+void	are_spaces_or_digits(t_main *game, char *rgb);
 
 // Init
 void	init_default(t_main *game);
 void	init(int type, t_main *game, int ac, char **av);
 
 // Parser
+void	range_check(t_main *game, int rgb);
+void	difference_check(t_main *game, int *rgb_c, int *rgb_f);
 void	parse_load_check_colors(t_main *game);
 void	parse_check_file(t_main *game);
 void	parser(t_main *game);
