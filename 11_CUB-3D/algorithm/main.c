@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 19:17:12 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 15:18:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int ac, char **av)
 	// init(MLX, game, 0, NULL);	// TODO
 	ft_debug(ALL, game);
 	free_full(game);
-	printf("Press RETURN to exit...\n");
-	getchar();			// delete
+	// printf("Press RETURN to exit...\n");	// delete
+	// getchar();			// delete
 	return (EXIT_SUCCESS);
 }

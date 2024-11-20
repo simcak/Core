@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 19:13:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:40:48 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ int	free_map(t_map *map)
 		free(map->txt_paths);
 	if (map->colors)
 		free(map->colors);
+	if (map->rgb_raw)
+		free_str_arr(map->rgb_raw);
 	if (map->rgb_c)
-		free_str_arr(map->rgb_c);
+		free(map->rgb_c);
 	if (map->rgb_f)
-		free_str_arr(map->rgb_f);
+		free(map->rgb_f);
 	if (map->mlx_txt_no)
 		mlx_delete_texture(map->mlx_txt_no);
 	if (map->mlx_txt_so)

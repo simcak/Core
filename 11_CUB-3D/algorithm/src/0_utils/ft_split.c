@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:01:50 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/04 12:07:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 15:32:48 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,18 @@ static void	ft_alloc_fill_arr(char **arr, char const *s, char c)
  * 
  * return value is allocated. don't forget to free it.
  */
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *str, char delimiter)
 {
 	unsigned int	num_wrds;
 	char			**arr;
 
-	if (!s)
-		return (0);
-	num_wrds = ft_count_words(s, c);
+	if (!str)
+		return (NULL);
+	num_wrds = ft_count_words(str, delimiter);
 	arr = (char **) malloc(sizeof(char *) * (num_wrds + 1));
 	if (!arr)
-		return (0);
-	ft_alloc_fill_arr(arr, s, c);
+		return (NULL);
+	ft_alloc_fill_arr(arr, str, delimiter);
 	arr[num_wrds] = NULL;
 	return (arr);
 }

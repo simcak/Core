@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:01 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 19:23:37 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 18:12:34 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #define ERR_MALL_CLR		BR"Malloc failed for 2D color setup"RST
 #define ERR_MALL_RGB		BR"Malloc failed for 2D rgb setup"RST
 #define ERR_RGB				BR"RGB values must be digits in range 0-255\n\
-Format: e.c. '255,5,42' - rgb setup is ONE information."RST
+Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
+#define ERR_RGB_COUNT		BR"There must be ONE number <0-255> per color"RST
+#define ERR_RANGE			BR"RGB values must be in range <0-255>"RST
 
 static bool	ft_is_space(char c)
 {
@@ -38,7 +40,9 @@ static int	space_counter(char *input)
 }
 
 /**
- * 
+ * With this function we find the pointer to the rgb values in the parsed file.
+ * It skips the flag and the spaces after the flag.
+ * Benefit of pointer returner is that we dont allocate memory for this.
  */
 char	*rgb_finder(t_main *game, char *flag, int line)
 {
@@ -55,7 +59,8 @@ char	*rgb_finder(t_main *game, char *flag, int line)
 }
 
 /**
- * 
+ * Function to check if the flag is present in the parsed file.
+ * It returns the pointer to the start of the RGB values after the flag.
  */
 static char	*ft_safe_color(char *flag, t_main *game, char **parsed_file)
 {
@@ -81,26 +86,94 @@ static char	*ft_safe_color(char *flag, t_main *game, char **parsed_file)
 	return (rgb);
 }
 
-static char	**split_check_rgb(t_main *game, char *color)
+/**
+ * function to check if the rgb values are only digits or spaces
+ */
+static void	ft_int_spaces(t_main *game, char *rgb)
 {
-	char	**rgb;
-	int		i;
-	int		j;
+	int	i;
 
-	rgb = ft_split(color, ',');
 	i = -1;
 	while (rgb[++i])
 	{
-		j = -1;
-		while (rgb[i][++j])
-		{
-			if (!ft_is_digit(rgb[i][j]))
-				safe_exit(game, BR ERR_RGB RST);
-		}
+		if (ft_is_space(rgb[i]) || ft_is_digit(rgb[i]))
+			continue ;
+		else
+			safe_exit(game, BR"Non-space or non-digit value detected"RST);
+	}
+}
+
+/**
+ * Function to check if there is only one number per color.
+ * It is tolerating the spaces between the numbers.
+ * On the input we have one color bumber in string format (e.g. " 255   "").
+ * It exits if there are more than one number.
+ */
+static void	format_check(t_main *game, char *rgb)
+{
+	int	i;
+	int	num_counter;
+
+	i = 0;
+	num_counter = 0;
+	ft_int_spaces(game, rgb);
+	while (rgb[i])
+	{
+		i += space_counter(rgb + i);
+		while (ft_is_digit(rgb[i]))
+			i++;
+		num_counter++;
+		if (num_counter > 1)
+			safe_exit(game, ERR_RGB_COUNT);
+		i += space_counter(rgb + i);
+	}
+}
+
+/**
+ * Function to check if the rgb values are in the range 0-255.
+ */
+static void	range_check(t_main *game, int rgb)
+{
+	if (rgb >= 0 && rgb <= 255)
+		return ;
+	else
+		safe_exit(game, ERR_RANGE);
+}
+
+/**
+ * Function splits the rgb values and checks:
+ * - if the values are digits or spaces
+ * - if there is only one value per color
+ * **************** than we do atoi **************** *
+ * - if the values are in range 0-255
+ * - if there are 3 values
+ */
+static int	*split_check_rgb(t_main *game, char *color)
+{
+	int		*rgb;
+	int		i;
+
+	game->map->rgb_raw = ft_split(color, ',');
+	rgb = ft_dalloc(sizeof(int *), 3, ERR_MALL_RGB);
+	i = -1;
+	while (game->map->rgb_raw[++i])
+	{
+		format_check(game, game->map->rgb_raw[i]);
+		rgb[i] = ft_atoi(game->map->rgb_raw[i]);
+		range_check(game, rgb[i]);
 	}
 	if (i != 3)
 		safe_exit(game, BR"RGB values must be 3"RST);
 	return (rgb);
+}
+
+/**
+ * Colors must be different for ceiling and floor.
+ */
+static void	difference_check(t_main *game, int *rgb_c, int *rgb_f)
+{
+	if (rgb_c[0] == rgb_f[0] && rgb_c[1] == rgb_f[1] && rgb_c[2] == rgb_f[2])
+		safe_exit(game, BR"Ceiling and floor colors must be different"RST);
 }
 
 /**
@@ -126,4 +199,5 @@ void	parse_load_check_colors(t_main *game)
 
 	game->map->rgb_c = split_check_rgb(game, game->map->colors[0]);
 	game->map->rgb_f = split_check_rgb(game, game->map->colors[1]);
+	difference_check(game, game->map->rgb_c, game->map->rgb_f);
 }
