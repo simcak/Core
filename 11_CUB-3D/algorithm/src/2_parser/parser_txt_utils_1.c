@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils_1.c                                   :+:      :+:    :+:   */
+/*   parser_txt_utils_1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:46 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 17:57:48 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 18:26:51 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
 #define ERR_MALL_TXT		BR"Malloc failed for texture path setup"RST
-
-static bool	is_space(char c)
-{
-	return (c == 32 || (9 <= c && c <= 13));
-}
-
-static int	space_counter(char *input)
-{
-	int	counter;
-
-	counter = -1;
-	while (input[++counter])
-		if (!is_space(input[counter]))
-			break ;
-	return (counter);
-}
 
 static int	char_counter(char *input)
 {

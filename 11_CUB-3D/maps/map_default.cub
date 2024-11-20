@@ -1,8 +1,8 @@
-               N     ./textures/orange_b
+               N     ./map_textures/N
 			   NO      ./textures/orange_bricks.png
-SO   ./textures/stone_bricks.png
-WE                      ./textures/game_bricks.png
-EA ./textures/old_bricks.png
+SO   ./map_textures/SO.png
+WE                      ./map_textures/WE.png
+EA ./map_textures/EA.png
 E ./lulec
 EAEAEAA ./kamardde  
        F 10,10,10
