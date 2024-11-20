@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 20:32:36 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 19:17:32 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 15:18:17 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	safe_exit(t_main *game, const char *msg)
 	printf("%s\n", msg);
 	if (game)
 		free_full(game);
-	printf("Press RETURN to exit...\n");
-	getchar();		// delete
+	// printf("Press RETURN to exit...\n"); // delete
+	// getchar();		// delete
 	exit(EXIT_FAILURE);
 }

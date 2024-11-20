@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:59:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 19:08:00 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:12:37 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	ft_debug(int type, t_main *game)
 			printf(BY"colors[%d]: %s\n"RST, i, game->map->colors[i]);
 		
 		for (int i = 0; i < 3; i++)
-			printf(BG"rgb_c[%d]: %s\n"RST, i, game->map->rgb_c[i]);
+			printf(BG"rgb_c[%d]: %d\n"RST, i, game->map->rgb_c[i]);
 		for (int i = 0; i < 3; i++)
-			printf(BG"rgb_f[%d]: %s\n"RST, i, game->map->rgb_f[i]);
+			printf(BG"rgb_f[%d]: %d\n"RST, i, game->map->rgb_f[i]);
 	}
 }

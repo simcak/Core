@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/07 19:13:52 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:39:05 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,9 @@ typedef struct s_map
 	char			**parsed_file;
 	char			**txt_paths;
 	char			**colors;
-	char			**rgb_c;
-	char			**rgb_f;
+	char			**rgb_raw;
+	int				*rgb_c;
+	int				*rgb_f;
 	char			**grid;
 	int				width;
 	int				height;
@@ -131,6 +132,7 @@ typedef struct s_main
 /* ******************************* Prototypes ******************************* */
 // Utils
 void	ft_debug(int type, t_main *game);
+int		ft_atoi(const char *original_str);
 char	*ft_strchr_gnl(const char *s, int c);
 size_t	ft_strlen_gnl(const char *s);
 char	*ft_strjoin_gnl(char *s1, char *s2);
