@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:09:10 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 17:58:43 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 21:56:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	**ft_parsed_file(char *full_str, int line_counter)
  * 
  * We dont have to free line because it is not allocated if the file is empty.
  */
-void	parse_check_file(t_main *game)
+void	parse_load_check_file(t_main *game)
 {
 	char	*line;
 	char	*joined;

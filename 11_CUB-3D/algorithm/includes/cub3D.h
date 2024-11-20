@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 18:42:15 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 21:56:34 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,17 @@
 # define BY						"\033[1;33m"
 # define BB						"\033[1;34m"
 # define BW						"\033[1;37m"
+# define BM						"\033[1;35m"
 # define RST					"\033[0m"
+
+/* ********************************** Error ********************************* */
+#define ERR_MAP_NOT_FOUND	BR"No valid map found in provided file."RST
+#define ERR_MALL_CLR		BR"Malloc failed for 2D color setup"RST
+#define ERR_MALL_RGB		BR"Malloc failed for 2D rgb setup"RST
+#define ERR_RGB				BR"RGB values must be digits in range 0-255\n\
+Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
+#define ERR_RGB_COUNT		BR"There must be ONE number <0-255> per color"RST
+#define ERR_MGRID			BR"Couldn't allocate memory for 'grid'"RST
 
 /* ********************************** Init ********************************** */
 # define DEFAULT				0
@@ -149,11 +159,13 @@ void	safe_exit(t_main *game, const char *msg);
 void	free_full(t_main *game);
 int		free_str_arr(char **arr);
 void	*ft_dalloc(size_t size, int n, char *msg);
-void	*ft_safe_malloc(size_t size, char *msg);
+void	*ft_smalloc(size_t size, char *msg);
 bool	is_space(char c);
 bool	is_digit(char c);
 int		space_counter(char *input);
 void	are_spaces_or_digits(t_main *game, char *rgb);
+bool	line_has_only_spaces(char *line);
+int		ft_strlen_no_end_spaces(char *str);
 
 // Init
 void	init_default(t_main *game);
@@ -163,9 +175,9 @@ void	init(int type, t_main *game, int ac, char **av);
 void	range_check(t_main *game, int rgb);
 void	difference_check(t_main *game, int *rgb_c, int *rgb_f);
 void	parse_load_check_colors(t_main *game);
-void	parse_check_file(t_main *game);
+void	parse_load_check_file(t_main *game);
 void	parser(t_main *game);
-void	parse_map(t_main *game);
+void	parse_load_check_map(t_main *game);
 void	parse_load_check_texture(t_main *game);
 bool	we_found_flag(t_main *game, char *flag, int line);
 char	*txt_path_finder(t_main *game, char *flag, int line);

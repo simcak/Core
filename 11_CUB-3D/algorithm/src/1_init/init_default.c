@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 17:39:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 21:12:14 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static void init_default_map(t_main *game)
 {
-	game->map = ft_safe_malloc(sizeof(t_map), ERR_MALL_MAP);
+	game->map = ft_smalloc(sizeof(t_map), ERR_MALL_MAP);
 
 	game->map->fd = 0;
 	game->map->parsed_file = NULL;
