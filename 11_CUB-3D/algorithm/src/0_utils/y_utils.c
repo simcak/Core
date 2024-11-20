@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 18:20:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 18:37:51 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 20:55:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool is_digit(char c)
 }
 
 /**
- * Function to count the spaces in the input string.
+ * Function to count the spaces till the first non-space character.
  */
 int	space_counter(char *input)
 {
@@ -51,4 +51,12 @@ void	are_spaces_or_digits(t_main *game, char *rgb)
 		else
 			safe_exit(game, BR"Non-space or non-digit value detected"RST);
 	}
+}
+
+/**
+ * Function to check if the line contains only spaces.
+ */
+bool	line_has_only_spaces(char *line)
+{
+	return (space_counter(line) == (int)ft_strlen(line));
 }

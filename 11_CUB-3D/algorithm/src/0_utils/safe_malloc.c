@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:54:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/06 18:01:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 21:12:05 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	*ft_dalloc(size_t size, int n, char *msg)
  * If there is an error in malloc, print the error message and exit the program
  * We are allowed to use malloc, perror and exit (also strerror)
  */
-void	*ft_safe_malloc(size_t size, char *msg)
+void	*ft_smalloc(size_t size, char *msg)
 {
 	void	*ptr;
 

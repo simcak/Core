@@ -6,16 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:01 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 18:41:40 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/20 20:48:14 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
-#define ERR_MALL_CLR		BR"Malloc failed for 2D color setup"RST
-#define ERR_MALL_RGB		BR"Malloc failed for 2D rgb setup"RST
-#define ERR_RGB				BR"RGB values must be digits in range 0-255\n\
-Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
-#define ERR_RGB_COUNT		BR"There must be ONE number <0-255> per color"RST
 
 /**
  * With this function we find the pointer to the rgb values in the parsed file.
