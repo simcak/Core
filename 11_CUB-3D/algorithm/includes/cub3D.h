@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 21:56:34 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/21 14:58:38 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@
 # include <stdbool.h>
 
 /* ********************************** Color ********************************* */
-# define BR						"\033[1;31m"
-# define BG						"\033[1;32m"
-# define BY						"\033[1;33m"
-# define BB						"\033[1;34m"
-# define BW						"\033[1;37m"
-# define BM						"\033[1;35m"
-# define RST					"\033[0m"
+# define BR					"\033[1;31m"
+# define BG					"\033[1;32m"
+# define BY					"\033[1;33m"
+# define BB					"\033[1;34m"
+# define BW					"\033[1;37m"
+# define BM					"\033[1;35m"
+# define RST				"\033[0m"
 
 /* ********************************** Error ********************************* */
 #define ERR_MAP_NOT_FOUND	BR"No valid map found in provided file."RST
@@ -53,41 +53,41 @@
 Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 #define ERR_RGB_COUNT		BR"There must be ONE number <0-255> per color"RST
 #define ERR_MGRID			BR"Couldn't allocate memory for 'grid'"RST
-
+#define ERR_WALL			BR"The map must be closed/surrounded by walls from "
 /* ********************************** Init ********************************** */
-# define DEFAULT				0
-# define GAME					1
-# define MLX					2
+# define DEFAULT			0
+# define GAME				1
+# define MLX				2
 
 /* ********************************* Debug ********************************** */
-# define ALL					0
+# define ALL				0
 
 /* ********************************* Screen ********************************* */
-# define SCREEN_HEIGHT			1000
-# define SCREEN_WIDTH			1500
-# define FOV					60
-# define ROTATION_SPEED			0.05
-# define MOVE_SPEED				5
+# define SCREEN_HEIGHT		1000
+# define SCREEN_WIDTH		1500
+# define FOV				60
+# define ROTATION_SPEED		0.05
+# define MOVE_SPEED			5
 
 /* ********************************* Texture ******************************** */
-# define TEXTURE_HEIGHT			64
-# define TEXTURE_WIDTH			64
+# define TEXTURE_HEIGHT		64
+# define TEXTURE_WIDTH		64
 
 /* ****************************** Game controls ***************************** */
-# define ESC					53
-# define X_EVENT_KEY_PRESS		2
-# define X_EVENT_KEY_RELEASE	3
-# define X_EVENT_EXIT			17
+# define ESC				53
+# define X_EVENT_KEY_PRESS	2
+# define X_EVENT_KEY_RLS	3
+# define X_EVENT_EXIT		17
 
 /* ***************************** Player controls **************************** */
-# define W						13
-# define A						0
-# define S						1
-# define D						2
-# define UP						126
-# define DOWN					125
-# define LEFT					123
-# define RIGHT					124
+# define W					13
+# define A					0
+# define S					1
+# define D					2
+# define UP					126
+# define DOWN				125
+# define LEFT				123
+# define RIGHT				124
 
 /* ******************************* Structure ******************************** */
 typedef struct s_player
@@ -165,7 +165,7 @@ bool	is_digit(char c);
 int		space_counter(char *input);
 void	are_spaces_or_digits(t_main *game, char *rgb);
 bool	line_has_only_spaces(char *line);
-int		ft_strlen_no_end_spaces(char *str);
+int		last_char_index(char *str);
 
 // Init
 void	init_default(t_main *game);
