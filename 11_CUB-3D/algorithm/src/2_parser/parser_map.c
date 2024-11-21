@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 21:57:10 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/21 15:57:26 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static void	find_beginning(t_map *map, t_main *game)
 	{
 		spaces = space_counter(map->parsed_file[startline]);
 		if (map->parsed_file[startline][spaces] != '1')
-			break ;
+			if (map->parsed_file[startline][spaces] != '0')
+				break ;
 	}
 	if (++startline <= 0)
 		safe_exit(game, ERR_MAP_NOT_FOUND);
@@ -62,7 +63,7 @@ static void	get_measurements(t_main *game, t_map *map)
 	line_num = -1;
 	while (map->grid[++line_num])
 	{
-		line_len = ft_strlen_no_end_spaces(map->grid[line_num]);
+		line_len = last_char_index(map->grid[line_num]);
 		if (line_len > max_width)
 			max_width = line_len;
 	}
@@ -95,15 +96,67 @@ static void	copy_map(t_map *map)
 	i = -1;
 	while (++i < map->height)
 	{
-		line_len = ft_strlen_no_end_spaces(grid_ptr[i]);
+		line_len = last_char_index(grid_ptr[i]) + 1;
 		map->grid[i] = ft_smalloc(sizeof(char) * (map->width + 1), ERR_MGRID);
 		ft_strlcpy(map->grid[i], grid_ptr[i], line_len + 1);
 		line_len--;
-		while (++line_len < map->width)
+		while (++line_len <= map->width)
 			map->grid[i][line_len] = ' ';
 		map->grid[i][line_len] = '\0';
 	}
 	map->grid[i] = NULL;
+}
+
+/**
+ * @brief Check if the map is surrounded by walls on the top and bottom.
+ * 
+ * 1) Check the first line of the map (and skip the spaces).
+ * 1.1) If there is '1' or a space, continue.
+ * 2) Check the last line of the map (and skip the spaces).
+ * 2.1) If there is '1' or a space, continue.
+ */
+static void	check_wall_top_bottom(t_map *map, t_main *game)
+{
+	char	*first_line;
+	char	*last_line;
+	int		i;
+
+	first_line = map->grid[0];
+	i = space_counter(first_line) - 1;
+	while (first_line[++i] != '\0')
+	{
+		if (first_line[i] != '1' && !is_space(first_line[i]))
+			safe_exit(game, ERR_WALL"top"RST);
+	}
+	last_line = map->grid[map->height - 1];
+	i = space_counter(last_line) - 1;
+	while (last_line[++i] != '\0')
+	{
+		if (last_line[i] != '1' && !is_space(last_line[i]))
+			safe_exit(game, ERR_WALL"bottom"RST);
+	}
+}
+
+static void	check_wall_left_right(t_map *map, t_main *game)
+{
+	char	*line;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	while (++i < (map->height - 1))
+	{
+		line = map->grid[i];
+		j = space_counter(line);
+		if (line[j] != '1')
+			safe_exit(game, ERR_WALL"left"RST);
+		k = last_char_index(line);
+		if (k - j <= 1)
+			safe_exit(game, BR"Map is not width enough at some line."RST);
+		if (line[k] != '1')
+			safe_exit(game, ERR_WALL"right"RST);
+	}
 }
 
 /**
@@ -123,4 +176,7 @@ void	parse_load_check_map(t_main *game)
 	find_beginning(map, game);
 	get_measurements(game, map);
 	copy_map(map);
+	// checkers // TODO
+	check_wall_top_bottom(map, game);
+	check_wall_left_right(map, game);
 }
