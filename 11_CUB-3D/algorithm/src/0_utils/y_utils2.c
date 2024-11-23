@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 18:20:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/21 14:58:27 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 14:18:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,28 @@ int	last_char_index(char *str)
 	if (i < 0)
 		return (0);
 	return (i);
+}
+
+bool	is_nswe(char c)
+{
+	return (c == 'N' || c == 'S' || c == 'W' || c == 'E');
+}
+
+void	ft_replace_char(char **line, char c1, char c2)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (line[i])
+	{
+		j = 0;
+		while (line[i][j])
+		{
+			if (line[i][j] == c1)
+				line[i][j] = c2;
+			j++;
+		}
+		i++;
+	}
 }

@@ -6,44 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/21 15:57:26 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 15:48:07 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
-
-/**
- * @brief Looking for the pointer to the first line of the map.
- * The map is stored in the GRID variable.
- *
- * 1) Find the last line of the file.
- * 2) Skip the empty lines at the end of the file.
- * 3) Find the first line that doesn't start with a '1'.
- * 4) Assign the address of the first line of the map to the GRID variable.
- * 5) If the map is not found, print an error message and exit the program.
- */
-static void	find_beginning(t_map *map, t_main *game)
-{
-	int	startline;
-	int	spaces;
-
-	startline = -1;
-	while (map->parsed_file[++startline])
-		;
-	while (line_has_only_spaces(map->parsed_file[--startline]))
-		;
-	startline++;
-	while (--startline)
-	{
-		spaces = space_counter(map->parsed_file[startline]);
-		if (map->parsed_file[startline][spaces] != '1')
-			if (map->parsed_file[startline][spaces] != '0')
-				break ;
-	}
-	if (++startline <= 0)
-		safe_exit(game, ERR_MAP_NOT_FOUND);
-	map->grid = &map->parsed_file[startline];
-}
 
 /**
  * @brief Calculates the width and height of the map.
@@ -71,8 +38,44 @@ static void	get_measurements(t_main *game, t_map *map)
 	while (line_has_only_spaces(map->grid[--line_num]))
 		;
 	map->height = line_num + 1;
+	printf("Width: %d\nHeight: %d\n", map->width, map->height);
 	if (map->width < 3 || map->height < 3)
-		safe_exit(game, BR"Map is not detected."RST);
+		safe_exit(game, BR"Map has some problem."RST);
+}
+
+/**
+ * @brief Looking for the pointer to the first line of the map.
+ * The map is stored in the GRID variable.
+ *
+ * 1) Find the last line of the file.
+ * 2) Skip the empty lines at the end of the file.
+ * 3) Find the first line that doesn't start with a '1'.
+ * 4) Assign the address of the first line of the map to the GRID variable.
+ * 5) If the map is not found, print an error message and exit the program.
+ * 6) Find the width and height of the map.
+ */
+static void	find_beginning(t_main *game, t_map *map)
+{
+	int	startline;
+	int	spaces;
+
+	startline = -1;
+	while (map->parsed_file[++startline])
+		;
+	while (line_has_only_spaces(map->parsed_file[--startline]))
+		;
+	startline++;
+	while (--startline)
+	{
+		spaces = space_counter(map->parsed_file[startline]);
+		if (map->parsed_file[startline][spaces] != '1')
+			if (map->parsed_file[startline][spaces] != '0')
+				break ;
+	}
+	if (++startline <= 0)
+		safe_exit(game, ERR_MAP_NOT_FOUND);
+	map->grid = &map->parsed_file[startline];
+	get_measurements(game, map);
 }
 
 /**
@@ -83,6 +86,7 @@ static void	get_measurements(t_main *game, t_map *map)
  * 2) Copy the map to the new memory location.
  * 3) Fill the empty spaces with ' ' => create a rectangle.
  * 4) Add a NULL pointer at the end of the map.
+ * 5) Replace the spaces with '0' - if there is a space IN the map, its OK.
  */
 static void	copy_map(t_map *map)
 {
@@ -105,63 +109,89 @@ static void	copy_map(t_map *map)
 		map->grid[i][line_len] = '\0';
 	}
 	map->grid[i] = NULL;
+	ft_replace_char(map->grid, ' ', '0');
 }
 
 /**
- * @brief Check if the map is surrounded by walls on the top and bottom.
+ * @brief Find the starting position of the player.
  * 
- * 1) Check the first line of the map (and skip the spaces).
- * 1.1) If there is '1' or a space, continue.
- * 2) Check the last line of the map (and skip the spaces).
- * 2.1) If there is '1' or a space, continue.
+ * 1) Iterate through the map and find the player = 'N', 'S', 'W', 'E'.
+ * 		1.1) Save the coordinates of the player.
+ * 		1.2) Count the number of players found.
+ * 2) Print error message if:
+ * 		- Player not found
+ * 		- Multiple players found
  */
-static void	check_wall_top_bottom(t_map *map, t_main *game)
+static void	find_start_position(t_main *game, t_map *map)
 {
-	char	*first_line;
-	char	*last_line;
 	int		i;
+	int		j;
+	int		counter;
+	char	*line;
 
-	first_line = map->grid[0];
-	i = space_counter(first_line) - 1;
-	while (first_line[++i] != '\0')
+	i = -1;
+	counter = 0;
+	while (game->map->grid[++i])
 	{
-		if (first_line[i] != '1' && !is_space(first_line[i]))
-			safe_exit(game, ERR_WALL"top"RST);
+		j = -1;
+		line = game->map->grid[i];
+		while (line[++j])
+		{
+			if (is_nswe(line[j]))
+			{
+				map->start_pos.x = j;
+				map->start_pos.y = i;
+				map->start_pos.nswe = line[j];
+				counter++;
+			}
+		}
 	}
-	last_line = map->grid[map->height - 1];
-	i = space_counter(last_line) - 1;
-	while (last_line[++i] != '\0')
+	if (counter == 0)
+		safe_exit(game, BR"Player (N S W E) not found"RST);
+	if (counter > 1)
+		safe_exit(game, BR"Multiple players (N S W E) found"RST);
+}
+
+static void	check_valid_characters(t_main *game, t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (map->grid[++i])
 	{
-		if (last_line[i] != '1' && !is_space(last_line[i]))
-			safe_exit(game, ERR_WALL"bottom"RST);
+		j = -1;
+		while (map->grid[i][++j])
+		{
+			if (!is_nswe(map->grid[i][j])
+				&& map->grid[i][j] != '0' && map->grid[i][j] != '1')
+				safe_exit(game, BR"Invalid character in map"RST);
+		}
 	}
 }
 
-static void	check_wall_left_right(t_map *map, t_main *game)
+/**
+ * @brief Check if the map is surrounded by walls.
+ * 
+ * 1) Are we out of scope? Does the value exist?
+ */
+static void	check_walls_around_player(t_main *game, t_map *map, int x, int y)
 {
-	char	*line;
-	int		i;
-	int		j;
-	int		k;
-
-	i = 0;
-	while (++i < (map->height - 1))
-	{
-		line = map->grid[i];
-		j = space_counter(line);
-		if (line[j] != '1')
-			safe_exit(game, ERR_WALL"left"RST);
-		k = last_char_index(line);
-		if (k - j <= 1)
-			safe_exit(game, BR"Map is not width enough at some line."RST);
-		if (line[k] != '1')
-			safe_exit(game, ERR_WALL"right"RST);
-	}
+	if (y < 0 || x < 0 || y >= map->height || !map->grid[y][x])
+		safe_exit(game, BR"Map is not surrounded by walls"RST);
+	if (map->grid[y][x] == '1' || map->grid[y][x] == 'X')
+		return ;
+	else if (map->grid[y][x] == '0' || is_nswe(map->grid[y][x]))
+		map->grid[y][x] = 'X';
+	check_walls_around_player(game, map, x + 1, y);
+	check_walls_around_player(game, map, x - 1, y);
+	check_walls_around_player(game, map, x, y + 1);
+	check_walls_around_player(game, map, x, y - 1);
 }
 
 /**
  * MAP RULES
- * - The map must be composed of only 6 possible characters (0 1 2 N S W E)
+ * - The map must be composed of only 6 possible characters (0 1 N S W E)
  * - The map must be closed/surrounded by walls
  * - The map must be parsed as it looks in the file
  * - Spaces are a valid part of the map and are up to us to handle
@@ -170,13 +200,17 @@ static void	check_wall_left_right(t_map *map, t_main *game)
 
 void	parse_load_check_map(t_main *game)
 {
-	t_map	*map;
+	t_map		*map;
+	t_player	*player;
 
 	map = game->map;
-	find_beginning(map, game);
-	get_measurements(game, map);
+	player = game->player;
+	find_beginning(game, map);
 	copy_map(map);
+	find_start_position(game, map);
 	// checkers // TODO
-	check_wall_top_bottom(map, game);
-	check_wall_left_right(map, game);
+	check_valid_characters(game, map);
+	check_walls_around_player(game, map, map->start_pos.x, map->start_pos.y);
+	ft_replace_char(map->grid, 'X', ' ');
+	map->grid[map->start_pos.y][map->start_pos.x] = map->start_pos.nswe;
 }
