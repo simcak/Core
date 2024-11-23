@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:39 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 17:39:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 18:04:46 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_safe_texture(char *flag, t_main *game, int i)
 		if (we_found_flag(game, flag, line))
 		{
 			flag_count++;
-			game->txt->paths[i] = txt_path_finder(game, flag, line);
+			game->file->txt->paths[i] = txt_path_finder(game, flag, line);
 		}
 	}
 	if (flag_count < 1)
@@ -57,20 +57,20 @@ void	ft_safe_texture(char *flag, t_main *game, int i)
  * - You must be able to parse any kind of map, as long as it respects the rules
     of the map
  */
-void	parse_load_check_texture(t_main *game)
+void	parse_load_check_texture(t_main *game, t_txt *txt)
 {
-	game->txt->paths = ft_dalloc(sizeof(char *), 5, ERR_MALL_TXT);
+	txt->paths = ft_dalloc(sizeof(char *), 5, ERR_MALL_TXT);
 	ft_safe_texture("NO", game, 0);
 	ft_safe_texture("SO", game, 1);
 	ft_safe_texture("WE", game, 2);
 	ft_safe_texture("EA", game, 3);
-	game->txt->paths[4] = NULL;
-	ft_dupliempty_txtp(game, game->txt->paths);
+	txt->paths[4] = NULL;
+	ft_dupliempty_txtp(game, txt->paths);
 
-	game->txt->mlx_txt_no = mlx_load_png(game->txt->paths[0]);
-	game->txt->mlx_txt_so = mlx_load_png(game->txt->paths[1]);
-	game->txt->mlx_txt_we = mlx_load_png(game->txt->paths[2]);
-	game->txt->mlx_txt_ea = mlx_load_png(game->txt->paths[3]);
-	if (!mlx_texture_loaded(game->txt))
+	txt->mlx_txt_no = mlx_load_png(txt->paths[0]);
+	txt->mlx_txt_so = mlx_load_png(txt->paths[1]);
+	txt->mlx_txt_we = mlx_load_png(txt->paths[2]);
+	txt->mlx_txt_ea = mlx_load_png(txt->paths[3]);
+	if (!mlx_texture_loaded(txt))
 		safe_exit(game, BR"Failed to load mlx textures"RST);
 }

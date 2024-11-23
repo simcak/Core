@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 17:38:41 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:56:47 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,15 @@ void	free_full(t_main *game)
 			free_str_arr(game->file->parsed_file);
 		free(game->file);
 	}
-	if (game->txt)
-		free_txt(game->txt);
-	if (game->color)
-		free_color(game->color);
-	if (game->map)
+	if (game->file->txt)
+		free_txt(game->file->txt);
+	if (game->file->color)
+		free_color(game->file->color);
+	if (game->file->map)
 	{
-		if (game->map->grid)
-			free_str_arr(game->map->grid);
-		free(game->map);
+		if (game->file->map->grid)
+			free_str_arr(game->file->map->grid);
+		free(game->file->map);
 	}
 	if (game)
 		free(game);

@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_hub.c                                         :+:      :+:    :+:   */
+/*   0_init_hub.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 17:19:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 18:10:28 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
-#define LP	"/Users/psimcak/Documents/Core/11_CUB-3D/maps/textures/logo.png"
 
 // static bool	init_animation(t_main *game)
 // {
@@ -73,26 +72,6 @@ static void	argument_checker(int ac, char **av, t_main *game)
 		safe_exit(game, BR"Invalid file"RST);
 }
 
-static void	init_player(t_main *game, t_map *map)
-{
-	if (map->start_pos.nswe == 'E' || map->start_pos.nswe == 'W')
-	{
-		game->player->dir_x = (map->start_pos.nswe == 'E') ? 1 : -1;
-		game->player->dir_y = 0;
-		game->player->cam_x = 0;
-		game->player->cam_y = (map->start_pos.nswe == 'E') ? 0.5 : -0.5;
-	}
-	if (map->start_pos.nswe == 'N' || map->start_pos.nswe == 'S')
-	{
-		game->player->dir_x = 0;
-		game->player->dir_y = (map->start_pos.nswe == 'S') ? 1 : -1;
-		game->player->cam_x = (map->start_pos.nswe == 'S') ? 0.5 : -0.5;
-		game->player->cam_y = 0;
-	}
-	game->player->pos_x = map->start_pos.x + 0.5;
-	game->player->pos_y = map->start_pos.y + 0.5;
-}
-
 /**
  * @brief Initializes the game structure with default values.
  */
@@ -103,8 +82,10 @@ void	init(int type, t_main *game, int ac, char **av)
 		init_default(game);
 		argument_checker(ac, av, game);
 	}
+	else if (type == FILE)
+		parser(game);
 	else if (type == PLAYER)
-		init_player(game, game->map);
+		init_player(game, game->file->map);
 	else
 		safe_exit(game, BR"Invalid type"RST);
 }

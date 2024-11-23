@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 17:43:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 18:15:30 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 #define ERR_WALL			BR"The map must be closed/surrounded by walls from "
 /* ********************************** Init ********************************** */
 # define DEFAULT			1
-# define PLAYER				2
-# define MLX				3
+# define FILE				2
+# define PLAYER				3
 
 /* ********************************* Debug ********************************** */
 # define ALL				0
@@ -91,6 +91,51 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define RIGHT				124
 
 /* ******************************* Structure ******************************** */
+// in file
+typedef struct s_txt
+{
+	char			**paths;
+	mlx_texture_t	*mlx_txt_no;
+	mlx_texture_t	*mlx_txt_so;
+	mlx_texture_t	*mlx_txt_we;
+	mlx_texture_t	*mlx_txt_ea;
+}	t_txt;
+
+typedef struct s_color
+{
+	char			**colors;
+	char			**rgb_raw;
+	int				*rgb_c;
+	int				*rgb_f;
+}	t_color;
+
+// in map
+typedef struct s_coord
+{
+	int				x;
+	int				y;
+	char			nswe;
+}	t_coord;
+
+typedef struct s_map
+{
+	char			**grid;
+	int				width;
+	int				height;
+	t_coord			start_pos;
+}	t_map;
+
+// in main
+typedef struct s_file
+{
+	int				fd;
+	char			**parsed_file;
+
+	t_txt			*txt;
+	t_color			*color;
+	t_map			*map;
+}	t_file;
+
 typedef struct s_player
 {
 	// int		x;
@@ -115,44 +160,6 @@ typedef struct s_ray
 	int				distance;
 }	t_ray;
 
-typedef struct s_file
-{
-	int				fd;
-	char			**parsed_file;
-}	t_file;
-
-typedef struct s_txt
-{
-	char			**paths;
-	mlx_texture_t	*mlx_txt_no;
-	mlx_texture_t	*mlx_txt_so;
-	mlx_texture_t	*mlx_txt_we;
-	mlx_texture_t	*mlx_txt_ea;
-}	t_txt;
-
-typedef struct s_color
-{
-	char			**colors;
-	char			**rgb_raw;
-	int				*rgb_c;
-	int				*rgb_f;
-}	t_color;
-
-typedef struct s_coord
-{
-	int				x;
-	int				y;
-	char			nswe;
-}	t_coord;
-
-typedef struct s_map
-{
-	char			**grid;
-	int				width;
-	int				height;
-	t_coord			start_pos;
-}	t_map;
-
 typedef struct s_main
 {
 	mlx_t			*mlx;
@@ -160,12 +167,9 @@ typedef struct s_main
 	mlx_image_t		*animation;
 	mlx_texture_t	*animation_txt;
 
+	t_file			*file;
 	t_player		*player;
 	t_ray			*ray;
-	t_file			*file;
-	t_txt			*txt;
-	t_color			*color;
-	t_map			*map;
 }	t_main;
 
 /* ******************************* Prototypes ******************************* */
@@ -199,17 +203,18 @@ bool	is_nswe(char c);
 void	ft_replace_chars(char **line, char c1, char c2);
 
 // Init
-void	init_default(t_main *game);
 void	init(int type, t_main *game, int ac, char **av);
+void	init_default(t_main *game);
+void	init_player(t_main *game, t_map *map);
 
 // Parser
 void	range_check(t_main *game, int rgb);
 void	difference_check(t_main *game, int *rgb_c, int *rgb_f);
-void	parse_load_check_colors(t_main *game);
+void	parse_load_check_colors(t_main *game, t_color *color);
 void	parse_load_check_file(t_main *game);
 void	parser(t_main *game);
 void	parse_load_check_map(t_main *game);
-void	parse_load_check_texture(t_main *game);
+void	parse_load_check_texture(t_main *game, t_txt *txt);
 bool	we_found_flag(t_main *game, char *flag, int line);
 char	*txt_path_finder(t_main *game, char *flag, int line);
 void	ft_dupliempty_txtp(t_main *game, char **txt_paths);

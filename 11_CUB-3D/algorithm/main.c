@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 17:04:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 18:11:24 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av)
 
 	game = ft_smalloc(sizeof(t_main), ERR_MALL"GAME"RST);
 	init(DEFAULT, game, ac, av);
-	parser(game);
+	init(FILE, game, 0, NULL);
 	init(PLAYER, game, 0, NULL);
 	ft_debug(ALL, game);	// delete
 	free_full(game);

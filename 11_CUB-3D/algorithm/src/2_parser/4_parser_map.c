@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 17:26:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 18:07:13 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ static void	define_grid(t_main *game, t_file *file)
 	}
 	if (++startline <= 0)
 		safe_exit(game, ERR_MAP_NOT_FOUND);
-	game->map->grid = &file->parsed_file[startline];
-	get_measurements(game, game->map);
-	copy_map(game->map);
+	file->map->grid = &file->parsed_file[startline];
+	get_measurements(game, file->map);
+	copy_map(file->map);
 }
 
 /**
@@ -131,10 +131,10 @@ static void	find_start_position(t_main *game, t_map *map)
 
 	i = -1;
 	counter = 0;
-	while (game->map->grid[++i])
+	while (map->grid[++i])
 	{
 		j = -1;
-		line = game->map->grid[i];
+		line = map->grid[i];
 		while (line[++j])
 		{
 			if (is_nswe(line[j]))
@@ -207,11 +207,11 @@ static void	check_where_can_we_go(t_main *game, t_map *map, int x, int y)
 
 void	parse_load_check_map(t_main *game)
 {
-	t_map		*map;
 	t_file		*file;
+	t_map		*map;
 
-	map = game->map;
 	file = game->file;
+	map = game->file->map;
 	define_grid(game, file);
 	find_start_position(game, map);
 	check_valid_characters(game, map);
