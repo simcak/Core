@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 17:40:48 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:38:41 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,45 +23,43 @@ int	free_str_arr(char **arr)
 	return (EXIT_SUCCESS);
 }
 
+int	free_txt(t_txt *txt)
+{
+	if (txt->paths)
+		free(txt->paths);
+	if (txt->mlx_txt_no)
+		mlx_delete_texture(txt->mlx_txt_no);
+	if (txt->mlx_txt_so)
+		mlx_delete_texture(txt->mlx_txt_so);
+	if (txt->mlx_txt_we)
+		mlx_delete_texture(txt->mlx_txt_we);
+	if (txt->mlx_txt_ea)
+		mlx_delete_texture(txt->mlx_txt_ea);
+	free(txt);
+	return (EXIT_SUCCESS);
+}
+
+int	free_color(t_color *color)
+{
+	if (color->colors)
+		free(color->colors);
+	if (color->rgb_raw)
+		free_str_arr(color->rgb_raw);
+	if (color->rgb_c)
+		free(color->rgb_c);
+	if (color->rgb_f)
+		free(color->rgb_f);
+	free(color);
+	return (EXIT_SUCCESS);
+}
+
 /**
  * txt_paths is a 2D array of POINTERS to the parsed file. Therefore, we don't
  * need 2D free function.
  * same goes for colors
  */
-int	free_map(t_map *map)
-{
-	if (map->parsed_file)
-		free_str_arr(map->parsed_file);
-	if (map->txt_paths)
-		free(map->txt_paths);
-	if (map->colors)
-		free(map->colors);
-	if (map->rgb_raw)
-		free_str_arr(map->rgb_raw);
-	if (map->rgb_c)
-		free(map->rgb_c);
-	if (map->rgb_f)
-		free(map->rgb_f);
-	if (map->mlx_txt_no)
-		mlx_delete_texture(map->mlx_txt_no);
-	if (map->mlx_txt_so)
-		mlx_delete_texture(map->mlx_txt_so);
-	if (map->mlx_txt_we)
-		mlx_delete_texture(map->mlx_txt_we);
-	if (map->mlx_txt_ea)
-		mlx_delete_texture(map->mlx_txt_ea);
-	free(map);
-	return (EXIT_SUCCESS);
-}
-
 void	free_full(t_main *game)
 {
-	if (game->map)
-		free_map(game->map);
-	if (game->player)
-		free(game->player);
-	if (game->ray)
-		free(game->ray);
 	if (game->mlx)
 	{
 		mlx_delete_image(game->mlx, game->image);
@@ -69,6 +67,26 @@ void	free_full(t_main *game)
 		mlx_delete_texture(game->animation_txt);
 		mlx_close_window(game->mlx);
 		mlx_terminate(game->mlx);
+	}
+	if (game->player)
+		free(game->player);
+	if (game->ray)
+		free(game->ray);
+	if (game->file)
+	{
+		if (game->file->parsed_file)
+			free_str_arr(game->file->parsed_file);
+		free(game->file);
+	}
+	if (game->txt)
+		free_txt(game->txt);
+	if (game->color)
+		free_color(game->color);
+	if (game->map)
+	{
+		if (game->map->grid)
+			free_str_arr(game->map->grid);
+		free(game->map);
 	}
 	if (game)
 		free(game);

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:01 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 16:10:31 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:24:08 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*rgb_start_finder(t_main *game, char *flag, int line)
 	int		spaces_1;
 	int		spaces_2;
 
-	parsed_file = game->map->parsed_file;
+	parsed_file = game->file->parsed_file;
 	spaces_1 = space_counter(parsed_file[line]);
 	flag_len = ft_strlen(flag);
 	spaces_2 = space_counter(parsed_file[line] + spaces_1 + flag_len);
@@ -98,13 +98,13 @@ static int	*split_check_rgb(t_main *game, char *color)
 	int		*rgb;
 	int		i;
 
-	game->map->rgb_raw = ft_split(color, ',');
+	game->color->rgb_raw = ft_split(color, ',');
 	rgb = ft_dalloc(sizeof(int *), 3, ERR_MALL_RGB);
 	i = -1;
-	while (game->map->rgb_raw[++i])
+	while (game->color->rgb_raw[++i])
 	{
-		format_check(game, game->map->rgb_raw[i]);
-		rgb[i] = ft_atoi(game->map->rgb_raw[i]);
+		format_check(game, game->color->rgb_raw[i]);
+		rgb[i] = ft_atoi(game->color->rgb_raw[i]);
 		range_check(game, rgb[i]);
 	}
 	if (i != 3)
@@ -128,12 +128,12 @@ static int	*split_check_rgb(t_main *game, char *color)
  */
 void	parse_load_check_colors(t_main *game)
 {
-	game->map->colors = ft_dalloc(sizeof(char *), 3, ERR_MALL_CLR);
-	game->map->colors[0] = color_assign("F", game, game->map->parsed_file);
-	game->map->colors[1] = color_assign("C", game, game->map->parsed_file);
-	game->map->colors[2] = NULL;
+	game->color->colors = ft_dalloc(sizeof(char *), 3, ERR_MALL_CLR);
+	game->color->colors[0] = color_assign("F", game, game->file->parsed_file);
+	game->color->colors[1] = color_assign("C", game, game->file->parsed_file);
+	game->color->colors[2] = NULL;
 
-	game->map->rgb_c = split_check_rgb(game, game->map->colors[0]);
-	game->map->rgb_f = split_check_rgb(game, game->map->colors[1]);
-	difference_check(game, game->map->rgb_c, game->map->rgb_f);
+	game->color->rgb_c = split_check_rgb(game, game->color->colors[0]);
+	game->color->rgb_f = split_check_rgb(game, game->color->colors[1]);
+	difference_check(game, game->color->rgb_c, game->color->rgb_f);
 }

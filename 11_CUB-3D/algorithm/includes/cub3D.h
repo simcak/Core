@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 15:57:50 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:43:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define RST				"\033[0m"
 
 /* ********************************** Error ********************************* */
+#define ERR_MALL			BR"Memory allocation failed for "
 #define ERR_MAP_NOT_FOUND	BR"No valid map found in provided file."RST
 #define ERR_MALL_CLR		BR"Malloc failed for 2D color setup"RST
 #define ERR_MALL_RGB		BR"Malloc failed for 2D rgb setup"RST
@@ -55,9 +56,9 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 #define ERR_MGRID			BR"Couldn't allocate memory for 'grid'"RST
 #define ERR_WALL			BR"The map must be closed/surrounded by walls from "
 /* ********************************** Init ********************************** */
-# define DEFAULT			0
-# define GAME				1
-# define MLX				2
+# define DEFAULT			1
+# define PLAYER				2
+# define MLX				3
 
 /* ********************************* Debug ********************************** */
 # define ALL				0
@@ -92,44 +93,64 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 /* ******************************* Structure ******************************** */
 typedef struct s_player
 {
-	int		x;
-	int		y;
-	int		angle;
-	float	fov_rad;
+	// int		x;
+	// int		y;
+	// int		angle;
+	// float	fov_rad;
+	double			pos_x;
+	double			pos_y;
+	double			cam_x;
+	double			cam_y;
+	double			dir_x;
+	double			dir_y;
+	double			buff_dist;
+	double			aspect_ratio;
+	int				step_x;
+	int				step_y;
 }	t_player;
 
 typedef struct s_ray
 {
-	int		angle;
-	int		distance;
+	int				angle;
+	int				distance;
 }	t_ray;
 
-typedef struct s_coord
-{
-	int		x;
-	int		y;
-	char	nswe;
-}	t_coord;
-
-typedef struct s_map
+typedef struct s_file
 {
 	int				fd;
 	char			**parsed_file;
-	char			**txt_paths;
-	char			**colors;
-	char			**rgb_raw;
-	int				*rgb_c;
-	int				*rgb_f;
-	char			**grid;
-	int				width;
-	int				height;
-	t_coord			start_pos;
-	int				start_count;
+}	t_file;
+
+typedef struct s_txt
+{
+	char			**paths;
 	mlx_texture_t	*mlx_txt_no;
 	mlx_texture_t	*mlx_txt_so;
 	mlx_texture_t	*mlx_txt_we;
 	mlx_texture_t	*mlx_txt_ea;
-	
+}	t_txt;
+
+typedef struct s_color
+{
+	char			**colors;
+	char			**rgb_raw;
+	int				*rgb_c;
+	int				*rgb_f;
+}	t_color;
+
+typedef struct s_coord
+{
+	int				x;
+	int				y;
+	char			nswe;
+}	t_coord;
+
+typedef struct s_map
+{
+	char			**grid;
+	int				width;
+	int				height;
+	t_coord			start_pos;
 }	t_map;
 
 typedef struct s_main
@@ -141,6 +162,9 @@ typedef struct s_main
 
 	t_player		*player;
 	t_ray			*ray;
+	t_file			*file;
+	t_txt			*txt;
+	t_color			*color;
 	t_map			*map;
 }	t_main;
 

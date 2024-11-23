@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:46 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 16:10:25 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:22:45 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	we_found_flag(t_main *game, char *flag, int line)
 	int		flag_len;
 	int		spaces;
 
-	parsed_file = game->map->parsed_file;
+	parsed_file = game->file->parsed_file;
 	spaces = space_counter(parsed_file[line]);
 	flag_len = ft_strlen(flag);
 	if (ft_strncmp(parsed_file[line] + spaces, flag, flag_len) == 0
@@ -62,7 +62,7 @@ char	*txt_path_finder(t_main *game, char *flag, int line)
 	char	*txt_path_start;
 	char	*post_txt_path;
 
-	parsed_file = game->map->parsed_file;
+	parsed_file = game->file->parsed_file;
 	spaces_1 = space_counter(parsed_file[line]);
 	flag_len = ft_strlen(flag);
 	spaces_2 = space_counter(parsed_file[line] + spaces_1 + flag_len);
