@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 21:12:14 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 14:57:14 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static void init_default_map(t_main *game)
 	game->map->grid = NULL;
 	game->map->width = 0;
 	game->map->height = 0;
+	game->map->start_pos.x = -1;
+	game->map->start_pos.y = -1;
+	game->map->start_pos.nswe = '\0';
 	game->map->start_count = 0;
-	game->map->start_x = -1;
-	game->map->start_y = -1;
-	game->map->start_dir = '\0';
 	game->map->mlx_txt_no = NULL;
 	game->map->mlx_txt_so = NULL;
 	game->map->mlx_txt_we = NULL;

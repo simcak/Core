@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/21 14:58:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 14:57:22 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,24 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 /* ******************************* Structure ******************************** */
 typedef struct s_player
 {
-	double	x;
-	double	y;
-	double	angle;
+	int		x;
+	int		y;
+	int		angle;
 	float	fov_rad;
 }	t_player;
 
 typedef struct s_ray
 {
-	double	angle;
-	double	distance;
+	int		angle;
+	int		distance;
 }	t_ray;
+
+typedef struct s_coord
+{
+	int		x;
+	int		y;
+	char	nswe;
+}	t_coord;
 
 typedef struct s_map
 {
@@ -116,10 +123,8 @@ typedef struct s_map
 	char			**grid;
 	int				width;
 	int				height;
+	t_coord			start_pos;
 	int				start_count;
-	int				start_x;
-	int				start_y;
-	char			start_dir;
 	mlx_texture_t	*mlx_txt_no;
 	mlx_texture_t	*mlx_txt_so;
 	mlx_texture_t	*mlx_txt_we;
@@ -166,6 +171,8 @@ int		space_counter(char *input);
 void	are_spaces_or_digits(t_main *game, char *rgb);
 bool	line_has_only_spaces(char *line);
 int		last_char_index(char *str);
+bool	is_nswe(char c);
+void	ft_replace_char(char **line, char c1, char c2);
 
 // Init
 void	init_default(t_main *game);
