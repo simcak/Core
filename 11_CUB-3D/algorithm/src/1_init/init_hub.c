@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/04 10:15:56 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 16:13:45 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	argument_checker(int ac, char **av, t_main *game)
 	int	len;
 
 	if (ac != 2)
-		safe_exit(game, BR"Invalid number of arguments"RST);
+		safe_exit(game, BR"Input has to be: \"./cub3d <map.cub>\""RST);
 	len = ft_strlen(av[1]);
 	if (ft_strncmp(&av[1][len - 4], ".cub", 4) != 0)
-		safe_exit(game, BR"Invalid file extension"RST);
+		safe_exit(game, BR"Input file has to be \".cub\""RST);
 	game->map->fd = open(av[1], O_RDONLY);
 	if (game->map->fd < 0)
 		safe_exit(game, BR"Invalid file"RST);
