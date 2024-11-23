@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 17:56:47 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 19:58:33 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,12 @@ void	free_full(t_main *game)
 {
 	if (game->mlx)
 	{
-		mlx_delete_image(game->mlx, game->image);
-		mlx_delete_image(game->mlx, game->animation);
-		mlx_delete_texture(game->animation_txt);
 		mlx_close_window(game->mlx);
 		mlx_terminate(game->mlx);
+		if (game->image)
+			mlx_delete_image(game->mlx, game->image);
+		// mlx_delete_image(game->mlx, game->animation);
+		// mlx_delete_texture(game->animation_txt);
 	}
 	if (game->player)
 		free(game->player);
