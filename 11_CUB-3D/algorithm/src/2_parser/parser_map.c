@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 15:48:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 15:53:00 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,9 @@ static void	check_valid_characters(t_main *game, t_map *map)
  * @brief Check if the map is surrounded by walls.
  * 
  * 1) Are we out of scope? Does the value exist?
+ * 2) If we are on a wall or we have already visited this place, return.
+ * 3) If we are on a floor or a player, mark this place as visited ('X').
+ * 4) Check the places around the current position - recursively.
  */
 static void	check_walls_around_player(t_main *game, t_map *map, int x, int y)
 {
