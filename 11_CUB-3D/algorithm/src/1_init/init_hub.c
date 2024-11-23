@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 16:13:45 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:19:33 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@
  * 
  * If there is some problem, the program exits with an error message.
  */
-void	argument_checker(int ac, char **av, t_main *game)
+static void	argument_checker(int ac, char **av, t_main *game)
 {
 	int	len;
 
@@ -68,9 +68,29 @@ void	argument_checker(int ac, char **av, t_main *game)
 	len = ft_strlen(av[1]);
 	if (ft_strncmp(&av[1][len - 4], ".cub", 4) != 0)
 		safe_exit(game, BR"Input file has to be \".cub\""RST);
-	game->map->fd = open(av[1], O_RDONLY);
-	if (game->map->fd < 0)
+	game->file->fd = open(av[1], O_RDONLY);
+	if (game->file->fd < 0)
 		safe_exit(game, BR"Invalid file"RST);
+}
+
+static void	init_player(t_main *game, t_map *map)
+{
+	if (map->start_pos.nswe == 'E' || map->start_pos.nswe == 'W')
+	{
+		game->player->dir_x = (map->start_pos.nswe == 'E') ? 1 : -1;
+		game->player->dir_y = 0;
+		game->player->cam_x = 0;
+		game->player->cam_y = (map->start_pos.nswe == 'E') ? 0.5 : -0.5;
+	}
+	if (map->start_pos.nswe == 'N' || map->start_pos.nswe == 'S')
+	{
+		game->player->dir_x = 0;
+		game->player->dir_y = (map->start_pos.nswe == 'S') ? 1 : -1;
+		game->player->cam_x = (map->start_pos.nswe == 'S') ? 0.5 : -0.5;
+		game->player->cam_y = 0;
+	}
+	game->player->pos_x = map->start_pos.x + 0.5;
+	game->player->pos_y = map->start_pos.y + 0.5;
 }
 
 /**
@@ -83,12 +103,8 @@ void	init(int type, t_main *game, int ac, char **av)
 		init_default(game);
 		argument_checker(ac, av, game);
 	}
-	// else if (type == GAME)
-	// 	init_game_struct(game);
-	// else if(type == MLX)
-	// 	init_mlx42(game);
-	// else if (type == ANIMATION)
-	// 	init_animation(game);
+	else if (type == PLAYER)
+		init_player(game, game->map);
 	else
 		safe_exit(game, BR"Invalid type"RST);
 }

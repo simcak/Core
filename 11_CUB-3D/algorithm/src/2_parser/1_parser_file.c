@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:09:10 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 16:10:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:13:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	parse_load_check_file(t_main *game)
 	char	*tmp_f_content;
 	int		line_counter;
 
-	line = ft_get_next_line(game->map->fd);
+	line = ft_get_next_line(game->file->fd);
 	tmp_f_content = ft_strdup("");
 	line_counter = 0;
 	while (line)
@@ -72,10 +72,10 @@ void	parse_load_check_file(t_main *game)
 		free(line);
 		free(tmp_f_content);
 		tmp_f_content = joined;
-		line = ft_get_next_line(game->map->fd);
+		line = ft_get_next_line(game->file->fd);
 		line_counter++;
 	}
-	close(game->map->fd);
-	game->map->parsed_file = ft_parsed_file(tmp_f_content, line_counter);
+	close(game->file->fd);
+	game->file->parsed_file = ft_parsed_file(tmp_f_content, line_counter);
 	free(tmp_f_content);
 }

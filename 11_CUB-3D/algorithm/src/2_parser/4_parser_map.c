@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 16:10:40 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:26:55 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	get_measurements(t_main *game, t_map *map)
 	while (line_has_only_spaces(map->grid[--line_num]))
 		;
 	map->height = line_num + 1;
-	printf("Width: %d\nHeight: %d\n", map->width, map->height);
 	if (map->width < 3 || map->height < 3)
 		safe_exit(game, BR"Map has some problem."RST);
 }
@@ -88,29 +87,29 @@ static void	copy_map(t_map *map)
  * 5) If the map is not found, print an error message and exit the program.
  * 6) Find the width and height of the map.
  */
-static void	define_grid(t_main *game, t_map *map)
+static void	define_grid(t_main *game, t_file *file)
 {
 	int	startline;
 	int	spaces;
 
 	startline = -1;
-	while (map->parsed_file[++startline])
+	while (file->parsed_file[++startline])
 		;
-	while (line_has_only_spaces(map->parsed_file[--startline]))
+	while (line_has_only_spaces(file->parsed_file[--startline]))
 		;
 	startline++;
 	while (--startline)
 	{
-		spaces = space_counter(map->parsed_file[startline]);
-		if (map->parsed_file[startline][spaces] != '1')
-			if (map->parsed_file[startline][spaces] != '0')
+		spaces = space_counter(file->parsed_file[startline]);
+		if (file->parsed_file[startline][spaces] != '1')
+			if (file->parsed_file[startline][spaces] != '0')
 				break ;
 	}
 	if (++startline <= 0)
 		safe_exit(game, ERR_MAP_NOT_FOUND);
-	map->grid = &map->parsed_file[startline];
-	get_measurements(game, map);
-	copy_map(map);
+	game->map->grid = &file->parsed_file[startline];
+	get_measurements(game, game->map);
+	copy_map(game->map);
 }
 
 /**
@@ -209,9 +208,11 @@ static void	check_where_can_we_go(t_main *game, t_map *map, int x, int y)
 void	parse_load_check_map(t_main *game)
 {
 	t_map		*map;
+	t_file		*file;
 
 	map = game->map;
-	define_grid(game, map);
+	file = game->file;
+	define_grid(game, file);
 	find_start_position(game, map);
 	check_valid_characters(game, map);
 	check_where_can_we_go(game, map, map->start_pos.x, map->start_pos.y);

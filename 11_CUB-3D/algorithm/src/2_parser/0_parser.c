@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:40:59 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 16:14:16 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:07:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
  */
 void	parser(t_main *game)
 {
-	t_map	*map;
-
-	map = game->map;
 	parse_load_check_file(game);
 	parse_load_check_texture(game);
 	parse_load_check_colors(game);
