@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 18:20:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 14:18:23 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 15:58:37 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ bool	is_nswe(char c)
 	return (c == 'N' || c == 'S' || c == 'W' || c == 'E');
 }
 
-void	ft_replace_char(char **line, char c1, char c2)
+/**
+ * Replaces all occurrences of character c1 with character c2 in the input str.
+ */
+void	ft_replace_chars(char **line, char c1, char c2)
 {
 	int	i;
 	int	j;

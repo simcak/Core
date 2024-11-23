@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 14:57:22 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/23 15:57:50 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void	are_spaces_or_digits(t_main *game, char *rgb);
 bool	line_has_only_spaces(char *line);
 int		last_char_index(char *str);
 bool	is_nswe(char c);
-void	ft_replace_char(char **line, char c1, char c2);
+void	ft_replace_chars(char **line, char c1, char c2);
 
 // Init
 void	init_default(t_main *game);
