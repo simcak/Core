@@ -1,5 +1,7 @@
 {
 	"files.associations": {
 		"cub3d.h": "c"
-	}
+	},
+
+	"editor.tabSize": 4,
 }
