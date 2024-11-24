@@ -6,11 +6,44 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/24 14:57:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/24 20:54:28 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
+
+/**
+ * @brief Initializes the player structure.
+ * 
+ * After parsing, we have the player's starting position and direction.
+ * Based on that we can initialize the player's structure.
+ * E and W are opposite directions, same as N and S.
+ */
+static void	init_player(t_player *player, t_map *map)
+{
+	if (map->start_pos.nswe == 'E' || map->start_pos.nswe == 'W')
+	{
+		player->dir.x = (map->start_pos.nswe == 'E') ? 1 : -1;
+		player->dir.y = 0;
+		player->plane.x = 0;
+		player->plane.y = (map->start_pos.nswe == 'E') ? FOV : -FOV;
+		player->dir_rad = (map->start_pos.nswe == 'E') ? 0 : M_PI;
+	}
+	if (map->start_pos.nswe == 'N' || map->start_pos.nswe == 'S')
+	{
+		player->dir.x = 0;
+		player->dir.y = (map->start_pos.nswe == 'S') ? 1 : -1;
+		player->plane.x = (map->start_pos.nswe == 'S') ? FOV : -FOV;
+		player->plane.y = 0;
+		player->dir_rad = (map->start_pos.nswe == 'S') ? M_PI_2 : 3 * M_PI_2;
+	}
+	player->pos.x = map->start_pos.x + 0.5;
+	player->pos.y = map->start_pos.y + 0.5;
+	player->move_speed = MOVE_SPEED;
+	player->rot_speed = ROTATION_SPEED;
+	// todo: buff_dist, step_x, step_y
+	// maybe delete vectors and use only angles
+}
 
 static void	init_mlx42(t_main *game)
 {
