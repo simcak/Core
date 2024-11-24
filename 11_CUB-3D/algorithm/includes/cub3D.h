@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/24 15:34:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/24 20:54:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 /* ********************************* Screen ********************************* */
 # define SHEIGHT			1000
 # define SWIDTH				1500
-# define FOV				60
+# define FOV				0.6
 # define ROTATION_SPEED		0.05
 # define MOVE_SPEED			0.1
 
@@ -138,16 +138,20 @@ typedef struct s_file
 	t_map			*map;
 }	t_file;
 
+// in player
+typedef struct s_vect
+{
+	double			x;
+	double			y;
+}	t_vect;
+
 typedef struct s_player
 {
-	// int		angle;
-	// float	fov_rad;
-	double			pos_x;
-	double			pos_y;
-	double			cam_x;
-	double			cam_y;
-	double			dir_x;
-	double			dir_y;
+	double			dir_rad;
+	double			fov_rad;
+	t_vect			pos;
+	t_vect			dir;
+	t_vect			plane;
 	double			move_speed;
 	double			rot_speed;
 	double			buff_dist;		// distance to the wall
@@ -162,6 +166,13 @@ typedef struct s_ray
 	int				distance;
 }	t_ray;
 
+typedef struct s_wall
+{
+	int				height;
+	int				start;
+	int				end;
+}	t_wall;
+
 typedef struct s_main
 {
 	int				ac;
@@ -172,6 +183,7 @@ typedef struct s_main
 	t_file			*file;
 	t_player		*player;
 	t_ray			*ray;
+	t_wall			*wall;
 }	t_main;
 
 /* ******************************* Prototypes ******************************* */
@@ -207,7 +219,6 @@ void	ft_replace_chars(char **line, char c1, char c2);
 // Init
 void	init(int type, t_main *game);
 void	init_default(t_main *game);
-void	init_player(t_player *player, t_map *map);
 
 // Parser
 void	range_check(t_main *game, int rgb);

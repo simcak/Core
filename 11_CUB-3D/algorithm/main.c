@@ -6,35 +6,48 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/24 15:36:37 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/24 20:52:24 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3D.h"
 
-void	ray_cast(t_main *game)
-{
-	int		wall_height;
-	int		draw_start;
-	int		draw_end;
-	int		x;
+// void	ray_cast(t_main *game)
+// {
+// 	int	ray_counter;
 
-	x = -1;
-	while (++x < SWIDTH)
-	{
-		calculate_cam(game, x);
-		calculate_delta(game);
-		calculate_pos(game);
-		calculate_hit(game, false);
-		calculate_ray(game);
-		wall_height = (int)(SWIDTH / game->ray->distance);
-		draw_start = calculate_draw_start(wall_height);
-		draw_end = calculate_draw_end(wall_height);
-		draw_ceiling(game, x, draw_start);
-		draw_walls(game, x, draw_end, wall_height);
-		draw_floor(game, x, draw_end);
-	}
-}
+// 	game->ray->angle = game->player->angle_rad - (game->player->fov_rad / 2);
+// 	ray_counter = -1;
+// 	while (++ray_counter < SWIDTH)
+// 	{
+// 		ray->angle_nor = normalize_angle(ray->r_a);
+// 		calculate_vertical_hit(game->map, player, ray);
+// 		calculate_horizontal_hit(game->map, player, ray);
+// 		pick_shortest_ray(ray);
+// 		project_ray_into_3d(game, ray_counter);
+// 		ray->r_a += (player->fov_rd / WIDTH);
+// 	}
+// }
+
+// void	ray_cast(t_main *game)
+// {
+// 	int		wall_height;
+// 	int		ray_counter;
+
+// 	ray_counter = -1;
+// 	while (++ray_counter < SWIDTH)
+// 	{
+// 		calculate_cam(game, ray_counter);
+// 		calculate_delta(game);
+// 		calculate_pos(game);
+// 		calculate_hit(game, false);
+// 		calculate_ray(game, game->ray);
+// 		wall_height = (int)(SWIDTH / game->ray->distance);
+// 		draw_ceiling(game, ray_counter, draw_start(wall_height));
+// 		draw_walls(game, ray_counter, draw_end(wall_height), wall_height);
+// 		draw_floor(game, ray_counter, draw_end(wall_height));
+// 	}
+// }
 
 void	put_image(t_main *game)
 {
@@ -93,7 +106,7 @@ int	main(int ac, char **av)
 	init(FILE, game);
 	init(PLAYER, game);
 	init(MLX, game);
-	ft_debug(MAP, game);	// delete
+	ft_debug(ALL, game);	// delete
 	put_image(game);
 	mlx_loop_hook(game->mlx, &game_loop, game);
 	mlx_loop(game->mlx);
