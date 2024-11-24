@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/24 15:00:46 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/24 15:34:54 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define D					2
 # define UP					126
 # define DOWN				125
-# define LEFT				123
 # define RIGHT				124
+# define LEFT				123
 
 /* ******************************* Structure ******************************** */
 // in file
