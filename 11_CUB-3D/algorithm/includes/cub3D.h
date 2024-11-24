@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 19:52:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/24 15:00:46 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,14 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 
 /* ********************************* Debug ********************************** */
 # define ALL				0
+# define MAP				1
 
 /* ********************************* Screen ********************************* */
-# define SCREEN_HEIGHT		1000
-# define SCREEN_WIDTH		1500
+# define SHEIGHT			1000
+# define SWIDTH				1500
 # define FOV				60
 # define ROTATION_SPEED		0.05
-# define MOVE_SPEED			5
+# define MOVE_SPEED			0.1
 
 /* ********************************* Texture ******************************** */
 # define TEXTURE_HEIGHT		64
@@ -111,19 +112,19 @@ typedef struct s_color
 }	t_color;
 
 // in map
-typedef struct s_coord
+typedef struct s_coord_map
 {
 	int				x;
 	int				y;
 	char			nswe;
-}	t_coord;
+}	t_coord_map;
 
 typedef struct s_map
 {
 	char			**grid;
 	int				width;
 	int				height;
-	t_coord			start_pos;
+	t_coord_map		start_pos;
 }	t_map;
 
 // in main
@@ -139,8 +140,6 @@ typedef struct s_file
 
 typedef struct s_player
 {
-	// int		x;
-	// int		y;
 	// int		angle;
 	// float	fov_rad;
 	double			pos_x;
@@ -149,8 +148,10 @@ typedef struct s_player
 	double			cam_y;
 	double			dir_x;
 	double			dir_y;
-	double			buff_dist;
-	double			aspect_ratio;
+	double			move_speed;
+	double			rot_speed;
+	double			buff_dist;		// distance to the wall
+	double			aspect_ratio;	// aspect ratio of the projection plane
 	int				step_x;
 	int				step_y;
 }	t_player;
@@ -163,10 +164,10 @@ typedef struct s_ray
 
 typedef struct s_main
 {
+	int				ac;
+	char			**av;
 	mlx_t			*mlx;
 	mlx_image_t		*image;
-	mlx_image_t		*animation;
-	mlx_texture_t	*animation_txt;
 
 	t_file			*file;
 	t_player		*player;
@@ -204,9 +205,9 @@ bool	is_nswe(char c);
 void	ft_replace_chars(char **line, char c1, char c2);
 
 // Init
-void	init(int type, t_main *game, int ac, char **av);
+void	init(int type, t_main *game);
 void	init_default(t_main *game);
-void	init_player(t_main *game, t_map *map);
+void	init_player(t_player *player, t_map *map);
 
 // Parser
 void	range_check(t_main *game, int rgb);
