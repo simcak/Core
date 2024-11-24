@@ -6,11 +6,35 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/24 15:20:16 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/24 15:36:37 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3D.h"
+
+void	ray_cast(t_main *game)
+{
+	int		wall_height;
+	int		draw_start;
+	int		draw_end;
+	int		x;
+
+	x = -1;
+	while (++x < SWIDTH)
+	{
+		calculate_cam(game, x);
+		calculate_delta(game);
+		calculate_pos(game);
+		calculate_hit(game, false);
+		calculate_ray(game);
+		wall_height = (int)(SWIDTH / game->ray->distance);
+		draw_start = calculate_draw_start(wall_height);
+		draw_end = calculate_draw_end(wall_height);
+		draw_ceiling(game, x, draw_start);
+		draw_walls(game, x, draw_end, wall_height);
+		draw_floor(game, x, draw_end);
+	}
+}
 
 void	put_image(t_main *game)
 {
