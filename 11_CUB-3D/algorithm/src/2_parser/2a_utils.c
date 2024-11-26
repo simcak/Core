@@ -6,13 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:46 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 17:22:45 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/26 18:22:08 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
-
-#define ERR_MALL_TXT		BR"Malloc failed for texture path setup"RST
 
 static int	char_counter(char *input)
 {
