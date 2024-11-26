@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/24 20:54:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/26 19:08:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@
 # include <string.h>
 # include <stdbool.h>
 
+/* *********************************** Pi *********************************** */
+# define PI_FT				3.141592653589793238462643383279502884197169
+# define PI05_FT			1.570796326794896619231321691639751442098584
+
 /* ********************************** Color ********************************* */
 # define BR					"\033[1;31m"
 # define BG					"\033[1;32m"
@@ -47,14 +51,12 @@
 
 /* ********************************** Error ********************************* */
 #define ERR_MALL			BR"Memory allocation failed for "
+#define ERR_MALL_2D			BR"2D malloc failed for "
+#define ERR_WALL			BR"The map must be closed/surrounded by walls from "
 #define ERR_MAP_NOT_FOUND	BR"No valid map found in provided file."RST
-#define ERR_MALL_CLR		BR"Malloc failed for 2D color setup"RST
-#define ERR_MALL_RGB		BR"Malloc failed for 2D rgb setup"RST
 #define ERR_RGB				BR"RGB values must be digits in range 0-255\n\
 Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 #define ERR_RGB_COUNT		BR"There must be ONE number <0-255> per color"RST
-#define ERR_MGRID			BR"Couldn't allocate memory for 'grid'"RST
-#define ERR_WALL			BR"The map must be closed/surrounded by walls from "
 /* ********************************** Init ********************************** */
 # define DEFAULT			1
 # define FILE				2
@@ -71,10 +73,7 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define FOV				0.6
 # define ROTATION_SPEED		0.05
 # define MOVE_SPEED			0.1
-
-/* ********************************* Texture ******************************** */
-# define TEXTURE_HEIGHT		64
-# define TEXTURE_WIDTH		64
+# define TILE_SIZE			100
 
 /* ****************************** Game controls ***************************** */
 # define ESC				53
@@ -143,12 +142,18 @@ typedef struct s_vect
 {
 	double			x;
 	double			y;
+	double			rad;
 }	t_vect;
+
+typedef struct s_fov
+{
+	double			dec;
+	double			rad;
+}	t_fov;
 
 typedef struct s_player
 {
-	double			dir_rad;
-	double			fov_rad;
+	t_fov			fov;
 	t_vect			pos;
 	t_vect			dir;
 	t_vect			plane;
@@ -160,10 +165,17 @@ typedef struct s_player
 	int				step_y;
 }	t_player;
 
+typedef struct s_hit
+{
+	double			x;
+	double			y;
+}	t_hit;
+
 typedef struct s_ray
 {
-	int				angle;
-	int				distance;
+	double			angle;
+	double			distance;
+	t_hit			hit;
 }	t_ray;
 
 typedef struct s_wall

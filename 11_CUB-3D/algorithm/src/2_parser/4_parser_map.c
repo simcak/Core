@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/24 13:35:36 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/26 18:25:06 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ static void	copy_map(t_map *map)
 
 	grid_ptr = map->grid;
 	map->grid = NULL;
-	map->grid = ft_smalloc(sizeof(char *) * (map->height + 1), ERR_MGRID);
+	map->grid = ft_smalloc(sizeof(char *) * (map->height + 1),
+		ERR_MALL"GRID"RST);
 	i = -1;
 	while (++i < map->height)
 	{
 		line_len = last_char_index(grid_ptr[i]) + 1;
-		map->grid[i] = ft_smalloc(sizeof(char) * (map->width + 1), ERR_MGRID);
+		map->grid[i] = ft_smalloc(sizeof(char) * (map->width + 1),
+			ERR_MALL"GRID"RST);
 		ft_strlcpy(map->grid[i], grid_ptr[i], line_len + 1);
 		line_len--;
 		while (++line_len <= map->width)

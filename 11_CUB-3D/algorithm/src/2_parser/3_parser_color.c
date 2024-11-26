@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:01 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 18:04:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/26 18:23:39 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	*split_check_rgb(t_main *game, char *color)
 	int		i;
 
 	game->file->color->rgb_raw = ft_split(color, ',');
-	rgb = ft_dalloc(sizeof(int *), 3, ERR_MALL_RGB);
+	rgb = ft_dalloc(sizeof(int *), 3, ERR_MALL_2D"RGB"RST);
 	i = -1;
 	while (game->file->color->rgb_raw[++i])
 	{
@@ -128,7 +128,7 @@ static int	*split_check_rgb(t_main *game, char *color)
  */
 void	parse_load_check_colors(t_main *game, t_color *color)
 {
-	color->colors = ft_dalloc(sizeof(char *), 3, ERR_MALL_CLR);
+	color->colors = ft_dalloc(sizeof(char *), 3, ERR_MALL_2D"COLOR"RST);
 	color->colors[0] = color_assign("F", game, game->file->parsed_file);
 	color->colors[1] = color_assign("C", game, game->file->parsed_file);
 	color->colors[2] = NULL;
