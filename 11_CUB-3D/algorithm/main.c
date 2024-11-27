@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/26 21:54:40 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/27 00:55:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,56 @@
  */
 static double	keep_in_range(double angle)
 {
-	if (angle < 0)
-		angle += 2 * PI_FT;
-	else if (angle > 2 * PI_FT)
-		angle -= 2 * PI_FT;
+	angle = angle < 0 ? angle + 2 * PI_FT : angle;
+	angle = angle > 2 * PI_FT ? angle - 2 * PI_FT : angle;
 	return (angle);
 }
 
-static double	distance(t_player *player, double x, double y)
+/**
+ * @brief Calculates the distance between two points.
+ * 
+ * formula: sqrt((rx - px)^2 + (ry - py)^2)
+ * 
+ * @param px - player's x coordinate
+ * @param py - player's y coordinate
+ * @param rx - ray's x coordinate
+ * @param ry - ray's y coordinate
+ */
+static double	distance(double px, double py, double rx, double ry)
 {
-	return (sqrt(pow(x - player->pos.x, 2) + pow(y - player->pos.y, 2)));
+	return (sqrt(pow(rx - px, 2) + pow(ry - py, 2)));
 }
 
-static int	wall_hit(t_map *map, double x, double y)
+static void	pick_shorter_ray(t_player *p, t_ray *ray)
+{
+	double	v_distance;
+	double	h_distance;
+
+	v_distance = distance(p->pos.x, p->pos.y, ray->vhit.x, ray->vhit.y);
+	h_distance = distance(p->pos.x, p->pos.y, ray->hhit.x, ray->hhit.y);
+	if (h_distance < v_distance)
+	{
+		ray->distance = h_distance;
+		ray->hit.x = ray->hhit.x;
+		ray->hit.y = ray->hhit.y;
+	}
+	else
+	{
+		ray->distance = v_distance;
+		ray->hit.x = ray->vhit.x;
+		ray->hit.y = ray->vhit.y;
+	}
+}
+
+static int	wall_not_hit(t_map *map, double ray_hit_x, double ray_hit_y)
 {
 	int	m_x;
 	int	m_y;
 
-	if (x < 0 || y < 0)
+	if (ray_hit_x < 0 || ray_hit_y < 0)
 		return (0);
-	m_x = floor (x / TILE_SIZE);
-	m_y = floor (y / TILE_SIZE);
+	m_x = floor(ray_hit_x / TILE_SIZE);
+	m_y = floor(ray_hit_y / TILE_SIZE);
 	if (m_y >= map->height || m_y < 0 || m_x >= map->width || m_x < 0)
 		return (0);
 	if (map->grid[m_y] && m_x < (int)strlen(map->grid[m_y]))
@@ -50,65 +79,34 @@ static int	wall_hit(t_map *map, double x, double y)
 	return (1);
 }
 
-static void	find_hit(t_main *game, double x, double y, double x_step,
-						double y_step, int pixel, int orientation)
-{
-	if (orientation == 'V')
-	{
-		while (wall_hit(game->file->map, x - pixel, y))
-		{
-			x += x_step;
-			y += y_step;
-		}
-	}
-	if (orientation == 'H')
-	{
-		while (wall_hit(game->file->map, x, y - pixel))
-		{
-			x += x_step;
-			y += y_step;
-		}
-	}
-	if (game->ray->distance < distance(game->player, x, y))
-	{
-		game->ray->hit.x = x;
-		game->ray->hit.y = y;
-		game->ray->distance = distance(game->player, x, y);
-	}
-}
-
 static void	calculate_vertical_hit(t_main *game, t_player *player, t_ray *ray)
 {
-	double	x_intercept;
-	double	y_intercept;
-	double	x_step;
-	double	y_step;
 	bool	facing_north;
 	bool	facing_west;
 	int		pixel;
 
 	facing_north = ray->angle > 0 && ray->angle < PI_FT;
-	facing_west = ray->angle > PI05_FT && ray->angle < 3 * PI05_FT;
+	facing_west = ray->angle > PI_FT / 2 && ray->angle < 3 * PI05_FT;
 
-	y_step = facing_north ? TILE_SIZE : -TILE_SIZE;
-	x_step = TILE_SIZE / tan(ray->angle);
-	if ((facing_west && x_step > 0) || (!facing_west && x_step < 0))
-		x_step *= -1;
+	ray->y_step = facing_north ? TILE_SIZE : -TILE_SIZE;
+	ray->x_step = TILE_SIZE / tan(ray->angle);
+	if ((facing_west && ray->x_step > 0) || (!facing_west && ray->x_step < 0))
+		ray->x_step *= -1;
 
-	y_intercept = floor(player->pos.y / TILE_SIZE) * TILE_SIZE;
-	y_intercept += facing_north ? TILE_SIZE : 0;
-	x_intercept = player->pos.x + (y_intercept - player->pos.y) / tan(ray->angle);
+	ray->vhit.y = floor(player->pos.y / TILE_SIZE) * TILE_SIZE;
+	ray->vhit.y += facing_north ? TILE_SIZE : 0;
+	ray->vhit.x = player->pos.x + (ray->vhit.y - player->pos.y) / tan(ray->angle);
 
 	pixel = facing_north ? -1 : 1;
-	find_hit(game, x_intercept, y_intercept, x_step, y_step, pixel, 'V');
+	while (wall_not_hit(game->file->map, ray->vhit.x, ray->vhit.y - pixel))
+	{
+		ray->vhit.x += ray->x_step;
+		ray->vhit.y += ray->y_step;
+	}
 }
 
 static void	calculate_horizontal_hit(t_main *game, t_player *player, t_ray *ray)
 {
-	double	x_intercept;
-	double	y_intercept;
-	double	x_step;
-	double	y_step;
 	bool	facing_west;
 	bool	facing_north;
 	int		pixel;
@@ -116,17 +114,21 @@ static void	calculate_horizontal_hit(t_main *game, t_player *player, t_ray *ray)
 	facing_west = ray->angle > PI05_FT && ray->angle < 3 * PI05_FT;
 	facing_north = ray->angle > 0 && ray->angle < PI_FT;
 
-	x_step = facing_west ? -TILE_SIZE : TILE_SIZE;
-	y_step = TILE_SIZE * tan(ray->angle);
-	if ((facing_north && y_step < 0) || (!facing_north && y_step > 0))
-		y_step *= -1;
+	ray->x_step = facing_west ? -TILE_SIZE : TILE_SIZE;
+	ray->y_step = TILE_SIZE * tan(ray->angle);
+	if ((facing_north && ray->y_step < 0) || (!facing_north && ray->y_step > 0))
+		ray->y_step *= -1;
 
-	x_intercept = floor(player->pos.x / TILE_SIZE) * TILE_SIZE;
-	x_intercept += facing_west ? 0 : TILE_SIZE;
-	y_intercept = player->pos.y + (x_intercept - player->pos.x) * tan(ray->angle);
+	ray->hhit.x = floor(player->pos.x / TILE_SIZE) * TILE_SIZE;
+	ray->hhit.x += facing_west ? 0 : TILE_SIZE;
+	ray->hhit.y = player->pos.y + (ray->hhit.x - player->pos.x) * tan(ray->angle);
 
 	pixel = facing_west ? 1 : -1;
-	find_hit(game, x_intercept, y_intercept, x_step, y_step, pixel, 'H');
+	while (wall_not_hit(game->file->map, ray->hhit.x - pixel, ray->hhit.y))
+	{
+		ray->hhit.x += ray->x_step;
+		ray->hhit.y += ray->y_step;
+	}
 }
 
 /**
@@ -148,44 +150,19 @@ static void	ray_cast(t_main *game, t_player *player, t_ray *ray)
 	int		ray_counter;
 	double	raw_ray_angle;
 
-	raw_ray_angle = player->dir.rad - (player->fov.rad / 2);
 	ray_counter = -1;
-	game->ac = 3;	// delete
+	raw_ray_angle = player->dir.rad - (player->fov_rad / 2);
 	while (++ray_counter < SWIDTH)
 	{
 		ray->angle = keep_in_range(raw_ray_angle);
 		calculate_vertical_hit(game, player, ray);
 		calculate_horizontal_hit(game, player, ray);
-		// pick_shortest_ray(ray);
-		if (ray_counter % 100 == 0)
-		{
-			printf("hit ray dist: %f   x: %f   y: %f\n", ray->distance, ray->hit.x, ray->hit.y);
-			printf("*****************************\n");
-		}
+		pick_shorter_ray(player, ray);
 		// draw_ray(game, ray_counter, raw_ray_angle);
-		raw_ray_angle += (player->fov.rad / SWIDTH);
+		raw_ray_angle += player->fov_rad / SWIDTH;
 	}
+	exit(0);	// TEMPORARY
 }
-
-// void	ray_cast(t_main *game)
-// {
-// 	int		wall_height;
-// 	int		ray_counter;
-
-// 	ray_counter = -1;
-// 	while (++ray_counter < SWIDTH)
-// 	{
-// 		calculate_cam(game, ray_counter);
-// 		calculate_delta(game);
-// 		calculate_pos(game);
-// 		calculate_hit(game, false);
-// 		calculate_ray(game, game->ray);
-// 		wall_height = (int)(SWIDTH / game->ray->distance);
-// 		draw_ceiling(game, ray_counter, draw_start(wall_height));
-// 		draw_walls(game, ray_counter, draw_end(wall_height), wall_height);
-// 		draw_floor(game, ray_counter, draw_end(wall_height));
-// 	}
-// }
 
 static void	put_image(t_main *game)
 {

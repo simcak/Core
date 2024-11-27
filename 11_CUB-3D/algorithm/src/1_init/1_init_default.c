@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/26 21:42:44 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/26 23:59:17 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,19 @@ static void	init_default_player(t_main *game)
 {
 	game->player = ft_smalloc(sizeof(t_player), ERR_MALL"PLAYER"RST);
 
-	game->player->fov.dec = FOV;
-	game->player->fov.rad = FOV * PI_FT / 180;
+	game->player->fov_rad = FOV * PI_FT / 180;
 	game->player->pos.x = 0;
 	game->player->pos.y = 0;
-	game->player->pos.rad = 0;
 	game->player->dir.x = 0;
 	game->player->dir.y = 0;
 	game->player->dir.rad = 0;
 	game->player->plane.x = 0;
 	game->player->plane.y = 0;
 	game->player->plane.rad = 0;
-	game->player->move_speed = 0;
-	game->player->rot_speed = 0;
+	game->player->move_speed = MOVE_SPEED;
+	game->player->rot_speed = ROTATION_SPEED;
 	game->player->buff_dist = 0;
 	game->player->aspect_ratio = (double)SWIDTH / (double)SHEIGHT;
-	game->player->step_x = 0;
-	game->player->step_y = 0;
 }
 
 static void	init_default_ray(t_main *game)
@@ -41,6 +37,12 @@ static void	init_default_ray(t_main *game)
 
 	game->ray->angle = 0;
 	game->ray->distance = 0;
+	game->ray->x_step = 0;
+	game->ray->y_step = 0;
+	game->ray->hhit.x = 0;
+	game->ray->hhit.y = 0;
+	game->ray->vhit.x = 0;
+	game->ray->vhit.y = 0;
 	game->ray->hit.x = 0;
 	game->ray->hit.y = 0;
 }

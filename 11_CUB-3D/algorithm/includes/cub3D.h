@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/26 19:08:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/26 23:55:32 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define MAP				1
 
 /* ********************************* Screen ********************************* */
-# define SHEIGHT			1000
-# define SWIDTH				1500
-# define FOV				0.6
+# define SWIDTH				1280
+# define SHEIGHT			768
+# define FOV				60
 # define ROTATION_SPEED		0.05
 # define MOVE_SPEED			0.1
 # define TILE_SIZE			100
@@ -145,24 +145,16 @@ typedef struct s_vect
 	double			rad;
 }	t_vect;
 
-typedef struct s_fov
-{
-	double			dec;
-	double			rad;
-}	t_fov;
-
 typedef struct s_player
 {
-	t_fov			fov;
+	double			fov_rad;
 	t_vect			pos;
 	t_vect			dir;
 	t_vect			plane;
 	double			move_speed;
 	double			rot_speed;
 	double			buff_dist;		// distance to the wall
-	double			aspect_ratio;	// aspect ratio of the projection plane
-	int				step_x;
-	int				step_y;
+	double			aspect_ratio;
 }	t_player;
 
 typedef struct s_hit
@@ -175,6 +167,10 @@ typedef struct s_ray
 {
 	double			angle;
 	double			distance;
+	double			x_step;
+	double			y_step;
+	t_hit			hhit;
+	t_hit			vhit;
 	t_hit			hit;
 }	t_ray;
 
