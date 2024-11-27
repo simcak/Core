@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/26 15:02:17 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/27 00:26:13 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,23 @@ static void	init_player(t_player *player, t_map *map)
 {
 	if (map->start_pos.nswe == 'E' || map->start_pos.nswe == 'W')
 	{
-		player->dir.x = (map->start_pos.nswe == 'E') ? 1 : -1;
-		player->dir.y = 0;
 		player->dir.rad = (map->start_pos.nswe == 'E') ? 0 : PI_FT;
-		player->plane.x = 0;
-		player->plane.y = (map->start_pos.nswe == 'E') ? FOV : -FOV;
+		// player->dir.x = (map->start_pos.nswe == 'E') ? 1 : -1;
+		// player->dir.y = 0;
+		// player->plane.x = 0;
+		// player->plane.y = (map->start_pos.nswe == 'E') ? FOV / 100 : -FOV / 100;
 	}
 	if (map->start_pos.nswe == 'N' || map->start_pos.nswe == 'S')
 	{
-		player->dir.x = 0;
-		player->dir.y = (map->start_pos.nswe == 'S') ? 1 : -1;
 		player->dir.rad = (map->start_pos.nswe == 'S') ? PI05_FT : 3 * PI05_FT;
-		player->plane.x = (map->start_pos.nswe == 'S') ? FOV : -FOV;
-		player->plane.y = 0;
+		// player->dir.x = 0;
+		// player->dir.y = (map->start_pos.nswe == 'S') ? 1 : -1;
+		// player->plane.x = (map->start_pos.nswe == 'S') ? FOV / 100 : -FOV / 100;
+		// player->plane.y = 0;
 	}
-	player->pos.x = map->start_pos.x + 0.5;
-	player->pos.y = map->start_pos.y + 0.5;
-	player->move_speed = MOVE_SPEED;
-	player->rot_speed = ROTATION_SPEED;
-	// todo: buff_dist, step_x, step_y
+	player->pos.x = map->start_pos.x * TILE_SIZE + TILE_SIZE / 2;
+	player->pos.y = map->start_pos.y * TILE_SIZE + TILE_SIZE / 2;
+	// todo: buff_dist
 	// maybe delete vectors and use only angles
 }
 

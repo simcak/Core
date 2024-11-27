@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:59:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/24 20:04:35 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/26 23:52:06 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,6 @@ void	ft_debug(int type, t_main *game)
 		printf(BY"X, Y, Pos:    \t| [%d, %d] - %c\n"RST,
 			game->file->map->start_pos.x, game->file->map->start_pos.y,
 			game->file->map->start_pos.nswe);
-		printf(BW"Player Dir X: \t| %f\n"RST, game->player->dir.x);
-		printf(BW"Player Dir Y: \t| %f\n"RST, game->player->dir.y);
-		printf(BW"Player Cam X: \t| %f\n"RST, game->player->plane.x);
-		printf(BW"Player Cam Y: \t| %f\n"RST, game->player->plane.y);
 		printf(BW"Player Pos X: \t| %f\n"RST, game->player->pos.x);
 		printf(BW"Player Pos Y: \t| %f\n"RST, game->player->pos.y);
 		printf(BW"Move Speed:   \t| %f\n"RST, game->player->move_speed);
