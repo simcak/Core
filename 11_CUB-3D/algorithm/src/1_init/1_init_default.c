@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/26 23:59:17 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/27 03:37:45 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ static void	init_default_player(t_main *game)
 	game->player->plane.x = 0;
 	game->player->plane.y = 0;
 	game->player->plane.rad = 0;
-	game->player->move_speed = MOVE_SPEED;
 	game->player->rot_speed = ROTATION_SPEED;
-	game->player->buff_dist = 0;
+	game->player->buff_dist = 0.25;
 	game->player->aspect_ratio = (double)SWIDTH / (double)SHEIGHT;
 }
 
@@ -39,6 +38,7 @@ static void	init_default_ray(t_main *game)
 	game->ray->distance = 0;
 	game->ray->x_step = 0;
 	game->ray->y_step = 0;
+	game->ray->color = 0;
 	game->ray->hhit.x = 0;
 	game->ray->hhit.y = 0;
 	game->ray->vhit.x = 0;

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:59:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/26 23:52:06 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/27 03:38:48 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	ft_debug(int type, t_main *game)
 			game->file->map->start_pos.nswe);
 		printf(BW"Player Pos X: \t| %f\n"RST, game->player->pos.x);
 		printf(BW"Player Pos Y: \t| %f\n"RST, game->player->pos.y);
-		printf(BW"Move Speed:   \t| %f\n"RST, game->player->move_speed);
 		printf(BW"Rot Speed:    \t| %f\n"RST, game->player->rot_speed);
 	}
 	else if (type == MAP)

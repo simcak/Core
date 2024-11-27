@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/27 00:26:13 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/27 04:12:34 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static void	init_player(t_player *player, t_map *map)
 	}
 	player->pos.x = map->start_pos.x * TILE_SIZE + TILE_SIZE / 2;
 	player->pos.y = map->start_pos.y * TILE_SIZE + TILE_SIZE / 2;
-	// todo: buff_dist
+	// player->move.x = map->start_pos.x + 0.5;
+	// player->move.y = map->start_pos.y + 0.5;
 	// maybe delete vectors and use only angles
 }
 
