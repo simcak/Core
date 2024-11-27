@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/27 04:11:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/27 14:29:46 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,12 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define MAP				1
 
 /* ********************************* Screen ********************************* */
-# define SWIDTH				1280
-# define SHEIGHT			768
+# define SWIDTH				1420
+# define SHEIGHT			842
 # define FOV				60
 # define ROTATION_SPEED		0.05
 # define MOVE_SPEED			5
 # define TILE_SIZE			100
-
-/* ****************************** Game controls ***************************** */
-# define ESC				53
-# define X_EVENT_KEY_PRESS	2
-# define X_EVENT_KEY_RLS	3
-# define X_EVENT_EXIT		17
 
 /* ******************************* Structure ******************************** */
 // in file
