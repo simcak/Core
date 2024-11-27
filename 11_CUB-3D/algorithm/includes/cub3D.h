@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/26 23:55:32 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/27 04:11:05 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define SHEIGHT			768
 # define FOV				60
 # define ROTATION_SPEED		0.05
-# define MOVE_SPEED			0.1
+# define MOVE_SPEED			5
 # define TILE_SIZE			100
 
 /* ****************************** Game controls ***************************** */
@@ -80,16 +80,6 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define X_EVENT_KEY_PRESS	2
 # define X_EVENT_KEY_RLS	3
 # define X_EVENT_EXIT		17
-
-/* ***************************** Player controls **************************** */
-# define W					13
-# define A					0
-# define S					1
-# define D					2
-# define UP					126
-# define DOWN				125
-# define RIGHT				124
-# define LEFT				123
 
 /* ******************************* Structure ******************************** */
 // in file
@@ -151,7 +141,7 @@ typedef struct s_player
 	t_vect			pos;
 	t_vect			dir;
 	t_vect			plane;
-	double			move_speed;
+	t_vect			move;
 	double			rot_speed;
 	double			buff_dist;		// distance to the wall
 	double			aspect_ratio;
@@ -166,9 +156,11 @@ typedef struct s_hit
 typedef struct s_ray
 {
 	double			angle;
+	double			angle_diff;
 	double			distance;
 	double			x_step;
 	double			y_step;
+	uint32_t		color;
 	t_hit			hhit;
 	t_hit			vhit;
 	t_hit			hit;
@@ -176,9 +168,9 @@ typedef struct s_ray
 
 typedef struct s_wall
 {
-	int				height;
-	int				start;
-	int				end;
+	double			height;
+	double			start;
+	double			end;
 }	t_wall;
 
 typedef struct s_main
@@ -239,5 +231,10 @@ void	parse_load_check_texture(t_main *game, t_txt *txt);
 bool	we_found_flag(t_main *game, char *flag, int line);
 char	*txt_path_finder(t_main *game, char *flag, int line);
 void	ft_dupliempty_txtp(t_main *game, char **txt_paths);
+
+// Raycasting
+void	draw_ray(t_main *game, int ray_counter);
+bool	ft_move(t_main *game, int key);
+bool	ft_rotate(t_main *game, double rot_speed, int key);
 
 #endif

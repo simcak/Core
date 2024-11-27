@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/27 00:55:20 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/27 04:11:38 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,10 +158,12 @@ static void	ray_cast(t_main *game, t_player *player, t_ray *ray)
 		calculate_vertical_hit(game, player, ray);
 		calculate_horizontal_hit(game, player, ray);
 		pick_shorter_ray(player, ray);
-		// draw_ray(game, ray_counter, raw_ray_angle);
+		ray->angle_diff = keep_in_range(raw_ray_angle - player->dir.rad);
+		game->ray->distance *= cos(ray->angle_diff);
+		draw_ray(game, ray_counter);
 		raw_ray_angle += player->fov_rad / SWIDTH;
 	}
-	exit(0);	// TEMPORARY
+	// exit(0);	// TEMPORARY
 }
 
 static void	put_image(t_main *game)
@@ -179,18 +181,18 @@ static void	game_loop(void *param)
 
 	game = (t_main *)param;
 	pressed = false;
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-	// 	pressed = rot_left(game, game->player->rot_speed);
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
-	// 	pressed = rot_right(game, game->player->rot_speed);
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_W))
-	// 	pressed = mov_forward(game, game->player->move_speed);
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_S))
-	// 	pressed = mov_back(game, game->player->move_speed);
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_A))
-	// 	pressed = mov_left(game, game->player->move_speed);
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_D))
-	// 	pressed = mov_right(game, game->player->move_speed);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+		pressed = ft_rotate(game, game->player->rot_speed, MLX_KEY_LEFT);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+		pressed = ft_rotate(game, game->player->rot_speed, MLX_KEY_RIGHT);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
+		pressed = ft_move(game, MLX_KEY_W);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
+		pressed = ft_move(game, MLX_KEY_S);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
+		pressed = ft_move(game, MLX_KEY_A);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+		pressed = ft_move(game, MLX_KEY_D);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
 	if (pressed)
