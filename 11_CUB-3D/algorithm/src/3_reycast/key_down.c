@@ -6,72 +6,75 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:17:33 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/27 04:10:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 17:50:53 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-static bool	can_step_in(t_map *map, int grid_y, int grid_x)
+static bool	can_step_in(t_map *map, int y, int x)
 {
-	if (map->grid[grid_y][grid_x] == ' ' || is_nswe(map->grid[grid_y][grid_x]))
+	if (map->grid[y][x] != '1')
 		return (true);
 	return (false);
 }
 
 static void	perform_move(t_map *map, t_player *player)
 {
-	int	new_p_x;
-	int	new_p_y;
-	int	grid_x;
-	int	grid_y;
+	double	next_pos_x;
+	double	next_pos_y;
+	double	grid_x;
+	double	grid_y;
 
-	new_p_x = round(player->pos.x + player->move.x);
-	grid_x = new_p_x / TILE_SIZE;
+	next_pos_x = player->pos.x + player->move.x;
+	grid_x = next_pos_x / TILE_SIZE;
 	grid_y = player->pos.y / TILE_SIZE;
-	if (grid_x >= 0 && grid_x < map->width
-		&& grid_y >= 0 && grid_y < map->height)
-	{
-		if (can_step_in(map, grid_y, grid_x))
-			player->pos.x = new_p_x;
-	}
-	new_p_y = round(player->pos.y + player->move.y);
-	grid_y = new_p_y / TILE_SIZE;
+	if (can_step_in(map, (int)grid_y, (int)grid_x))
+		player->pos.x = next_pos_x;
+
+	next_pos_y = player->pos.y + player->move.y;
+	grid_y = next_pos_y / TILE_SIZE;
 	grid_x = player->pos.x / TILE_SIZE;
-	if (grid_y >= 0 && grid_y < map->height
-		&& grid_x >= 0 && grid_x < map->width)
-	{
-		if (can_step_in(map, grid_y, grid_x))
-			player->pos.y = new_p_y;
-	}
+	if (can_step_in(map, (int)grid_y, (int)grid_x))
+		player->pos.y = next_pos_y;
 }
 
+/**
+ * @brief Moves the player in the direction of the player's angle.
+ * 
+ * Here we calculate the MOVEMENT vector.
+ */
 bool	ft_move(t_main *game, int key)
 {
-	game->player->move.x = 0;
-	game->player->move.y = 0;
+	t_player	*player;
 
-	if (key == MLX_KEY_W)
+	player = game->player;
+	if (key == MLX_KEY_W || key == MLX_KEY_UP)
 	{
-		game->player->move.x = cos(game->player->dir.rad) * MOVE_SPEED;
-		game->player->move.y = sin(game->player->dir.rad) * MOVE_SPEED;
+		player->move.x = cos(player->dir.rad) * MOVE_SPEED;
+		player->move.y = sin(player->dir.rad) * MOVE_SPEED;
 	}
-	else if (key == MLX_KEY_S)
+	else if (key == MLX_KEY_R)
 	{
-		game->player->move.x = -cos(game->player->dir.rad) * MOVE_SPEED;
-		game->player->move.y = -sin(game->player->dir.rad) * MOVE_SPEED;
+		player->move.x = cos(player->dir.rad) * MOVE_SPEED * 3;
+		player->move.y = sin(player->dir.rad) * MOVE_SPEED * 3;
+	}
+	else if (key == MLX_KEY_S || key == MLX_KEY_DOWN)
+	{
+		player->move.x = -cos(player->dir.rad) * MOVE_SPEED;
+		player->move.y = -sin(player->dir.rad) * MOVE_SPEED;
 	}
 	else if (key == MLX_KEY_A)
 	{
-		game->player->move.x = sin(game->player->dir.rad) * MOVE_SPEED;
-		game->player->move.y = -cos(game->player->dir.rad) * MOVE_SPEED;
+		player->move.x = sin(player->dir.rad) * MOVE_SPEED;
+		player->move.y = -cos(player->dir.rad) * MOVE_SPEED;
 	}
 	else if (key == MLX_KEY_D)
 	{
-		game->player->move.x = -sin(game->player->dir.rad) * MOVE_SPEED;
-		game->player->move.y = cos(game->player->dir.rad) * MOVE_SPEED;
+		player->move.x = -sin(player->dir.rad) * MOVE_SPEED;
+		player->move.y = cos(player->dir.rad) * MOVE_SPEED;
 	}
-	perform_move(game->file->map, game->player);
+	perform_move(game->file->map, player);
 	return (true);
 }
 

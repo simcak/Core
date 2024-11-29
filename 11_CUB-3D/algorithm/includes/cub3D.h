@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/27 14:29:46 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 17:33:08 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define SHEIGHT			842
 # define FOV				60
 # define ROTATION_SPEED		0.05
-# define MOVE_SPEED			5
-# define TILE_SIZE			100
+# define MOVE_SPEED			4.2
+# define TILE_SIZE			89
 
 /* ******************************* Structure ******************************** */
 // in file
@@ -92,6 +92,8 @@ typedef struct s_color
 	char			**rgb_raw;
 	int				*rgb_c;
 	int				*rgb_f;
+	uint32_t		c_color;
+	uint32_t		f_color;
 }	t_color;
 
 // in map
@@ -133,6 +135,7 @@ typedef struct s_player
 {
 	double			fov_rad;
 	t_vect			pos;
+	t_vect			nxt_pos;
 	t_vect			dir;
 	t_vect			plane;
 	t_vect			move;
@@ -165,12 +168,14 @@ typedef struct s_wall
 	double			height;
 	double			start;
 	double			end;
+	double			buff;
 }	t_wall;
 
 typedef struct s_main
 {
 	int				ac;
 	char			**av;
+	bool			pressed;
 	mlx_t			*mlx;
 	mlx_image_t		*image;
 

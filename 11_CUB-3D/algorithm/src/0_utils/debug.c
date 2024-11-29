@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:59:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/27 03:38:48 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 13:05:01 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_debug(int type, t_main *game)
 {
-	printf(BR"************* DEBUG *************\n"RST);
+	printf(BY"************* DEBUG *************\n"RST);
 	if (type == ALL)
 	{
 		
@@ -59,5 +59,5 @@ void	ft_debug(int type, t_main *game)
 		printf(BW"Start X, Y      \t| [%d, %d]\n"RST,
 			game->file->map->start_pos.x, game->file->map->start_pos.y);
 	}
-	printf(BR"*********** END DEBUG ***********\n"RST);
+	printf(BY"*********** END DEBUG ***********\n"RST);
 }
