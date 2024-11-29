@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/27 04:11:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 16:59:54 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,25 +177,30 @@ static void	put_image(t_main *game)
 static void	game_loop(void *param)
 {
 	t_main	*game;
-	bool	pressed;
 
 	game = (t_main *)param;
-	pressed = false;
+	game->pressed = false;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-		pressed = ft_rotate(game, game->player->rot_speed, MLX_KEY_LEFT);
+		game->pressed = ft_rotate(game, game->player->rot_speed, MLX_KEY_LEFT);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
-		pressed = ft_rotate(game, game->player->rot_speed, MLX_KEY_RIGHT);
+		game->pressed = ft_rotate(game, game->player->rot_speed, MLX_KEY_RIGHT);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
-		pressed = ft_move(game, MLX_KEY_W);
+		game->pressed = ft_move(game, MLX_KEY_W);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
+		game->pressed = ft_move(game, MLX_KEY_W);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_R))
+		game->pressed = ft_move(game, MLX_KEY_R);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
+		game->pressed = ft_move(game, MLX_KEY_DOWN);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
-		pressed = ft_move(game, MLX_KEY_S);
+		game->pressed = ft_move(game, MLX_KEY_S);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
-		pressed = ft_move(game, MLX_KEY_A);
+		game->pressed = ft_move(game, MLX_KEY_A);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
-		pressed = ft_move(game, MLX_KEY_D);
+		game->pressed = ft_move(game, MLX_KEY_D);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
-	if (pressed)
+	if (game->pressed)
 		put_image(game);
 }
 
