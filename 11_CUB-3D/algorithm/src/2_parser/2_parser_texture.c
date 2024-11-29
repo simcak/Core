@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:39 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/26 18:21:34 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 18:33:44 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	parse_load_check_texture(t_main *game, t_txt *txt)
 {
 	bool	mlx_txt_loaded;
 
-	txt->paths = ft_dalloc(sizeof(char *), 5, ERR_MALL_2D"TEXTURE"RST);
+	txt->paths = (char **)ft_dalloc(game, sizeof(char *), 5,
+		ERR_MALL_2D"TEXTURE"RST);
 	ft_safe_texture("NO", game, 0);
 	ft_safe_texture("SO", game, 1);
 	ft_safe_texture("WE", game, 2);

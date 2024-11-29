@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:09:10 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 17:13:58 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 18:33:30 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * Result is an array of strings, each string is a line from the file.
  * Therefore "parsed file".
 */
-static char	**ft_parsed_file(char *full_str, int line_counter)
+static char	**ft_parsed_file(t_main *game, char *full_str, int line_counter)
 {
 	char	**parsed_file;
 	int		line_start;
@@ -27,8 +27,8 @@ static char	**ft_parsed_file(char *full_str, int line_counter)
 	int		line_len;
 	int		i;
 
-	parsed_file = ft_dalloc(sizeof(char *), line_counter + 1,
-			BR"Malloc failed in ft_parsed_file"RST);
+	parsed_file = (char **)ft_dalloc(game, sizeof(char *), line_counter + 1,
+		BR"Malloc failed in ft_parsed_file"RST);
 	line_start = 0;
 	line_end = 0;
 	i = -1;
@@ -76,6 +76,6 @@ void	parse_load_check_file(t_main *game)
 		line_counter++;
 	}
 	close(game->file->fd);
-	game->file->parsed_file = ft_parsed_file(tmp_f_content, line_counter);
+	game->file->parsed_file = ft_parsed_file(game, tmp_f_content, line_counter);
 	free(tmp_f_content);
 }

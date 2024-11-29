@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 18:20:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 15:58:37 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 20:48:01 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,27 @@ void	ft_replace_chars(char **line, char c1, char c2)
 	int	i;
 	int	j;
 
-	i = 0;
-	while (line[i])
+	i = -1;
+	while (line[++i])
 	{
-		j = 0;
-		while (line[i][j])
+		j = -1;
+		while (line[i][++j])
 		{
 			if (line[i][j] == c1)
 				line[i][j] = c2;
-			j++;
 		}
-		i++;
 	}
+}
+
+/**
+ * @brief Checks if the player can step into the given coordinates.
+ * 
+ * We check it on a grid_max, which is a 10x bigger grid with extra layer of
+ * walls.
+ */
+bool	can_step_in(t_map *map, int y, int x)
+{
+	if (map->grid_max[y][x] != '1')
+		return (true);
+	return (false);
 }

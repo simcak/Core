@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 20:33:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/27 01:16:26 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 19:49:09 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	free_full(t_main *game)
 	{
 		if (game->file->map->grid)
 			free_str_arr(game->file->map->grid);
+		if (game->file->map->grid_max)
+			free_str_arr(game->file->map->grid_max);
 		free(game->file->map);
 	}
 	if (game->file)

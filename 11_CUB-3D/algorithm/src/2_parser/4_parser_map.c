@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/27 00:44:59 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 19:58:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,91 @@ static void	check_where_can_we_go(t_main *game, t_map *map, int x, int y)
 }
 
 /**
+ * Used in max_map function only.
+ */
+static void	add_corners(t_map *map, int i, int j)
+{
+	if (i > 0 && j > 0 && map->grid_max[i - 1][j - 1] != '1')
+		map->grid_max[i - 1][j - 1] = 'X';
+	if (i > 0 && j < map->width * 10 - 1 && map->grid_max[i - 1][j + 1] != '1')
+		map->grid_max[i - 1][j + 1] = 'X';
+	if (i < map->height * 10 - 1 && j > 0 && map->grid_max[i + 1][j - 1] != '1')
+		map->grid_max[i + 1][j - 1] = 'X';
+	if (i < map->height * 10 - 1 && j < map->width * 10 - 1
+		&& map->grid_max[i + 1][j + 1] != '1')
+		map->grid_max[i + 1][j + 1] = 'X';
+}
+
+/**
+ * Used in max_map function only.
+ */
+static void	add_walls(t_map *map)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (++i < map->height * 10)
+	{
+		j = -1;
+		while (++j < map->width * 10)
+		{
+			if (map->grid_max[i][j] == '1')
+			{
+				if (i > 0 && map->grid_max[i - 1][j] != '1')
+					map->grid_max[i - 1][j] = 'X';
+				if (i < map->height * 10 - 1 && map->grid_max[i + 1][j] != '1')
+					map->grid_max[i + 1][j] = 'X';
+				if (j > 0 && map->grid_max[i][j - 1] != '1')
+					map->grid_max[i][j - 1] = 'X';
+				if (j < map->width * 10 - 1 && map->grid_max[i][j + 1] != '1')
+					map->grid_max[i][j + 1] = 'X';
+				add_corners(map, i, j);
+			}
+		}
+	}
+	ft_replace_chars(map->grid_max, 'X', '1');
+}
+
+/**
+ * @brief Create a 10 times bigger map so we keep distances from walls.
+ * 
+ * 1) we put 10x character in a row. Char after char.
+ * 2) we put 10x row in a column. Row after row.
+ * 3) we add 1 layer of walls around the original walls.
+ */
+static void	max_map(t_main *game, t_map *map)
+{
+	int		i;
+	int		j;
+	int		k;
+	int		l;
+
+	map->grid_max = (char **)ft_dalloc(game, sizeof(char *),
+		(map->height * 10 + 1), ERR_MALL"GRID_MAX"RST);
+	i = -1;
+	while (++i < map->height)
+	{
+		j = -1;
+		while (++j < 10)
+		{
+			map->grid_max[i * 10 + j] = ft_smalloc(sizeof(char)
+				* (map->width * 10 + 1), ERR_MALL"GRID_MAX"RST);
+			k = -1;
+			while (++k < map->width)
+			{
+				l = -1;
+				while (++l < 10)
+					map->grid_max[i * 10 + j][k * 10 + l] = map->grid[i][k];
+			}
+			map->grid_max[i * 10 + j][map->width * 10] = '\0';
+		}
+	}
+	map->grid_max[map->height * 10] = NULL;
+	add_walls(map);
+}
+
+/**
  * MAP RULES
  * - The map must be composed of only 6 possible characters (0 1 N S W E)
  * - The map must be closed/surrounded by walls
@@ -206,7 +291,6 @@ static void	check_where_can_we_go(t_main *game, t_map *map, int x, int y)
  * - Spaces are a valid part of the map and are up to us to handle
  * - The map is the last element in file (except for the empty lines)
  */
-
 void	parse_load_check_map(t_main *game)
 {
 	t_file		*file;
@@ -219,5 +303,6 @@ void	parse_load_check_map(t_main *game)
 	check_valid_characters(game, map);
 	check_where_can_we_go(game, map, map->start_pos.x, map->start_pos.y);
 	ft_replace_chars(map->grid, 'X', ' ');
+	max_map(game, map);
 	map->grid[map->start_pos.y][map->start_pos.x] = map->start_pos.nswe;
 }
