@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:54:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 21:12:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 19:16:17 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,26 @@
 /**
  * Safe 2D malloc
  */
-void	*ft_dalloc(size_t size, int n, char *msg)
+void	**ft_dalloc(t_main *game, size_t size, int rows, char *msg)
 {
 	void	**ptr;
+	int		i;
 
-	ptr = (void **)malloc(size * n);
+	ptr = (void **)malloc(rows * sizeof(void *));
 	if (!ptr)
+		safe_exit(game, msg);
+	i = -1;
+	while (++i < rows)
 	{
-		perror(msg);
-		exit(EXIT_FAILURE);
+		ptr[i] = (void *)malloc(size);
+		if (!ptr[i])
+		{
+			while (--i >= 0)
+				free(ptr[i]);
+			free(ptr);
+			safe_exit(game, msg);
+		}
 	}
-	while (n--)
-		ptr[n] = NULL;
 	return (ptr);
 }
 

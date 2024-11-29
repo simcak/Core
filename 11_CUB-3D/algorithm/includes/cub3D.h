@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 17:33:08 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 20:45:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,13 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 /* ********************************* Debug ********************************** */
 # define ALL				0
 # define MAP				1
+# define MAXI_MAP			2
 
 /* ********************************* Screen ********************************* */
 # define SWIDTH				1420
 # define SHEIGHT			842
-# define FOV				60
+# define FOV				130
+// # define FOV				60
 # define ROTATION_SPEED		0.05
 # define MOVE_SPEED			4.2
 # define TILE_SIZE			89
@@ -107,6 +109,7 @@ typedef struct s_coord_map
 typedef struct s_map
 {
 	char			**grid;
+	char			**grid_max;
 	int				width;
 	int				height;
 	t_coord_map		start_pos;
@@ -175,7 +178,6 @@ typedef struct s_main
 {
 	int				ac;
 	char			**av;
-	bool			pressed;
 	mlx_t			*mlx;
 	mlx_image_t		*image;
 
@@ -204,7 +206,7 @@ char	*ft_substr(char const *str, unsigned int start, size_t len);
 void	safe_exit(t_main *game, const char *msg);
 void	free_full(t_main *game);
 int		free_str_arr(char **arr);
-void	*ft_dalloc(size_t size, int n, char *msg);
+void	**ft_dalloc(t_main *game, size_t size, int rows, char *msg);
 void	*ft_smalloc(size_t size, char *msg);
 bool	is_space(char c);
 bool	is_digit(char c);
@@ -214,6 +216,7 @@ bool	line_has_only_spaces(char *line);
 int		last_char_index(char *str);
 bool	is_nswe(char c);
 void	ft_replace_chars(char **line, char c1, char c2);
+bool	can_step_in(t_map *map, int y, int x);
 
 // Init
 void	init(int type, t_main *game);
@@ -232,8 +235,11 @@ char	*txt_path_finder(t_main *game, char *flag, int line);
 void	ft_dupliempty_txtp(t_main *game, char **txt_paths);
 
 // Raycasting
+void	ray_cast(t_main *game, t_player *player, t_ray *ray);
+double	keep_in_range(double angle);
+void	calculate_vertical_hit(t_main *game, t_player *player, t_ray *ray);
+void	calculate_horizontal_hit(t_main *game, t_player *player, t_ray *ray);
 void	draw_ray(t_main *game, int ray_counter);
-bool	ft_move(t_main *game, int key);
-bool	ft_rotate(t_main *game, double rot_speed, int key);
+bool	key_down_crossroad(t_main *game);
 
 #endif

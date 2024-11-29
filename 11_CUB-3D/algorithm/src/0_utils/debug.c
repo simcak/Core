@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:59:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 13:05:01 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 19:39:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,8 @@ void	ft_debug(int type, t_main *game)
 		printf(BW"Start X, Y      \t| [%d, %d]\n"RST,
 			game->file->map->start_pos.x, game->file->map->start_pos.y);
 	}
+	else if (type == MAXI_MAP)
+		for (int i = 0; game->file->map->grid_max[i]; i++)
+			printf("%s\n", game->file->map->grid_max[i]);
 	printf(BY"*********** END DEBUG ***********\n"RST);
 }

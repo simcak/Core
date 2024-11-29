@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 17:13:22 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/29 17:54:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	init_def_file(t_main *game)
 	game->file->color->f_color = 0;
 	game->file->map = ft_smalloc(sizeof(t_map), ERR_MALL"MAP"RST);
 	game->file->map->grid = NULL;
+	game->file->map->grid_max = NULL;
 	game->file->map->width = 0;
 	game->file->map->height = 0;
 	game->file->map->start_pos.x = -1;

@@ -1,7 +1,10 @@
 {
 	"files.associations": {
-		"cub3d.h": "c"
+		"cub3d.h": "c",
+		"ios": "c",
+		"locale": "c"
 	},
 
 	"editor.tabSize": 4,
+	"cmake.sourceDirectory": "/Users/psimcak/Documents/Core/11_CUB-3D/MLX42",
 }
