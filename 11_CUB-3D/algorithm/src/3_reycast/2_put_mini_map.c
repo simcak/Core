@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:35:22 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/30 18:48:37 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/30 19:30:18 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,29 @@ static void	init_mm(t_minimap *mm, t_main *game, int key)
 	}
 }
 
+static void put_direction_line(t_main *game)
+{
+	int		line_length;
+	double	dir_rad;
+	int		pixel_x;
+	int		pixel_y;
+	int		i;
+
+	i = -1;
+	line_length = 7;
+	dir_rad = game->player->dir.rad;
+	while (++i < line_length)
+	{
+		pixel_x = (int)(MINI_MAP_WIDTH / 2 + cos(dir_rad) * i);
+		pixel_y = (int)(MINI_MAP_HEIGHT / 2 + sin(dir_rad) * i);
+		mlx_put_pixel(game->image, pixel_x, pixel_y, PLAYER_COLOR);
+	}
+}
+
+
+/**
+ * @brief Put the mini map on the screen.
+ */
 void	put_mini_map(t_main *game)
 {
 	t_minimap	mm;
@@ -74,4 +97,5 @@ void	put_mini_map(t_main *game)
 			}
 		}
 	}
+	put_direction_line(game);
 }
