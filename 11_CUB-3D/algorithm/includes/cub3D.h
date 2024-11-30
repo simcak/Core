@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/30 18:22:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/30 18:48:50 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,22 +202,18 @@ typedef struct s_main
 
 typedef struct s_minimap
 {
-	int				color;
-	int				width;
-	int				heigth;
-	int				mpx;
-	int				mpy;
-	int				size;
+	int				x;
+	int				y;
+	int				px;
+	int				py;
+	uint32_t		color;
+	int				pgx;
+	int				pgy;
+	int				start_x;
+	int				start_y;
+	int				grid_x;
+	int				grid_y;
 }	t_minimap;
-
-typedef struct s_maxmap
-{
-	int				i;
-	int				j;
-	int				k;
-	int				l;
-	int				sz;
-}	t_maxmap;
 
 /* ******************************* Prototypes ******************************* */
 // Utils
@@ -272,7 +268,7 @@ double	keep_in_range(double angle);
 void	calculate_vertical_hit(t_main *game, t_player *player, t_ray *ray);
 void	calculate_horizontal_hit(t_main *game, t_player *player, t_ray *ray);
 void	draw_ray(t_main *game, int ray_counter);
-void	put_mini_map(t_main *game, t_map *map);
+void	put_mini_map(t_main *game);
 bool	key_down_crossroad(t_main *game);
 
 #endif
