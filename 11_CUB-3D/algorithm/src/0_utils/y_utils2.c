@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 18:20:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 20:48:01 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/30 13:31:13 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_replace_chars(char **line, char c1, char c2)
  */
 bool	can_step_in(t_map *map, int y, int x)
 {
-	if (map->grid_max[y][x] != '1')
+	if (map->grid_max[y][x] != '1' && map->grid_max[y][x] != '8')
 		return (true);
 	return (false);
 }
