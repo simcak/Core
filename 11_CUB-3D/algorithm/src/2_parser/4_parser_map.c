@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/30 13:31:22 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/30 18:24:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,44 +203,49 @@ static void	check_where_can_we_go(t_main *game, t_map *map, int x, int y)
  */
 static void	add_corners(t_map *map, int i, int j)
 {
+	int	sz;
+
+	sz = MAXI_GRID;
 	if (i > 0 && j > 0 && map->grid_max[i - 1][j - 1] != '1')
 		map->grid_max[i - 1][j - 1] = 'X';
-	if (i > 0 && j < map->width * 10 - 1 && map->grid_max[i - 1][j + 1] != '1')
+	if (i > 0 && j < map->width * sz - 1 && map->grid_max[i - 1][j + 1] != '1')
 		map->grid_max[i - 1][j + 1] = 'X';
-	if (i < map->height * 10 - 1 && j > 0 && map->grid_max[i + 1][j - 1] != '1')
+	if (i < map->height * sz - 1 && j > 0 && map->grid_max[i + 1][j - 1] != '1')
 		map->grid_max[i + 1][j - 1] = 'X';
-	if (i < map->height * 10 - 1 && j < map->width * 10 - 1
+	if (i < map->height * sz - 1 && j < map->width * sz - 1
 		&& map->grid_max[i + 1][j + 1] != '1')
 		map->grid_max[i + 1][j + 1] = 'X';
 }
 
 /**
  * Used in max_map function only.
+ * 
+ * 1) 
  */
 static void	add_walls(t_map *map)
 {
 	int i;
 	int j;
+	int	sz;
 
 	i = -1;
-	while (++i < map->height * 10)
+	sz = MAXI_GRID;
+	while (++i < map->height * sz)
 	{
 		j = -1;
-		while (++j < map->width * 10)
-		{
+		while (++j < map->width * (sz + 1))
 			if (map->grid_max[i][j] == '1')
 			{
 				if (i > 0 && map->grid_max[i - 1][j] != '1')
 					map->grid_max[i - 1][j] = 'X';
-				if (i < map->height * 10 - 1 && map->grid_max[i + 1][j] != '1')
+				if (i < map->height * sz - 1 && map->grid_max[i + 1][j] != '1')
 					map->grid_max[i + 1][j] = 'X';
 				if (j > 0 && map->grid_max[i][j - 1] != '1')
 					map->grid_max[i][j - 1] = 'X';
-				if (j < map->width * 10 - 1 && map->grid_max[i][j + 1] != '1')
+				if (j < map->width * sz - 1 && map->grid_max[i][j + 1] != '1')
 					map->grid_max[i][j + 1] = 'X';
 				add_corners(map, i, j);
 			}
-		}
 	}
 	ft_replace_chars(map->grid_max, 'X', '8');
 }
@@ -260,7 +265,7 @@ static void	max_map(t_main *game, t_map *map)
 	int		l;
 
 	map->grid_max = (char **)ft_dalloc(game, sizeof(char *),
-		(map->height * MAXI_GRID + 1), ERR_MALL"GRID_MAX"RST);
+		(map->height * (MAXI_GRID + 1)), ERR_MALL"GRID_MAX"RST);
 	i = -1;
 	while (++i < map->height)
 	{
@@ -268,16 +273,16 @@ static void	max_map(t_main *game, t_map *map)
 		while (++j < MAXI_GRID)
 		{
 			map->grid_max[i * MAXI_GRID + j] = ft_smalloc(sizeof(char)
-				* (map->width * MAXI_GRID + 1), ERR_MALL"GRID_MAX"RST);
+				* (map->width * (MAXI_GRID + 1)), ERR_MALL"GRID_MAX"RST);
 			k = -1;
-			while (++k < map->width)
+			while (++k <= map->width)
 			{
 				l = -1;
 				while (++l < MAXI_GRID)
 					map->grid_max[i * MAXI_GRID + j][k * MAXI_GRID + l]
 					= map->grid[i][k];
 			}
-			map->grid_max[i * MAXI_GRID + j][map->width * MAXI_GRID] = '\0';
+			map->grid_max[i * MAXI_GRID + j][map->width * (MAXI_GRID + 1)] = '\0';
 		}
 	}
 	map->grid_max[map->height * MAXI_GRID] = NULL;
