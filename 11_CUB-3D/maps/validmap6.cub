@@ -1,9 +1,9 @@
-        WE ./map_textures/WE.png
-SO ./map_textures/SO.png
-        NO      ./map_textures/NO.png
+        WE ./textures/WE.png
+SO ./textures/SO.png
+        NO      ./textures/NO.png
 
         C   225, 	 30	,0  
-EA      ./map_textures/EA.png
+EA      ./textures/EA.png
 
   F              220,  100 ,  0
  
