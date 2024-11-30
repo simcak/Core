@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 19:58:15 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/30 13:31:22 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,7 @@ static void	add_walls(t_map *map)
 			}
 		}
 	}
-	ft_replace_chars(map->grid_max, 'X', '1');
+	ft_replace_chars(map->grid_max, 'X', '8');
 }
 
 /**
@@ -260,26 +260,27 @@ static void	max_map(t_main *game, t_map *map)
 	int		l;
 
 	map->grid_max = (char **)ft_dalloc(game, sizeof(char *),
-		(map->height * 10 + 1), ERR_MALL"GRID_MAX"RST);
+		(map->height * MAXI_GRID + 1), ERR_MALL"GRID_MAX"RST);
 	i = -1;
 	while (++i < map->height)
 	{
 		j = -1;
-		while (++j < 10)
+		while (++j < MAXI_GRID)
 		{
-			map->grid_max[i * 10 + j] = ft_smalloc(sizeof(char)
-				* (map->width * 10 + 1), ERR_MALL"GRID_MAX"RST);
+			map->grid_max[i * MAXI_GRID + j] = ft_smalloc(sizeof(char)
+				* (map->width * MAXI_GRID + 1), ERR_MALL"GRID_MAX"RST);
 			k = -1;
 			while (++k < map->width)
 			{
 				l = -1;
-				while (++l < 10)
-					map->grid_max[i * 10 + j][k * 10 + l] = map->grid[i][k];
+				while (++l < MAXI_GRID)
+					map->grid_max[i * MAXI_GRID + j][k * MAXI_GRID + l]
+					= map->grid[i][k];
 			}
-			map->grid_max[i * 10 + j][map->width * 10] = '\0';
+			map->grid_max[i * MAXI_GRID + j][map->width * MAXI_GRID] = '\0';
 		}
 	}
-	map->grid_max[map->height * 10] = NULL;
+	map->grid_max[map->height * MAXI_GRID] = NULL;
 	add_walls(map);
 }
 

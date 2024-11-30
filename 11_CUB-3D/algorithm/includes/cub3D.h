@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 20:45:27 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/30 13:22:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@
 # define BM					"\033[1;35m"
 # define RST				"\033[0m"
 
+# define BLACK				0x000000FF
+# define WHITE				0xFFFFFFFF
+# define RED				0xFF0000FF
+
 /* ********************************** Error ********************************* */
 #define ERR_MALL			BR"Memory allocation failed for "
 #define ERR_MALL_2D			BR"2D malloc failed for "
@@ -76,6 +80,8 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define ROTATION_SPEED		0.05
 # define MOVE_SPEED			4.2
 # define TILE_SIZE			89
+# define MAXI_GRID			10
+# define MINI_MAP			1
 
 /* ******************************* Structure ******************************** */
 // in file
@@ -187,6 +193,16 @@ typedef struct s_main
 	t_wall			*wall;
 }	t_main;
 
+typedef struct s_minimap
+{
+	int				color;
+	int				width;
+	int				heigth;
+	int				mpx;
+	int				mpy;
+	int				size;
+}	t_minimap;
+
 /* ******************************* Prototypes ******************************* */
 // Utils
 void	ft_debug(int type, t_main *game);
@@ -240,6 +256,7 @@ double	keep_in_range(double angle);
 void	calculate_vertical_hit(t_main *game, t_player *player, t_ray *ray);
 void	calculate_horizontal_hit(t_main *game, t_player *player, t_ray *ray);
 void	draw_ray(t_main *game, int ray_counter);
+void	put_mini_map(t_main *game, t_map *map);
 bool	key_down_crossroad(t_main *game);
 
 #endif

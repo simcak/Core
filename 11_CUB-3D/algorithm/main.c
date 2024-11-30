@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 20:55:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/30 12:57:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	put_image(t_main *game)
 	mlx_delete_image(game->mlx, game->image);
 	game->image = mlx_new_image(game->mlx, (uint32_t)SWIDTH, (uint32_t)SHEIGHT);
 	ray_cast(game, game->player, game->ray);
-	// put_mini_map(game);
+	put_mini_map(game, game->file->map);
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
 
