@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/30 13:22:58 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/11/30 18:22:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,13 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define TILE_SIZE			89
 # define MAXI_GRID			10
 # define MINI_MAP			1
+# define MINI_MAP_WIDTH		200
+# define MINI_MAP_HEIGHT	200
+// # define MINI_MAP_WIDTH		SWIDTH / 4.2
+// # define MINI_MAP_HEIGHT	SHEIGHT / 4.2
+# define PLAYER_COLOR		0xFF0000FF
+# define VOID_COLOR			0x000000FF
+# define WALL_COLOR			0xFFFFFFFF
 
 /* ******************************* Structure ******************************** */
 // in file
@@ -202,6 +209,15 @@ typedef struct s_minimap
 	int				mpy;
 	int				size;
 }	t_minimap;
+
+typedef struct s_maxmap
+{
+	int				i;
+	int				j;
+	int				k;
+	int				l;
+	int				sz;
+}	t_maxmap;
 
 /* ******************************* Prototypes ******************************* */
 // Utils
