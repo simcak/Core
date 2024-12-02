@@ -6,17 +6,23 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:35:22 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 11:12:15 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 11:33:26 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/cub3D.h"
 
+// Helper function
 static bool	euclidean_distance(int x, int y, int pos_x, int pos_y)
 {
 	return (sqrt(pow(x - pos_x, 2) + pow(y - pos_y, 2)) < 2);
 }
 
+/**
+ * @brief Set the color of the pixel based on its meaning.
+ * 
+ * Based on the position of the pixel, we set the color of the pixel.
+ */
 static uint32_t	set_color(t_map *map, int x, int y, int pos_x, int pos_y)
 {
 	uint32_t	color;
@@ -31,6 +37,12 @@ static uint32_t	set_color(t_map *map, int x, int y, int pos_x, int pos_y)
 	return (color);
 }
 
+/**
+ * @brief Initialize the mini map.
+ * 
+ * Based on the key, we assign specific values to the mini map struct.
+ * It is just a helper function for the put_mini_map function.
+ */
 static void	init_mm(t_minimap *mm, t_main *game, int key)
 {
 	if (key == 1)
@@ -47,10 +59,16 @@ static void	init_mm(t_minimap *mm, t_main *game, int key)
 		mm->grid_y = mm->start_y + mm->y;
 		mm->color = set_color(game->file->map, mm->grid_x, mm->grid_y,
 			mm->pgx, mm->pgy);
-		mm->py = mm->y;
 	}
 }
 
+/**
+ * @brief Put the direction line on the screen.
+ * 
+ * We take direction, set the line length, and calculate end position of line.
+ * Than, in a loop, we print the line(s) on the screen.
+ * If condition just checks if the pixel is within the mini map.
+ */
 static void put_direction_line(t_main *game)
 {
 	int		line_length;
@@ -66,10 +84,14 @@ static void put_direction_line(t_main *game)
 	{
 		pixel_x = (int)(MINI_MAP_WIDTH / 2 + cos(dir_rad) * i);
 		pixel_y = (int)(MINI_MAP_HEIGHT / 2 + sin(dir_rad) * i);
-		mlx_put_pixel(game->image, pixel_x, pixel_y, PLAYER_COLOR);
+		if (pixel_x >= 0 && pixel_x < MINI_MAP_WIDTH
+			&& pixel_y >= 0 && pixel_y < MINI_MAP_HEIGHT)
+		{
+			mlx_put_pixel(game->image, pixel_x, pixel_y, PLAYER_COLOR);
+			mlx_put_pixel(game->image, pixel_x + 1, pixel_y + 1, PLAYER_COLOR);
+		}
 	}
 }
-
 
 /**
  * @brief Put the mini map on the screen.
@@ -84,9 +106,6 @@ static void put_direction_line(t_main *game)
  * - if it is a (added) wall, (walkable) floor, void, or player.
  * 5) We put the pixel on the screen.
  * 6) We put the direction line on the screen.
- * 
- * Four while loops are used to:
- * - go through the 
  */
 void	put_mini_map(t_main *game)
 {
@@ -99,16 +118,7 @@ void	put_mini_map(t_main *game)
 		while (++mm.x < MINI_MAP_WIDTH)
 		{
 			init_mm(&mm, game, 2);
-			while (mm.py <= mm.y)
-			{
-				mm.px = mm.x;
-				while (mm.px <= mm.x)
-				{
-					mlx_put_pixel(game->image, mm.px, mm.py, mm.color);
-					mm.px++;
-				}
-				mm.py++;
-			}
+			mlx_put_pixel(game->image, mm.x, mm.y, mm.color);
 		}
 	}
 	put_direction_line(game);
