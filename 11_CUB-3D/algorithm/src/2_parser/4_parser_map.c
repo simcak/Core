@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/30 18:24:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:11:25 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ static void	copy_map(t_map *map)
 	grid_ptr = map->grid;
 	map->grid = NULL;
 	map->grid = ft_smalloc(sizeof(char *) * (map->height + 1),
-		ERR_MALL"GRID"RST);
+			BR""ERR_MALL"GRID"RST);
 	i = -1;
 	while (++i < map->height)
 	{
 		line_len = last_char_index(grid_ptr[i]) + 1;
 		map->grid[i] = ft_smalloc(sizeof(char) * (map->width + 1),
-			ERR_MALL"GRID"RST);
+				BR""ERR_MALL"GRID"RST);
 		ft_strlcpy(map->grid[i], grid_ptr[i], line_len + 1);
 		line_len--;
 		while (++line_len <= map->width)
@@ -108,7 +108,7 @@ static void	define_grid(t_main *game, t_file *file)
 				break ;
 	}
 	if (++startline <= 0)
-		safe_exit(game, ERR_MAP_NOT_FOUND);
+		safe_exit(game, BR"No valid map found in provided file."RST);
 	file->map->grid = &file->parsed_file[startline];
 	get_measurements(game, file->map);
 	copy_map(file->map);
@@ -224,8 +224,8 @@ static void	add_corners(t_map *map, int i, int j)
  */
 static void	add_walls(t_map *map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 	int	sz;
 
 	i = -1;
@@ -234,6 +234,7 @@ static void	add_walls(t_map *map)
 	{
 		j = -1;
 		while (++j < map->width * (sz + 1))
+		{
 			if (map->grid_max[i][j] == '1')
 			{
 				if (i > 0 && map->grid_max[i - 1][j] != '1')
@@ -246,6 +247,7 @@ static void	add_walls(t_map *map)
 					map->grid_max[i][j + 1] = 'X';
 				add_corners(map, i, j);
 			}
+		}
 	}
 	ft_replace_chars(map->grid_max, 'X', '8');
 }
@@ -265,7 +267,7 @@ static void	max_map(t_main *game, t_map *map)
 	int		l;
 
 	map->grid_max = (char **)ft_dalloc(game, sizeof(char *),
-		(map->height * (MAXI_GRID + 1)), ERR_MALL"GRID_MAX"RST);
+			(map->height * (MAXI_GRID + 1)), BR""ERR_MALL"GRID_MAX"RST);
 	i = -1;
 	while (++i < map->height)
 	{
@@ -273,7 +275,7 @@ static void	max_map(t_main *game, t_map *map)
 		while (++j < MAXI_GRID)
 		{
 			map->grid_max[i * MAXI_GRID + j] = ft_smalloc(sizeof(char)
-				* (map->width * (MAXI_GRID + 1)), ERR_MALL"GRID_MAX"RST);
+					* (map->width * (MAXI_GRID + 1)), BR""ERR_MALL"GRIDMAX"RST);
 			k = -1;
 			while (++k <= map->width)
 			{

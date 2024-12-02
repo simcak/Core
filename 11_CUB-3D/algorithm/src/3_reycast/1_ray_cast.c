@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:25:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 13:47:12 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:13:03 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@
  */
 double	keep_in_range(double angle)
 {
-	angle = angle < 0 ? angle + 2 * PI_FT : angle;
-	angle = angle > 2 * PI_FT ? angle - 2 * PI_FT : angle;
+	if (angle < 0)
+		angle += 2 * PI_FT;
+	if (angle > 2 * PI_FT)
+		angle -= 2 * PI_FT;
 	return (angle);
 }
 

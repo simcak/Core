@@ -6,12 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 18:39:07 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 16:10:34 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:08:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
-#define ERR_RANGE			BR"RGB values must be in range <0-255>"RST
 
 /**
  * Function to check if the rgb values are in the range 0-255.
@@ -21,7 +20,7 @@ void	range_check(t_main *game, int rgb)
 	if (rgb >= 0 && rgb <= 255)
 		return ;
 	else
-		safe_exit(game, ERR_RANGE);
+		safe_exit(game, BR"RGB values must be in range <0-255>"RST);
 }
 
 /**

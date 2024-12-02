@@ -6,11 +6,29 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 20:51:37 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:00:36 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
+
+static void	init_orientation(t_player *player, t_map *map)
+{
+	if (map->start_pos.nswe == 'E' || map->start_pos.nswe == 'W')
+	{
+		if (map->start_pos.nswe == 'E')
+			player->dir.rad = 0;
+		else if (map->start_pos.nswe == 'W')
+			player->dir.rad = PI_FT;
+	}
+	else if (map->start_pos.nswe == 'N' || map->start_pos.nswe == 'S')
+	{
+		if (map->start_pos.nswe == 'N')
+			player->dir.rad = 3 * PI05_FT;
+		else if (map->start_pos.nswe == 'S')
+			player->dir.rad = PI05_FT;
+	}
+}
 
 /**
  * @brief Initializes the player structure.
@@ -35,10 +53,7 @@ static void	init_player(t_player *player, t_map *map)
 	player->rot_speed = ROTATION_SPEED;
 	player->buff_dist = 0.25;
 	player->aspect_ratio = (double)SWIDTH / (double)SHEIGHT;
-	if (map->start_pos.nswe == 'E' || map->start_pos.nswe == 'W')
-		player->dir.rad = (map->start_pos.nswe == 'E') ? 0 : PI_FT;
-	if (map->start_pos.nswe == 'N' || map->start_pos.nswe == 'S')
-		player->dir.rad = (map->start_pos.nswe == 'S') ? PI05_FT : 3 * PI05_FT;
+	init_orientation(player, map);
 	player->pos.x = (int)(map->start_pos.x * TILE_SIZE + TILE_SIZE / 2);
 	player->pos.y = (int)(map->start_pos.y * TILE_SIZE + TILE_SIZE / 2);
 }

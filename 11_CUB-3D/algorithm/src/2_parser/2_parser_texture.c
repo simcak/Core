@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:39 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 12:16:09 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:06:13 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,17 @@ void	ft_safe_texture(char *flag, t_main *game, int i)
 {
 	int		line;
 	int		flag_count;
+	t_txt	*txt;
 
 	line = -1;
 	flag_count = 0;
+	txt = game->file->txt;
 	while (game->file->parsed_file[++line])
 	{
 		if (we_found_flag(game, flag, line))
 		{
 			flag_count++;
-			game->file->txt->paths[i] = txt_path_finder(game, flag, line);
+			txt->paths[i] = txt_path_finder(game, (int)ft_strlen(flag), line);
 		}
 	}
 	if (flag_count < 1)
@@ -54,7 +56,7 @@ void	parse_load_check_texture(t_main *game, t_txt *txt)
 	bool	mlx_txt_loaded;
 
 	txt->paths = (char **)ft_dalloc(game, sizeof(char *), 5,
-		ERR_MALL_2D"TEXTURE"RST);
+			BR""ERR_MALL_2D"TEXTURE"RST);
 	ft_safe_texture("NO", game, 0);
 	ft_safe_texture("SO", game, 1);
 	ft_safe_texture("WE", game, 2);

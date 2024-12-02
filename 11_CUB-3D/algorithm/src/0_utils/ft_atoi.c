@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:54:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/20 17:00:08 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 19:56:25 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	ft_isspace(char c)
 	return (c == 32 || (9 <= c && c <= 13));
 }
 
-static bool ft_isdigit(char c)
+static bool	ft_isdigit(char c)
 {
 	return ('0' <= c && c <= '9');
 }

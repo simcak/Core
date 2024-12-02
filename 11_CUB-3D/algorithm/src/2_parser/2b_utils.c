@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:46 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/23 16:10:28 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:07:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_dupliempty_txtp(t_main *game, char **txt_paths)
 			if (strlen(txt_paths[j]) == 0)
 				safe_exit(game, BR"Empty value in the texture path"RST);
 			if (ft_strncmp(txt_paths[i], txt_paths[j],
-				ft_strlen(txt_paths[i])) == 0)
+					ft_strlen(txt_paths[i])) == 0)
 				safe_exit(game, BR"Duplicate value of the txt path"RST);
 		}
 	}

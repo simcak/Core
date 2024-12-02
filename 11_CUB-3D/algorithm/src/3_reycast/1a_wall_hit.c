@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a_wall_hit.c                                       :+:      :+:    :+:   */
+/*   1a_wall_hit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:17:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 20:41:51 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:18:04 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-/** todo
+/**
  * @brief Checks if the ray hit a wall.
+ * 
  */
 static bool	wall_hit(t_map *map, double ray_hit_x, double ray_hit_y)
 {
