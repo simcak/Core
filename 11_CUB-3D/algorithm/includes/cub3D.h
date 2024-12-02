@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 11:17:44 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 13:33:30 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define PLAYER_COLOR		0xFF0000FF
 # define VOID_COLOR			0x000000FF
 # define WALL_COLOR			0xFFFFFFFF
+# define HORISONTAL			1
+# define VERTICAL			2
 
 /* ******************************* Structure ******************************** */
 // in file
@@ -164,6 +166,7 @@ typedef struct s_hit
 
 typedef struct s_ray
 {
+	int				orientation;
 	double			angle;
 	double			angle_diff;
 	double			distance;

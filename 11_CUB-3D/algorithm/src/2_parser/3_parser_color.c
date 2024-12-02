@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:01 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 18:33:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 11:45:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,11 @@ void	parse_load_check_colors(t_main *game, t_color *color)
 	color->colors[1] = color_assign("C", game, game->file->parsed_file);
 	color->colors[2] = NULL;
 
-	color->rgb_c = split_check_rgb(game, color->colors[0]);
-	color->rgb_f = split_check_rgb(game, color->colors[1]);
+	color->rgb_f = split_check_rgb(game, color->colors[0]);
+	color->rgb_c = split_check_rgb(game, color->colors[1]);
 	difference_check(game, color->rgb_c, color->rgb_f);
+	color->c_color = (color->rgb_c[0] << 24) + (color->rgb_c[1] << 16)
+		+ (color->rgb_c[2] << 8) + 0xFF;
+	color->f_color = (color->rgb_f[0] << 24) + (color->rgb_f[1] << 16)
+		+ (color->rgb_f[2] << 8) + 0xFF;
 }
