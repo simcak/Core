@@ -1,17 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c_key_down.c                                       :+:      :+:    :+:   */
+/*   3_key_down.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:17:33 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 20:45:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 10:51:52 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
+/**
+ * @brief Calculate the next position of the player.
+ * 
+ * Here we calculate the next position of the player and check if the player
+ * can step in there.
+ * If so, we update the player's position based on the movement vector.
+ */
 static void	perform_move(t_map *map, t_player *player)
 {
 	double	next_pos_x;
@@ -36,57 +43,43 @@ static void	perform_move(t_map *map, t_player *player)
  * @brief Moves the player in the direction of the player's angle.
  * 
  * Here we calculate the MOVEMENT vector.
+ * 1 - forward    2 - backward    3 - right and left
+ * than we send the movement vector to the perform_move function.
  */
-static bool	ft_move_leftright(t_main *game, int key)
+static bool	ft_move(t_main *game, int key)
 {
-	t_player	*player;
+	t_player	*bob;
 
-	player = game->player;
-	if (key == MLX_KEY_A)
+	bob = game->player;
+	if (key == MLX_KEY_W || key == MLX_KEY_UP || key == MLX_KEY_R)
 	{
-		player->move.x = sin(player->dir.rad) * MOVE_SPEED;
-		player->move.y = -cos(player->dir.rad) * MOVE_SPEED;
-	}
-	else if (key == MLX_KEY_D)
-	{
-		player->move.x = -sin(player->dir.rad) * MOVE_SPEED;
-		player->move.y = cos(player->dir.rad) * MOVE_SPEED;
-	}
-	perform_move(game->file->map, player);
-	return (true);
-}
-
-/**
- * @brief Moves the player in the direction of the player's angle.
- * 
- * Here we calculate the MOVEMENT vector.
- */
-static bool	ft_move_updown(t_main *game, int key)
-{
-	t_player	*player;
-
-	player = game->player;
-	if (key == MLX_KEY_W || key == MLX_KEY_UP)
-	{
-		player->move.x = cos(player->dir.rad) * MOVE_SPEED;
-		player->move.y = sin(player->dir.rad) * MOVE_SPEED;
-	}
-	else if (key == MLX_KEY_R)
-	{
-		player->move.x = cos(player->dir.rad) * MOVE_SPEED * 3;
-		player->move.y = sin(player->dir.rad) * MOVE_SPEED * 3;
+		bob->move.x = cos(bob->dir.rad) * MOVE_SPEED;
+		bob->move.y = sin(bob->dir.rad) * MOVE_SPEED;
+		bob->move.x = key == MLX_KEY_R ? bob->move.x * 3 : bob->move.x;
+		bob->move.y = key == MLX_KEY_R ? bob->move.y * 3 : bob->move.y;
 	}
 	else if (key == MLX_KEY_S || key == MLX_KEY_DOWN)
 	{
-		player->move.x = -cos(player->dir.rad) * MOVE_SPEED;
-		player->move.y = -sin(player->dir.rad) * MOVE_SPEED;
+		bob->move.x = -cos(bob->dir.rad) * MOVE_SPEED;
+		bob->move.y = -sin(bob->dir.rad) * MOVE_SPEED;
 	}
-	perform_move(game->file->map, player);
+	else if (key == MLX_KEY_A || key == MLX_KEY_D)
+	{
+		bob->move.x = key == MLX_KEY_A ? sin(bob->dir.rad) * MOVE_SPEED :
+			-sin(bob->dir.rad) * MOVE_SPEED;
+		bob->move.y = key == MLX_KEY_A ? -cos(bob->dir.rad) * MOVE_SPEED :
+			cos(bob->dir.rad) * MOVE_SPEED;
+	}
+	perform_move(game->file->map, bob);
 	return (true);
 }
 
 /**
  * @brief Rotates the player's direction.
+ * 
+ * Here we update the player's direction. It is dependent on the rotation speed.
+ * Init direction is dependent on the spawn angle (S N W E).
+ * This variable is used in the raycasting algorithm (put_image>ray_cast).
  */
 static bool	ft_rotate(t_main *game, double rot_speed, int key)
 {
@@ -109,6 +102,33 @@ static bool	ft_rotate(t_main *game, double rot_speed, int key)
 }
 
 /**
+ * @brief Changes the player's field of view.
+ * 
+ * The player's field of view is the angle of the player's vision in radians.
+ * 
+ * Mathematically make more sense to subtract with minus and add fov radians
+ * with plus BUT it is more intuitive to do the opposite. Kinda zooming.
+ * 
+ * We also have a limit of 0.5 and 3 radians - so it doesn't go too wild.
+ */
+static bool	ft_fov(t_main *game, int key)
+{
+	if (key == MLX_KEY_KP_ADD)
+	{
+		game->player->fov_rad = game->player->fov_rad - 0.1 > 0.5 ? 
+			game->player->fov_rad - 0.042 : 0.5;
+		return (true);
+	}
+	else if (key == MLX_KEY_KP_SUBTRACT)
+	{
+		game->player->fov_rad = game->player->fov_rad + 0.1 < 3 ? 
+			game->player->fov_rad + 0.042 : 3;
+		return (true);
+	}
+	return (false);
+}
+
+/**
  * @brief Checks if the human pressed any of the movement keys (not escape).
  * CALLED: game_loop
  * 
@@ -123,19 +143,21 @@ bool	key_down_crossroad(t_main *game)
 		pressed = ft_rotate(game, game->player->rot_speed, MLX_KEY_LEFT);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		pressed = ft_rotate(game, game->player->rot_speed, MLX_KEY_RIGHT);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
-		pressed = ft_move_updown(game, MLX_KEY_W);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
-		pressed = ft_move_updown(game, MLX_KEY_W);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W)
+		|| mlx_is_key_down(game->mlx, MLX_KEY_UP))
+		pressed = ft_move(game, MLX_KEY_W);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_R))
-		pressed = ft_move_updown(game, MLX_KEY_R);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
-		pressed = ft_move_updown(game, MLX_KEY_DOWN);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
-		pressed = ft_move_updown(game, MLX_KEY_S);
+		pressed = ft_move(game, MLX_KEY_R);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_S)
+		|| mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
+		pressed = ft_move(game, MLX_KEY_S);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
-		pressed = ft_move_leftright(game, MLX_KEY_A);
+		pressed = ft_move(game, MLX_KEY_A);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
-		pressed = ft_move_leftright(game, MLX_KEY_D);
+		pressed = ft_move(game, MLX_KEY_D);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_KP_SUBTRACT))
+		pressed = ft_fov(game, MLX_KEY_KP_SUBTRACT);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_KP_ADD))
+		pressed = ft_fov(game, MLX_KEY_KP_ADD);
 	return (pressed);
 }

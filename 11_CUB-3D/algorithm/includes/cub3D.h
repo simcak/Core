@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/30 19:15:06 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 10:51:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,16 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define MAXI_MAP			2
 
 /* ********************************* Screen ********************************* */
-# define SWIDTH				1420
-# define SHEIGHT			842
+# define SWIDTH				1501
+# define SHEIGHT			1001
 # define FOV				130
-// # define FOV				60
 # define ROTATION_SPEED		0.05
 # define MOVE_SPEED			4.2
 # define TILE_SIZE			89
 # define MAXI_GRID			10
 # define MINI_MAP			1
-# define MINI_MAP_WIDTH		200
-# define MINI_MAP_HEIGHT	200
-// # define MINI_MAP_WIDTH		SWIDTH / 4.2
-// # define MINI_MAP_HEIGHT	SHEIGHT / 4.2
+# define MINI_MAP_WIDTH		SWIDTH / 4.2
+# define MINI_MAP_HEIGHT	SHEIGHT / 4.2
 # define PLAYER_COLOR		0xFF0000FF
 # define VOID_COLOR			0x000000FF
 # define WALL_COLOR			0xFFFFFFFF
