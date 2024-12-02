@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 10:51:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 11:10:52 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 # define MOVE_SPEED			4.2
 # define TILE_SIZE			89
 # define MAXI_GRID			10
-# define MINI_MAP			1
 # define MINI_MAP_WIDTH		SWIDTH / 4.2
 # define MINI_MAP_HEIGHT	SHEIGHT / 4.2
 # define PLAYER_COLOR		0xFF0000FF

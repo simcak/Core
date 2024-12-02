@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:35:22 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/30 19:30:18 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 11:12:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	init_mm(t_minimap *mm, t_main *game, int key)
 		mm->grid_y = mm->start_y + mm->y;
 		mm->color = set_color(game->file->map, mm->grid_x, mm->grid_y,
 			mm->pgx, mm->pgy);
-		mm->py = mm->y * MINI_MAP;
+		mm->py = mm->y;
 	}
 }
 
@@ -73,6 +73,20 @@ static void put_direction_line(t_main *game)
 
 /**
  * @brief Put the mini map on the screen.
+ * 
+ * We go through the whole mini map and set the color of each pixel.
+ * 1) We calculate the player's position on the mini map (pgx, pgy) - init 1
+ * 2) Calculate the start position of the mini map (start_x, start_y) - init 1
+ * 3) We go through the whole mini map and set the color of each pixel.
+ * - from position <0, 0> till <MINI_MAP_WIDTH, MINI_MAP_HEIGHT>
+ * char by char, line by line.
+ * 4) For each pixel we calculate the color based on its meaning - init 2
+ * - if it is a (added) wall, (walkable) floor, void, or player.
+ * 5) We put the pixel on the screen.
+ * 6) We put the direction line on the screen.
+ * 
+ * Four while loops are used to:
+ * - go through the 
  */
 void	put_mini_map(t_main *game)
 {
@@ -85,10 +99,10 @@ void	put_mini_map(t_main *game)
 		while (++mm.x < MINI_MAP_WIDTH)
 		{
 			init_mm(&mm, game, 2);
-			while (mm.py < (mm.y + 1) * MINI_MAP)
+			while (mm.py <= mm.y)
 			{
-				mm.px = mm.x * MINI_MAP;
-				while (mm.px < (mm.x + 1) * MINI_MAP)
+				mm.px = mm.x;
+				while (mm.px <= mm.x)
 				{
 					mlx_put_pixel(game->image, mm.px, mm.py, mm.color);
 					mm.px++;
