@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/30 18:48:46 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 19:56:03 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,13 @@ int	main(int ac, char **av)
 {
 	t_main	*game;
 
-	game = ft_smalloc(sizeof(t_main), ERR_MALL"GAME"RST);
+	game = ft_smalloc(sizeof(t_main), BR""ERR_MALL"GAME"RST);
 	game->ac = ac;
 	game->av = av;
 	init(DEFAULT, game);
 	init(FILE, game);
 	init(PLAYER, game);
 	init(MLX, game);
-	// ft_debug(MAXI_MAP, game);	// delete
-	ft_debug(MAP, game);	// delete
 	put_image(game);
 	mlx_loop_hook(game->mlx, &game_loop, game);
 	mlx_loop(game->mlx);

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:46 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/26 18:22:08 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:06:06 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ bool	we_found_flag(t_main *game, char *flag, int line)
 	spaces = space_counter(parsed_file[line]);
 	flag_len = ft_strlen(flag);
 	if (ft_strncmp(parsed_file[line] + spaces, flag, flag_len) == 0
-			&& is_space(parsed_file[line][spaces + flag_len]))
-			return (true);
+		&& is_space(parsed_file[line][spaces + flag_len]))
+		return (true);
 	return (false);
 }
 
@@ -51,10 +51,9 @@ bool	we_found_flag(t_main *game, char *flag, int line)
  * = "each type of ELEMENT can be SEPARATED".
  * I insist that this parsing is enough if not correct.
  */
-char	*txt_path_finder(t_main *game, char *flag, int line)
+char	*txt_path_finder(t_main *game, int flag_len, int line)
 {
 	char	**parsed_file;
-	int		flag_len;
 	int		spaces_1;
 	int		spaces_2;
 	char	*txt_path_start;
@@ -62,7 +61,6 @@ char	*txt_path_finder(t_main *game, char *flag, int line)
 
 	parsed_file = game->file->parsed_file;
 	spaces_1 = space_counter(parsed_file[line]);
-	flag_len = ft_strlen(flag);
 	spaces_2 = space_counter(parsed_file[line] + spaces_1 + flag_len);
 	txt_path_start = parsed_file[line] + spaces_1 + flag_len + spaces_2;
 	post_txt_path = txt_path_start + char_counter(txt_path_start);

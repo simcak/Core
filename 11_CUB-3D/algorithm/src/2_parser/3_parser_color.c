@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:01 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 11:45:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:07:35 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	format_check(t_main *game, char *rgb)
 			i++;
 		num_counter++;
 		if (num_counter > 1)
-			safe_exit(game, ERR_RGB_COUNT);
+			safe_exit(game, BR"There must be ONE number <0-255> per color"RST);
 		i += space_counter(rgb + i);
 	}
 }
@@ -99,7 +99,7 @@ static int	*split_check_rgb(t_main *game, char *color)
 	int		i;
 
 	game->file->color->rgb_raw = ft_split(color, ',');
-	rgb = ft_smalloc(sizeof(int), ERR_MALL"RGB"RST);
+	rgb = ft_smalloc(sizeof(int), BR""ERR_MALL"RGB"RST);
 	i = -1;
 	while (game->file->color->rgb_raw[++i])
 	{
@@ -125,15 +125,15 @@ static int	*split_check_rgb(t_main *game, char *color)
     separated by one or more space(s)
  * - You must be able to parse any kind of map, as long as it respects the rules
     of the map
+ * - We store the color in the format 0xRRGGBBAA
  */
 void	parse_load_check_colors(t_main *game, t_color *color)
 {
 	color->colors = (char **)ft_dalloc(game, sizeof(char *), 3,
-		ERR_MALL_2D"COLOR"RST);
+			BR""ERR_MALL_2D"COLOR"RST);
 	color->colors[0] = color_assign("F", game, game->file->parsed_file);
 	color->colors[1] = color_assign("C", game, game->file->parsed_file);
 	color->colors[2] = NULL;
-
 	color->rgb_f = split_check_rgb(game, color->colors[0]);
 	color->rgb_c = split_check_rgb(game, color->colors[1]);
 	difference_check(game, color->rgb_c, color->rgb_f);

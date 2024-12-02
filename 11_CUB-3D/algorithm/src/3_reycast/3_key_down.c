@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:17:33 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 10:51:52 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:21:59 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	perform_move(t_map *map, t_player *player)
 	grid_y = player->pos.y / TILE_SIZE * 10;
 	if (can_step_in(map, (int)grid_y, (int)grid_x))
 		player->pos.x = next_pos_x;
-
 	next_pos_y = player->pos.y + player->move.y;
 	grid_y = next_pos_y / TILE_SIZE * 10;
 	grid_x = player->pos.x / TILE_SIZE * 10;

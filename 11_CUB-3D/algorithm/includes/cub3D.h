@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 13:33:30 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:05:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,8 @@
 # define RED				0xFF0000FF
 
 /* ********************************** Error ********************************* */
-#define ERR_MALL			BR"Memory allocation failed for "
-#define ERR_MALL_2D			BR"2D malloc failed for "
-#define ERR_WALL			BR"The map must be closed/surrounded by walls from "
-#define ERR_MAP_NOT_FOUND	BR"No valid map found in provided file."RST
-#define ERR_RGB				BR"RGB values must be digits in range 0-255\n\
-Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
-#define ERR_RGB_COUNT		BR"There must be ONE number <0-255> per color"RST
+# define ERR_MALL			"Memory allocation failed for "
+# define ERR_MALL_2D		"2D malloc failed for "
 /* ********************************** Init ********************************** */
 # define DEFAULT			1
 # define FILE				2
@@ -75,20 +70,22 @@ Format: e.c. '255,5,42' or '255  ,5,   42 '"RST
 /* ********************************* Screen ********************************* */
 # define SWIDTH				1501
 # define SHEIGHT			1001
-# define FOV				130
-# define ROTATION_SPEED		0.05
-# define MOVE_SPEED			4.2
-# define TILE_SIZE			89
 # define MAXI_GRID			10
-# define MINI_MAP_WIDTH		SWIDTH / 4.2
-# define MINI_MAP_HEIGHT	SHEIGHT / 4.2
-# define PLAYER_COLOR		0xFF0000FF
-# define VOID_COLOR			0x000000FF
-# define WALL_COLOR			0xFFFFFFFF
+# define TILE_SIZE			89
+# define FOV				66
+# define MOVE_SPEED			4.2
+# define ROTATION_SPEED		0.0542
+
+/* ********************************* MiniMap ******************************** */
+# define PLAYER_COLOR		RED
+# define VOID_COLOR			BLACK
+# define WALL_COLOR			WHITE
+
+/* ******************************* Orientation ****************************** */
 # define HORISONTAL			1
 # define VERTICAL			2
 
-/* ******************************* Structure ******************************** */
+/* ******************************** Structure ******************************* */
 // in file
 typedef struct s_txt
 {
@@ -183,7 +180,8 @@ typedef struct s_wall
 	double			height;
 	double			start;
 	double			end;
-	double			buff;
+	uint32_t		*color;
+	mlx_texture_t	*txt;
 }	t_wall;
 
 typedef struct s_main
@@ -210,6 +208,8 @@ typedef struct s_minimap
 	int				start_y;
 	int				grid_x;
 	int				grid_y;
+	double			width;
+	double			height;
 }	t_minimap;
 
 /* ******************************* Prototypes ******************************* */
@@ -256,7 +256,7 @@ void	parser(t_main *game);
 void	parse_load_check_map(t_main *game);
 void	parse_load_check_texture(t_main *game, t_txt *txt);
 bool	we_found_flag(t_main *game, char *flag, int line);
-char	*txt_path_finder(t_main *game, char *flag, int line);
+char	*txt_path_finder(t_main *game, int flag_len, int line);
 void	ft_dupliempty_txtp(t_main *game, char **txt_paths);
 
 // Raycasting

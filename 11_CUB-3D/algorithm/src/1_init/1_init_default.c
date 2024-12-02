@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 17:54:18 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 19:46:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	init_default_ray(t_main *game)
 {
-	game->ray = ft_smalloc(sizeof(t_ray), ERR_MALL"RAY"RST);
+	game->ray = ft_smalloc(sizeof(t_ray), BR""ERR_MALL"RAY"RST);
 	game->ray->angle = 0;
 	game->ray->distance = 0;
 	game->ray->x_step = 0;
@@ -30,32 +30,33 @@ static void	init_default_ray(t_main *game)
 
 static void	init_default_wall(t_main *game)
 {
-	game->wall = ft_smalloc(sizeof(t_wall), ERR_MALL"WALL"RST);
+	game->wall = ft_smalloc(sizeof(t_wall), BR""ERR_MALL"WALL"RST);
 	game->wall->height = 0;
 	game->wall->start = 0;
 	game->wall->end = 0;
-	game->wall->buff = 0;
+	game->wall->color = NULL;
+	game->wall->txt = NULL;
 }
 
 static void	init_def_file(t_main *game)
 {
-	game->file = ft_smalloc(sizeof(t_file), ERR_MALL"FILE"RST);
+	game->file = ft_smalloc(sizeof(t_file), BR""ERR_MALL"FILE"RST);
 	game->file->fd = 0;
 	game->file->parsed_file = NULL;
-	game->file->txt = ft_smalloc(sizeof(t_txt), ERR_MALL"TXT"RST);
+	game->file->txt = ft_smalloc(sizeof(t_txt), BR""ERR_MALL"TXT"RST);
 	game->file->txt->paths = NULL;
 	game->file->txt->mlx_txt_no = NULL;
 	game->file->txt->mlx_txt_so = NULL;
 	game->file->txt->mlx_txt_we = NULL;
 	game->file->txt->mlx_txt_ea = NULL;
-	game->file->color = ft_smalloc(sizeof(t_color), ERR_MALL"COLOR"RST);
+	game->file->color = ft_smalloc(sizeof(t_color), BR""ERR_MALL"COLOR"RST);
 	game->file->color->colors = NULL;
 	game->file->color->rgb_raw = NULL;
 	game->file->color->rgb_c = NULL;
 	game->file->color->rgb_f = NULL;
 	game->file->color->c_color = 0;
 	game->file->color->f_color = 0;
-	game->file->map = ft_smalloc(sizeof(t_map), ERR_MALL"MAP"RST);
+	game->file->map = ft_smalloc(sizeof(t_map), BR""ERR_MALL"MAP"RST);
 	game->file->map->grid = NULL;
 	game->file->map->grid_max = NULL;
 	game->file->map->width = 0;
@@ -95,7 +96,7 @@ void	init_default(t_main *game)
 {
 	game->mlx = NULL;
 	game->image = NULL;
-	game->player = ft_smalloc(sizeof(t_player), ERR_MALL"PLAYER"RST);
+	game->player = ft_smalloc(sizeof(t_player), BR""ERR_MALL"PLAYER"RST);
 	init_default_ray(game);
 	init_default_wall(game);
 	init_def_file(game);
