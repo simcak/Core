@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:35:22 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 11:33:26 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 13:54:40 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,10 @@ void	put_mini_map(t_main *game)
 			init_mm(&mm, game, 2);
 			mlx_put_pixel(game->image, mm.x, mm.y, mm.color);
 		}
+		mlx_put_pixel(game->image, mm.x, mm.y, VOID_COLOR);
 	}
+	mm.x = -1;
+	while (++mm.x <= MINI_MAP_WIDTH + 1)
+		mlx_put_pixel(game->image, mm.x, mm.y, VOID_COLOR);
 	put_direction_line(game);
 }
