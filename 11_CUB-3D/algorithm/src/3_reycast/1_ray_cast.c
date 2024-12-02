@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:25:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/29 20:43:25 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 13:47:12 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,14 @@ static void	pick_shorter_ray(t_player *p, t_ray *ray)
 	h_distance = distance(p->pos.x, p->pos.y, ray->hhit.x, ray->hhit.y);
 	if (h_distance < v_distance)
 	{
+		ray->orientation = HORISONTAL;
 		ray->distance = h_distance;
 		ray->hit.x = ray->hhit.x;
 		ray->hit.y = ray->hhit.y;
 	}
 	else
 	{
+		ray->orientation = VERTICAL;
 		ray->distance = v_distance;
 		ray->hit.x = ray->vhit.x;
 		ray->hit.y = ray->vhit.y;

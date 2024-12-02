@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_ray.c                                         :+:      :+:    :+:   */
+/*   1b_draw_ray.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 01:08:52 by psimcak           #+#    #+#             */
-/*   Updated: 2024/11/27 02:15:21 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/02 13:46:00 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,26 @@ static void	get_wall_parameters(t_main *game, t_wall *wall)
 
 void	draw_ray(t_main *game, int ray_counter)
 {
-	t_wall	*wall;
+	t_wall			*wall;
 
 	wall = game->wall;
 	get_wall_parameters(game, wall);
-	game->ray->color = (uint32_t)0xADD8E6;				// get color from file - C
+	game->ray->color = game->file->color->c_color;
 	draw_line(game, ray_counter, (double)0, wall->start);
-	game->ray->color = (uint32_t)0x0000FF;				// get color from texture
+	if (game->ray->orientation == HORISONTAL)
+		if (game->ray->angle > PI05_FT && game->ray->angle < 3 * PI05_FT)
+			game->ray->color = (uint32_t)0x000000FF;
+	if (game->ray->orientation == HORISONTAL)
+		if (game->ray->angle <= PI05_FT || game->ray->angle >= 3 * PI05_FT)
+			game->ray->color = (uint32_t)0x333333FF;
+	if (game->ray->orientation == VERTICAL)
+		if (game->ray->angle > 0 && game->ray->angle < PI_FT)
+			game->ray->color = (uint32_t)0x111111FF;
+	if (game->ray->orientation == VERTICAL)
+		if (game->ray->angle >= PI_FT && game->ray->angle <= 2 * PI_FT)
+			game->ray->color = (uint32_t)0x222222FF;
 	draw_line(game, ray_counter, wall->start, wall->end);	// draw texture
-	game->ray->color = (uint32_t)0x228B22;				// get color from file - F
+	// draw_wall(game, ray_counter, wall, txt);
+	game->ray->color = game->file->color->f_color;
 	draw_line(game, ray_counter, wall->end, (double)SHEIGHT);
 }
