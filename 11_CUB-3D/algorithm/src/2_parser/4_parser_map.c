@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 23:55:14 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 15:26:12 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 19:08:26 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,19 @@ static void	find_start_position(t_main *game, t_map *map)
 	int		i;
 	int		j;
 	int		counter;
-	char	*line;
 
 	i = -1;
 	counter = 0;
 	while (map->grid[++i])
 	{
 		j = -1;
-		line = map->grid[i];
-		while (line[++j])
+		while (map->grid[i][++j])
 		{
-			if (is_nswe(line[j]))
+			if (is_nswe(map->grid[i][j]))
 			{
 				map->start_pos.x = j;
 				map->start_pos.y = i;
-				map->start_pos.nswe = line[j];
+				map->start_pos.nswe = map->grid[i][j];
 				counter++;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 16:04:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 20:23:55 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@
 # define SHEIGHT			1001
 # define MAXI_GRID			10
 # define TILE_SIZE			70
-# define FOV				66
+# define FOV				75
 # define MOVE_SPEED			4.2
 # define ROTATION_SPEED		0.0542
 
@@ -213,6 +213,16 @@ typedef struct s_minimap
 	double			height;
 }	t_minimap;
 
+typedef struct s_maxigrid
+{
+	int				i;
+	int				j;
+	int				k;
+	int				l;
+	int				x;
+	int				y;
+}	t_maxigrid;
+
 /* ******************************* Prototypes ******************************* */
 // Utils
 void	safe_exit(t_main *game, const char *msg);
@@ -241,7 +251,6 @@ void	ray_cast(t_main *game, t_player *player, t_ray *ray);
 void	ft_debug(int type, t_main *game);
 
 // in a
-void	ft_run(t_player *bob, int key);
 int		last_char_index(char *str);
 bool	is_nswe(char c);
 void	ft_replace_chars(char **line, char c1, char c2);

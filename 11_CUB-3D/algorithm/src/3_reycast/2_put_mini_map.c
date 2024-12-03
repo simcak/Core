@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:35:22 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 20:20:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 20:11:09 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,20 @@ static bool	euclidean_distance(int x, int y, int pos_x, int pos_y)
  * 
  * Based on the position of the pixel, we set the color of the pixel.
  */
-static uint32_t	set_color(t_map *map, int x, int y, int pos_x, int pos_y)
+static uint32_t	set_color(t_map *map, int x, int y, t_minimap *mm)
 {
 	uint32_t	color;
 
 	if (y < 0 || x < 0 || y >= map->height * 10 || x >= map->width * 10
 		|| !map->grid_max[y] || x >= (int)strlen(map->grid_max[y]))
 		return (VOID_COLOR);
-
-	color = map->grid_max[y][x] == ' ' ? WALL_COLOR : VOID_COLOR;
-	color = map->grid_max[y][x] == '8' ? WALL_COLOR : color;
-	color = euclidean_distance(x, y, pos_x, pos_y) ? PLAYER_COLOR : color;
+	color = VOID_COLOR;
+	if (map->grid_max[y][x] == ' ')
+		color = WALL_COLOR;
+	else if (map->grid_max[y][x] == '8')
+		color = WALL_COLOR;
+	if (euclidean_distance(x, y, mm->pgx, mm->pgy))
+		color = PLAYER_COLOR;
 	return (color);
 }
 
@@ -59,8 +62,7 @@ static void	init_mm(t_minimap *mm, t_main *game, int key)
 	{
 		mm->grid_x = mm->start_x + mm->x;
 		mm->grid_y = mm->start_y + mm->y;
-		mm->color = set_color(game->file->map, mm->grid_x, mm->grid_y,
-				mm->pgx, mm->pgy);
+		mm->color = set_color(game->file->map, mm->grid_x, mm->grid_y, mm);
 	}
 }
 
