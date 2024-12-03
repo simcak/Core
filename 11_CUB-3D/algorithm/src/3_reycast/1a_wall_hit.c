@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:17:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 20:18:04 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:00:07 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,59 @@ static bool	wall_hit(t_map *map, double ray_hit_x, double ray_hit_y)
 	return (false);
 }
 
+// Purpose of this function is just to make the hit calculation more readable.
+static void	facing_north_dilema(t_ray *ray)
+{
+	bool	facing_north;
+
+	facing_north = ray->angle > 0 && ray->angle < PI_FT;
+	if (facing_north)
+	{
+		ray->y_step = TILE_SIZE;
+		ray->vhit.y += TILE_SIZE;
+		ray->pixel = -1;
+	}
+	else
+	{
+		ray->y_step = -TILE_SIZE;
+		ray->pixel = 1;
+	}
+}
+
+// Purpose of this function is just to make the hit calculation more readable.
+static void	facing_west_dilema(t_ray *ray)
+{
+	bool	facing_west;
+
+	facing_west = ray->angle > PI05_FT && ray->angle < 3 * PI05_FT;
+	if (facing_west)
+	{
+		ray->x_step = -TILE_SIZE;
+		ray->pixel = 1;
+	}
+	else
+	{
+		ray->x_step = TILE_SIZE;
+		ray->hhit.x += TILE_SIZE;
+		ray->pixel = -1;
+	}
+}
+
 /**
  * @brief Calculates the vertical intersection of the ray with a wall.
  */
 void	calculate_vertical_hit(t_main *game, t_player *player, t_ray *ray)
 {
-	bool	facing_north;
 	bool	facing_west;
-	int		pixel;
 
-	facing_north = ray->angle > 0 && ray->angle < PI_FT;
-	facing_west = ray->angle > PI_FT / 2 && ray->angle < 3 * PI05_FT;
-
-	ray->y_step = facing_north ? TILE_SIZE : -TILE_SIZE;
+	facing_west = ray->angle > PI05_FT && ray->angle < 3 * PI05_FT;
 	ray->x_step = TILE_SIZE / tan(ray->angle);
 	if ((facing_west && ray->x_step > 0) || (!facing_west && ray->x_step < 0))
 		ray->x_step *= -1;
-
 	ray->vhit.y = floor(player->pos.y / TILE_SIZE) * TILE_SIZE;
-	ray->vhit.y += facing_north ? TILE_SIZE : 0;
+	facing_north_dilema(ray);
 	ray->vhit.x = player->pos.x + (ray->vhit.y - player->pos.y) / tan(ray->angle);
-
-	pixel = facing_north ? -1 : 1;
-	while (!wall_hit(game->file->map, ray->vhit.x, ray->vhit.y - pixel))
+	while (!wall_hit(game->file->map, ray->vhit.x, ray->vhit.y - ray->pixel))
 	{
 		ray->vhit.x += ray->x_step;
 		ray->vhit.y += ray->y_step;
@@ -67,24 +97,16 @@ void	calculate_vertical_hit(t_main *game, t_player *player, t_ray *ray)
  */
 void	calculate_horizontal_hit(t_main *game, t_player *player, t_ray *ray)
 {
-	bool	facing_west;
 	bool	facing_north;
-	int		pixel;
 
-	facing_west = ray->angle > PI05_FT && ray->angle < 3 * PI05_FT;
 	facing_north = ray->angle > 0 && ray->angle < PI_FT;
-
-	ray->x_step = facing_west ? -TILE_SIZE : TILE_SIZE;
 	ray->y_step = TILE_SIZE * tan(ray->angle);
 	if ((facing_north && ray->y_step < 0) || (!facing_north && ray->y_step > 0))
 		ray->y_step *= -1;
-
 	ray->hhit.x = floor(player->pos.x / TILE_SIZE) * TILE_SIZE;
-	ray->hhit.x += facing_west ? 0 : TILE_SIZE;
+	facing_west_dilema(ray);
 	ray->hhit.y = player->pos.y + (ray->hhit.x - player->pos.x) * tan(ray->angle);
-
-	pixel = facing_west ? 1 : -1;
-	while (!wall_hit(game->file->map, ray->hhit.x - pixel, ray->hhit.y))
+	while (!wall_hit(game->file->map, ray->hhit.x - ray->pixel, ray->hhit.y))
 	{
 		ray->hhit.x += ray->x_step;
 		ray->hhit.y += ray->y_step;

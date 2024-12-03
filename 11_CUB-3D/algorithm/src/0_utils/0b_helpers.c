@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   y_utils.c                                          :+:      :+:    :+:   */
+/*   0b_helpers.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 18:20:49 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 19:56:49 by psimcak          ###   ########.fr       */
+/*   Created: 2024/12/03 15:07:54 by psimcak           #+#    #+#             */
+/*   Updated: 2024/12/03 16:03:55 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ int	space_counter(char *input)
 }
 
 /**
+ * Function to check if the line contains only spaces.
+ */
+bool	line_has_only_spaces(char *line)
+{
+	return (space_counter(line) == (int)ft_strlen(line));
+}
+
+/**
  * Function to check if the input string contains only spaces or digits.
  */
 void	are_spaces_or_digits(t_main *game, char *rgb)
@@ -51,12 +59,4 @@ void	are_spaces_or_digits(t_main *game, char *rgb)
 		else
 			safe_exit(game, BR"Non-space or non-digit value detected"RST);
 	}
-}
-
-/**
- * Function to check if the line contains only spaces.
- */
-bool	line_has_only_spaces(char *line)
-{
-	return (space_counter(line) == (int)ft_strlen(line));
 }
