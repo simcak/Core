@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:17:42 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 16:00:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 19:45:46 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	calculate_vertical_hit(t_main *game, t_player *player, t_ray *ray)
 		ray->x_step *= -1;
 	ray->vhit.y = floor(player->pos.y / TILE_SIZE) * TILE_SIZE;
 	facing_north_dilema(ray);
-	ray->vhit.x = player->pos.x + (ray->vhit.y - player->pos.y) / tan(ray->angle);
+	ray->vhit.x = player->pos.x + (ray->vhit.y - player->pos.y)
+		/ tan(ray->angle);
 	while (!wall_hit(game->file->map, ray->vhit.x, ray->vhit.y - ray->pixel))
 	{
 		ray->vhit.x += ray->x_step;
@@ -105,7 +106,8 @@ void	calculate_horizontal_hit(t_main *game, t_player *player, t_ray *ray)
 		ray->y_step *= -1;
 	ray->hhit.x = floor(player->pos.x / TILE_SIZE) * TILE_SIZE;
 	facing_west_dilema(ray);
-	ray->hhit.y = player->pos.y + (ray->hhit.x - player->pos.x) * tan(ray->angle);
+	ray->hhit.y = player->pos.y + (ray->hhit.x - player->pos.x)
+		* tan(ray->angle);
 	while (!wall_hit(game->file->map, ray->hhit.x - ray->pixel, ray->hhit.y))
 	{
 		ray->hhit.x += ray->x_step;

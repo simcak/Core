@@ -6,25 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:02:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 16:03:41 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 20:19:41 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
-
-/**
- * @brief Function to run the player.
- * 
- * We have a special key R to run the player.
- */
-void	ft_run(t_player *bob, int key)
-{
-	if (key == MLX_KEY_R)
-	{
-		bob->move.x = cos(bob->dir.rad) * MOVE_SPEED * 3;
-		bob->move.y = sin(bob->dir.rad) * MOVE_SPEED * 3;
-	}
-}
 
 /**
  * Finds the index of the last non-space character in the input string.

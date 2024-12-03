@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:59:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 19:55:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 19:40:41 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 // 		printf(BW"Player Pos X: \t| %f\n"RST, game->player->pos.x);
 // 		printf(BW"Player Pos Y: \t| %f\n"RST, game->player->pos.y);
 // 		printf(BW"Rot Speed:    \t| %f\n"RST, game->player->rot_speed);
+// 		for (int i = 0; game->file->map->grid_max[i]; i++)
+// 			printf("%s\n", game->file->map->grid_max[i]);
 // 	}
 // 	else if (type == MAP)
 // 	{

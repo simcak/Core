@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 01:08:52 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 19:32:39 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 20:25:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ static void	get_wall_parameters(t_main *game, t_wall *wall)
 	wall->height = (TILE_SIZE / game->ray->distance) * ((SWIDTH / 2)
 			/ tan(game->player->fov_rad / 2));
 	wall->start = (SHEIGHT / 2) - (wall->height / 2);
-	wall->start = wall->start < 0 ? 0 : wall->start;
+	if (wall->start < 0)
+		wall->start = 0;
 	wall->end = (SHEIGHT / 2) + (wall->height / 2);
-	wall->end = wall->end > SHEIGHT ? SHEIGHT : wall->end;
+	if (wall->end > SHEIGHT)
+		wall->end = SHEIGHT;
 	if (game->ray->orientation == HORISONTAL)
 		if (game->ray->angle > PI05_FT && game->ray->angle < 3 * PI05_FT)
 			wall->txt = game->file->txt->mlx_txt_we;
@@ -61,18 +63,19 @@ static void	get_wall_parameters(t_main *game, t_wall *wall)
 static void	draw_wall_line(t_main *game, int rc, t_wall *wall)
 {
 	uint32_t	pixel_color;
-	int			txt_x;
-	int			txt_y;
+	int			txtx;
+	int			txty;
 
-	txt_x = game->ray->orientation == HORISONTAL ?
-		fmod(game->ray->hit.y, TILE_SIZE) * wall->txt->width / TILE_SIZE :
-		fmod(game->ray->hit.x, TILE_SIZE) * wall->txt->width / TILE_SIZE;
+	if (game->ray->orientation == HORISONTAL)
+		txtx = fmod(game->ray->hit.y, TILE_SIZE) * wall->txt->width / TILE_SIZE;
+	else if (game->ray->orientation == VERTICAL)
+		txtx = fmod(game->ray->hit.x, TILE_SIZE) * wall->txt->width / TILE_SIZE;
 	while (wall->start < wall->end)
 	{
-		txt_y = (int)((wall->start - (SHEIGHT - wall->height) / 2)
-			* wall->txt->height / wall->height) * wall->txt->width;
-		wall->color = (uint32_t *)(wall->txt->pixels + (txt_y + txt_x)
-			* sizeof(uint32_t));
+		txty = (int)((wall->start - (SHEIGHT - wall->height) / 2)
+				* wall->txt->height / wall->height)*wall->txt->width;
+		wall->color = (uint32_t *)(wall->txt->pixels + (txty + txtx)
+				* sizeof(uint32_t));
 		pixel_color = ((*wall->color & 0xFF000000) >> 24)
 			| ((*wall->color & 0x00FF0000) >> 8)
 			| ((*wall->color & 0x0000FF00) << 8)

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:22:56 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 16:05:09 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 19:41:35 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,34 @@ static void	add_walls(t_map *map)
 			}
 		}
 	}
-	ft_replace_chars(map->grid_max, 'X', '8');
+}
+
+/**
+ * @brief Initialize the grid_max array.
+ * 
+ * flag 1) Allocate memory for the grid_max array.
+ * flag 2) Copy the original grid to the grid_max array.
+ */
+void	init_maxi_grid(t_map *map, t_maxigrid *mg, int flag)
+{
+	if (flag == 1)
+	{
+		map->grid_max[mg->i * MAXI_GRID + mg->j] = ft_smalloc(sizeof(char)
+				* (map->width * (MAXI_GRID + 1)), BR""ERR_MALL"GRIDMAX"RST);
+	}
+	else if (flag == 2)
+	{
+		mg->l = -1;
+		while (++mg->l < MAXI_GRID)
+			map->grid_max[mg->i * MAXI_GRID + mg->j][mg->k * MAXI_GRID + mg->l]
+				= map->grid[mg->i][mg->k];
+	}
+	else if (flag == 3)
+	{
+		mg->x = map->width * (MAXI_GRID + 1);
+		mg->y = mg->i * MAXI_GRID + mg->j;
+		map->grid_max[mg->y][mg->x] = 0;
+	}
 }
 
 /**
@@ -75,32 +102,24 @@ static void	add_walls(t_map *map)
  */
 void	max_map(t_main *game, t_map *map)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		l;
+	t_maxigrid	mg;
 
 	map->grid_max = (char **)ft_dalloc(game, sizeof(char *),
 			(map->height * (MAXI_GRID + 1)), BR""ERR_MALL"GRID_MAX"RST);
-	i = -1;
-	while (++i < map->height)
+	mg.i = -1;
+	while (++mg.i < map->height)
 	{
-		j = -1;
-		while (++j < MAXI_GRID)
+		mg.j = -1;
+		while (++mg.j < MAXI_GRID)
 		{
-			map->grid_max[i * MAXI_GRID + j] = ft_smalloc(sizeof(char)
-					* (map->width * (MAXI_GRID + 1)), BR""ERR_MALL"GRIDMAX"RST);
-			k = -1;
-			while (++k <= map->width)
-			{
-				l = -1;
-				while (++l < MAXI_GRID)
-					map->grid_max[i * MAXI_GRID + j][k * MAXI_GRID + l]
-						= map->grid[i][k];
-			}
-			map->grid_max[i * MAXI_GRID + j][map->width * (MAXI_GRID + 1)] = '\0';
+			init_maxi_grid(map, &mg, 1);
+			mg.k = -1;
+			while (++mg.k <= map->width)
+				init_maxi_grid(map, &mg, 2);
+			init_maxi_grid(map, &mg, 3);
 		}
 	}
 	map->grid_max[map->height * MAXI_GRID] = NULL;
 	add_walls(map);
+	ft_replace_chars(map->grid_max, 'X', '8');
 }

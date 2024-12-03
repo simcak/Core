@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:17:33 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 14:50:06 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 20:22:52 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,32 +45,27 @@ static void	perform_move(t_map *map, t_player *player)
  * 1 - forward    2 - backward    3 - right and left
  * than we send the movement vector to the perform_move function.
  */
-static bool	ft_move(t_main *game, int key)
+static bool	ft_move(t_main *game, int key, int sin_f, int cos_f)
 {
 	t_player	*bob;
 
 	bob = game->player;
-	if (key == MLX_KEY_W || key == MLX_KEY_UP)
+	if (key == MLX_KEY_W || key == MLX_KEY_UP
+		|| key == MLX_KEY_S || key == MLX_KEY_DOWN)
 	{
-		bob->move.x = cos(bob->dir.rad) * MOVE_SPEED;
-		bob->move.y = sin(bob->dir.rad) * MOVE_SPEED;
+		bob->move.x = cos_f * cos(bob->dir.rad) * MOVE_SPEED;
+		bob->move.y = sin_f * sin(bob->dir.rad) * MOVE_SPEED;
 	}
-	else if (key == MLX_KEY_S || key == MLX_KEY_DOWN)
+	else if (key == MLX_KEY_R)
 	{
-		bob->move.x = -cos(bob->dir.rad) * MOVE_SPEED;
-		bob->move.y = -sin(bob->dir.rad) * MOVE_SPEED;
+		bob->move.x = cos(bob->dir.rad) * MOVE_SPEED * 3;
+		bob->move.y = sin(bob->dir.rad) * MOVE_SPEED * 3;
 	}
-	else if (key == MLX_KEY_A)
+	else if (key == MLX_KEY_A || key == MLX_KEY_D)
 	{
-		bob->move.x = sin(bob->dir.rad) * MOVE_SPEED;
-		bob->move.y = -cos(bob->dir.rad) * MOVE_SPEED;
+		bob->move.x = sin_f * sin(bob->dir.rad) * MOVE_SPEED;
+		bob->move.y = cos_f * cos(bob->dir.rad) * MOVE_SPEED;
 	}
-	else if (key == MLX_KEY_D)
-	{
-		bob->move.x = -sin(bob->dir.rad) * MOVE_SPEED;
-		bob->move.y = cos(bob->dir.rad) * MOVE_SPEED;
-	}
-	ft_run(bob, key);
 	perform_move(game->file->map, bob);
 	return (true);
 }
@@ -87,16 +82,19 @@ static bool	ft_rotate(t_main *game, double rot_speed, int key)
 	if (key == MLX_KEY_LEFT)
 	{
 		keep_in_range(game->player->dir.rad);
-		game->player->dir.rad = game->player->dir.rad < 0 ?
-			game->player->dir.rad + 2 * M_PI :
-			game->player->dir.rad - rot_speed;
+		if (game->player->dir.rad < 0)
+			game->player->dir.rad += 2 * M_PI;
+		else
+			game->player->dir.rad -= rot_speed;
 		return (true);
 	}
 	if (key == MLX_KEY_RIGHT)
-	{	
-		game->player->dir.rad = game->player->dir.rad > 2 * M_PI ?
-			game->player->dir.rad - 2 * M_PI :
-			game->player->dir.rad + rot_speed;
+	{
+		keep_in_range(game->player->dir.rad);
+		if (game->player->dir.rad > 2 * M_PI)
+			game->player->dir.rad -= 2 * M_PI;
+		else
+			game->player->dir.rad += rot_speed;
 		return (true);
 	}
 	return (false);
@@ -146,16 +144,16 @@ bool	key_down_crossroad(t_main *game)
 		pressed = ft_rotate(game, game->player->rot_speed, MLX_KEY_RIGHT);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W)
 		|| mlx_is_key_down(game->mlx, MLX_KEY_UP))
-		pressed = ft_move(game, MLX_KEY_W);
+		pressed = ft_move(game, MLX_KEY_W, 1, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_R))
-		pressed = ft_move(game, MLX_KEY_R);
+		pressed = ft_move(game, MLX_KEY_R, 1, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S)
 		|| mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
-		pressed = ft_move(game, MLX_KEY_S);
+		pressed = ft_move(game, MLX_KEY_S, -1, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
-		pressed = ft_move(game, MLX_KEY_A);
+		pressed = ft_move(game, MLX_KEY_A, 1, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
-		pressed = ft_move(game, MLX_KEY_D);
+		pressed = ft_move(game, MLX_KEY_D, -1, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_KP_SUBTRACT))
 		pressed = ft_fov(game, MLX_KEY_KP_SUBTRACT);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_KP_ADD))

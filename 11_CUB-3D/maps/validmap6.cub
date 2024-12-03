@@ -2,10 +2,10 @@
 SO ./textures/SO.png
         NO      ./textures/NO.png
 
-        C   225, 	 30	,0  
+  C              220,  100 ,  0
 EA      ./textures/EA.png
 
-  F              220,  100 ,  0
+        F   225, 	 80	,50  
  
      0 1      1     0       0 
           111111111111111111111111	
