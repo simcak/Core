@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 19:46:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 15:47:33 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 static void	init_default_ray(t_main *game)
 {
 	game->ray = ft_smalloc(sizeof(t_ray), BR""ERR_MALL"RAY"RST);
+	game->ray->orientation = 0;
+	game->ray->pixel = 0;
 	game->ray->angle = 0;
+	game->ray->angle_diff = 0;
 	game->ray->distance = 0;
 	game->ray->x_step = 0;
 	game->ray->y_step = 0;

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:17:33 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 20:21:59 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 14:50:06 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,27 @@ static bool	ft_move(t_main *game, int key)
 	t_player	*bob;
 
 	bob = game->player;
-	if (key == MLX_KEY_W || key == MLX_KEY_UP || key == MLX_KEY_R)
+	if (key == MLX_KEY_W || key == MLX_KEY_UP)
 	{
 		bob->move.x = cos(bob->dir.rad) * MOVE_SPEED;
 		bob->move.y = sin(bob->dir.rad) * MOVE_SPEED;
-		bob->move.x = key == MLX_KEY_R ? bob->move.x * 3 : bob->move.x;
-		bob->move.y = key == MLX_KEY_R ? bob->move.y * 3 : bob->move.y;
 	}
 	else if (key == MLX_KEY_S || key == MLX_KEY_DOWN)
 	{
 		bob->move.x = -cos(bob->dir.rad) * MOVE_SPEED;
 		bob->move.y = -sin(bob->dir.rad) * MOVE_SPEED;
 	}
-	else if (key == MLX_KEY_A || key == MLX_KEY_D)
+	else if (key == MLX_KEY_A)
 	{
-		bob->move.x = key == MLX_KEY_A ? sin(bob->dir.rad) * MOVE_SPEED :
-			-sin(bob->dir.rad) * MOVE_SPEED;
-		bob->move.y = key == MLX_KEY_A ? -cos(bob->dir.rad) * MOVE_SPEED :
-			cos(bob->dir.rad) * MOVE_SPEED;
+		bob->move.x = sin(bob->dir.rad) * MOVE_SPEED;
+		bob->move.y = -cos(bob->dir.rad) * MOVE_SPEED;
 	}
+	else if (key == MLX_KEY_D)
+	{
+		bob->move.x = -sin(bob->dir.rad) * MOVE_SPEED;
+		bob->move.y = cos(bob->dir.rad) * MOVE_SPEED;
+	}
+	ft_run(bob, key);
 	perform_move(game->file->map, bob);
 	return (true);
 }
@@ -114,14 +116,14 @@ static bool	ft_fov(t_main *game, int key)
 {
 	if (key == MLX_KEY_KP_ADD)
 	{
-		game->player->fov_rad = game->player->fov_rad - 0.1 > 0.5 ? 
-			game->player->fov_rad - 0.042 : 0.5;
+		if (game->player->fov_rad - 0.1 >= 0.5)
+			game->player->fov_rad -= 0.042;
 		return (true);
 	}
 	else if (key == MLX_KEY_KP_SUBTRACT)
 	{
-		game->player->fov_rad = game->player->fov_rad + 0.1 < 3 ? 
-			game->player->fov_rad + 0.042 : 3;
+		if (game->player->fov_rad + 0.1 <= 3)
+			game->player->fov_rad += 0.042;
 		return (true);
 	}
 	return (false);

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 19:56:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:01:19 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,5 @@ int	main(int ac, char **av)
 	mlx_loop_hook(game->mlx, &game_loop, game);
 	mlx_loop(game->mlx);
 	free_full(game);
-	// printf("Press RETURN to exit...\n");	// delete
-	// getchar();			// delete
 	return (EXIT_SUCCESS);
 }

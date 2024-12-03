@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 20:05:23 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:04:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@
 # define SWIDTH				1501
 # define SHEIGHT			1001
 # define MAXI_GRID			10
-# define TILE_SIZE			89
+# define TILE_SIZE			70
 # define FOV				66
 # define MOVE_SPEED			4.2
 # define ROTATION_SPEED		0.0542
@@ -164,6 +164,7 @@ typedef struct s_hit
 typedef struct s_ray
 {
 	int				orientation;
+	int				pixel;
 	double			angle;
 	double			angle_diff;
 	double			distance;
@@ -214,58 +215,79 @@ typedef struct s_minimap
 
 /* ******************************* Prototypes ******************************* */
 // Utils
+void	safe_exit(t_main *game, const char *msg);
+void	free_full(t_main *game);
+int		free_str_arr(char **arr);
+void	**ft_dalloc(t_main *game, size_t size, int rows, char *msg);
+void	*ft_smalloc(size_t size, char *msg);
+
+// Init
+void	init_default(t_main *game);
+void	init(int type, t_main *game);
+
+// Parser
+void	parse_load_check_colors(t_main *game, t_color *color);
+void	parse_load_check_file(t_main *game);
+void	parse_load_check_map(t_main *game);
+void	parse_load_check_texture(t_main *game, t_txt *txt);
+void	parser(t_main *game);
+
+// Raycasting
+bool	key_down_crossroad(t_main *game);
+void	put_mini_map(t_main *game);
+void	ray_cast(t_main *game, t_player *player, t_ray *ray);
+
+/* **************************** Helper functions **************************** */
 void	ft_debug(int type, t_main *game);
-int		ft_atoi(const char *original_str);
-char	*ft_strchr_gnl(const char *s, int c);
-size_t	ft_strlen_gnl(const char *s);
-char	*ft_strjoin_gnl(char *s1, char *s2);
-char	*ft_get_next_line(int fd);
-char	**ft_split(char const *s, char c);
+
+// in a
+void	ft_run(t_player *bob, int key);
+int		last_char_index(char *str);
+bool	is_nswe(char c);
+void	ft_replace_chars(char **line, char c1, char c2);
+bool	can_step_in(t_map *map, int y, int x);
+
+// in b
+bool	is_space(char c);
+bool	is_digit(char c);
+int		space_counter(char *input);
+bool	line_has_only_spaces(char *line);
+void	are_spaces_or_digits(t_main *game, char *rgb);
+
+// str utils
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, const char *src, size_t size);
 char	*ft_strjoin(char const *s1, char const *s2);
+int		ft_atoi(const char *original_str);
+char	**ft_split(char const *s, char c);
 char	*ft_substr(char const *str, unsigned int start, size_t len);
-void	safe_exit(t_main *game, const char *msg);
-void	free_full(t_main *game);
-int		free_str_arr(char **arr);
-void	**ft_dalloc(t_main *game, size_t size, int rows, char *msg);
-void	*ft_smalloc(size_t size, char *msg);
-bool	is_space(char c);
-bool	is_digit(char c);
-int		space_counter(char *input);
-void	are_spaces_or_digits(t_main *game, char *rgb);
-bool	line_has_only_spaces(char *line);
-int		last_char_index(char *str);
-bool	is_nswe(char c);
-void	ft_replace_chars(char **line, char c1, char c2);
-bool	can_step_in(t_map *map, int y, int x);
 
-// Init
-void	init(int type, t_main *game);
-void	init_default(t_main *game);
+// gnl
+char	*ft_strchr_gnl(const char *s, int c);
+size_t	ft_strlen_gnl(const char *s);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+char	*ft_get_next_line(int fd);
 
-// Parser
-void	range_check(t_main *game, int rgb);
-void	difference_check(t_main *game, int *rgb_c, int *rgb_f);
-void	parse_load_check_colors(t_main *game, t_color *color);
-void	parse_load_check_file(t_main *game);
-void	parser(t_main *game);
-void	parse_load_check_map(t_main *game);
-void	parse_load_check_texture(t_main *game, t_txt *txt);
+/* PARSER */
+// 2 utils
 bool	we_found_flag(t_main *game, char *flag, int line);
 char	*txt_path_finder(t_main *game, int flag_len, int line);
 void	ft_dupliempty_txtp(t_main *game, char **txt_paths);
+// 3 utils
+void	range_check(t_main *game, int rgb);
+void	difference_check(t_main *game, int *rgb_c, int *rgb_f);
+// own
+void	define_grid(t_main *game, t_file *file);
+void	max_map(t_main *game, t_map *map);
 
-// Raycasting
-void	ray_cast(t_main *game, t_player *player, t_ray *ray);
+/* RAYCASTING */
+// 1 utils
 double	keep_in_range(double angle);
 void	calculate_vertical_hit(t_main *game, t_player *player, t_ray *ray);
 void	calculate_horizontal_hit(t_main *game, t_player *player, t_ray *ray);
 void	draw_ray(t_main *game, int ray_counter);
-void	put_mini_map(t_main *game);
-bool	key_down_crossroad(t_main *game);
 
 #endif
