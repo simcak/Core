@@ -6,17 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:35:22 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 20:11:09 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:26:31 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
-
-// Helper function
-static bool	euclidean_distance(int x, int y, int pos_x, int pos_y)
-{
-	return (sqrt(pow(x - pos_x, 2) + pow(y - pos_y, 2)) < 2);
-}
 
 /**
  * @brief Set the color of the pixel based on its meaning.
@@ -35,7 +29,7 @@ static uint32_t	set_color(t_map *map, int x, int y, t_minimap *mm)
 		color = WALL_COLOR;
 	else if (map->grid_max[y][x] == '8')
 		color = WALL_COLOR;
-	if (euclidean_distance(x, y, mm->pgx, mm->pgy))
+	if (euclidean_distance(x, y, mm->pgx, mm->pgy) < 2)
 		color = PLAYER_COLOR;
 	return (color);
 }

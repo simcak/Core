@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:39 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 20:06:13 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:20:57 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * If so, it returns the path to the texture - just characters after the flag.
  * If not, it exits the program.
  */
-void	ft_safe_texture(char *flag, t_main *game, int i)
+static void	ft_safe_texture(char *flag, t_main *game, int i)
 {
 	int		line;
 	int		flag_count;
@@ -38,6 +38,30 @@ void	ft_safe_texture(char *flag, t_main *game, int i)
 		safe_exit(game, BR"Missing texture flag in the parsed file"RST);
 	else if (flag_count > 1)
 		safe_exit(game, BR"Duplicate texture flag in the parsed file"RST);
+}
+
+/**
+ * @brief Checks if there are any duplications or empty values in parsed file.
+ * CALLER: parse_load_check_texture
+ */
+static void	ft_dupliempty_txtp(t_main *game, char **txt_paths)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (txt_paths[++i])
+	{
+		j = i;
+		while (txt_paths[++j])
+		{
+			if (strlen(txt_paths[j]) == 0)
+				safe_exit(game, BR"Empty value in the texture path"RST);
+			if (ft_strncmp(txt_paths[i], txt_paths[j],
+					ft_strlen(txt_paths[i])) == 0)
+				safe_exit(game, BR"Duplicate value of the txt path"RST);
+		}
+	}
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 22:56:46 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 20:06:06 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:07:51 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	char_counter(char *input)
 
 	counter = -1;
 	while (input[++counter])
-		if (is_space(input[counter]))
+		if (ft_isspace(input[counter]))
 			break ;
 	return (counter);
 }
@@ -37,7 +37,7 @@ bool	we_found_flag(t_main *game, char *flag, int line)
 	spaces = space_counter(parsed_file[line]);
 	flag_len = ft_strlen(flag);
 	if (ft_strncmp(parsed_file[line] + spaces, flag, flag_len) == 0
-		&& is_space(parsed_file[line][spaces + flag_len]))
+		&& ft_isspace(parsed_file[line][spaces + flag_len]))
 		return (true);
 	return (false);
 }

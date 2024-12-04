@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:29:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 20:00:36 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:17:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ static void	init_player(t_player *player, t_map *map)
 	player->pos.y = (int)(map->start_pos.y * TILE_SIZE + TILE_SIZE / 2);
 }
 
+/**
+ * @brief Initializes the MLX
+ * 
+ * Initializes image and window so we have place where to draw.
+ * We don't allow to resize the window.
+ */
 static void	init_mlx42(t_main *game)
 {
 	game->mlx = mlx_init(SWIDTH, SHEIGHT, "cub3D", false);

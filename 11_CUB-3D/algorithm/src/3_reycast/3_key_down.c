@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:17:33 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 20:22:52 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:36:09 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ static void	perform_move(t_map *map, t_player *player)
  * @brief Moves the player in the direction of the player's angle.
  * 
  * Here we calculate the MOVEMENT vector.
- * 1 - forward    2 - backward    3 - right and left
+ * 1 - forward or backward    2 - run    3 - right or left
  * than we send the movement vector to the perform_move function.
+ * the sin_f and cos_f are used to safe some lines :)
  */
 static bool	ft_move(t_main *game, int key, int sin_f, int cos_f)
 {

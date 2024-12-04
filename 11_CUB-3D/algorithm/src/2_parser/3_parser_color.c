@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:01 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 20:07:35 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:08:23 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	format_check(t_main *game, char *rgb)
 	while (rgb[i])
 	{
 		i += space_counter(rgb + i);
-		while (is_digit(rgb[i]))
+		while (ft_isdigit(rgb[i]))
 			i++;
 		num_counter++;
 		if (num_counter > 1)

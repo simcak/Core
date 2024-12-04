@@ -6,18 +6,18 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:07:54 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 16:03:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:08:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-bool	is_space(char c)
+bool	ft_isspace(char c)
 {
 	return (c == 32 || (9 <= c && c <= 13));
 }
 
-bool	is_digit(char c)
+bool	ft_isdigit(char c)
 {
 	return ('0' <= c && c <= '9');
 }
@@ -31,7 +31,7 @@ int	space_counter(char *input)
 
 	counter = -1;
 	while (input[++counter])
-		if (!is_space(input[counter]))
+		if (!ft_isspace(input[counter]))
 			break ;
 	return (counter);
 }
@@ -54,7 +54,7 @@ void	are_spaces_or_digits(t_main *game, char *rgb)
 	i = -1;
 	while (rgb[++i])
 	{
-		if (is_space(rgb[i]) || is_digit(rgb[i]))
+		if (ft_isspace(rgb[i]) || ft_isdigit(rgb[i]))
 			continue ;
 		else
 			safe_exit(game, BR"Non-space or non-digit value detected"RST);

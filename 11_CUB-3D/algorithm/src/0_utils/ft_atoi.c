@@ -6,22 +6,18 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:54:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 19:56:25 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:10:43 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-static bool	ft_isspace(char c)
-{
-	return (c == 32 || (9 <= c && c <= 13));
-}
-
-static bool	ft_isdigit(char c)
-{
-	return ('0' <= c && c <= '9');
-}
-
+/**
+ * @brief Converts the initial string of characters to an integer.
+ * 
+ * Covers spaces before and one sign after the spaces. Than it goes till the
+ * first non-digit character and returns the result.
+ */
 int	ft_atoi(const char *original_str)
 {
 	int	i;

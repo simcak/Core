@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 19:40:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:41:22 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ static void	game_loop(void *param)
  * 1.2) for file = PARSING
  * 1.3) assign specific values to the player struct
  * 1.4) initialize mlx = heat up graphics
+ * 1.5) put_image on the screen - no key pressed so we wouldn't see anything
  * 2) LOOP / RAYCASTING
- * 2.1) 
- *
+ * 2.1) Ray is like a column of pixels and we draw it one by one BUT just when
+ *      we press any action key
+ * 2.2) with mlx_loop we keep the window open
+ * 3) CLEANUP
  * ) mlx loop keeps the window open - just like while loop
  */
 int	main(int ac, char **av)
