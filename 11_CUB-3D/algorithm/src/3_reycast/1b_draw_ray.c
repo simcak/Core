@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 01:08:52 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 20:25:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 13:18:05 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,17 @@ static void	get_wall_parameters(t_main *game, t_wall *wall)
 			wall->txt = game->file->txt->mlx_txt_no;
 }
 
+static t_clr	reverse_bytes(t_clr color)
+{
+	t_clr	reversed_color;
+
+	reversed_color.r = color.a;
+	reversed_color.g = color.b;
+	reversed_color.b = color.g;
+	reversed_color.a = color.r;
+	return (reversed_color);
+}
+
 /**
  * @brief Draw wall line
  * 
@@ -63,25 +74,23 @@ static void	get_wall_parameters(t_main *game, t_wall *wall)
 static void	draw_wall_line(t_main *game, int rc, t_wall *wall)
 {
 	uint32_t	pixel_color;
-	int			txtx;
-	int			txty;
+	double		x;
+	double		y;
+	double		y_txt_step;
 
 	if (game->ray->orientation == HORISONTAL)
-		txtx = fmod(game->ray->hit.y, TILE_SIZE) * wall->txt->width / TILE_SIZE;
+		x = fmod(game->ray->hit.y, TILE_SIZE) * wall->txt->width / TILE_SIZE;
 	else if (game->ray->orientation == VERTICAL)
-		txtx = fmod(game->ray->hit.x, TILE_SIZE) * wall->txt->width / TILE_SIZE;
+		x = fmod(game->ray->hit.x, TILE_SIZE) * wall->txt->width / TILE_SIZE;
+	wall->clr = (t_clr *)wall->txt->pixels;
+	y_txt_step = wall->txt->height / wall->height;
+	y = ((wall->start - SHEIGHT / 2) + wall->height / 2) * y_txt_step;
 	while (wall->start < wall->end)
 	{
-		txty = (int)((wall->start - (SHEIGHT - wall->height) / 2)
-				* wall->txt->height / wall->height)*wall->txt->width;
-		wall->color = (uint32_t *)(wall->txt->pixels + (txty + txtx)
-				* sizeof(uint32_t));
-		pixel_color = ((*wall->color & 0xFF000000) >> 24)
-			| ((*wall->color & 0x00FF0000) >> 8)
-			| ((*wall->color & 0x0000FF00) << 8)
-			| ((*wall->color & 0x000000FF) << 24);
-		mlx_put_pixel(game->image, rc, wall->start, pixel_color);
-		wall->start++;
+		pixel_color = reverse_bytes(
+				wall->clr[(int)y * wall->txt->width + (int)x]).rgba;
+		mlx_put_pixel(game->image, rc, wall->start++, pixel_color);
+		y += y_txt_step;
 	}
 }
 
