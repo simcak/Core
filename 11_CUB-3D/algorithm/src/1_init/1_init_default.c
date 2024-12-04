@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:09:30 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 15:47:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 12:41:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	init_default_wall(t_main *game)
 	game->wall->height = 0;
 	game->wall->start = 0;
 	game->wall->end = 0;
-	game->wall->color = NULL;
+	game->wall->clr = NULL;
 	game->wall->txt = NULL;
 }
 

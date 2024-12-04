@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 20:23:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 12:37:34 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,18 @@
 # define VERTICAL			2
 
 /* ******************************** Structure ******************************* */
+typedef union u_clr
+{
+	unsigned int	rgba;
+	struct
+	{
+		unsigned char	a;
+		unsigned char	b;
+		unsigned char	g;
+		unsigned char	r;
+	};
+}				t_clr;
+
 // in file
 typedef struct s_txt
 {
@@ -181,7 +193,7 @@ typedef struct s_wall
 	double			height;
 	double			start;
 	double			end;
-	uint32_t		*color;
+	t_clr			*clr;
 	mlx_texture_t	*txt;
 }	t_wall;
 
