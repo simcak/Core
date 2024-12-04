@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:48 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/04 12:37:34 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:30:09 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@
 # define TILE_SIZE			70
 # define FOV				75
 # define MOVE_SPEED			4.2
-# define ROTATION_SPEED		0.0542
+# define ROTATION_SPEED		0.07
 
 /* ********************************* MiniMap ******************************** */
 # define PLAYER_COLOR		RED
@@ -267,10 +267,11 @@ int		last_char_index(char *str);
 bool	is_nswe(char c);
 void	ft_replace_chars(char **line, char c1, char c2);
 bool	can_step_in(t_map *map, int y, int x);
+double	euclidean_distance(int x1, int y1, int x2, int y2);
 
 // in b
-bool	is_space(char c);
-bool	is_digit(char c);
+bool	ft_isspace(char c);
+bool	ft_isdigit(char c);
 int		space_counter(char *input);
 bool	line_has_only_spaces(char *line);
 void	are_spaces_or_digits(t_main *game, char *rgb);
@@ -296,7 +297,6 @@ char	*ft_get_next_line(int fd);
 // 2 utils
 bool	we_found_flag(t_main *game, char *flag, int line);
 char	*txt_path_finder(t_main *game, int flag_len, int line);
-void	ft_dupliempty_txtp(t_main *game, char **txt_paths);
 // 3 utils
 void	range_check(t_main *game, int rgb);
 void	difference_check(t_main *game, int *rgb_c, int *rgb_f);

@@ -6,19 +6,17 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 20:32:36 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 19:56:36 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:13:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-void	ft_perror(const char *msg)
-{
-	write(2, "Error\n", 6);
-	write(2, msg, ft_strlen(msg));
-	write(2, "\n", 1);
-}
-
+/**
+ * @brief Every time we want to exit the program we first free all memory.
+ * 
+ * By the subject we have to write "Error\n" before the message.
+ */
 void	safe_exit(t_main *game, const char *msg)
 {
 	write(2, "Error\n", 6);

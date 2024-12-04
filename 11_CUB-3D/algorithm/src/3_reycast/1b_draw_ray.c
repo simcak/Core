@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 01:08:52 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/04 13:18:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:34:28 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ static void	get_wall_parameters(t_main *game, t_wall *wall)
 			wall->txt = game->file->txt->mlx_txt_no;
 }
 
+/**
+ * @brief Reverse the bytes of the color
+ * 
+ * We need to rotate the colors in the pixel color because the colors are
+ * stored like: 0xAABBGGRR and we need to rotate them to 0xRRGGBBAA.
+ */
 static t_clr	reverse_bytes(t_clr color)
 {
 	t_clr	reversed_color;
@@ -66,10 +72,10 @@ static t_clr	reverse_bytes(t_clr color)
 /**
  * @brief Draw wall line
  * 
- * txt_x - the x coordinate of the texture - which column line to draw
- * txt_y - the y coordinate of the texture - which row line to draw
- * We need to rotate the colors in the pixel color because the colors are
- * stored like: 0xAABBGGRR and we need to rotate them to 0xRRGGBBAA.
+ * x - the x coordinate of the texture - which column line to draw
+ * y - the y coordinate of the texture - which row line to draw
+ * y_txt_step - the step of the y coordinate of the texture
+ * wall->clr - array of colors of the texture (pixel by pixel)
  */
 static void	draw_wall_line(t_main *game, int rc, t_wall *wall)
 {
@@ -94,6 +100,14 @@ static void	draw_wall_line(t_main *game, int rc, t_wall *wall)
 	}
 }
 
+/**
+ * @brief Draw ray from top to bottom
+ * 
+ * 0) Get wall parameters - height, start, end, texture (based on orientation)
+ * 1) Draw the sky / ceiling - take color from parsed file
+ * 2) Draw the wall - take color from the texture
+ * 3) Draw the floor - take color from parsed file
+ */
 void	draw_ray(t_main *game, int ray_counter)
 {
 	t_wall	*wall;

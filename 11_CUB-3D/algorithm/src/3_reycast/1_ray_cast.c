@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:25:23 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/02 20:13:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:29:26 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,6 @@ double	keep_in_range(double angle)
 }
 
 /**
- * @brief Calculates the distance between two points.
- * 
- * formula: sqrt((rx - px)^2 + (ry - py)^2)
- * 
- * @param px - player's x coordinate
- * @param py - player's y coordinate
- * @param rx - ray's x coordinate
- * @param ry - ray's y coordinate
- */
-static double	distance(double px, double py, double rx, double ry)
-{
-	return (sqrt(pow(rx - px, 2) + pow(ry - py, 2)));
-}
-
-/**
  * @brief Picks the shorter ray between the vertical and horizontal rays.
  * 
  * 1.1) Calculates the distance between the player's position and the v-hit.
@@ -52,22 +37,22 @@ static double	distance(double px, double py, double rx, double ry)
  */
 static void	pick_shorter_ray(t_player *p, t_ray *ray)
 {
-	double	v_distance;
-	double	h_distance;
+	double	v_dist;
+	double	h_dist;
 
-	v_distance = distance(p->pos.x, p->pos.y, ray->vhit.x, ray->vhit.y);
-	h_distance = distance(p->pos.x, p->pos.y, ray->hhit.x, ray->hhit.y);
-	if (h_distance < v_distance)
+	v_dist = euclidean_distance(p->pos.x, p->pos.y, ray->vhit.x, ray->vhit.y);
+	h_dist = euclidean_distance(p->pos.x, p->pos.y, ray->hhit.x, ray->hhit.y);
+	if (h_dist < v_dist)
 	{
 		ray->orientation = HORISONTAL;
-		ray->distance = h_distance;
+		ray->distance = h_dist;
 		ray->hit.x = ray->hhit.x;
 		ray->hit.y = ray->hhit.y;
 	}
 	else
 	{
 		ray->orientation = VERTICAL;
-		ray->distance = v_distance;
+		ray->distance = v_dist;
 		ray->hit.x = ray->vhit.x;
 		ray->hit.y = ray->vhit.y;
 	}

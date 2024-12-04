@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:02:00 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/03 20:19:41 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:28:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	last_char_index(char *str)
 	int	i;
 
 	i = ft_strlen(str) - 1;
-	while (i >= 0 && is_space(str[i]))
+	while (i >= 0 && ft_isspace(str[i]))
 		i--;
 	if (i < 0)
 		return (0);
@@ -66,4 +66,14 @@ bool	can_step_in(t_map *map, int y, int x)
 	if (map->grid_max[y][x] != '1' && map->grid_max[y][x] != '8')
 		return (true);
 	return (false);
+}
+
+/**
+ * @brief Calculates the distance between two points.
+ * 
+ * formula: sqrt((x1 - x2)^2 + (y1 - y2)^2)
+ */
+double	euclidean_distance(int x1, int y1, int x2, int y2)
+{
+	return (sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2)));
 }
