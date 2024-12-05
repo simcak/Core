@@ -1,7 +1,7 @@
-NO ./textures/NO.png
-SO ./textures/SO.png
-WE ./textures/WE.png
-EA ./textures/EA.png
+NO ./textures/3/NO.png
+SO ./textures/3/SO.png
+WE ./textures/3/WE.png
+EA ./textures/3/EA.png
 F 32,64,32
 C 32,128,255
 B 8,32,64

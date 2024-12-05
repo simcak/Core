@@ -6,11 +6,23 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:53:51 by psimcak           #+#    #+#             */
-/*   Updated: 2024/12/04 15:41:22 by psimcak          ###   ########.fr       */
+/*   Updated: 2024/12/05 18:12:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3D.h"
+
+// static void	cursor_hook(double xpos, double ypos, void *param)
+// {
+// 	t_main	*game;
+
+// 	game = (t_main *)param;
+// 	game->player->dir.rad += ((xpos - SWIDTH / 2) * ROTATION_SPEED)
+//			* (M_PI / 180);
+// 	game->player->dir.rad = keep_in_range(game->player->dir.rad);
+// 	mlx_set_mouse_pos(game->mlx, SWIDTH / 2, SHEIGHT / 2);
+// 	(void)ypos;
+// }
 
 static void	put_image(t_main *game)
 {
@@ -21,6 +33,11 @@ static void	put_image(t_main *game)
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
 
+/**
+ * @brief Game loop
+ * 
+ * BONIUS: remove the pressed condition
+ */
 static void	game_loop(void *param)
 {
 	t_main	*game;
@@ -49,6 +66,9 @@ static void	game_loop(void *param)
  * 2.2) with mlx_loop we keep the window open
  * 3) CLEANUP
  * ) mlx loop keeps the window open - just like while loop
+ * 
+ * BONUS:
+ * mlx_cursor_hook(game->mlx, &cursor_hook, game);
  */
 int	main(int ac, char **av)
 {
