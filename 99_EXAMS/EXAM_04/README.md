@@ -152,7 +152,7 @@ int	get_delimiter_index(char **argv)
 int	main(int argc, char **argv, char **envp)
 {
 	int			delimiter;
-	static int	status = 0;			// Set the default status in case nothing is executed to 0
+	static int	status = 0;				// Set the default status in case nothing is executed to 0
 
 	delimiter = 0;
 	while (argc > 1 && argv[delimiter])			// Loop while the arguments given were at least 1 and we still have arguments to loop through
