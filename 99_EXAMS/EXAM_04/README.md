@@ -94,25 +94,25 @@ int	print_error_info(char *str1, char *str2)
 int	cd(char **argv, int delimiter)
 {
 	if (delimiter != 2)					// Checks the amount of arguments
-		return (print_error(BAD_ARGS));		// Return with an error message stating that the arguments are wrong
-	if (chdir(argv[1]) == -1)					// Changes the directory and check if an error occurs
+		return (print_error(BAD_ARGS));			// Return with an error message stating that the arguments are wrong
+	if (chdir(argv[1]) == -1)				// Changes the directory and check if an error occurs
 		return (print_error_info(BAD_DIRE, argv[1]));	// If there was an error print the error message
 	return (0);
 }
 
 void	set_pipe(bool has_pipe, int *pipe_fd, int end)
 {
-	if (has_pipe == true					// Checks if the command contains a pipe
+	if (has_pipe == true				// Checks if the command contains a pipe
 		&& (dup2(pipe_fd[end], end) == -1	// If so duplicates the pipe end to the standard end and checks for error
-			|| close(pipe_fd[0]) == -1		// Closes the now unused pipe ends and checks for errors
+			|| close(pipe_fd[0]) == -1	// Closes the now unused pipe ends and checks for errors
 			|| close(pipe_fd[1]) == -1))
 		exit(print_error(ERROR_FATAL));		// If any error appears exit with the fatal error message
 }
 
 int	exec(char **argv, int delimiter, char **envp)
 {
-	const bool	has_pipe = argv[delimiter]				// It checks if there is a delimiter
-		&& !strcmp(argv[delimiter], "|");				// and if it is a pipe.
+	const bool	has_pipe = argv[delimiter]		// It checks if there is a delimiter
+		&& !strcmp(argv[delimiter], "|");		// and if it is a pipe.
 	int			pipe_fd[2];
 	int			pid;
 	int			status;
