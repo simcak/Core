@@ -155,14 +155,14 @@ int	main(int argc, char **argv, char **envp)
 	static int	status = 0;			// Set the default status in case nothing is executed to 0
 
 	delimiter = 0;
-	while (argc > 1 && argv[delimiter])		// Loop while the arguments given were at least 1 and we still have arguments to loop through
+	while (argc > 1 && argv[delimiter])			// Loop while the arguments given were at least 1 and we still have arguments to loop through
 	{
-		argv += delimiter + 1;			// Jump over the delimiter / first argument (the exucutable path / name)
-		delimiter = get_delimiter_index(argv);	// Get the index of the next delimiter (NULL, ';', '|')
-		if (delimiter)				// If there is a command between delimiters
+		argv += delimiter + 1;				// Jump over the delimiter / first argument (the exucutable path / name)
+		delimiter = get_delimiter_index(argv);		// Get the index of the next delimiter (NULL, ';', '|')
+		if (delimiter)					// If there is a command between delimiters
 			status = exec(argv, delimiter, envp);	// execute it and save the status
 	}
-	return (status);				// return the status of the last execution
+	return (status);					// return the status of the last execution
 }
 ```
 
