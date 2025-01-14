@@ -1,4 +1,3 @@
-## This is a Fork from [Pasqualerossi Exam-Rank-04](https://github.com/pasqualerossi/42-School-Exam-Rank-04) modified to be a little more readable in exchange to be a little longer than the original.
 # Exam Question
 
 This exam has 1 question, microshell:
