@@ -93,9 +93,9 @@ int	print_error_info(char *str1, char *str2)
 
 int	cd(char **argv, int delimiter)
 {
-	if (delimiter != 2)									// Checks the amount of arguments
-		return (print_error(BAD_ARGS));					// Return with an error message stating that the arguments are wrong
-	if (chdir(argv[1]) == -1)							// Changes the directory and check if an error occurs
+	if (delimiter != 2)					// Checks the amount of arguments
+		return (print_error(BAD_ARGS));		// Return with an error message stating that the arguments are wrong
+	if (chdir(argv[1]) == -1)					// Changes the directory and check if an error occurs
 		return (print_error_info(BAD_DIRE, argv[1]));	// If there was an error print the error message
 	return (0);
 }
