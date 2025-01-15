@@ -1,13 +1,15 @@
 #include <string.h>
-#include <unistd.h>
-#include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 int	print_error(char *str)
 {
 	while (*str)
-		write (2, str++, 1);
-	return (1);
+		write(2, str++, 1);
+	return (EXIT_FAILURE);
 }
 
 int	print_error_info(char *str1, char *str2)
@@ -23,7 +25,7 @@ int	cd(char **argv, int delimiter)
 		return (print_error("error: cd: bad arguments\n"));
 	if (chdir(argv[1]) == -1)
 		return (print_error_info("error: cd: cannot change directory to ", argv[1]));
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 void	set_pipe(bool has_pipe, int *pipe_fd, int end)
@@ -57,11 +59,10 @@ int	exec(char **argv, int delimiter, char **envp)
 	return (WIFEXITED(status) && WEXITSTATUS(status));
 }
 
-int	get_delimiter_index(char **argv)
+int	get_delimiter(char **argv)
 {
-	int	delimiter;
+	int	delimiter = 0;
 
-	delimiter = 0;
 	while (argv[delimiter] && strcmp(argv[delimiter], "|") && strcmp(argv[delimiter], ";"))
 		delimiter++;
 	return (delimiter);
@@ -69,14 +70,13 @@ int	get_delimiter_index(char **argv)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int			delimiter;
+	int			delimiter = 0;
 	static int	status = 0;
 
-	delimiter = 0;
 	while (argv[delimiter] && argc > 1)
 	{
 		argv += delimiter + 1;
-		delimiter = get_delimiter_index(argv);
+		delimiter = get_delimiter(argv);
 		if (delimiter)
 			status = exec(argv, delimiter, envp);
 	}

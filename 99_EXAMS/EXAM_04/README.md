@@ -38,7 +38,7 @@ Write a program that will behave like executing a shell command
 
 - You don't need to manage environment variables ($BLA ...)
 
-- If a system call, except execve and chdir, returns an error your program should immediatly print "error: fatal" in STDERR followed by a '\n' and the program should exit
+- If a system call, except execve and chdir, returns an err and your program should immediatly print "error: fatal" in STDERR followed by a '\n' and the program should exit
 
 - If execve failed you should print "error: cannot execute executable_that_failed" in STDERR followed by a '\n' with executable_that_failed replaced with the path of the failed executable (It should be the first argument of execve)
 
