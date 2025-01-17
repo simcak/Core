@@ -39,11 +39,11 @@ int	exec(char **argv, int delimiter, char **envp)
 	int			status;
 	int			pid;
 	int			pipe_fd[2];
-	const bool	has_pipe = argv[delimiter] && strcmp(argv[delimiter], "|") == 0;
+	const bool	has_pipe = argv[delimiter] && !strcmp(argv[delimiter], "|");
 
 	if (!has_pipe && !strcmp(*argv, "cd"))
 		return (cd(argv, delimiter));
-	if ((has_pipe && pipe(pipe_fd) == -1) || ((pid = fork()) == -1))
+	if ((has_pipe && pipe(pipe_fd) == -1) || (pid = fork()) == -1)
 		exit(print_error("error fatal\n"));
 	if (!pid)
 	{
