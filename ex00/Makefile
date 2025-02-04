@@ -6,13 +6,13 @@
 #    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:29:34 by psimcak           #+#    #+#              #
-#    Updated: 2025/01/17 12:31:25 by psimcak          ###   ########.fr        #
+#    Updated: 2025/02/04 20:22:29 by psimcak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= Bureaucrat
 COM		= c++
-FLAGS	= -Wall -Wextra -Werror -std=c++11
+FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 # find . -iname "*.cpp" -print0 | xargs -0 echo
 SRC		= ./Bureaucrat.cpp ./main.cpp
