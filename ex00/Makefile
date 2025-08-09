@@ -1,47 +1,46 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/01/17 12:29:34 by psimcak           #+#    #+#              #
-#    Updated: 2025/02/04 20:22:29 by psimcak          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME	= Bureaucrat
 COM		= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
-# find . -iname "*.cpp" -print0 | xargs -0 echo
+DIR		= .
+TMP_SRC	= $(shell find $(DIR) -iname "*.cpp")
+
 SRC		= ./Bureaucrat.cpp ./main.cpp
 OBJ		= $(SRC:%.cpp=%.o)
 
 RED		= \033[31m
 GREEN	= \033[32m
 RST		= \033[0m
-
-all: $(NAME)
-
-$(NAME): $(OBJ)
-	@$(COM) $(OBJ) -o $(NAME)
-	@printf "$(GREEN)----$(NAME) Compiled!----$(RST)\n"
+42D		= "------------------------------------------"
 
 %.o: %.cpp
 	@$(COM) $(FLAGS) -c $< -o $(<:.cpp=.o)
 
+$(NAME): $(OBJ)
+	@$(COM) $(OBJ) -o $(NAME)
+	@printf "$(GREEN)$(42D)\n$(NAME) Compiled!\n$(42D)$(RST)\n"
+
+all: $(NAME)
+
 clean:
 	@rm -f $(OBJ)
-	@printf "$(RED)----Deleting o-files!----$(RST)\n"
+	@printf "$(RED)$(42D)\nDeleting o-files!\n$(42D)$(RST)\n"
 
-fclean: clean
-	@rm -f $(NAME)
-	@printf "$(RED)----Deleting o-files & $(NAME) file----$(RST)\n"
+fclean: update_makefile
+	@rm -f $(OBJ) $(NAME)
+	@printf "$(RED)$(42D)\nDeleting o-files & $(NAME) file\n$(42D)$(RST)\n"
 
 re: fclean all
+
+update_makefile:
+	@sed '8d' Makefile > Makefile.tmp
+	@awk 'NR==7{print $$0 "\nSRC\t\t= $(TMP_SRC)"; next}1' Makefile.tmp > Makefile
+	@rm Makefile.tmp
+
+# norminette:
+# 	@norminette $(SRC)
 
 party:
 	@curl parrot.live
 
-.PHONY: all clean fclean re party
+.PHONY: all clean fclean re update_makefile party
