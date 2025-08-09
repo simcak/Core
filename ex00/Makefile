@@ -2,10 +2,10 @@ NAME	= Bureaucrat
 COM		= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
-DIR		= .
+DIR		= ./src
 TMP_SRC	= $(shell find $(DIR) -iname "*.cpp")
 
-SRC		= ./Bureaucrat.cpp ./main.cpp
+SRC		= ./src/Bureaucrat.cpp ./src/main.cpp
 OBJ		= $(SRC:%.cpp=%.o)
 
 RED		= \033[31m

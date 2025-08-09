@@ -6,13 +6,13 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:39:25 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/07 14:13:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/09 18:38:02 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
+#include "../inc/Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat() : _name("Unnamed Bureaucrat"), _grade(GRADE_MIN) {}
+Bureaucrat::Bureaucrat() : _name(""), _grade(GRADE_MIN) {}
 
 Bureaucrat::Bureaucrat(std::string const &name, unsigned int grade)
 : _name(name) {
@@ -39,11 +39,11 @@ Bureaucrat::~Bureaucrat() {
 	std::cout << BR "Bureaucrat destructor called" RST << std::endl;
 }
 
-const std::string &Bureaucrat::getName(void) const {
+const std::string &Bureaucrat::getName() const {
 	return _name;
 }
 
-unsigned int Bureaucrat::getGrade(void) const {
+unsigned int Bureaucrat::getGrade() const {
 	return _grade;
 }
 

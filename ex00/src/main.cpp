@@ -6,11 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:39:29 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/09 17:51:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/09 18:19:11 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
+#include "../inc/Bureaucrat.hpp"
 
 /**
  * @brief Main function == testing function.
@@ -45,9 +45,9 @@ int main() {
 	std::endl;
 
 	grade = 1;
-	std::cout << "grade = " << grade << std::endl;
 	try {
-		Bureaucrat NonameX("Elon", grade);
+		Bureaucrat NonameX("Steve", grade);
+		std::cout << NonameX << std::endl;
 		NonameX.decrementGrade();
 		NonameX.incrementGrade();
 		NonameX.incrementGrade();
@@ -58,9 +58,9 @@ int main() {
 	std::cout << "------------------------" << std::endl;
 
 	grade = 150;
-	std::cout << "grade = " << grade << std::endl;
 	try {
-		Bureaucrat NonameY("Eltron", grade);
+		Bureaucrat NonameY("Eragon", grade);
+		std::cout << NonameY << std::endl;
 		NonameY.decrementGrade();
 	} catch (std::exception &e) {
 		std::cout << e.what() << std::endl;
