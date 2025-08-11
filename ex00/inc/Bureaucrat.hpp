@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:44:49 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/08 14:51:56 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/11 13:59:43 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@
 #define GRADE_MAX 1
 #define GRADE_MIN 150
 
-#define BR	"\033[1;31m"
-#define BG	"\033[1;32m"
-#define BY	"\033[1;33m"
-#define RST	"\033[0m"
+#define BR		"\033[1;31m"
+#define BG		"\033[1;32m"
+#define BY		"\033[1;33m"
+#define RST		"\033[0m"
+#define BRERR	"\033[1;31mError: \033[0m"
 
 class Bureaucrat {
 	private:
@@ -37,9 +38,9 @@ class Bureaucrat {
 		// Constructor with parameters
 		Bureaucrat(const std::string &name, unsigned int grade);
 		// Copy constructor
-		Bureaucrat(const Bureaucrat &src);
+		Bureaucrat(const Bureaucrat &other);
 		// Assignation operator
-		Bureaucrat &operator=(const Bureaucrat &src);
+		Bureaucrat &operator=(const Bureaucrat &other);
 		// Destructor
 		~Bureaucrat();
 

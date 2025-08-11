@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:39:29 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/09 18:19:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/11 14:55:47 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,29 @@
  * @brief Main function == testing function.
  */
 int main() {
+	// Testing the Orthodox Canonical Form
+	std::cout <<
+		BY "==============Orthodox Canonical Form Tests==============" RST <<
+	std::endl;
+
+	try {
+		Bureaucrat EmptyBure;
+		Bureaucrat FilledBure("Fill", 42);
+		Bureaucrat CopyEmptyBure(EmptyBure);
+		Bureaucrat CopyFilledBure(FilledBure);
+
+		std::cout << EmptyBure << std::endl;
+		std::cout << FilledBure << std::endl;
+		std::cout << CopyEmptyBure << std::endl;
+		std::cout << CopyFilledBure << std::endl;
+
+		FilledBure = EmptyBure;
+		std::cout << "\n" << FilledBure << std::endl;
+	}
+	catch(const std::exception& e) {
+		std::cerr << BRERR << e.what() << '\n';
+	}
+
 	// Start testing with wrong grates, than wrong movement of grates, than ok
 	std::cout <<
 		BY "===============Initiate with a wrong grades==============" RST <<
@@ -26,7 +49,7 @@ int main() {
 	try {
 		Bureaucrat Josef("Pepik", grade);
 	} catch (std::exception &e) {
-		std::cout << e.what() << std::endl;
+		std::cerr << BRERR << e.what() << std::endl;
 	}
 
 	std::cout << "------------------------" << std::endl;
@@ -36,7 +59,7 @@ int main() {
 	try {
 		Bureaucrat Joza("Pepicek", grade);
 	} catch (std::exception &e) {
-		std::cout << e.what() << std::endl;
+		std::cerr << BRERR << e.what() << std::endl;
 	}
 
 	// Initiate with a correct grade and perform wrong increment or decrement
@@ -46,24 +69,24 @@ int main() {
 
 	grade = 1;
 	try {
-		Bureaucrat NonameX("Steve", grade);
-		std::cout << NonameX << std::endl;
-		NonameX.decrementGrade();
-		NonameX.incrementGrade();
-		NonameX.incrementGrade();
+		Bureaucrat BureX("Steve", grade);
+		std::cout << BureX << std::endl;
+		BureX.decrementGrade();
+		BureX.incrementGrade();
+		BureX.incrementGrade();
 	} catch (std::exception &e) {
-		std::cout << e.what() << std::endl;
+		std::cerr << BRERR << e.what() << std::endl;
 	}
 
 	std::cout << "------------------------" << std::endl;
 
 	grade = 150;
 	try {
-		Bureaucrat NonameY("Eragon", grade);
-		std::cout << NonameY << std::endl;
-		NonameY.decrementGrade();
+		Bureaucrat BureY("Eragon", grade);
+		std::cout << BureY << std::endl;
+		BureY.decrementGrade();
 	} catch (std::exception &e) {
-		std::cout << e.what() << std::endl;
+		std::cerr << BRERR << e.what() << std::endl;
 	}
 
 	// Testing of well working apparat. It will end with destructors.
@@ -92,6 +115,6 @@ int main() {
 		Bureaucrat NamedY(NamedX);
 		std::cout << "I am NamedY a copy of NamedX: " << NamedY << std::endl;
 	} catch (std::exception &e) {
-		std::cout << e.what() << std::endl;
+		std::cerr << BRERR << e.what() << std::endl;
 	}
 }
