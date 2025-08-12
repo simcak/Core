@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:36:31 by psimcak           #+#    #+#             */
-/*   Updated: 2023/11/24 15:18:11 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:07:25 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	ft_key_handler(int keysym, t_fractol *fractal)
 	if (keysym == XK_Escape)
 		ft_destroyer(fractal);
 	else if (keysym == XK_Left)
-		fractal->shift_re += 0.2 * fractal->zoom;
-	else if (keysym == XK_Right)
 		fractal->shift_re -= 0.2 * fractal->zoom;
+	else if (keysym == XK_Right)
+		fractal->shift_re += 0.2 * fractal->zoom;
 	else if (keysym == XK_Up)
-		fractal->shift_im -= 0.2 * fractal->zoom;
-	else if (keysym == XK_Down)
 		fractal->shift_im += 0.2 * fractal->zoom;
+	else if (keysym == XK_Down)
+		fractal->shift_im -= 0.2 * fractal->zoom;
 	else if (keysym == XK_plus || keysym == 65451)
 		fractal->iteration_threshold += 10;
 	else if (keysym == XK_minus || keysym == 65453)
@@ -46,7 +46,7 @@ int	ft_button_handler(int button, int x, int y, t_fractol *fractal)
 	if (button == Button4)
 		fractal->zoom *= 0.95;
 	else if (button == Button5)
-		fractal->zoom += 0.5;
+		fractal->zoom *= 1.05;
 	fractal_render(fractal);
 	return (0);
 }
