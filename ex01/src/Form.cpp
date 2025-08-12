@@ -1,0 +1,81 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Form.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/11 15:01:44 by psimcak           #+#    #+#             */
+/*   Updated: 2025/08/12 17:19:59 by psimcak          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/Form.hpp"
+
+/***************************Orthodox Canonical Form****************************/
+Form::Form() : _name("FormX"), _is_signed(false), _sign_grade(42), _execute_grade(24) {}
+
+Form::Form(const std::string &name, const int sg, const int eg) :
+	_name(name), _is_signed(false), _sign_grade(sg), _execute_grade(eg) {
+	checkGrade(sg);
+	checkGrade(eg);
+}
+
+Form::Form(const Form &other) :
+	_name(other._name), _is_signed(other._is_signed),
+	_sign_grade(other._sign_grade), _execute_grade(other._execute_grade) {}
+
+Form&	Form::operator=(const Form &other) {
+	if (this != &other)
+		_is_signed = other._is_signed;
+	return *this;
+}
+
+Form::~Form() {
+	std::cout << BR << "Form Destructor called" << RST << std::endl;
+}
+
+/***********************************getters************************************/
+const std::string	&Form::getName() const { return _name; }
+
+bool	Form::getSignStatus() const { return _is_signed; }
+
+const int	Form::getSignGrade() const { return _sign_grade; }
+
+const int	Form::getExecuteGrade() const { return _execute_grade; }
+
+/*******************************member functions*******************************/
+void	Form::checkGrade(const int grade) const {
+	if (grade > GRADE_MIN)
+		throw Form::GradeTooLowException();
+	else if (grade < GRADE_MAX)
+		throw Form::GradeTooHighException();
+}
+
+void	Form::beSigned(Bureaucrat &bure) {
+	if (bure.getGrade() > static_cast<unsigned int>(getSignGrade())) {
+		std::cout << bure.getName() << " couldn't sign " << getName() << " because ";
+		throw Form::GradeTooLowException();
+	}
+	std::cout << bure.getName() << " signed " << getName() << std::endl;
+	_is_signed = true;
+}
+
+/**********************************exceptions**********************************/
+const char*	Form::GradeTooLowException::what() const throw() {
+	return BR "GradeTooLow" RST;
+}
+
+const char*	Form::GradeTooHighException::what() const throw() {
+	return BR "GradeTooHigh" RST;
+}
+
+/***********************************overload***********************************/
+std::ostream&	operator<<(std::ostream &osm, const Form &form)
+{
+	osm << "Form Name:\t" << form.getName()
+		<< "Is signed:\t" << form.getSignStatus()
+		<< "Sign Grade:\t" << form.getSignGrade()
+		<< "Execute Grade: \t" << form.getExecuteGrade();
+	return osm;
+}
