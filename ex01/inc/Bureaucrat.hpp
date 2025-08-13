@@ -6,12 +6,14 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:44:49 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/11 17:21:00 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/13 16:59:17 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
+
+#include "Colors.hpp"
 
 #include <iostream>
 #include <string>
@@ -20,11 +22,7 @@
 #define GRADE_MAX 1
 #define GRADE_MIN 150
 
-#define BR		"\033[1;31m"
-#define BG		"\033[1;32m"
-#define BY		"\033[1;33m"
-#define RST		"\033[0m"
-#define BRERR	"\033[1;31mError: \033[0m"
+class Form;
 
 class Bureaucrat {
 	private:
@@ -49,7 +47,7 @@ class Bureaucrat {
 		unsigned int		getGrade() const;
 		void				incrementGrade();
 		void				decrementGrade();
-		void				signForm();
+		void				signForm(Form &);
 
 		/* ********** Exception Classes ********** */
 		// too high

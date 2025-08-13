@@ -6,11 +6,12 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:01:44 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/12 17:19:59 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/13 17:01:44 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Form.hpp"
+#include "../inc/Bureaucrat.hpp"
 
 /***************************Orthodox Canonical Form****************************/
 Form::Form() : _name("FormX"), _is_signed(false), _sign_grade(42), _execute_grade(24) {}
@@ -36,13 +37,10 @@ Form::~Form() {
 }
 
 /***********************************getters************************************/
-const std::string	&Form::getName() const { return _name; }
-
-bool	Form::getSignStatus() const { return _is_signed; }
-
-const int	Form::getSignGrade() const { return _sign_grade; }
-
-const int	Form::getExecuteGrade() const { return _execute_grade; }
+const std::string&	Form::getName() const { return _name; }
+bool				Form::getSignStatus() const { return _is_signed; }
+unsigned int		Form::getSignGrade() const { return _sign_grade; }
+unsigned int		Form::getExecuteGrade() const { return _execute_grade; }
 
 /*******************************member functions*******************************/
 void	Form::checkGrade(const int grade) const {
@@ -53,8 +51,7 @@ void	Form::checkGrade(const int grade) const {
 }
 
 void	Form::beSigned(Bureaucrat &bure) {
-	if (bure.getGrade() > static_cast<unsigned int>(getSignGrade())) {
-		std::cout << bure.getName() << " couldn't sign " << getName() << " because ";
+	if (bure.getGrade() > getSignGrade()) {
 		throw Form::GradeTooLowException();
 	}
 	std::cout << bure.getName() << " signed " << getName() << std::endl;
@@ -63,11 +60,11 @@ void	Form::beSigned(Bureaucrat &bure) {
 
 /**********************************exceptions**********************************/
 const char*	Form::GradeTooLowException::what() const throw() {
-	return BR "GradeTooLow" RST;
+	return "Form-GradeTooLow";
 }
 
 const char*	Form::GradeTooHighException::what() const throw() {
-	return BR "GradeTooHigh" RST;
+	return "Form-GradeTooHigh";
 }
 
 /***********************************overload***********************************/
