@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:01:44 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/13 17:01:44 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/13 18:56:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ Form::Form(const std::string &name, const int sg, const int eg) :
 }
 
 Form::Form(const Form &other) :
-	_name(other._name), _is_signed(other._is_signed),
+	_name(other._name), _is_signed(other.getSignStatus()),
 	_sign_grade(other._sign_grade), _execute_grade(other._execute_grade) {}
 
 Form&	Form::operator=(const Form &other) {
 	if (this != &other)
-		_is_signed = other._is_signed;
+		_is_signed = other.getSignStatus();
 	return *this;
 }
 
@@ -71,8 +71,8 @@ const char*	Form::GradeTooHighException::what() const throw() {
 std::ostream&	operator<<(std::ostream &osm, const Form &form)
 {
 	osm << "Form Name:\t" << form.getName()
-		<< "Is signed:\t" << form.getSignStatus()
-		<< "Sign Grade:\t" << form.getSignGrade()
-		<< "Execute Grade: \t" << form.getExecuteGrade();
+		<< "\nIs signed:\t" << form.getSignStatus()
+		<< "\nSign Grade:\t" << form.getSignGrade()
+		<< "\nExecute Grade: \t" << form.getExecuteGrade();
 	return osm;
 }

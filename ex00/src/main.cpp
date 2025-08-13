@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:39:29 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/11 14:55:47 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/13 15:56:17 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int main() {
 		std::cout << "\n" << FilledBure << std::endl;
 	}
 	catch(const std::exception& e) {
-		std::cerr << BRERR << e.what() << '\n';
+		std::cout << BRERR << e.what() << '\n';
 	}
 
 	// Start testing with wrong grates, than wrong movement of grates, than ok
@@ -49,7 +49,7 @@ int main() {
 	try {
 		Bureaucrat Josef("Pepik", grade);
 	} catch (std::exception &e) {
-		std::cerr << BRERR << e.what() << std::endl;
+		std::cout << BRERR << e.what() << std::endl;
 	}
 
 	std::cout << "------------------------" << std::endl;
@@ -59,7 +59,7 @@ int main() {
 	try {
 		Bureaucrat Joza("Pepicek", grade);
 	} catch (std::exception &e) {
-		std::cerr << BRERR << e.what() << std::endl;
+		std::cout << BRERR << e.what() << std::endl;
 	}
 
 	// Initiate with a correct grade and perform wrong increment or decrement
@@ -75,7 +75,7 @@ int main() {
 		BureX.incrementGrade();
 		BureX.incrementGrade();
 	} catch (std::exception &e) {
-		std::cerr << BRERR << e.what() << std::endl;
+		std::cout << BRERR << e.what() << std::endl;
 	}
 
 	std::cout << "------------------------" << std::endl;
@@ -86,7 +86,7 @@ int main() {
 		std::cout << BureY << std::endl;
 		BureY.decrementGrade();
 	} catch (std::exception &e) {
-		std::cerr << BRERR << e.what() << std::endl;
+		std::cout << BRERR << e.what() << std::endl;
 	}
 
 	// Testing of well working apparat. It will end with destructors.
@@ -115,6 +115,6 @@ int main() {
 		Bureaucrat NamedY(NamedX);
 		std::cout << "I am NamedY a copy of NamedX: " << NamedY << std::endl;
 	} catch (std::exception &e) {
-		std::cerr << BRERR << e.what() << std::endl;
+		std::cout << BRERR << e.what() << std::endl;
 	}
 }

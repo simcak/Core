@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:39:29 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/13 17:31:55 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/13 19:47:25 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int main() {
 		Bureaucrat b1("Bureaucrat1", 50);
 		Bureaucrat b2("Bureaucrat2", 100);
 		Bureaucrat b3(b1); // Copy constructor
-		Bureaucrat b4 = b2; // Copy assignment operator
+		Bureaucrat b4("Mark", 42);
+		b4 = b2; // Copy assignment operator
 
 		std::cout << "Bureaucrat 0: " << b0.getName() << ", Grade: " << b0.getGrade() << std::endl;
 		std::cout << "Bureaucrat 1: " << b1.getName() << ", Grade: " << b1.getGrade() << std::endl;
@@ -50,10 +51,9 @@ int main() {
 		Form f0; // Default constructor
 		Form f1("Form1", 50, 30);
 		Form f2("Form2", 100, 80);
-		Bureaucrat b0("Bureaucrat0", 50); // Bureaucrat to sign the form
-		b0.signForm(f1); // Should succeed
 		Form f3(f1); // Copy constructor
-		Form f4 = f2; // Copy assignment operator
+		Form f4("TopSecret", 2, 1);
+		f4 = f2; // Copy assignment operator
 
 		std::cout << "Form 0: " << f0.getName() << ", Sign Grade: " << f0.getSignGrade()
 				  << ", Execute Grade: " << f0.getExecuteGrade() << " is signed: " << f0.getSignStatus() << std::endl;
@@ -73,11 +73,50 @@ int main() {
 		BY "===============Initiate with a wrong grades==============" RST <<
 	std::endl;
 
-	std::cout <<
-		BY "===========Perform with wrong (in/de)crement=============" RST <<
-	std::endl;
+	try {
+		Bureaucrat b0("Marvin0", 0);
+		Bureaucrat b1("Marvin1", 151);
+	} catch (const std::exception &e) {
+		std::cout << BREXC << e.what() << std::endl;
+	}
+	try {
+		Form f0("Form0", 0, 30);
+		Form f1("Form1", 30, 0);
+		Form f2("Form2", 151, 30);
+		Form f3("Form3", 30, 151);
+	} catch (const std::exception &e) {
+		std::cout << BREXC << e.what() << std::endl;
+	}
 
 	std::cout <<
 		BY "==================Should work just fine==================" RST <<
 	std::endl;
+
+	try {
+		Bureaucrat b0("Marvin0", 50);
+		Bureaucrat b1("Marvin1", 51);
+
+		Form f0("Form0", 50, 30);
+		Form f1("Form1", 50, 30);
+
+		b0.signForm(f0); // Should succeed
+		std::cout << BB << b0 << B"\n" << f0 << RST << std::endl;
+		b1.signForm(f1); // Should throw GradeTooLowException
+		std::cout << BB << b1 << B"\n" << f1 << RST << std::endl;
+		
+		b0.decrementGrade();
+		b1.incrementGrade();
+		
+		b0.signForm(f0);
+		std::cout << BB << b0 << B"\n" << f0 << RST << std::endl;
+		b1.signForm(f1); // Should succeed now
+		std::cout << BB << b1 << B"\n" << f1 << RST << std::endl;
+
+		Form f2("Form2", 100, 80);
+		std::cout << "New Form\n" << B << f2 << RST << std::endl;
+		f2 = f1;
+		std::cout << "f2 = f1\n" << B << f2 << RST << std::endl;
+	} catch (const std::exception &e) {
+		std::cout << BREXC << e.what() << std::endl;
+	}
 }
