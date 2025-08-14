@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:45:05 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/14 16:19:20 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/14 16:56:50 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,17 @@ class PresidentialPardonForm
 		const int	_execute_grade;
 
 	public:
+		/************************Orthodox Canonical Form***********************/
 		PresidentialPardonForm();
 		PresidentialPardonForm(const int, const int);
 		PresidentialPardonForm(const PresidentialPardonForm &);
 		PresidentialPardonForm &operator=(const PresidentialPardonForm &);
 		~PresidentialPardonForm();
+		/********************************getters*******************************/
+
+		/****************************member function***************************/
+		/******************************exceptions******************************/
+		/**********************************************************************/
 };
 
 #endif

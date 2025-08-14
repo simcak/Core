@@ -6,21 +6,18 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:44:49 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/14 15:39:28 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/14 16:45:17 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 
-#include "Colors.hpp"
+#include "Macros.hpp"
 
 #include <iostream>
 #include <string>
 #include <exception>
-
-#define GRADE_MAX	1
-#define GRADE_MIN	150
 
 class AForm;
 

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:01:44 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/14 15:41:24 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/14 16:35:36 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 /***************************Orthodox Canonical Form****************************/
 AForm::AForm() : _name("aFormX"), _is_signed(false), _sign_grade(42), _execute_grade(24) {}
 
-AForm::AForm(const std::string &name, const int sg, const int eg) :
-	_name(name), _is_signed(false), _sign_grade(sg), _execute_grade(eg) {
+AForm::AForm(const std::string &name, const int sg, const int eg)
+	: _name(name), _is_signed(false), _sign_grade(sg), _execute_grade(eg) {
 	checkGrade(sg);
 	checkGrade(eg);
 }
 
-AForm::AForm(const AForm &other) :
-	_name(other._name), _is_signed(other.getSignStatus()),
-	_sign_grade(other._sign_grade), _execute_grade(other._execute_grade) {}
+AForm::AForm(const AForm &other)
+	: _name(other.getName()), _is_signed(other.getSignStatus()),
+	_sign_grade(other.getSignGrade()), _execute_grade(other.getExecuteGrade()) {}
 
 AForm&	AForm::operator=(const AForm &other) {
 	if (this != &other)
