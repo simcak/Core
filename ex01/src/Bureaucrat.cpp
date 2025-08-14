@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:39:25 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/13 17:06:58 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/14 12:16:51 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 /***************************Orthodox Canonical Form****************************/
 Bureaucrat::Bureaucrat() : _name("X"), _grade(GRADE_MIN) {}
 
-Bureaucrat::Bureaucrat(const std::string &name, unsigned int grade)
-	: _name(name)
-{
+Bureaucrat::Bureaucrat(const std::string &name, unsigned int grade) : _name(name) {
 	if (grade < GRADE_MAX)
 		throw Bureaucrat::GradeTooHighException();
 	if (grade > GRADE_MIN)

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:01:44 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/13 18:56:27 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/14 11:49:53 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ const char*	Form::GradeTooHighException::what() const throw() {
 }
 
 /***********************************overload***********************************/
-std::ostream&	operator<<(std::ostream &osm, const Form &form)
-{
+std::ostream&	operator<<(std::ostream &osm, const Form &form) {
 	osm << "Form Name:\t" << form.getName()
 		<< "\nIs signed:\t" << form.getSignStatus()
 		<< "\nSign Grade:\t" << form.getSignGrade()

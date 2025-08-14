@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:44:49 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/13 16:59:17 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/14 11:50:47 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 #include <string>
 #include <exception>
 
-#define GRADE_MAX 1
-#define GRADE_MIN 150
+#define GRADE_MAX	1
+#define GRADE_MIN	150
 
 class Form;
 
