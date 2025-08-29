@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:01:44 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/14 11:49:53 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/14 16:34:04 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ Form::Form(const std::string &name, const int sg, const int eg) :
 }
 
 Form::Form(const Form &other) :
-	_name(other._name), _is_signed(other.getSignStatus()),
-	_sign_grade(other._sign_grade), _execute_grade(other._execute_grade) {}
+	_name(other.getName()), _is_signed(other.getSignStatus()),
+	_sign_grade(other.getSignGrade()), _execute_grade(other.getExecuteGrade()) {}
 
 Form&	Form::operator=(const Form &other) {
 	if (this != &other)
