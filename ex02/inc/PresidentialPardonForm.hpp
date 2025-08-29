@@ -6,14 +6,14 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:45:05 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/14 16:56:50 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/29 14:59:28 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRESIDENTIAL_PARDON_FORM_HPP
 # define PRESIDENTIAL_PARDON_FORM_HPP
 
-#include "Colors.hpp"
+#include "Macros.hpp"
 
 class PresidentialPardonForm
 {

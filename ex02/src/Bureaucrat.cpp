@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:39:25 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/14 15:39:24 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/29 17:25:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ Bureaucrat::Bureaucrat(const std::string &name, unsigned int grade) : _name(name
 }
 
 Bureaucrat::Bureaucrat(const Bureaucrat &other)
-	: _name(other.getName()), _grade(other.getGrade()) {}
+	: _name(other._name), _grade(other._grade) {}
 
 Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other) {
 	if (this != &other)

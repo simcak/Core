@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:44:49 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/14 16:45:17 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/29 15:36:32 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ class Bureaucrat {
 		unsigned int		_grade;
 
 	public:
-		/* ******* Orthodox Canonical Form ******* */
+		/***********************Orthodox Canonical Form************************/
 		// Default constructor
 		Bureaucrat();
 		// Constructor with parameters
@@ -39,20 +39,20 @@ class Bureaucrat {
 		// Destructor
 		~Bureaucrat();
 
-		/* ************** Functions ************** */
+		/********************************getters*******************************/
 		const std::string	&getName() const;
 		unsigned int		getGrade() const;
+
+		/****************************member function***************************/
 		void				incrementGrade();
 		void				decrementGrade();
 		void				signForm(AForm &);
 
-		/* ********** Exception Classes ********** */
-		// too high
+		/******************************exceptions******************************/
 		class GradeTooHighException : public std::exception {
 			public:
 				virtual const char *what() const throw();
 		};
-		// too low
 		class GradeTooLowException : public std::exception {
 			public:
 				virtual const char *what() const throw();

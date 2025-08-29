@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:01:44 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/14 16:35:36 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/29 17:01:16 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ AForm::AForm() : _name("aFormX"), _is_signed(false), _sign_grade(42), _execute_g
 
 AForm::AForm(const std::string &name, const int sg, const int eg)
 	: _name(name), _is_signed(false), _sign_grade(sg), _execute_grade(eg) {
-	checkGrade(sg);
-	checkGrade(eg);
+		checkGrade(sg);
+		checkGrade(eg);
 }
 
 AForm::AForm(const AForm &other)
@@ -69,8 +69,10 @@ const char*	AForm::GradeTooHighException::what() const throw() {
 
 /***********************************overload***********************************/
 std::ostream&	operator<<(std::ostream &osm, const AForm &aForm) {
+	std::string status = aForm.getSignStatus() ? (BG "true" B) : (BR "false" B);
+
 	osm << "AForm Name:\t" << aForm.getName()
-		<< "\nIs signed:\t" << aForm.getSignStatus()
+		<< "\nIs signed:\t" << status
 		<< "\nSign Grade:\t" << aForm.getSignGrade()
 		<< "\nExecute Grade: \t" << aForm.getExecuteGrade();
 	return osm;
