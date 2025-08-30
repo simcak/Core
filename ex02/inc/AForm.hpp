@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:01:23 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/29 14:40:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/08/30 16:46:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 
 class Bureaucrat;
 
+/**
+ * AForm is Abstract - that is where the 1st char comes from. And thats because
+ * of the PURE VIRTUAL FUNCTION execute().
+ * AForm says: “Every form must have an execute(), but I don’t know how to do it
+ * here.”
+ */
 class AForm
 {
 	private:
@@ -42,8 +48,9 @@ class AForm
 		unsigned int		getSignGrade() const;
 		unsigned int		getExecuteGrade() const;
 		/****************************member function***************************/
-		void	checkGrade(const int) const;
-		void	beSigned(Bureaucrat &);
+		void			checkGrade(const int) const;
+		void			beSigned(Bureaucrat &);
+		virtual void	execute(Bureaucrat const &) const = 0;	// ex02
 		/******************************exceptions******************************/
 		class GradeTooLowException : public std::exception {
 			public:
