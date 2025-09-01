@@ -1,6 +1,6 @@
-# Inception_42
+# Inception 42
 
-This is complete guide of inception project  on this page you gonna learn what is docker container  and what used for and why we need it and also learn how to use docker images and also create your own docker image from scratch.
+This is complete guide of inception project on this page you gonna learn what is docker container and what used for and why we need it and also learn how to use docker images and also create your own docker image from scratch.
 
 ## What are Containers ?
 
@@ -28,18 +28,18 @@ but you can be asking your self why not use virtual machine it might be good ide
 | long time to boot up | quick boot up because it uses the running kernel that you using |
 | Difficult to scale up | super easy to scale |
 | low efficiency | high efficiency |
-| volumes storage cannot be shared across the VM’s  | volumes storage can be shared across the host and the containers |
+| volumes storage cannot be shared across the VM’s | volumes storage can be shared across the host and the containers |
 
-![https://www.docker.com/wp-content/uploads/2021/11/container-what-is-container.png.webp](https://www.docker.com/wp-content/uploads/2021/11/container-what-is-container.png.webp)
+![what-is-container](img/what-is-container.png)
 
 - **Infrastructure** **:** it’s our computer components like our CPU and Hard Disk and other physical components.
-- **Host Operating System :**  Its the OS that our computer is working on like linux or mac os or even windows
+- **Host Operating System :** Its the OS that our computer is working on like linux or mac os or even windows
 - **Docker engine :** this is where the magic happens docker engine is the base engine installed in the host machine to build and run containers using docker components and services, it uses
 - **App :** is the container that is running in isolation on the other containers
 
 # Let’s go deeper on how Docker Engine works in details.
 
-![Screen Shot 2022-11-24 at 8.29.31 PM.png](Inception_42/Screen_Shot_2022-11-24_at_8.29.31_PM.png)
+![docker-engine](img/docker-engine.png)
 
 The Docker engine is the core component of Docker. It is a lightweight runtime and packaging tool that bundles your application and its dependencies into a single package, called a container. The Docker engine includes the Docker daemon, which is a background process that manages Docker containers, and the Docker client, which is a command-line tool that allows you to interact with the Docker daemon.
 
@@ -94,7 +94,7 @@ Using Docker Compose can simplify the process of managing multi-container applic
 
 ## Here is a simple example of a Docker Compose file
 
-![Screen Shot 2023-01-02 at 4.26.37 PM.png](Inception_42/Screen_Shot_2023-01-02_at_4.26.37_PM.png)
+![Docker Compose file](img/docker-compose-file.png)
 
 ## What are the most common commands are used in docker-compose ?
 
