@@ -2,6 +2,20 @@
 
 This is complete guide of inception project on this page you gonna learn what is docker container and what used for and why we need it and also learn how to use docker images and also create your own docker image from scratch.
 
+## Resources
+```
+"This subject requires putting into practice concepts that, depending on your background, you may not have learned yet. Therefore, we advise you to read extensive documentation related to Docker usage, as well as any other resources you find helpful to complete this assignment."
+```
+---
+- [What is Docker ?](https://www.docker.com/resources/what-container)
+- [Docker Documentation](https://docs.docker.com/)
+---
+- [YT - The intro to Docker I wish I had when I started](https://www.youtube.com/watch?v=Ud7Npgi6x8E&t=290s)
+---
+- [Medium - Inception Part 1](https://medium.com/@ssterdev/inception-guide-42-project-part-i-7e3af15eb671)
+- [Medium - Inception Part 2](https://medium.com/@ssterdev/inception-42-project-part-ii-19a06962cf3b)
+---
+
 ## What are Containers ?
 
 Containers are an abstraction at the app layer that packages code and dependencies together. Multiple containers can run on the same machine and share the OS kernel with other containers, each running as isolated processes in user space. Containers take up less space than VMs (container images are typically tens of MBs in size), can handle more applications and require fewer VMs and Operating systems.
@@ -30,7 +44,7 @@ but you can be asking your self why not use virtual machine it might be good ide
 | low efficiency | high efficiency |
 | volumes storage cannot be shared across the VM’s | volumes storage can be shared across the host and the containers |
 
-![what-is-container](img/what-is-container.png)
+![what-is-container](readme-img/what-is-container.png)
 
 - **Infrastructure** **:** it’s our computer components like our CPU and Hard Disk and other physical components.
 - **Host Operating System :** Its the OS that our computer is working on like linux or mac os or even windows
@@ -39,7 +53,7 @@ but you can be asking your self why not use virtual machine it might be good ide
 
 # Let’s go deeper on how Docker Engine works in details.
 
-![docker-engine](img/docker-engine.png)
+![docker-engine](readme-img/docker-engine.png)
 
 The Docker engine is the core component of Docker. It is a lightweight runtime and packaging tool that bundles your application and its dependencies into a single package, called a container. The Docker engine includes the Docker daemon, which is a background process that manages Docker containers, and the Docker client, which is a command-line tool that allows you to interact with the Docker daemon.
 
@@ -94,7 +108,7 @@ Using Docker Compose can simplify the process of managing multi-container applic
 
 ## Here is a simple example of a Docker Compose file
 
-![Docker Compose file](img/docker-compose-file.png)
+![Docker Compose file](readme-img/docker-compose-file.png)
 
 ## What are the most common commands are used in docker-compose ?
 
