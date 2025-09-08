@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:45:05 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/29 14:59:28 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/08 13:38:42 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,30 @@
 # define PRESIDENTIAL_PARDON_FORM_HPP
 
 #include "Macros.hpp"
+#include "AForm.hpp"
 
-class PresidentialPardonForm
+#include <string>
+// #include <iostream>
+
+class PresidentialPardonForm : public AForm
 {
 	private:
-		const int	_sign_grade;
-		const int	_execute_grade;
+		const std::string	_target;
 
 	public:
 		/************************Orthodox Canonical Form***********************/
 		PresidentialPardonForm();
-		PresidentialPardonForm(const int, const int);
+		PresidentialPardonForm(std::string);
 		PresidentialPardonForm(const PresidentialPardonForm &);
 		PresidentialPardonForm &operator=(const PresidentialPardonForm &);
 		~PresidentialPardonForm();
+
 		/********************************getters*******************************/
+		const std::string		&getTarget() const;
 
 		/****************************member function***************************/
-		/******************************exceptions******************************/
+		void	execute(const Bureaucrat& executor) const; // overriden AForm
+
 		/**********************************************************************/
 };
 

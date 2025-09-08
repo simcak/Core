@@ -6,12 +6,11 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:01:44 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/30 16:21:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/08 13:52:49 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/AForm.hpp"
-#include "../inc/Bureaucrat.hpp"
 
 /***************************Orthodox Canonical Form****************************/
 AForm::AForm() : _name("aFormX"), _is_signed(false), _sign_grade(42), _execute_grade(24) {}
@@ -65,6 +64,10 @@ const char*	AForm::GradeTooLowException::what() const throw() {
 
 const char*	AForm::GradeTooHighException::what() const throw() {
 	return "AForm-GradeTooHigh";
+}
+
+const char*	AForm::NotSignedException::what() const throw() {
+	return "AForm is not signed";
 }
 
 /***********************************overload***********************************/

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:44:49 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/30 13:36:06 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/08 12:30:25 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,10 @@ class Bureaucrat {
 
 	public:
 		/***********************Orthodox Canonical Form************************/
-		// Default constructor
 		Bureaucrat();
-		// Constructor with parameters
 		Bureaucrat(const std::string &, unsigned int);
-		// Copy constructor
 		Bureaucrat(const Bureaucrat &other);
-		// Assignation operator
 		Bureaucrat &operator=(const Bureaucrat &);
-		// Destructor
 		~Bureaucrat();
 
 		/********************************getters*******************************/

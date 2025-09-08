@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:01:23 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/30 16:46:58 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/08 13:52:10 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define AFORM_HPP
 
 #include "Macros.hpp"
+#include "Bureaucrat.hpp"
 
 #include <iostream>
 #include <string>
@@ -41,7 +42,7 @@ class AForm
 		AForm(const std::string &, const int, const int);
 		AForm(const AForm &);
 		AForm &operator=(const AForm &);
-		~AForm();
+		virtual	~AForm();
 		/********************************getters*******************************/
 		const std::string	&getName() const;
 		bool				getSignStatus() const;
@@ -50,13 +51,17 @@ class AForm
 		/****************************member function***************************/
 		void			checkGrade(const int) const;
 		void			beSigned(Bureaucrat &);
-		virtual void	execute(Bureaucrat const &) const = 0;	// ex02
+		virtual void	execute(const Bureaucrat &) const = 0;
 		/******************************exceptions******************************/
 		class GradeTooLowException : public std::exception {
 			public:
 				virtual const char *what() const throw();
 		};
 		class GradeTooHighException : public std::exception {
+			public:
+				virtual const char *what() const throw();
+		};
+		class NotSignedException : public std::exception {
 			public:
 				virtual const char *what() const throw();
 		};
