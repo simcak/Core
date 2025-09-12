@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:45:02 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/08 13:59:07 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/12 17:40:33 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 /***************************Orthodox Canonical Form****************************/
 PresidentialPardonForm::PresidentialPardonForm()
-	: AForm("Presidential Pardon Form", 42, 24), _target("default") {}
+	: AForm("Presidential Pardon Form", 25, 5), _target("default") {}
 
 PresidentialPardonForm::PresidentialPardonForm(std::string target)
-	: AForm("Presidential Pardon Form", 42, 24), _target(target) {}
+	: AForm("Presidential Pardon Form", 25, 5), _target(target) {}
 
 PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm &ppf)
 	: AForm(ppf), _target(ppf._target) {}

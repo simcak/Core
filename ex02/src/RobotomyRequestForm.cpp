@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:44:45 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/12 16:24:13 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/12 17:40:58 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 /***************************Orthodox Canonical Form****************************/
 RobotomyRequestForm::RobotomyRequestForm()
-	: AForm("Robotomy Request Form", 77, 55), _target("default") {}
+	: AForm("Robotomy Request Form", 72, 45), _target("default") {}
 
 RobotomyRequestForm::RobotomyRequestForm(const std::string target)
-	: AForm("Robotomy Request Form", 77, 55), _target(target) {}
+	: AForm("Robotomy Request Form", 72, 45), _target(target) {}
 
 RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &original)
 	: AForm(original), _target(original._target) {}

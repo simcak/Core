@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:24 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/08 12:43:05 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/12 18:16:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,9 @@ int main() {
 	std::cout <<
 		BY "==================Should work just fine==================" RST <<
 	std::endl;
+	Bureaucrat frank("Frank", 42);
+	ShrubberyCreationForm f1("fallen");
 
+	frank.signForm(f1);
+	frank.executeForm(f1);
 }

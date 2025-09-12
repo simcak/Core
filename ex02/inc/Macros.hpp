@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:50:22 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/14 16:44:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/12 18:06:37 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #define BB		"\033[1;34m"
 #define RST		"\033[0m"
 #define BREXC	"\033[1;31mException: \033[0m"
+#define	BRERR	"\033[1;31mError: \033[0m"
+
 
 // LIMITS
 #define GRADE_MAX	1
