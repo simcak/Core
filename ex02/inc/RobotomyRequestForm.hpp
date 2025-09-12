@@ -6,34 +6,34 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:44:37 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/29 14:59:19 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/12 15:49:38 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ROBOTOMY_REQUEST_FORM_HPP
 # define ROBOTOMY_REQUEST_FORM_HPP
 
-#include "Macros.hpp"
+#include "AForm.hpp"
 
-class RobotomyRequestForm
+class RobotomyRequestForm : public AForm
 {
 	private:
-		const int	_sign_grade;
-		const int	_execute_grade;
+		const std::string	_target;
 
 	public:
 		/************************Orthodox Canonical Form***********************/
 		RobotomyRequestForm();
-		RobotomyRequestForm(const int, const int);
+		RobotomyRequestForm(const std::string);
 		RobotomyRequestForm(const RobotomyRequestForm &);
 		RobotomyRequestForm &operator=(const RobotomyRequestForm &);
 		~RobotomyRequestForm();
+
 		/********************************getters*******************************/
-		const int	getSignGrade() const;
-		const int	getExecuteGrade() const;
+		const std::string	&getTarget() const;
+
 		/****************************member function***************************/
-		void	checkGrade(const int) const;
-		/******************************exceptions******************************/
+		void	execute(const Bureaucrat& executor) const; // overriden AForm
+
 		/**********************************************************************/
 };
 

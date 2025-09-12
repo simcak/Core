@@ -6,18 +6,14 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:45:05 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/08 13:38:42 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/12 15:49:29 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRESIDENTIAL_PARDON_FORM_HPP
 # define PRESIDENTIAL_PARDON_FORM_HPP
 
-#include "Macros.hpp"
 #include "AForm.hpp"
-
-#include <string>
-// #include <iostream>
 
 class PresidentialPardonForm : public AForm
 {

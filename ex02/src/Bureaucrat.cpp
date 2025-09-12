@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:39:25 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/08 12:37:00 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/12 15:00:15 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,27 @@ unsigned int		Bureaucrat::getGrade() const { return _grade; }
 
 /*******************************member functions*******************************/
 void	Bureaucrat::incrementGrade() {
-	if (getGrade() - 1 < GRADE_MAX)
-		throw Bureaucrat::GradeTooHighException();
-	_grade--;
+	try {
+		if (getGrade() - 1 < GRADE_MAX)
+			throw Bureaucrat::GradeTooHighException();
+		_grade--;
+	}
+	catch(const std::exception& e) {
+		std::cout << BREXC << getName() << "cannot ⬆️ increment because: " <<
+		e.what() << std::endl;
+	}
 }
 
 void	Bureaucrat::decrementGrade() {
-	if (getGrade() + 1 > GRADE_MIN)
-		throw Bureaucrat::GradeTooLowException();
-	_grade++;
+	try {
+		if (getGrade() + 1 > GRADE_MIN)
+			throw Bureaucrat::GradeTooLowException();
+		_grade++;
+	}
+	catch(const std::exception& e) {
+		std::cout << BREXC << getName() << "cannot ⬇️ decrement because: " <<
+		e.what() << std::endl;
+	}
 }
 
 void	Bureaucrat::signForm(AForm &form) {
@@ -59,8 +71,8 @@ void	Bureaucrat::signForm(AForm &form) {
 		form.beSigned(*this);
 	}
 	catch(const std::exception& e) {
-		std::cout << getName() << " couldn't sign " << form.getName() <<
-		" because " << e.what() << std::endl;
+		std::cout << BREXC << getName() << " couldn't ✍️ sign " <<
+		form.getName() << " because " << e.what() << std::endl;
 	}
 }
 
@@ -69,8 +81,8 @@ void	Bureaucrat::executeForm(AForm &form) const {
 		form.execute(*this);
 	}
 	catch(const std::exception& e) {
-		std::cout << getName() << " couldn't execute " << form.getName() <<
-		" because " << e.what() << std::endl;
+		std::cout << BREXC << getName() << " couldn't 🚀 execute " <<
+		form.getName() << " because " << e.what() << std::endl;
 	}
 }
 

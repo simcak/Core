@@ -6,40 +6,35 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:44:06 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/14 16:59:37 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/12 16:09:01 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHRUBBERY_CREATION_FORM_HPP
 # define SHRUBBERY_CREATION_FORM_HPP
 
-#include "Macros.hpp"
-#include <iostream>
-#include <string>
+#include "AForm.hpp"
 
-class ShrubberyCreationForm
+class ShrubberyCreationForm : public AForm
 {
 	private:
-		std::string	_target;
-		const int	_sign_grade;
-		const int	_execute_grade;
+		const std::string	_target;
 
 	public:
 		/************************Orthodox Canonical Form***********************/
 		ShrubberyCreationForm();
-		ShrubberyCreationForm(std::string, const int, const int);
+		ShrubberyCreationForm(const std::string);
 		ShrubberyCreationForm(const ShrubberyCreationForm &);
 		ShrubberyCreationForm &operator=(const ShrubberyCreationForm &);
 		~ShrubberyCreationForm();
+
 		/********************************getters*******************************/
-		const int	getSignGrade() const;
-		const int	getExecuteGrade() const;
+		const std::string	&getTarget() const;
+
 		/****************************member function***************************/
-		void		checkGrade(const int) const;
-		/******************************exceptions******************************/
+		void	execute(const Bureaucrat& executor) const; // everriden AForm
+
 		/**********************************************************************/
 };
-
-std::ostream &operator<<(std::ostream &, const ShrubberyCreationForm &);
 
 #endif
