@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:24 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/15 15:29:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 16:25:22 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,6 @@ int main() {
 	std::cout << pardonForm << std::endl;
 
 	humphrey.executeForm(pardonForm);
+
+	return 0;
 }

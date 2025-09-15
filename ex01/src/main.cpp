@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:39:29 by psimcak           #+#    #+#             */
-/*   Updated: 2025/08/29 17:19:14 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 16:25:32 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,6 @@ int main() {
 	} catch (const std::exception &e) {
 		std::cout << BREXC << e.what() << std::endl;
 	}
+
+	return 0;
 }
