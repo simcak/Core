@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:44:45 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/15 13:48:20 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 14:48:27 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ RobotomyRequestForm::~RobotomyRequestForm() {
 /***********************************getters************************************/
 const std::string&	RobotomyRequestForm::getTarget() const { return _target; }
 
+/*******************************member functions*******************************/
 void	RobotomyRequestForm::makeNoise() const {
 	std::cout << BB;
 	for (int i = 0; i < 10; ++i) {
@@ -46,7 +47,6 @@ void	RobotomyRequestForm::makeNoise() const {
 	std::cout << "\aVrrrrrr... \aBZZZZZZT!!!" RST << std::endl;
 }
 
-/*******************************member functions*******************************/
 void	RobotomyRequestForm::execute(const Bureaucrat& executor) const {
 	if (this->getSignStatus() == false)
 		throw AForm::NotSignedException();
