@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:24 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/12 18:16:27 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:51:26 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 int main() {
 	// Testing the Orthodox Canonical Form
 	std::cout <<
-		BY "==============Orthodox Canonical Form Tests==============" RST <<
+		BY "==============Orthodox Canonical Form Tests===============" RST <<
 	std::endl;
 
 	try {
@@ -48,7 +48,7 @@ int main() {
 	}
 
 	std::cout <<
-		BY "===============Initiate with a wrong grades==============" RST <<
+		BY "===============Initiate with a wrong grades===============" RST <<
 	std::endl;
 
 	try {
@@ -59,11 +59,29 @@ int main() {
 	}
 
 	std::cout <<
-		BY "==================Should work just fine==================" RST <<
+		BY "===========Buro-Playground where we test & play===========" RST <<
 	std::endl;
-	Bureaucrat frank("Frank", 42);
-	ShrubberyCreationForm f1("fallen");
 
-	frank.signForm(f1);
-	frank.executeForm(f1);
+	Bureaucrat frank("Frank", 42);
+	Bureaucrat humphrey("Sir Humphrey Appleby", 1);
+	std::cout << frank << "\n" << humphrey << std::endl;
+
+	std::cout << BY "\n---------ShrubberyCreationForm---------" RST << std::endl;
+	ShrubberyCreationForm treeForm("fallen");
+	
+	frank.signForm(treeForm);
+	frank.executeForm(treeForm);
+	
+	std::cout << BY "\n----------RobotomyRequestForm----------" RST << std::endl;
+	RobotomyRequestForm robotomyForm("Martin");
+	frank.signForm(robotomyForm);
+	frank.executeForm(robotomyForm);
+	
+	std::cout << BY "\n---------PresidentialPardonForm--------" RST << std::endl;
+	PresidentialPardonForm partdonForm("Jack");
+	frank.signForm(partdonForm);
+	frank.executeForm(partdonForm);
+
+	humphrey.signForm(partdonForm);
+	humphrey.executeForm(partdonForm);
 }

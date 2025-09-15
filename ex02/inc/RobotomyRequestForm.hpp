@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:44:37 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/12 15:49:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 12:53:24 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ class RobotomyRequestForm : public AForm
 		const std::string	&getTarget() const;
 
 		/****************************member function***************************/
+		void	makeNoise() const;
 		void	execute(const Bureaucrat& executor) const; // overriden AForm
 
 		/**********************************************************************/

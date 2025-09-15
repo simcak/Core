@@ -6,11 +6,14 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:44:45 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/12 17:40:58 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:48:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/RobotomyRequestForm.hpp"
+#include <cstdlib>
+#include <ctime>
+#include <unistd.h>
 
 /***************************Orthodox Canonical Form****************************/
 RobotomyRequestForm::RobotomyRequestForm()
@@ -34,13 +37,31 @@ RobotomyRequestForm::~RobotomyRequestForm() {
 /***********************************getters************************************/
 const std::string&	RobotomyRequestForm::getTarget() const { return _target; }
 
+void	RobotomyRequestForm::makeNoise() const {
+	std::cout << BB;
+	for (int i = 0; i < 10; ++i) {
+		std::cout << "\aBrrrrr..." << std::flush;
+		usleep(100000); // 100ms
+	}
+	std::cout << "\aVrrrrrr... \aBZZZZZZT!!!" RST << std::endl;
+}
+
 /*******************************member functions*******************************/
 void	RobotomyRequestForm::execute(const Bureaucrat& executor) const {
-	if (getSignStatus() == false)
+	if (this->getSignStatus() == false)
 		throw AForm::NotSignedException();
 	else if (executor.getGrade() > this->getExecuteGrade())
 		throw AForm::GradeTooLowException();
 	else {
-		std::cout << executor.getName() << " executed " << this->getName() << std::endl;
+		std::cout << "🚀\t" << executor.getName() << " executed " << this->getName() << std::endl;
+
+		std::srand(static_cast<unsigned int>(std::time(0)));
+		int	random_number = std::rand();
+		if (random_number % 2 == 0) {
+			this->makeNoise();
+			std::cout << _target << BG " robotomized" RST << std::endl;
+		}
+		else 
+			std::cout << _target << BR " robotomy failed" RST << std::endl;
 	}
 }

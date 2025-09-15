@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:01:44 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/08 13:52:49 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:33:10 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	AForm::beSigned(Bureaucrat &bure) {
 	if (bure.getGrade() > getSignGrade()) {
 		throw AForm::GradeTooLowException();
 	}
-	std::cout << bure.getName() << " signed " << getName() << std::endl;
+	std::cout << "✍️\t" << bure.getName() << " signed " << getName() << std::endl;
 	_is_signed = true;
 }
 

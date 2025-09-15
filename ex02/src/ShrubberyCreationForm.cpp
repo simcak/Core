@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:44:19 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/12 18:17:18 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:35:20 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ShrubberyCreationForm::execute(const Bureaucrat& executor) const {
 	else if (executor.getGrade() > getExecuteGrade())
 		throw AForm::GradeTooLowException();
 	else {
-		std::cout << executor.getName() << " executed " << this->getName() << std::endl;
+		std::cout << "🚀\t" << executor.getName() << " executed " << this->getName() << std::endl;
 
 		std::ifstream ifs(("./art/" + _target + "Tree.txt").c_str());
 		if (ifs) {

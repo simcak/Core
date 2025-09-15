@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:45:02 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/12 17:40:33 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:35:08 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	PresidentialPardonForm::execute(const Bureaucrat& executor) const {
 	else if (executor.getGrade() > this->getExecuteGrade())
 		throw AForm::GradeTooLowException();
 	else {
-		std::cout << executor.getName() << " executed " << this->getName() << std::endl;
+		std::cout << "🚀\t" << executor.getName() << " executed " << this->getName() << std::endl;
 		std::cout << _target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
 	}
 }

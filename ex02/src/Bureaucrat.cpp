@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:39:25 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/12 15:00:15 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 13:46:00 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	Bureaucrat::signForm(AForm &form) {
 		form.beSigned(*this);
 	}
 	catch(const std::exception& e) {
-		std::cout << BREXC << getName() << " couldn't ✍️ sign " <<
+		std::cout << BREXC << getName() << " couldn't ✍️  sign " <<
 		form.getName() << " because " << e.what() << std::endl;
 	}
 }
@@ -97,6 +97,6 @@ const char*	Bureaucrat::GradeTooLowException::what() const throw() {
 
 /***********************************overload***********************************/
 std::ostream&	operator<<(std::ostream &osm, const Bureaucrat &bure) {
-	osm << bure.getName() << ", bureaucrat grade " << bure.getGrade() << ".";
+	osm << "👨 " << bure.getName() << ", bureaucrat grade " << bure.getGrade() << ".";
 	return osm;
 }
