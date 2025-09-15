@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:24 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/15 13:51:26 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/15 14:44:31 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,36 @@ int main() {
 	std::endl;
 
 	Bureaucrat frank("Frank", 42);
+	Bureaucrat mario("Mario", 7);
 	Bureaucrat humphrey("Sir Humphrey Appleby", 1);
-	std::cout << frank << "\n" << humphrey << std::endl;
+	std::cout << frank << "\n" << mario << "\n" << humphrey << std::endl;
 
-	std::cout << BY "\n---------ShrubberyCreationForm---------" RST << std::endl;
+	std::cout << BY "\nShrubberyCreationForm-----------------" RST << std::endl;
 	ShrubberyCreationForm treeForm("fallen");
+	std::cout << treeForm << std::endl;
 	
 	frank.signForm(treeForm);
 	frank.executeForm(treeForm);
 	
-	std::cout << BY "\n----------RobotomyRequestForm----------" RST << std::endl;
+	std::cout << BY "\nRobotomyRequestForm-------------------" RST << std::endl;
 	RobotomyRequestForm robotomyForm("Martin");
+	std::cout << robotomyForm << std::endl;
+	
 	frank.signForm(robotomyForm);
 	frank.executeForm(robotomyForm);
 	
-	std::cout << BY "\n---------PresidentialPardonForm--------" RST << std::endl;
-	PresidentialPardonForm partdonForm("Jack");
-	frank.signForm(partdonForm);
-	frank.executeForm(partdonForm);
+	std::cout << BY "\nPresidentialPardonForm----------------" RST << std::endl;
+	PresidentialPardonForm pardonForm("Jack");
+	std::cout << pardonForm << std::endl;
 
-	humphrey.signForm(partdonForm);
-	humphrey.executeForm(partdonForm);
+	frank.signForm(pardonForm);
+	frank.executeForm(pardonForm);
+
+	humphrey.executeForm(pardonForm);
+	mario.signForm(pardonForm);
+	mario.executeForm(pardonForm);
+
+	std::cout << pardonForm << std::endl;
+
+	humphrey.executeForm(pardonForm);
 }
