@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:24 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/15 16:25:22 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/17 14:56:51 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int main() {
 	std::endl;
 
 	try {
-		Bureaucrat b0("Marvin0", 0);
-		Bureaucrat b1("Marvin1", 151);
+		Bureaucrat	b0("Marvin0", 0);
+		Bureaucrat	b1("Marvin1", 151);
 	} catch (const std::exception &e) {
 		std::cout << BREXC << e.what() << std::endl;
 	}
@@ -62,9 +62,9 @@ int main() {
 		BY "===========Buro-Playground where we test & play===========" RST <<
 	std::endl;
 
-	Bureaucrat frank("Frank", 42);
-	Bureaucrat mario("Mario", 7);
-	Bureaucrat humphrey("Sir Humphrey Appleby", 1);
+	Bureaucrat	frank("Frank", 42);
+	Bureaucrat	mario("Mario", 7);
+	Bureaucrat	humphrey("Sir Humphrey Appleby", 1);
 	std::cout << frank << "\n" << mario << "\n" << humphrey << std::endl;
 
 	std::cout << BY "\nShrubberyCreationForm-----------------" RST << std::endl;

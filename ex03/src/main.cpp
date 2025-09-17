@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:43:24 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/15 16:42:52 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/17 15:02:59 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int main(int ac, char **av) {
 
 			form = intern.makeForm(av[1], av[2]);
 			std::cout << *form << std::endl;
+			frank.signForm(*form);
+			humphrey.executeForm(*form);
 			delete form;
 		}
 		catch (std::exception &e) {
