@@ -26,9 +26,9 @@ Virtual machines (VMs) are an abstraction of physical hardware turning one serve
 
 ## Why Docker and What is the problem that is solving ?
 
-- so let’s imagine a scenario pre docker era we have tester and developer and the developer
+- so let’s imagine a pre docker era where we have a tester and a developer
 
-has just the code and its works perfectly fine on there system but when the tester take the code the test it in his machine its just doesn’t work and the reason could be a lot of thing it it might be the tester need some dependencies need to be installed in order for the code to work properly or some environnement variables needed to be added but they don’t exist it the tester machine. that means we found the problem how can we solve it ?
+The developer has just the code and its works perfectly fine on there system but when the tester take the code the test it in his machine its just doesn’t work and the reason could be a lot of thing it it might be the tester need some dependencies need to be installed in order for the code to work properly or some environnement variables needed to be added but they don’t exist it the tester machine. that means we found the problem how can we solve it ?
 
 ### Here When Docker Comes Into Place.
 
