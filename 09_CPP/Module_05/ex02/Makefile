@@ -5,7 +5,7 @@ FLAGS	= -Wall -Wextra -Werror -std=c++98
 DIR		= ./src
 TMP_SRC	= $(shell find $(DIR) -iname "*.cpp")
 
-SRC		= ./src/Bureaucrat.cpp ./src/main.cpp
+SRC		= ./src/Bureaucrat.cpp ./src/AForm.cpp ./src/ShrubberyCreationForm.cpp ./src/RobotomyRequestForm.cpp ./src/PresidentialPardonForm.cpp ./src/main.cpp
 OBJ		= $(SRC:%.cpp=%.o)
 
 RED		= \033[31m

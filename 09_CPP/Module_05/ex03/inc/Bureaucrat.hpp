@@ -6,42 +6,49 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:44:49 by psimcak           #+#    #+#             */
-/*   Updated: 2025/02/04 20:39:00 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/08 12:30:25 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 
+#include "Macros.hpp"
+
 #include <iostream>
 #include <string>
 #include <exception>
 
+class AForm;
+
 class Bureaucrat {
 	private:
 		const std::string	_name;
-		int					_grade;
+		unsigned int		_grade;
 
 	public:
-		/* ******* Orthodox Canonical Form ******* */
-		Bureaucrat(const std::string &name, int grade);	// Constructor
-		Bureaucrat(const Bureaucrat &src);	// Copy constructor
-		Bureaucrat &operator=(const Bureaucrat &src);	// Assignation operator
-		~Bureaucrat();	// Destructor
+		/***********************Orthodox Canonical Form************************/
+		Bureaucrat();
+		Bureaucrat(const std::string &, unsigned int);
+		Bureaucrat(const Bureaucrat &other);
+		Bureaucrat &operator=(const Bureaucrat &);
+		~Bureaucrat();
 
-		/* ************** Functions ************** */
-		const std::string	&getName(void) const;
-		int					getGrade(void) const;
-		void				incrementGrade(int num);
-		void				decrementGrade(int num);
+		/********************************getters*******************************/
+		const std::string	&getName() const;
+		unsigned int		getGrade() const;
 
-		/* ************** Exceptions ************* */
-		// too high
+		/****************************member function***************************/
+		void				incrementGrade();
+		void				decrementGrade();
+		void				signForm(AForm &);
+		void				executeForm(AForm &) const;
+
+		/******************************exceptions******************************/
 		class GradeTooHighException : public std::exception {
 			public:
 				virtual const char *what() const throw();
 		};
-		// too low
 		class GradeTooLowException : public std::exception {
 			public:
 				virtual const char *what() const throw();

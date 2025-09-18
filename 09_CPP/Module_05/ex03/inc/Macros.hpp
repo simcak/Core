@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
+/*   Macros.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 13:39:25 by psimcak           #+#    #+#             */
-/*   Updated: 2025/01/20 16:21:21 by psimcak          ###   ########.fr       */
+/*   Created: 2025/08/13 16:50:22 by psimcak           #+#    #+#             */
+/*   Updated: 2025/09/12 18:06:37 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
+#ifndef MACROS_HPP
+# define MACROS_HPP
 
-Bureaucrat::Bureaucrat(std::string const &name, int grade) : _name(name) {
-	_grade = grade;
-}
+// COLORS
+#define BR		"\033[1;31m"
+#define BG		"\033[1;32m"
+#define BY		"\033[1;33m"
+#define B		"\033[0;34m"
+#define BB		"\033[1;34m"
+#define RST		"\033[0m"
+#define BREXC	"\033[1;31mException: \033[0m"
+#define	BRERR	"\033[1;31mError: \033[0m"
 
-Bureaucrat::Bureaucrat(Bureaucrat const &src) : _name(src._name) {
-	*this = src;
-}
 
-Bureaucrat &Bureaucrat::operator=(Bureaucrat const &src) {
-	if (this != &src) {
-		_grade = src._grade;
-	}
-	return *this;
-}
+// LIMITS
+#define GRADE_MAX	1
+#define GRADE_MIN	150
 
-Bureaucrat::~Bureaucrat() {}
+#endif
