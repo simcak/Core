@@ -46,10 +46,10 @@ services:
       - inception_network
     restart: always
     healthcheck:
-      test:     ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout:  5s
-      retries:  5
+      test:     ["CMD", "mysqladmin", "ping", "-h", "localhost"] # Runs this command inside the container. If MySQL is running and accepting connections, this returns a successful response.
+      interval: 10s  # Docker runs the health check every 10 seconds.
+      timeout:  5s   # If the command doesn’t finish in 5 seconds, it’s considered failed.
+      retries:  5    # Docker will try up to 5 times before marking the container as unhealthy.
 
 ######################### Volumes #########################
 volumes:
