@@ -87,18 +87,18 @@ Here are some key differences between a Dockerfile and a Docker Compose file:
 5. **`volumes`**: This is a key in a Docker Compose file that is used to define the persistent storage for your application. A volume is a piece of storage that is attached to a container and is used to store data that should persist even when the container is stopped or removed.
 6. **`networks`**: This is a key in a Docker Compose file that is used to define the networks that the containers should be connected to A network is a virtual network that is used to connect containers and allow them to communicate with each other.
 
-## What are the most common commands are used in docker ?
+## What are the most common commands used in docker ?
 
-1. **`docker build`**: Used to build a Docker image from a Dockerfile.
-2. **`docker run`**: Used to run a Docker container based on a Docker image.
-3. **`docker pull`**: Used to pull a Docker image from a registry, such as Docker Hub.
-4. **`docker push`**: Used to push a Docker image to a registry.
-5. **`docker ps`**: Used to list the running Docker containers on a system.
-6. **`docker stop`**: Used to stop a running Docker container.
-7. **`docker rm`**: Used to remove a Docker container.
-8. **`docker rmi`**: Used to remove a Docker image.
-9. **`docker exec`**: Used to execute a command in a running Docker container.
-10. **`docker logs`**: Used to view the logs for a Docker container.
+1. **`docker build`**:	Used to build a Docker image from a Dockerfile.
+2. **`docker run`**:	Used to run a Docker container based on a Docker image.
+3. **`docker pull`**:	Used to pull a Docker image from a registry, such as Docker Hub.
+4. **`docker push`**:	Used to push a Docker image to a registry.
+5. **`docker ps`**:		Used to list the running Docker containers on a system.
+6. **`docker stop`**:	Used to stop a running Docker container.
+7. **`docker rm`**:		Used to remove a Docker container.
+8. **`docker rmi`**:	Used to remove a Docker image.
+9. **`docker exec`**:	Used to execute a command in a running Docker container.
+10. **`docker logs`**:	Used to view the logs for a Docker container.
 
 ## DOCKER COMPOSE
 
