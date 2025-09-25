@@ -596,3 +596,6 @@ cAdvisor is particularly useful for monitoring and optimizing the performance of
 note:
 
 make sure to expose port 8080 in docker-compose file and also connect the right volumes you can see how on the docker-compose file up  ☝️
+
+## Eval sheet
+![Eval sheet](readme-img/evalsheet.png)
