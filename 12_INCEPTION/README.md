@@ -1,20 +1,44 @@
 # Inception 42
 
-This is complete guide of inception project on this page you gonna learn what is docker container and what used for and why we need it and also learn how to use docker images and also create your own docker image from scratch.
+This is guide of inception project.
+I putted all my resources and notes in here.
+
+## Table of Contents
+- [Mandatory Part](#mandatory-part)
+	- [Mariadb](#mariadb)
+	- [Wordpress](#wordpress)
+	- [Nginx](#nginx)
+
+- [Bonus Part](#bonus-part)
+	- [Adminer](#adminer)
+	- [FTP](#ftp-file-transfert-protocol)
+	- [Redis Cache](#redis-cache)
+	- [cAdvisor](#cadvisor-extra-service)
+
+- [Eval Sheet](#eval-sheet)
+
 
 ## Resources
 ```
 "This subject requires putting into practice concepts that, depending on your background, you may not have learned yet. Therefore, we advise you to read extensive documentation related to Docker usage, as well as any other resources you find helpful to complete this assignment."
 ```
 ---
+- [VirtualBox shared folder](https://www.makeuseof.com/how-to-create-virtualbox-shared-folder-access/)
+---
 - [What is Docker ?](https://www.docker.com/resources/what-container)
 - [Docker Documentation](https://docs.docker.com/)
+- [Docker Best Practices](https://docs.docker.com/build/building/best-practices/)
+- [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/)
 ---
 - [YT - The intro to Docker I wish I had when I started](https://www.youtube.com/watch?v=Ud7Npgi6x8E&t=290s)
 ---
 - [Medium - Inception Part 1](https://medium.com/@ssterdev/inception-guide-42-project-part-i-7e3af15eb671)
 - [Medium - Inception Part 2](https://medium.com/@ssterdev/inception-42-project-part-ii-19a06962cf3b)
+- [Medium - Handling Docker Secrets the Right Way](https://medium.com/@dariusmurawski/handling-docker-secrets-the-right-way-cc625be3395d)
 ---
+
+## New bash commands learned
+- `tree -L 42` : list the contents of directories in a tree-like format up to a specified depth level (42 in this case).
 
 ## What are Containers ?
 
