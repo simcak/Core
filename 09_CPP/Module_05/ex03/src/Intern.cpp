@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:55:09 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/15 16:42:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/28 14:46:45 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Intern::Intern(const Intern &other) {
 }
 
 Intern &Intern::operator=(const Intern &src) {
-	(void)src;
+	(void)src;		// it is a no-op. It just tells the compiler: "I know this parameter is unused, that's intentional."
 	return *this;
 }
 

@@ -1,11 +1,11 @@
-NAME	= ScalarConverter
+NAME	= Serialization
 COM		= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 DIR		= ./src
 T_SRC	= $(shell find $(DIR) -iname "*.cpp")
 
-SRC		= ./src/main.cpp ./src/ScalarConverter.cpp
+SRC		= 
 OBJ		= $(SRC:%.cpp=%.o)
 
 RED		= \033[31m
