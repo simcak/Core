@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:11:28 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/28 15:04:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/28 15:48:41 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,8 @@ ScalarConverter::~ScalarConverter() {}
 void	ScalarConverter::convert(std::string literal) {
 	literal = "hello";
 }
+
+
+/**
+ * INT: <-2 147 483 647 ; 2 147 483 647>
+ */

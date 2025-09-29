@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:11:01 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/28 15:24:38 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/28 15:51:52 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "Macros.hpp"
 
 /**
- * Static class in C++:
+ * STATIC UTILITY CLASS in C++:
  * There is no "static class" in C++, so we need to simulate it.
  * A static class in C++ is a class that has:
  * - only static methods
