@@ -6,14 +6,17 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:11:01 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/28 15:51:52 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/09/30 18:31:01 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCALAR_CONVERTER_HPP
 # define SCALAR_CONVERTER_HPP
 
+#include <stdlib.h>	// strtod
+#include <iomanip>	// setprecision
 #include <string>
+#include <iostream>
 
 #include "Macros.hpp"
 
