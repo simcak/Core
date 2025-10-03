@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:11:28 by psimcak           #+#    #+#             */
-/*   Updated: 2025/09/30 19:13:47 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/01 19:55:56 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,32 @@ void	ScalarConverter::convert(std::string literal) {
 	// try NUMBERS by converting literal to double
 	char	*end;
 	double	d = std::strtod(literal.c_str(), &end);
+	std::cout << "double:\t" << d << std::endl
+	<< "end:\t" << end << std::endl << std::endl;
 
 	if (*end == '\0' || (*end == 'f' && *(end+1) == '\0')) {
-		printOut(static_cast<int>(d), static_cast<float>(d), d);
+		int i = static_cast<int>(d);
+		if (i >= 0 && i <= 127) {
+			char c = static_cast<char>(i);
+
+			if (isprint(c))
+				std::cout << "char:  \t" << c << std::endl;
+			else
+				std::cout << "char:  \tnon-displayable" << std::endl;
+		}
+		else std::cout << "char:  \timpossible" << std::endl;
+
+		if (d >= INT_MIN && d <= INT_MAX)
+			std::cout << "int:   \t" << i << std::endl;
+		else std::cout << "int:   \timpossible" << std::endl;
+
+		if (d >= -FLT_MAX && d <= FLT_MAX) {
+			float f = static_cast<float>(d);
+			std::cout << "float: \t" << std::fixed << std::setprecision(1) << f << "f" << std::endl;
+		}
+		else std::cout << "float: \timpossible" << std::endl;
+		
+		std::cout << "double:\t" << std::fixed << std::setprecision(1) << d << std::endl;
 	}
+	// if (d >= -DBL_MAX || d <= DBL_MAX) // <- need to check double extremes
 }
-
-
-/**
- * INT: <-2 147 483 647 ; 2 147 483 647>
- */
