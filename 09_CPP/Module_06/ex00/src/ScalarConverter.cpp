@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:11:28 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/01 19:55:56 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/03 15:27:24 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,66 +25,105 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other) {
 ScalarConverter::~ScalarConverter() {}
 
 /*******************************helper functions*******************************/
-static void	printOut(int i, float f, double d) {
-	if (i >= 0 && i <= 127) {
-		char c = static_cast<char>(i);
+static bool	okChar(double d) {
+	return (std::isfinite(d) && d >= 0.0 && d <= 127.0 && std::floor(d) == d);
+}
 
-		if (isprint(c))
-			std::cout << "char:  \t" << c << std::endl;
+static bool	okInt(double d) {
+	return (std::isfinite(d) &&
+			d >= static_cast<double>(INT_MIN) &&
+			d <= static_cast<double>(INT_MAX));
+}
+
+static void printOutFromDouble(double d) {
+	// CHAR
+	if (okChar(d)) {
+		char c = static_cast<char>(d);
+		if (std::isprint(static_cast<unsigned char>(c)))
+			std::cout << "char:  \t" << '\'' << c << '\'' << std::endl;
 		else
 			std::cout << "char:  \tnon-displayable" << std::endl;
-	}
-	else
+	} else
 		std::cout << "char:  \timpossible" << std::endl;
-	std::cout << "int:   \t" << i << std::endl;
-	std::cout << "float: \t" << std::fixed << std::setprecision(1) << f << "f" << std::endl;
-	std::cout << "double:\t" << std::fixed << std::setprecision(1) << d << std::endl;
+
+	// INT
+	if (okInt(d))
+		std::cout << "int:   \t" << static_cast<int>(d) << std::endl;
+	else
+		std::cout << "int:   \timpossible" << std::endl;
+
+	// FLOAT
+	if (std::isnan(d))
+		std::cout << "float: \tnanf" << std::endl;
+	else if (d ==  std::numeric_limits<double>::infinity())
+		std::cout << "float: \t+inff" << std::endl;
+	else if (d == -std::numeric_limits<double>::infinity())
+		std::cout << "float: \t-inff" << std::endl;
+	else if (std::fabs(d) > static_cast<double>(std::numeric_limits<float>::max()))
+		std::cout << "float: \timpossible" << std::endl;
+	else {
+		float f = static_cast<float>(d);
+		if (std::floor(d) == d)
+			std::cout << "float: \t" << std::fixed << std::setprecision(1) << f << "f" << std::endl;
+		else
+			std::cout << "float: \t" << std::setprecision(std::numeric_limits<float>::digits10) << f << "f" << std::endl;
+	}
+
+	// DOUBLE
+	if (std::isnan(d))
+		std::cout << "double:\tnan" << std::endl;
+	else if (d ==  std::numeric_limits<double>::infinity())
+		std::cout << "double:\t+inf" << std::endl;
+	else if (d == -std::numeric_limits<double>::infinity())
+		std::cout << "double:\t-inf" << std::endl;
+	else {
+		if (std::floor(d) == d)
+			std::cout << "double:\t" << std::fixed << std::setprecision(1) << d << std::endl;
+		else
+			std::cout << "double:\t" << std::setprecision(std::numeric_limits<double>::digits10) << d << std::endl;
+	}
 }
 
 /*******************************member functions*******************************/
-void	ScalarConverter::convert(std::string literal) {
-	std::cout << "literal: \"" << literal << "\"" << std::endl;
-	std::cout << "length : " << literal.length() << std::endl << std::endl;
-
-	// try CHARACTER
+void ScalarConverter::convert(std::string literal) {
+	// try CHAR - if good, return
 	if (literal.length() == 3 && literal[0] == '\'' && literal[2] == '\'') {
-		char	c = literal[1];
-		printOut(static_cast<int>(c), static_cast<float>(c), static_cast<double>(c));
+		char c = literal[1];
+		printOutFromDouble(static_cast<double>(c));
+		return;
 	}
-	else if (literal.length() == 1 && !isdigit(literal[0])) {
-		char	c = literal[0];
-		printOut(static_cast<int>(c), static_cast<float>(c), static_cast<double>(c));
+	if (literal.length() == 1 && !std::isdigit(static_cast<unsigned char>(literal[0]))) {
+		char c = literal[0];
+		printOutFromDouble(static_cast<double>(c));
+		return;
 	}
 
-	// try NUMBERS by converting literal to double
-	char	*end;
+	// try NUMBER
+	char*	end = 0;
 	double	d = std::strtod(literal.c_str(), &end);
-	std::cout << "double:\t" << d << std::endl
-	<< "end:\t" << end << std::endl << std::endl;
+	bool	okSyntax = (*end == '\0') || (*end == 'f' && *(end + 1) == '\0');
+	bool	pseudoOk = false;
 
-	if (*end == '\0' || (*end == 'f' && *(end+1) == '\0')) {
-		int i = static_cast<int>(d);
-		if (i >= 0 && i <= 127) {
-			char c = static_cast<char>(i);
-
-			if (isprint(c))
-				std::cout << "char:  \t" << c << std::endl;
-			else
-				std::cout << "char:  \tnon-displayable" << std::endl;
+	// try PSEUDO-LETERALS
+	if (!okSyntax) {
+		if (literal == "nan" || literal == "nanf") {
+			d = std::numeric_limits<double>::quiet_NaN();
+			pseudoOk = true;
+		} else if (literal == "+inf" || literal == "+inff") {
+			d =  std::numeric_limits<double>::infinity();
+			pseudoOk = true;
+		} else if (literal == "-inf" || literal == "-inff") {
+			d = -std::numeric_limits<double>::infinity();
+			pseudoOk = true;
 		}
-		else std::cout << "char:  \timpossible" << std::endl;
-
-		if (d >= INT_MIN && d <= INT_MAX)
-			std::cout << "int:   \t" << i << std::endl;
-		else std::cout << "int:   \timpossible" << std::endl;
-
-		if (d >= -FLT_MAX && d <= FLT_MAX) {
-			float f = static_cast<float>(d);
-			std::cout << "float: \t" << std::fixed << std::setprecision(1) << f << "f" << std::endl;
+		if (!pseudoOk) {
+			std::cout	<< "char:  \timpossible\n"
+						<< "int:   \timpossible\n"
+						<< "float: \timpossible\n"
+						<< "double:\timpossible\n";
+			return;
 		}
-		else std::cout << "float: \timpossible" << std::endl;
-		
-		std::cout << "double:\t" << std::fixed << std::setprecision(1) << d << std::endl;
 	}
-	// if (d >= -DBL_MAX || d <= DBL_MAX) // <- need to check double extremes
+
+	printOutFromDouble(d);
 }

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:11:01 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/01 15:49:25 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/03 14:42:33 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <stdlib.h>	// strtod
 #include <iomanip>	// setprecision
 #include <climits>	// INT_MAX
+#include <limits>	// std::numeric_limits
+#include <cmath>
 #include <cfloat>	// FLT,DBL_MAX
 #include <string>
 #include <iostream>
