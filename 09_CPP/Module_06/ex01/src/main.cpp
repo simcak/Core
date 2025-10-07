@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:38:32 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/07 15:07:18 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/07 18:39:51 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,53 @@
 int	main(void)
 {
 	Data		*dataPtr;
-	Data		*dataInterpreted;	
-	uintptr_t	numPtr;
+	uintptr_t	dataNum;
+	Data		*dataPtrPost;	
 
 	dataPtr = new Data;
-	dataPtr->number = 42;
 
 	int	i = -1;
 	while (++i < 30)
 		dataPtr->word[i] = 'a' + i;
 	dataPtr->word[i] = '\0';
+	
+	dataPtr->number = 42;
 
+	/**************************************************************************/
 	std::cout
-	<< "Original data ptr: " << dataPtr << std::endl
-	<< "Original word:     " << dataPtr->word << std::endl
-	<< "Original num:      " << dataPtr->number << std::endl;
+		<< "STD::DEC/HEX/OCT EXAMPLES" << std::endl
+		<< std::dec <<    "dec: " << dataPtr->number
+		<< std::hex << "   hex: " << dataPtr->number
+		<< std::oct << "   oct: " << dataPtr->number << std::dec
+	<< std::endl << std::endl;
 
-	numPtr = Serializer::serialize(dataPtr);
-	std::cout << std::endl
-	<< "Num pointer hexa:  " << std::hex << numPtr << std::endl;
+	/**************************************************************************/
+	std::cout
+		<< BB "ORIGINAL DATA:" RST << std::endl
+		<< "Adress:       " << dataPtr << std::endl
+		<< "Word:         " << dataPtr->word << std::endl
+		<< "Number:       " << dataPtr->number
+	<< std::endl << std::endl;
 
-	dataInterpreted = Serializer::deserialize(numPtr);
-	std::cout << std::endl
-	<< "Serialized  ptr:   " << std::dec << dataInterpreted << std::endl
-	<< "Interpreted word:  " << dataInterpreted->word << std::endl
-	<< "Interpreted num:   " << dataInterpreted->number << std::endl;
+	/**************************************************************************/
+	dataNum = Serializer::serialize(dataPtr);
+	std::cout
+		<< BR "RESULTS OF SERIALIZATION:" RST << std::endl
+		<< "Adress-dec:   " << std::dec << dataNum << std::endl
+		<< "Adress-hex:   " << std::hex << dataNum << std::dec << std::endl
+		<< "Word:         ?" << std::endl
+		<< "Number:       ?"
+	<< std::endl << std::endl;
+
+	/**************************************************************************/
+	dataPtrPost = Serializer::deserialize(dataNum);
+	std::cout
+		<< BR "RESULTS OF deSERIALIZATION:" RST << std::endl
+		<< "Adress:       " << dataPtrPost << std::endl
+		<< "Word:         " << dataPtrPost->word << std::endl
+		<< "Number:       " << dataPtrPost->number
+	<< std::endl;
+	/**************************************************************************/
 
 	delete dataPtr;
 	return 0;
