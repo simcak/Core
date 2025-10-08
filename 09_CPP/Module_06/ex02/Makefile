@@ -5,7 +5,7 @@ FLAGS	= -Wall -Wextra -Werror -std=c++98
 DIR		= ./src
 T_SRC	= $(shell find $(DIR) -iname "*.cpp")
 
-SRC		=
+SRC		= ./src/main.cpp ./src/Identifier.cpp
 OBJ		= $(SRC:%.cpp=%.o)
 
 RED		= \033[31m

@@ -32,7 +32,8 @@ There are four main types of casting in C++:
 	double b = static_cast<double>(a);
 ```
 
-2. **Dynamic Casting**: This type of casting is used for safely downcasting in inheritance hierarchies. It is checked at runtime and returns `nullptr` if the cast is not valid.
+2. **[Dynamic Casting](https://www.geeksforgeeks.org/cpp/dynamic-_cast-in-cpp/)**:
+This type of casting is used for safely downcasting in inheritance hierarchies. It is checked at runtime and returns `nullptr` if the cast is not valid.
 ```cpp
 	Base* base = new Derived();
 	Derived* derived = dynamic_cast<Derived*>(base);
