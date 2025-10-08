@@ -69,6 +69,23 @@
 		"__tree": "cpp",
 		"list": "cpp",
 		"map": "cpp",
-		"cub3d.h": "c"
+		"cub3d.h": "c",
+		"clocale": "cpp",
+		"compare": "cpp",
+		"concepts": "cpp",
+		"condition_variable": "cpp",
+		"set": "cpp",
+		"memory_resource": "cpp",
+		"numeric": "cpp",
+		"random": "cpp",
+		"numbers": "cpp",
+		"ranges": "cpp",
+		"span": "cpp",
+		"stop_token": "cpp",
+		"thread": "cpp",
+		"cinttypes": "cpp",
+		"typeindex": "cpp",
+		"variant": "cpp",
+		"semaphore": "cpp"
 	}
 }
