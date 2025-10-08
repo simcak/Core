@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:33:15 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/07 14:52:04 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/08 11:35:53 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 struct Data
 {
-	int		number;
-	char	word[30];
+	std::string	name;
+	int			answer;
 };
 
 /**

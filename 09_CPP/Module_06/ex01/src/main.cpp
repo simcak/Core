@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:38:32 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/07 18:39:51 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/08 11:35:46 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,23 @@ int	main(void)
 
 	dataPtr = new Data;
 
-	int	i = -1;
-	while (++i < 30)
-		dataPtr->word[i] = 'a' + i;
-	dataPtr->word[i] = '\0';
-	
-	dataPtr->number = 42;
+	dataPtr->name = "The Hitchhiker's Guide to the Galaxy.";
+	dataPtr->answer = 42;
 
 	/**************************************************************************/
 	std::cout
 		<< "STD::DEC/HEX/OCT EXAMPLES" << std::endl
-		<< std::dec <<    "dec: " << dataPtr->number
-		<< std::hex << "   hex: " << dataPtr->number
-		<< std::oct << "   oct: " << dataPtr->number << std::dec
+		<< std::dec <<    "dec: " << dataPtr->answer
+		<< std::hex << "   hex: " << dataPtr->answer
+		<< std::oct << "   oct: " << dataPtr->answer << std::dec
 	<< std::endl << std::endl;
 
 	/**************************************************************************/
 	std::cout
 		<< BB "ORIGINAL DATA:" RST << std::endl
 		<< "Adress:       " << dataPtr << std::endl
-		<< "Word:         " << dataPtr->word << std::endl
-		<< "Number:       " << dataPtr->number
+		<< "Name:         " << dataPtr->name << std::endl
+		<< "Answer:       " << dataPtr->answer
 	<< std::endl << std::endl;
 
 	/**************************************************************************/
@@ -50,8 +46,8 @@ int	main(void)
 		<< BR "RESULTS OF SERIALIZATION:" RST << std::endl
 		<< "Adress-dec:   " << std::dec << dataNum << std::endl
 		<< "Adress-hex:   " << std::hex << dataNum << std::dec << std::endl
-		<< "Word:         ?" << std::endl
-		<< "Number:       ?"
+		<< "Name:         ?" << std::endl
+		<< "Answer:       ?"
 	<< std::endl << std::endl;
 
 	/**************************************************************************/
@@ -59,8 +55,8 @@ int	main(void)
 	std::cout
 		<< BR "RESULTS OF deSERIALIZATION:" RST << std::endl
 		<< "Adress:       " << dataPtrPost << std::endl
-		<< "Word:         " << dataPtrPost->word << std::endl
-		<< "Number:       " << dataPtrPost->number
+		<< "Name:         " << dataPtrPost->name << std::endl
+		<< "Answer:       " << dataPtrPost->answer
 	<< std::endl;
 	/**************************************************************************/
 
