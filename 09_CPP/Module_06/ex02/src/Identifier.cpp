@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 11:38:21 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/08 13:08:03 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/08 13:45:26 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	identifyFromPtr(Base* base)
 		std::cout << "B identified from a " BB "pointer " RST "cast" << std::endl;
 	else if (dynamic_cast<C*>(base) != NULL)
 		std::cout << "C identified from a " BB "pointer " RST "cast" << std::endl;
+	else
+		std::cout << BRERR "type identified from pointer cast" << std::endl;
 }
 
 /*
