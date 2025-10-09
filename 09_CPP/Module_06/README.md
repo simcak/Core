@@ -50,3 +50,7 @@ This type of casting is used for safely downcasting in inheritance hierarchies. 
 	int a = 5;
 	char* b = reinterpret_cast<char*>(&a);
 ```
+
+## Explicit vs Implicit Casting
+- **Explicit Casting**: This is when the programmer manually specifies the type conversion using one of the casting operators mentioned above.
+- **Implicit Casting**: This is when the compiler automatically converts one type to another without any explicit instruction from the programmer. This usually happens when assigning a value of one type to a variable of another type.
