@@ -1,4 +1,4 @@
-NAME	= iter
+NAME	= Iterator
 COM		= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
@@ -24,7 +24,7 @@ endef
 
 $(NAME): $(OBJ)
 	@$(COM) $(OBJ) -o $(NAME)
-	$(call INFO,\t$(GREEN),"${NAME} Compiled!")
+	$(call INFO,\t$(GREEN),"${NAME} Compiled!"\t)
 
 all: $(NAME)
 
