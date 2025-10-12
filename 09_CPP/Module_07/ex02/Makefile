@@ -1,11 +1,11 @@
-NAME	= arrays
+NAME	= Arrays
 COM		= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 DIR		= .
 T_SRC	= $(shell find $(DIR) -iname "*.cpp")
 
-SRC		= ./main.cpp ./Array.cpp
+SRC		= ./main.cpp
 OBJ		= $(SRC:%.cpp=%.o)
 
 RED		= \033[31m
@@ -24,7 +24,7 @@ endef
 
 $(NAME): $(OBJ)
 	@$(COM) $(OBJ) -o $(NAME)
-	$(call INFO,\t$(GREEN),"${NAME} Compiled!")
+	$(call INFO,\t$(GREEN),"${NAME} Compiled!"\t)
 
 all: $(NAME)
 
