@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:06:29 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/10 17:33:01 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/12 18:17:37 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	iter(T* arr, size_t length, void (*func)(T&)) {
 template <typename T>
 void	printArr(T *arr, size_t length) {
 	for (size_t i = 0; i < length; ++i)
-		std::cout << "[" << arr[i] << "], ";
+		i+1 < length ? std::cout << "[" << arr[i] << "], " : std::cout << "[" << arr[i] << "]\n";
 }
 
 #endif

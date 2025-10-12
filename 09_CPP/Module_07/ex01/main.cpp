@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:06:18 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/10 17:17:54 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/12 18:14:31 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,17 @@ int	main(void) {
 	std::cout << BY "Print integers:" RST << std::endl;
 	::printArr(ints, 12);
 	
-	std::cout << "\n\n" BB "Quadro integers:" RST << std::endl;
+	std::cout << "\n" BB "Quadro integers:" RST << std::endl;
 	::iter(ints, 12, quadro);
 	::printArr(ints, 12);
 	
 	/**********************************STRINGS*********************************/
-	std::cout << "\n\n" BY "Print strings:" RST << std::endl;
+	std::cout << "\n" BY "Print strings:" RST << std::endl;
 	::printArr(strs, 3);
 
-	std::cout << "\n\n" BB "CAPITALIZE STRINGS:" RST << std::endl;
+	std::cout << "\n" BB "CAPITALIZE STRINGS:" RST << std::endl;
 	::iter(strs, 3, capitalize);
 	::printArr(strs, 4);
-
-	std::cout << std::endl << std::endl;
 
 	return 0;
 }
