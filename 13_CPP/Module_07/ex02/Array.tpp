@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:39:48 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/13 13:35:06 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/13 13:54:41 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ template <typename T> unsigned int Array<T>::size() const
 	return (this->_size);
 }
 
-template <typename T> void Array<T>::putArr() const
+template <typename T> void Array<T>::printArr() const
 {
 	for (unsigned int i = 0; i < this->_size; i++)
 		(i+1 < this->_size)	? std::cout << this->_arr[i] << ", "
