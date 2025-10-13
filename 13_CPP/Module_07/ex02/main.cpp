@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 18:58:27 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/13 13:35:19 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/13 14:37:59 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,21 @@ int main(int, char**)
 		a_mirror[i] = value;
 	}
 	std::cout << "NUMBERS" << std::endl;
-	numbers.putArr();
+	numbers.printArr();
 
 	std::cout << "\nMIRROR" << std::endl;
-	for (unsigned int i = 0; i < MAX_VAL; i++)
+	for (unsigned int i = 0; i < MAX_VAL; i++) {
 		i+1 < MAX_VAL	? std::cout << a_mirror[i] << ", "
 						: std::cout << a_mirror[i] << "\n" ;
+	}
 
-	// Scope
+	/**********************************SCOPE***********************************/
 	std::cout << "\nArray<int> tmp = numbers" << std::endl;
 	Array<int> tmp = numbers;
 	std::cout << "\nArray<int> test(tmp)" << std::endl;
 	Array<int> test(tmp);
-
+	
+	/**************************************************************************/
 	for (unsigned int i = 0; i < MAX_VAL; i++)
 	{
 		if (a_mirror[i] != numbers[i])
@@ -46,38 +48,43 @@ int main(int, char**)
 			return 1;
 		}
 	}
+	std::cout << std::endl << BG "values: MIRROR == NUMBERS" RST << std::endl;
 
-	try
-	{
-		std::cout << "\nnumbers[-2] = 0" << std::endl;
+	/**************************************************************************/
+	std::cout << BY "\nException handling for invalid indices" RST << std::endl;
+	try {
+		std::cout << "numbers[-2] = 0" << std::endl;
 		numbers[-2] = 0;
 	}
-	catch(const std::exception& e)
-	{
+	catch(const std::exception& e) {
 		std::cout << e.what() << std::endl;
 	}
-
-	try
-	{
+	
+	try {
 		std::cout << "\nnumbers[MAX_VAL] = 0" << std::endl;
 		numbers[MAX_VAL] = 0;
 	}
-	catch(const std::exception& e)
-	{
+	catch(const std::exception& e) {
 		std::cout << e.what() << std::endl;
 	}
-
+	
+	/**************************************************************************/
 	for (unsigned int i = 0; i < MAX_VAL; i++)
 	{
 		numbers[i] = rand() / 10000000;
 	}
 	std::cout << "\nNUMBERS" << std::endl;
-	numbers.putArr();
-
+	numbers.printArr();
+	
+	/**************************************************************************/
 	delete [] a_mirror;
 	return 0;
 }
 
+
+/******************************************************************************/
+/*********************************subject main*********************************/
+/******************************************************************************/
 // int main(int, char**)
 // {
 // 	Array<int> numbers(MAX_VAL);
