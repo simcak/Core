@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 18:58:27 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/13 14:37:59 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/13 15:53:46 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int main(int, char**)
 			return 1;
 		}
 	}
-	std::cout << std::endl << BG "values: MIRROR == NUMBERS" RST << std::endl;
+	std::cout << "\nvalues: " BG "MIRROR == NUMBERS" RST << std::endl;
 
 	/**************************************************************************/
 	std::cout << BY "\nException handling for invalid indices" RST << std::endl;
