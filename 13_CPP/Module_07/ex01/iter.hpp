@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:06:29 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/12 18:54:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/13 15:38:13 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,10 @@
 #define BRERR	"\033[1;31mError: \033[0m"
 
 /***********************************template***********************************/
-template <typename T>
-void	iter(T* arr, size_t length, void (*func)(T&)) {
+template <typename T, typename Func>
+void	iter(T *arr, size_t length, void (*func)(Func &)) {
 	for (size_t i = 0; i < length; ++i)
 		func(arr[i]);
-}
-
-// practically the same but without the function
-// purpose: just print out what do we work with in the 'iter' function
-template <typename T>
-void	printArr(T *arr, size_t length) {
-	for (size_t i = 0 ; i < length ; ++i)
-		(i+1 < length)	? std::cout << "[" << arr[i] << "], "
-						: std::cout << "[" << arr[i] << "]" << std::endl;
 }
 
 #endif

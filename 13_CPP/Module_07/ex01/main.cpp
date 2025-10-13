@@ -6,11 +6,15 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:06:18 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/12 18:14:31 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/13 15:47:01 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "iter.hpp"
+
+void	printInt(const int &x) { std::cout << "[" << x << "] "; }
+
+void	printStr(const std::string &x) { std::cout << "[" << x << "] "; }
 
 void	quadro(int &num) { num *= 4; }
 
@@ -31,19 +35,23 @@ int	main(void) {
 
 	/************************************INT***********************************/
 	std::cout << BY "Print integers:" RST << std::endl;
-	::printArr(ints, 12);
+	::iter(ints, 12, printInt);
+	std::cout << std::endl;
 	
 	std::cout << "\n" BB "Quadro integers:" RST << std::endl;
 	::iter(ints, 12, quadro);
-	::printArr(ints, 12);
+	::iter(ints, 12, printInt);
+	std::cout << std::endl;
 	
 	/**********************************STRINGS*********************************/
 	std::cout << "\n" BY "Print strings:" RST << std::endl;
-	::printArr(strs, 3);
-
+	::iter(strs, 4, printStr);
+	std::cout << std::endl;
+	
 	std::cout << "\n" BB "CAPITALIZE STRINGS:" RST << std::endl;
 	::iter(strs, 3, capitalize);
-	::printArr(strs, 4);
+	::iter(strs, 4, printStr);
+	std::cout << std::endl;
 
 	return 0;
 }
