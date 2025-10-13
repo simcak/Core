@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 18:58:27 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/13 15:57:20 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/13 19:00:22 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int main(int, char**)
 	Array<int>	numbers(MAX_VAL);
 	int*		mirror = new int[MAX_VAL];
 
+	std::cout << "__________________________________________________________\n";
+	/**************************************************************************/
 	srand(time(NULL));
 	for (unsigned int i = 0; i < MAX_VAL; i++)
 	{
@@ -33,12 +35,19 @@ int main(int, char**)
 						: std::cout << mirror[i] << "\n" ;
 	}
 
+	std::cout << "__________________________________________________________\n";
 	/**********************************SCOPE***********************************/
 	std::cout << "\nArray<int> tmp = numbers" << std::endl;
 	Array<int> tmp = numbers;
 	std::cout << "\nArray<int> test(tmp)" << std::endl;
 	Array<int> test(tmp);
-	
+
+	std::cout << std::endl << "DEEP COPY TEST" << std::endl;
+	std::cout << " &numbers[0] = " << static_cast<const void*>(&numbers[0]) << "\n";
+	std::cout << " &tmp[0]     = " << static_cast<const void*>(&tmp[0])     << "\n";
+	std::cout << " &test[0]    = " << static_cast<const void*>(&test[0])    << "\n";
+
+	std::cout << "__________________________________________________________\n";
 	/**************************************************************************/
 	for (unsigned int i = 0; i < MAX_VAL; i++)
 	{
@@ -50,6 +59,7 @@ int main(int, char**)
 	}
 	std::cout << "\nvalues: " BG "MIRROR == NUMBERS" RST << std::endl;
 
+	std::cout << "__________________________________________________________\n";
 	/**************************************************************************/
 	std::cout << BY "\nException handling for invalid indices" RST << std::endl;
 	try {
@@ -67,7 +77,8 @@ int main(int, char**)
 	catch(const std::exception& e) {
 		std::cout << e.what() << std::endl;
 	}
-	
+
+	std::cout << "__________________________________________________________\n";
 	/**************************************************************************/
 	for (unsigned int i = 0; i < MAX_VAL; i++)
 	{
@@ -75,7 +86,8 @@ int main(int, char**)
 	}
 	std::cout << "\nNUMBERS" << std::endl;
 	numbers.printArr();
-	
+
+	std::cout << "__________________________________________________________\n";
 	/**************************************************************************/
 	delete [] mirror;
 	return 0;
