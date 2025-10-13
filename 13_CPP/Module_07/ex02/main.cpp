@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 18:58:27 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/12 19:21:26 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/13 13:35:19 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 int main(int, char**)
 {
 	Array<int>	numbers(MAX_VAL);
-	int*		mirror = new int[MAX_VAL];
+	int*		a_mirror = new int[MAX_VAL];
 
 	srand(time(NULL));
 	for (unsigned int i = 0; i < MAX_VAL; i++)
 	{
 		const int value = rand() / 10000000;
 		numbers[i] = value;
-		mirror[i] = value;
+		a_mirror[i] = value;
 	}
 	std::cout << "NUMBERS" << std::endl;
 	numbers.putArr();
 
 	std::cout << "\nMIRROR" << std::endl;
 	for (unsigned int i = 0; i < MAX_VAL; i++)
-		i+1 < MAX_VAL	? std::cout << mirror[i] << ", "
-						: std::cout << mirror[i] << "\n" ;
+		i+1 < MAX_VAL	? std::cout << a_mirror[i] << ", "
+						: std::cout << a_mirror[i] << "\n" ;
 
 	// Scope
 	std::cout << "\nArray<int> tmp = numbers" << std::endl;
@@ -40,7 +40,7 @@ int main(int, char**)
 
 	for (unsigned int i = 0; i < MAX_VAL; i++)
 	{
-		if (mirror[i] != numbers[i])
+		if (a_mirror[i] != numbers[i])
 		{
 			std::cout << "didn't save the same value!!" << std::endl;
 			return 1;
@@ -74,7 +74,7 @@ int main(int, char**)
 	std::cout << "\nNUMBERS" << std::endl;
 	numbers.putArr();
 
-	delete [] mirror;
+	delete [] a_mirror;
 	return 0;
 }
 

@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:39:48 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/12 19:12:59 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/10/13 13:35:06 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ template <typename T> Array<T>::Array()
 	this->_size = 0;
 }
 
-template <typename T> Array<T>::Array(unsigned int size)
+template <typename T> Array<T>::Array(unsigned int n)
 {
-	this->_arr = new T[size];
-	this->_size = size;
+	this->_arr = new T[n];
+	this->_size = n;
 }
 
 template <typename T> Array<T>::Array(const Array& copy)
