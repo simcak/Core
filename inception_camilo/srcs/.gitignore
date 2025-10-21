@@ -1,0 +1,16 @@
+srcs/.env
+.env
+*.env
+.env.*
+secrets/
+srcs/data/*
+data/mariadb/*
+data/wordpress/*
+private/data
+*.log
+aria_log*
+*.swp
+*.swo
+.DS_Store
+.idea/
+.vscode/
