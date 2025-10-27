@@ -1,3 +1,6 @@
+################################################################################
+#                               Nginx Dockerfile                               #
+################################################################################
 FROM php:8.2-fpm-bullseye
 
 # Install system dependencies required for PHP extensions
@@ -36,3 +39,5 @@ RUN chmod +x /usr/local/bin/wp-config.sh
 
 EXPOSE 9000
 ENTRYPOINT ["/entrypoint.sh"]
+
+################################################################################
