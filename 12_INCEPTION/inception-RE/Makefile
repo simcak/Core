@@ -4,42 +4,60 @@
 
 NAME		= inception
 SRC_DIR		= srcs
-COMPOSE		= docker compose -f $(SRC_DIR)/docker-compose.yml --env-file $(SRC_DIR)/.env
+CMPS_FILE	= $(SRC_DIR)/docker-compose.yml
+COMPOSE		= docker compose -f $(CMPS_FILE) --env-file $(SRC_DIR)/.env
 DATA_DIR	= /home/$(USER)/data
 
 # **************************************************************************** #
-#                                  TARGETS                                    #
+#                                   COLORS                                     #
+# **************************************************************************** #
+
+RED			= \033[0;31m
+GREEN		= \033[0;32m
+YELLOW		= \033[0;33m
+BLUE		= \033[0;34m
+RST			= \033[0m
+
+define INFO
+	@echo "======================================="
+	@echo "====== \t$(1)$(2)$(RST)\t ======"
+	@echo "======================================="
+endef
+
+# **************************************************************************** #
+#                                  TARGETS                                     #
 # **************************************************************************** #
 
 all:
-	@echo "Launching $(NAME)..."
+	$(call INFO, $(GREEN), "Launching $(NAME)")
 	@bash $(SRC_DIR)/requirements/wordpress/tools/make_dir.sh
 	@$(COMPOSE) up -d
 
 build:
-	@echo "Building $(NAME)..."
+	$(call INFO, $(YELLOW), "Building $(NAME)")
 	@bash $(SRC_DIR)/requirements/wordpress/tools/make_dir.sh
 	@$(COMPOSE) up -d --build
 
 down:
-	@echo "Stopping $(NAME)..."
+	$(call INFO, $(RED), "Stopping $(NAME)")
 	@$(COMPOSE) down
 
 re: down
-	@echo "Rebuilding $(NAME)..."
+	$(call INFO, $(YELLOW), "Rebuilding $(NAME)")
 	@$(COMPOSE) up -d --build
 
 reset:
+	$(call INFO, $(RED), "Resetting $(NAME)")
 	@docker rm -f $$(docker ps -aq) 2>/dev/null || true
 	@docker system prune -af
 
 clean: down
-	@echo "Cleaning Docker system and project data..."
+	$(call INFO, $(YELLOW), "Cleaning Docker system and project data...")
 	@docker system prune -af
 	@sudo rm -rf $(DATA_DIR)/wordpress/* $(DATA_DIR)/mariadb/*
 
 fclean:
-	@echo "Total cleanup of all Docker configurations..."
+	$(call INFO, $(RED), "Total cleanup of all Docker configurations...")
 	@docker stop $$(docker ps -qa) 2>/dev/null || true
 	@docker system prune -af --volumes
 	@docker network prune -f
