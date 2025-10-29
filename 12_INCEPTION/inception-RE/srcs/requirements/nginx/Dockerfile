@@ -4,24 +4,20 @@
 FROM debian:bullseye
 
 # Install nginx and openssl
-RUN apt-get update -y && \
-    apt-get install -y \
-    nginx \
-    openssl \
+RUN apt-get update -y \
+    && apt-get install -y nginx openssl \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-# Copy configuration files
-COPY conf/nginx.conf /etc/nginx/nginx.conf
-COPY conf/ssl.conf /etc/nginx/conf.d/ssl.conf
-COPY conf/wordpress.conf /etc/nginx/conf.d/wordpress.conf
+# Copy configuration files and a certificate generation script
+COPY conf/nginx.conf         /etc/nginx/nginx.conf
+COPY conf/ssl.conf           /etc/nginx/conf.d/ssl.conf
+COPY conf/wordpress.conf     /etc/nginx/conf.d/wordpress.conf
+COPY tools/generate_cert.sh  /generate_cert.sh
 
-# Copy certificate generation script
-COPY tools/generate_cert.sh /generate_cert.sh
-RUN chmod +x /generate_cert.sh && /generate_cert.sh
-
-# Generate SSL certificates
-RUN /generate_cert.sh
+# Generates a self-signed SSL certificate for HTTPS access, make it +x && run it
+RUN chmod +x /generate_cert.sh \
+    && /generate_cert.sh
 
 # Create nginx user and set permissions
 RUN chown -R www-data:www-data /var/www/html \
