@@ -18,15 +18,15 @@ echo "MariaDB is ready!"
 if [ ! -f "/var/www/html/wp-config.php" ]; then
     echo "WordPress not found. Installing..."
     
-    # Download WordPress if not present
-    if [ ! -f "/var/www/html/index.php" ]; then
-        echo "Downloading WordPress..."
-        wget https://wordpress.org/latest.tar.gz -O /tmp/wordpress.tar.gz
-        tar -xzf /tmp/wordpress.tar.gz -C /tmp/
-        cp -r /tmp/wordpress/* /var/www/html/
-        rm -rf /tmp/wordpress /tmp/wordpress.tar.gz
-        echo "WordPress downloaded and extracted."
-    fi
+    # # Download WordPress if not present
+    # if [ ! -f "/var/www/html/index.php" ]; then
+    #     echo "Downloading WordPress..."
+    #     wget https://wordpress.org/latest.tar.gz -O /tmp/wordpress.tar.gz
+    #     tar -xzf /tmp/wordpress.tar.gz -C /tmp/
+    #     cp -r /tmp/wordpress/* /var/www/html/
+    #     rm -rf /tmp/wordpress /tmp/wordpress.tar.gz
+    #     echo "WordPress downloaded and extracted."
+    # fi
     
     # Generate wp-config.php
     echo "Generating wp-config.php..."
