@@ -39,6 +39,8 @@ I putted all my resources and notes in here.
 
 ## New bash commands learned
 - `tree -L 42` : list the contents of directories in a tree-like format up to a specified depth level (42 in this case).
+- `#!/bin/bash` : This tells Docker to run the script with bash. It’s the shebang line — without it, Docker might not know which interpreter to use
+- `set -e` : “Exit immediately if any command fails.”
 
 ## What are Containers ?
 
