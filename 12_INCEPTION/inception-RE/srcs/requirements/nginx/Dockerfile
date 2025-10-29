@@ -12,7 +12,6 @@ RUN apt-get update -y \
 # Copy configuration files and a certificate generation script
 COPY conf/nginx.conf         /etc/nginx/nginx.conf
 COPY conf/ssl.conf           /etc/nginx/conf.d/ssl.conf
-COPY conf/wordpress.conf     /etc/nginx/conf.d/wordpress.conf
 COPY tools/generate_cert.sh  /generate_cert.sh
 
 # Generates a self-signed SSL certificate for HTTPS access, make it +x && run it
