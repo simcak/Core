@@ -2,11 +2,11 @@
 #                                  SETTINGS                                   #
 # **************************************************************************** #
 
-NAME		= inception
-SRC_DIR		= srcs
-CMPS_FILE	= $(SRC_DIR)/docker-compose.yml
-COMPOSE		= docker compose -f $(CMPS_FILE) --env-file $(SRC_DIR)/.env
-DATA_DIR	= /home/$(USER)/data
+NAME		 = inception
+CMPS_FILE	 = srcs/docker-compose.yml
+COMPOSE		 = docker compose -f $(CMPS_FILE) --env-file srcs/.env
+MAKE_VOLUMES = srcs/requirements/make_volumes.sh
+DATA_DIR	 = /home/$(USER)/data
 
 # **************************************************************************** #
 #                                   COLORS                                     #
@@ -28,12 +28,12 @@ endef
 
 all:
 	$(call INFO, $(GREEN), "Launching $(NAME)")
-	@bash $(SRC_DIR)/requirements/wordpress/tools/make_dir.sh
+	@bash $(MAKE_VOLUMES)
 	@$(COMPOSE) up -d
 
 build:
 	$(call INFO, $(YELLOW), "Building $(NAME)")
-	@bash $(SRC_DIR)/requirements/wordpress/tools/make_dir.sh
+	@bash $(MAKE_VOLUMES)
 	@$(COMPOSE) up -d --build
 
 down:

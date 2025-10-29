@@ -5,12 +5,7 @@ FROM php:8.2-fpm-bullseye
 
 # Install system dependencies required for PHP extensions
 RUN apt-get update && apt-get install -y \
-        unzip \
-        curl \
-        mariadb-client \
-        libzip-dev \
-        libxml2-dev \
-        libonig-dev \
+        unzip curl mariadb-client libzip-dev libxml2-dev libonig-dev \
     && docker-php-ext-install mysqli zip bcmath mbstring xml \
     && rm -rf /var/lib/apt/lists/*
 
