@@ -26,11 +26,11 @@ RUN chown -R www-data:www-data /var/www/html \
 
 # Copy entrypoint
 COPY ./tools/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN  chmod +x /entrypoint.sh
 
 # Copy wp-config script
 COPY ./tools/wp-config.sh /usr/local/bin/wp-config.sh
-RUN chmod +x /usr/local/bin/wp-config.sh
+RUN  chmod +x /usr/local/bin/wp-config.sh
 
 EXPOSE 9000
 ENTRYPOINT ["/entrypoint.sh"]
