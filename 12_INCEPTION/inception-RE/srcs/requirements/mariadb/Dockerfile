@@ -1,7 +1,7 @@
 ################################################################################
 #                              MariaDB Dockerfile                              #
 ################################################################################
-FROM debian:bullseye
+FROM debian:bookworm
 
 # Apt check + installing MariaDB + cleanup apt cache
 RUN apt-get update && \
