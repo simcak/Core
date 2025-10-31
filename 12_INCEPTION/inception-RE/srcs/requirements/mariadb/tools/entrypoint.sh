@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export MYSQL_DATABASE  MYSQL_USER  MYSQL_PASSWORD  MYSQL_ROOT_PASSWORD
+# export MYSQL_DATABASE  MYSQL_USER  MYSQL_PASSWORD  MYSQL_ROOT_PASSWORD
 
 # Check if this is first time setup - look for a more specific marker
 if [ ! -f "/var/lib/mysql/inception_initialized" ]; then

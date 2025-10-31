@@ -27,9 +27,9 @@ RUN curl -O https://wordpress.org/latest.tar.gz \
     && find /var/www/html -type f -exec chmod 644 {} \;
 
 COPY ./tools/www.conf /etc/php/8.2/fpm/pool.d/www.conf
-
 COPY ./tools/entrypoint.sh /entrypoint.sh
 COPY ./tools/wp-config.sh /usr/local/bin/wp-config.sh
+
 RUN chmod +x /entrypoint.sh /usr/local/bin/wp-config.sh
 
 # Expose FPM port (for NGINX connection)
