@@ -1,38 +1,50 @@
 ################################################################################
-#                               Nginx Dockerfile                               #
+#                             WordPress Dockerfile                             #
 ################################################################################
-FROM php:8.2-fpm-bullseye
+FROM debian:bookworm
 
-# Install system dependencies required for PHP extensions
+# No interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install necessary packages and PHP extensions
 RUN apt-get update && apt-get install -y \
-        unzip curl mariadb-client libzip-dev libxml2-dev libonig-dev \
-    && docker-php-ext-install mysqli zip bcmath mbstring xml \
+        unzip curl mariadb-client \
+        php8.2-fpm php8.2-mysql php8.2-zip php8.2-xml php8.2-mbstring php8.2-bcmath \
     && rm -rf /var/lib/apt/lists/*
 
-# Create PHP-FPM runtime directory
-RUN mkdir -p /run/php && chown www-data:www-data /run/php
+# Configure PHP-FPM
+RUN mkdir -p /run/php /var/log/php8.2-fpm \
+    && chown -R www-data:www-data /run/php /var/log/php8.2-fpm
 
-# Set working directory
 WORKDIR /var/www/html
 
-# Download WordPress
+# Download and extract WordPress
 RUN curl -O https://wordpress.org/latest.tar.gz \
     && tar xzvf latest.tar.gz --strip-components=1 \
-    && rm latest.tar.gz
+    && rm latest.tar.gz \
+    && chown -R www-data:www-data /var/www/html \
+    && find /var/www/html -type d -exec chmod 755 {} \; \
+    && find /var/www/html -type f -exec chmod 644 {} \;
 
-# Fix permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+COPY ./tools/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
-# Copy entrypoint
 COPY ./tools/entrypoint.sh /entrypoint.sh
-RUN  chmod +x /entrypoint.sh
-
-# Copy wp-config script
 COPY ./tools/wp-config.sh /usr/local/bin/wp-config.sh
-RUN  chmod +x /usr/local/bin/wp-config.sh
+RUN chmod +x /entrypoint.sh /usr/local/bin/wp-config.sh
 
+# Expose FPM port (for NGINX connection)
 EXPOSE 9000
-ENTRYPOINT ["/entrypoint.sh"]
 
+# Start PHP-FPM
+ENTRYPOINT ["/entrypoint.sh"]
+################################################################################
+# Workflow Explanation:
+
+# NGINX receives HTTPS
+# → forwards .php requests to PHP-FPM over FastCGI
+# → PHP-FPM runs WordPress
+# → WordPress connects to MariaDB and returns HTML.
+
+# To make WordPress’s PHP code work, we enable extensions for DB, text, XML,
+# compression, and math.
 ################################################################################
