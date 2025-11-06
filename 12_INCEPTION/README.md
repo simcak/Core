@@ -216,7 +216,7 @@ MariaDB includes a number of additional features and improvements over MySQL, in
 
 - Installation part:
 
-1.  Pull `debian:buster`  (our base image)
+1.  Pull `debian:bookworm`  (our base image)
 2. update our package manager `apt-get update -y`
 3. install mariadb server `apt-get install mariadb-server -y`
 4. go to /etc/mysql/mariadb.conf.d/50-server.cnf  and change line 28 from `bind-address = 127.0.0.1`  to  `bind-address = 0.0.0.0`  for any network can connect to our Mariadb 
@@ -261,9 +261,11 @@ PHP-FPM (FastCGI Process Manager) is an implementation of the FastCGI protocol s
 
 PHP-FPM is often used as an alternative to mod_php, which is an Apache module that embeds the PHP interpreter directly into the Apache web server. Using PHP-FPM can improve the performance and scalability of PHP scripts, as it allows the web server and PHP to run in separate processes. It also allows for more fine-grained control over the PHP environment, as different pools of worker processes can be configured with different settings.
 
+![how_PHP-FPM_works](./readme-img/how_PHP-FPM_works.png)
+
 - Installation part:
 
-1. pull `debian:buster`  (our base image)
+1. pull `debian:bookworm`  (our base image)
 2. update our package manager `apt-get -y update` && `apt-get -y upgrade` && `apt update -y` && `apt upgrade -y`
 3. `apt install` `php-fpm` `php-mysql -y`&& `apt install curl -y`
 
@@ -378,7 +380,7 @@ OpenSSL is often used by system administrators and developers to secure communic
 
 - Installation part:
 
-1. pull `debian:buster`  (our base image)
+1. pull `debian:bookworm`  (our base image)
 2. update our package manager  `apt update -y` && `apt upgrade -y`
 3. `apt install -y nginx` && `apt install openssl -y` will install the NGINX web server and the OpenSSL tool.
 4. `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj "/C=MO/L=KH/O=1337/OU=student/CN=[sahafid.1337.ma](http://sahafid.42.ma/)"`
@@ -482,7 +484,7 @@ Adminer is a tool for managing database systems. It is a single PHP file that pr
 
 - Installation part:
 
-1. pull `debian:buster`  (our base image)
+1. pull `debian:bookworm`  (our base image)
 2. update our package manager  `apt update -y` 
 3. `apt install wget -y` && `apt-get install php php-mysql -y`
 
@@ -504,7 +506,7 @@ Passive mode is often used when the client is behind a firewall or NAT (Network 
 
 - Installation part:
 
-1. pull `debian:buster`  (our base image)
+1. pull `debian:bookworm`  (our base image)
 2. update our package manager  `apt update -y` 
 3. `apt install vsftpd -y`
 
@@ -572,7 +574,7 @@ Redis is an in-memory data structure store that can be used as a database, cache
 
 - Installation part:
 
-1. pull `debian:buster`  (our base image)
+1. pull `debian:bookworm`  (our base image)
 2. update our package manager  `apt update -y` 
 3. 
 
@@ -614,7 +616,7 @@ cAdvisor runs as a daemon on the host machine and collects resource usage and pe
 cAdvisor is particularly useful for monitoring and optimizing the performance of containerized applications in a production environment. It can help you identify resource constraints, troubleshoot issues, and optimize resource allocation to improve the performance of your containers.
 
 - Installation part:
-1. pull `debian:buster`  (our base image)
+1. pull `debian:bookworm`  (our base image)
 2. update our package manager  `apt update -y` 
 3. `apt install wget -y` (**`wget`** package, which is a utility for downloading files from the web.)
 4. `wget [https://github.com/google/cadvisor/releases/download/v0.37.0/cadvisor](https://github.com/google/cadvisor/releases/download/v0.37.0/cadvisor)` (download cadvisor from gihub)
