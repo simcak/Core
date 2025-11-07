@@ -41,6 +41,11 @@ I putted all my resources and notes in here.
 - `tree -L 42` : list the contents of directories in a tree-like format up to a specified depth level (42 in this case).
 - `#!/bin/bash` : This tells Docker to run the script with bash. It’s the shebang line — without it, Docker might not know which interpreter to use
 - `set -e` : “Exit immediately if any command fails.”
+- `sudo usermod -aG docker $USER` : Add your user to the docker group 
+- `sudo systemctl restart docker` : Restart the docker service to apply changes
+- `newgrp docker` : Apply the new group membership without logging out and back in.
+- `docker logs <container_id>` : Fetch the logs of a container (for example: wordpress entrypoint.sh script echos)
+- `sudo bash -c "grep -q 'psimcak.42.fr' /etc/hosts || echo '127.0.0.1 psimcak.42.fr www.psimcak.42.fr' >> /etc/hosts"` : Add a line to the /etc/hosts file only if it doesn't already exist = so when we access psimcak.42.fr it will point to localhost (127.0.0.1)
 
 ## What are Containers ?
 
@@ -138,17 +143,17 @@ Using Docker Compose can simplify the process of managing multi-container applic
 
 ## What are the most common commands are used in docker-compose ?
 
-- **`up`**: Create and start containers
-- **`down`**: Stop and remove containers, networks, images, and volumes
-- **`start`**: Start existing containers
-- **`stop`**: Stop running containers
+- **`up`**:		 Create and start containers
+- **`down`**:	 Stop and remove containers, networks, images, and volumes
+- **`start`**:	 Start existing containers
+- **`stop`**:	 Stop running containers
 - **`restart`**: Restart running containers
-- **`build`**: Build images
-- **`ps`**: List containers
-- **`logs`**: View output from containers
-- **`exec`**: Run a command in a running container
-- **`pull`**: Pull images from a registry
-- **`push`**: Push images to a registry
+- **`build`**:	 Build images
+- **`ps`**:		 List containers
+- **`logs`**:	 View output from containers
+- **`exec`**:	 Run a command in a running container
+- **`pull`**:	 Pull images from a registry
+- **`push`**:	 Push images to a registry
 
 ## What are DOCKER NETWORKS
 
