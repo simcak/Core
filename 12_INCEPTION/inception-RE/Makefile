@@ -44,13 +44,18 @@ re: down
 	$(call INFO, $(YELLOW), "Rebuilding $(NAME)")
 	@$(COMPOSE) up -d --build
 
+prune:
+	$(call INFO, $(YELLOW), "Pruning unused Docker objects (safe)")
+	@docker system prune -af
+	@docker network prune -f
+
 reset:
 	$(call INFO, $(RED), "Resetting $(NAME)")
 	@docker rm -f $$(docker ps -aq) 2>/dev/null || true
 	@docker system prune -af
 
 clean: down
-	$(call INFO, $(YELLOW), "Cleaning Docker system and project data...")
+	$(call INFO, $(RED), "Cleaning Docker system and project data...")
 	@docker system prune -af
 	@sudo rm -rf $(DATA_DIR)/wordpress/* $(DATA_DIR)/mariadb/*
 
@@ -65,4 +70,4 @@ fclean:
 party:
 	@curl parrot.live
 
-.PHONY: all build down re reset clean fclean party
+.PHONY: all build down re prune reset clean fclean party
