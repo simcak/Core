@@ -1,75 +1,67 @@
-version: '3' # Specify the version of Docker Compose syntax
-
-######################### Services #########################
 services:
   nginx:
-    build:          ./requirements/nginx
-    container_name:  nginx
+    build: ./requirements/nginx
+    container_name: nginx
     ports:
-      - "443:443"  # HTTPS ("80:80" for HTTP)
-    # This means the nginx service will start after the wordpress service starts.
-    depends_on:
-      - wordpress # why dont we check for healthy? TODO
-    volumes:
-      - wordpress_data:/var/www/html  # Persist WordPress data
-    networks:
-      - inception_network
-    # Always restart the container if it stops
-    restart: always
-
-  wordpress:
-    build:          ./requirements/wordpress
-    container_name:  wordpress
-    environment:
-      - WORDPRESS_DB_HOST    =${WORDPRESS_DB_HOST}
-      - WORDPRESS_DB_NAME    =${WORDPRESS_DB_NAME}
-      - WORDPRESS_DB_USER    =${WORDPRESS_DB_USER}
-      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
-    depends_on:
-      - mariadb:
-          condition: service_healthy  # Ensure mariadb is healthy before starting wordpress
+      - "443:443"
     volumes:
       - wordpress_data:/var/www/html
     networks:
-      - inception_network
+      - inception
+    depends_on:
+      - wordpress
     restart: always
 
   mariadb:
-    build:          ./requirements/mariadb
-    container_name:  mariadb
+    build: ./requirements/mariadb
+    container_name: mariadb
     environment:
-      - MYSQL_DATABASE     =${MYSQL_DATABASE}
-      - MYSQL_USER         =${MYSQL_USER}
-      - MYSQL_PASSWORD     =${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE:      ${DB_NAME}
+      MYSQL_USER:          ${DB_USER}
+      MYSQL_PASSWORD:      ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
     volumes:
-      - mariadb_data:/var/lib/mysql  # Persist MariaDB data
+      - mariadb_data:/var/lib/mysql
     networks:
-      - inception_network
-    restart: always
+      - inception
     healthcheck:
-      test:     ["CMD", "mysqladmin", "ping", "-h", "localhost"] # Runs this command inside the container. If MySQL is running and accepting connections, this returns a successful response.
-      interval: 10s  # Docker runs the health check every 10 seconds.
-      timeout:  5s   # If the command doesn’t finish in 5 seconds, it’s considered failed.
-      retries:  5    # Docker will try up to 5 times before marking the container as unhealthy.
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 5
+      interval: 10s
+    restart: always
 
-######################### Volumes #########################
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    environment:
+      WORDPRESS_DB_HOST:     ${DB_HOST}
+      WORDPRESS_DB_NAME:     ${DB_NAME}
+      WORDPRESS_DB_USER:     ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASS}
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+    restart: always
+
 volumes:
-  wordpress_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: ${PWD}/data/wordpress
-      o: bind
-
   mariadb_data:
     driver: local
     driver_opts:
       type: none
-      device: ${PWD}/data/mariadb
       o: bind
+      device: /home/psimcak/data/mariadb
 
-######################### Network #########################
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/psimcak/data/wordpress
+
 networks:
-  inception_network:
+  inception:
     driver: bridge
