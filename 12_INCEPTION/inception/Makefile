@@ -67,7 +67,10 @@ fclean:
 	@docker volume prune -f
 	@sudo rm -rf $(DATA_DIR)/wordpress/* $(DATA_DIR)/mariadb/*
 
+access_mariadb:
+	@docker exec -it mariadb bash
+
 party:
 	@curl parrot.live
 
-.PHONY: all build down re prune reset clean fclean party
+.PHONY: all build down re prune reset clean fclean access_mariadb party
