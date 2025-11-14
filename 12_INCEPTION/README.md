@@ -35,7 +35,7 @@ I putted all my resources and notes in here.
 - [Medium - Inception Part 1](https://medium.com/@ssterdev/inception-guide-42-project-part-i-7e3af15eb671)
 - [Medium - Inception Part 2](https://medium.com/@ssterdev/inception-42-project-part-ii-19a06962cf3b)
 - [Medium - Handling Docker Secrets the Right Way](https://medium.com/@dariusmurawski/handling-docker-secrets-the-right-way-cc625be3395d)
----
+
 
 ## New bash commands learned
 - `tree -L 42` : list the contents of directories in a tree-like format up to a specified depth level (42 in this case).
@@ -46,6 +46,15 @@ I putted all my resources and notes in here.
 - `newgrp docker` : Apply the new group membership without logging out and back in.
 - `docker logs <container_id>` : Fetch the logs of a container (for example: wordpress entrypoint.sh script echos)
 - `sudo bash -c "grep -q 'psimcak.42.fr' /etc/hosts || echo '127.0.0.1 psimcak.42.fr www.psimcak.42.fr' >> /etc/hosts"` : Add a line to the /etc/hosts file only if it doesn't already exist = so when we access psimcak.42.fr it will point to localhost (127.0.0.1)
+- `docker exec -it mariadb bash`: Access the mariadb container terminal
+
+
+## Evaluation
+- How Docker and docker-compose work.
+- The difference between a Docker image used with docker-compose and without docker-compose.
+- The benefit of Docker compared to VMs.
+- The pertinence of the directory structure required for this project.
+
 
 ## What are Containers ?
 
@@ -137,10 +146,6 @@ Docker Compose is a tool for defining and running multi-container Docker applica
 
 Using Docker Compose can simplify the process of managing multi-container applications by allowing you to define all of your services in a single place and easily start and stop them. It also makes it easy to scale your application by allowing you to increase or decrease the number of replicas of a service.
 
-## Here is a simple example of a Docker Compose file
-
-![Docker Compose file](readme-img/docker-compose-file.png)
-
 ## What are the most common commands are used in docker-compose ?
 
 - **`up`**:		 Create and start containers
@@ -226,29 +231,33 @@ MariaDB includes a number of additional features and improvements over MySQL, in
 3. install mariadb server `apt-get install mariadb-server -y`
 4. go to /etc/mysql/mariadb.conf.d/50-server.cnf  and change line 28 from `bind-address = 127.0.0.1`  to  `bind-address = 0.0.0.0`  for any network can connect to our Mariadb 
 5. `service mysql start` 
-6. create our database and our user and give him the access to the database then FLUSH PRIVILEGES 
-- scripts part:
+6. create our database and our user and give him the access to the database then FLUSH PRIVILEGES
+
+testmariadb: `docker exec -it mariadb bash`
+
+check config : cat /etc/mysql/mariadb.conf.d/50-server.cnf
+
+[MariaDB doc](https://mariadb.com/docs/server/server-management) [SQL statements](https://mariadb.com/docs/server/reference/sql-statements) start mysql to check users and database :
 
 ```bash
+$ mysql
+MariaDB [(none)]> SELECT user,host,password FROM mysql.user;
+MariaDB [(none)]> SHOW databases; 
+MariaDB [(none)]> USE wordpress;
+MariaDB [wordpress]> SHOW TABLES;
+MariaDB [wordpress]> SELECT * FROM wp_users;
+SELECT ID, user_login, user_email FROM wp_users;
+SHOW COLUMNS FROM wp_posts;
+SELECT ID, post_author, post_date, post_title  FROM wp_posts;
 
-#db_name = Database Name
-#db_user = User
-#db_pwd = User Password
+From mariadb container, connect as root without password mysql --user=root mysql or mysql -u root -p should ask password.
 
-echo "CREATE DATABASE IF NOT EXISTS $db_name ;" > db1.sql
-echo "CREATE USER IF NOT EXISTS '$db_user'@'%' IDENTIFIED BY '$db_pwd' ;" >> db1.sql
-echo "GRANT ALL PRIVILEGES ON $db_name.* TO '$db_user'@'%' ;" >> db1.sql
-echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '12345' ;" >> db1.sql
-echo "FLUSH PRIVILEGES;" >> db1.sql
+mysql -u root -p${DB_ROOT_PASSWORD} OK
 
-mysql < db1.sql
+mysql -u ${DB_USER} -p${DB_USER_PASSWORD} OK
+
+SHOW GRANTS FOR 'root'@'localhost';
 ```
-
-to keep the container running run this command in CMD in your Dockerfile  `/usr/bin/mysqld_safe`
-
-`mysqld_safe` is typically used to start the MySQL server when the system is booting, and it is also used to start and stop the MySQL server manually
-
----
 
 ---
 
@@ -277,79 +286,6 @@ PHP-FPM is often used as an alternative to mod_php, which is an Apache module th
 The first command installs the **`php-fpm`** and **`php-mysql`** packages. **`php-fpm`** (FastCGI Process Manager) is an implementation of FastCGI that is used to execute PHP scripts, and **`php-mysql`** is a PHP extension that allows PHP to communicate with MySQL databases.
 
 The third command installs the **`curl`** package, which is a command-line tool for transferring data using various network protocols, including HTTP, HTTPS, and FTP.
-
-My source source of info [`https://developer.wordpress.org/cli/commands/core/`](https://developer.wordpress.org/cli/commands/core/)
-
-- script part:
-
-```bash
-#!/bin/bash
-
-# create directory to use in nginx container later and also to setup the wordpress conf
-mkdir /var/www/
-mkdir /var/www/html
-
-cd /var/www/html
-
-# remove all the wordpress files if there is something from the volumes to install it again
-rm -rf *
-
-# The commands are for installing and using the WP-CLI tool.
-
-# downloads the WP-CLI PHAR (PHP Archive) file from the GitHub repository. The -O flag tells curl to save the file with the same name as it has on the server.
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 
-
-# makes the WP-CLI PHAR file executable.
-chmod +x wp-cli.phar 
-
-# moves the WP-CLI PHAR file to the /usr/local/bin directory, which is in the system's PATH, and renames it to wp. This allows you to run the wp command from any directory
-mv wp-cli.phar /usr/local/bin/wp
-
-# downloads the latest version of WordPress to the current directory. The --allow-root flag allows the command to be run as the root user, which is necessary if you are logged in as the root user or if you are using WP-CLI with a system-level installation of WordPress.
-wp core download --allow-root
-
-mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
-
-# change the those lines in wp-config.php file to connect with database
-
-#line 23
-sed -i -r "s/database/$db_name/1"   wp-config.php
-#line 26
-sed -i -r "s/database_user/$db_user/1"  wp-config.php
-#line 29
-sed -i -r "s/passwod/$db_pwd/1"    wp-config.php
-
-#line 32
-sed -i -r "s/localhost/mariadb/1"    wp-config.php  (to connect with mariadb database)
-
-# installs WordPress and sets up the basic configuration for the site. The --url option specifies the URL of the site, --title sets the site's title, --admin_user and --admin_password set the username and password for the site's administrator account, and --admin_email sets the email address for the administrator. The --skip-email flag prevents WP-CLI from sending an email to the administrator with the login details.
-wp core install --url=$DOMAIN_NAME/ --title=$WP_TITLE --admin_user=$WP_ADMIN_USR --admin_password=$WP_ADMIN_PWD --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
-
-# creates a new user account with the specified username, email address, and password. The --role option sets the user's role to author, which gives the user the ability to publish and manage their own posts.
-wp user create $WP_USR $WP_EMAIL --role=author --user_pass=$WP_PWD --allow-root
-
-# installs the Astra theme and activates it for the site. The --activate flag tells WP-CLI to make the theme the active theme for the site.
-wp theme install astra --activate --allow-root
-
-
-wp plugin install redis-cache --activate --allow-root
-
-
-# uses the sed command to modify the www.conf file in the /etc/php/7.3/fpm/pool.d directory. The s/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g command substitutes the value 9000 for /run/php/php7.3-fpm.sock throughout the file. This changes the socket that PHP-FPM listens on from a Unix domain socket to a TCP port.
-sed -i 's/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
-
-# creates the /run/php directory, which is used by PHP-FPM to store Unix domain sockets.
-mkdir /run/php
-
-
-wp redis enable --allow-root
-
-
-# starts the PHP-FPM service in the foreground. The -F flag tells PHP-FPM to run in the foreground, rather than as a daemon in the background.
-/usr/sbin/php-fpm7.3 -F
-```
-
----
 
 ---
 
