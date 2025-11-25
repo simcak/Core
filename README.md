@@ -8,3 +8,4 @@
 - [git remote = how to share the commit history in 42Heilbronn projects](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories) (avoiding Plagiarism)
 - [GitBook with resources](https://42-cursus.gitbook.io/guide) - almost all projects covered with tips and manuals
 - [Markdown Guide](https://www.markdownguide.org) - for beautifull README.md
+- [GitHub Achievemnts](https://githubachievements.com/) - collecting achievements for the GitHub projects
