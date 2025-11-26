@@ -6,7 +6,7 @@
 /*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:01:47 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/16 17:26:02 by psimcak          ###   ########.fr       */
+/*   Updated: 2025/11/26 20:23:41 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,7 @@
 template <typename T> void	easyfind(T &container, int match) {
 	
 };
+
+// todo: use `inline` for practising it
 
 #endif
