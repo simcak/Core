@@ -1,42 +1,26 @@
 #include "easyfind.hpp"
-
 #include <string>
 #include <sstream>
 
 int main()
 {
-	std::list<int> test;
-	test.push_back(155);
-	test.push_back(156);
-	test.push_back(157);
+	std::list<int> container;
+	container.push_back(41);
+	container.push_back(42);
+	container.push_back(43);
 
-	std::list<int>::const_iterator	it = test.end();
-
-	try
+	std::list<int>::const_iterator	i = container.end();
+	for (size_t match = 40; match < 45; match++)
 	{
-		it = ::easyfind(test, 155);
+		try
+		{
+			i = ::easyfind(container, match);
+		}
+		catch(const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-
-	if (it != test.end())
-		std::cout << *it << " found" << std::endl;
-
-	it = test.end();
-
-	try
-	{
-		it = ::easyfind(test, 15);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-
-	if (it != test.end())
-		std::cout << *it << " found" << std::endl;
 
 	return (0);
 }
