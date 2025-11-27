@@ -37,6 +37,4 @@ typename T::iterator	easyfind(T &cont, int match)
 	return (i);
 };
 
-// todo: use `inline` for practising it
-
 #endif
