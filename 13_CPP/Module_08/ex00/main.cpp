@@ -1,17 +1,42 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/16 17:01:44 by psimcak           #+#    #+#             */
-/*   Updated: 2025/10/16 17:23:28 by psimcak          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "easyfind.hpp"
 
-int	main( void ) {
-	return 1;
+#include <string>
+#include <sstream>
+
+int main()
+{
+	std::list<int> test;
+	test.push_back(155);
+	test.push_back(156);
+	test.push_back(157);
+
+	std::list<int>::const_iterator	it = test.end();
+
+	try
+	{
+		it = ::easyfind(test, 155);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
+	if (it != test.end())
+		std::cout << *it << " found" << std::endl;
+
+	it = test.end();
+
+	try
+	{
+		it = ::easyfind(test, 15);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
+	if (it != test.end())
+		std::cout << *it << " found" << std::endl;
+
+	return (0);
 }
