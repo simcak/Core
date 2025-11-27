@@ -4,10 +4,12 @@
 #include <algorithm>
 #include <list>
 #include <iostream>
+#include <vector>
 
 /* ───────────────────────────────── COLORS ───────────────────────────────── */
 #define BRED	"\033[1;31m"
 #define BG		"\033[1;32m"
+#define BY		"\033[1;33m"
 #define RST		"\033[0m"
 
 #define BREXC	BRED "Exception: " RST
@@ -29,7 +31,6 @@ typename T::iterator	easyfind(T &cont, int match)
 {
 	typename T::iterator	i;
 
-	// i = find(cont.begin(), cont.end(), match);
 	if ((i = find(cont.begin(), cont.end(), match)) == cont.end())
 		throw NotFoundException();
 	std::cout << match << BG " found" RST << std::endl;
