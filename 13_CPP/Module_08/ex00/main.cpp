@@ -1,9 +1,9 @@
 #include "easyfind.hpp"
 
 template <typename C, typename I>
-static void	_tester(C& container, I& i, int match_start, int match_end)
+static void	_easyfindTester(C& container, I& i, int start, int end)
 {
-	for (int match = match_start; match <= match_end; match++)
+	for (int match = start; match <= end; match++)
 	{
 		try
 		{
@@ -28,7 +28,7 @@ int main()
 		container.push_back(43);
 		
 		std::list<int>::const_iterator	i = container.end();
-		_tester(container, i, 40, 44);
+		_easyfindTester(container, i, 40, 44);
 	}
 
 	std::cout << BY "\nVector-int test" RST << std::endl;
@@ -40,7 +40,7 @@ int main()
 		container.push_back(43);
 		
 		std::vector<int>::const_iterator	i = container.end();
-		_tester(container, i, 40, 44);
+		_easyfindTester(container, i, 40, 44);
 	}
 
 	std::cout << BY "\nVector-char test" RST << std::endl;
@@ -52,7 +52,7 @@ int main()
 		container.push_back('d');
 		
 		std::vector<char>::const_iterator	i = container.end();
-		_tester(container, i, 'a', 'e');
+		_easyfindTester(container, i, 'a', 'e');
 	}
 
 	return (0);
