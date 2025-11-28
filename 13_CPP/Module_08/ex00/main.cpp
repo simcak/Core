@@ -1,5 +1,22 @@
 #include "easyfind.hpp"
 
+template <typename C, typename I>
+static void	_tester(C& container, I& i, int match_start, int match_end)
+{
+	for (int match = match_start; match <= match_end; match++)
+	{
+		try
+		{
+			i = ::easyfind(container, match);
+			std::cout << match << BG " found" RST << std::endl;
+		}
+		catch(const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+		}
+	}
+}
+
 int main()
 {
 	std::cout << BY "List-int test" RST << std::endl;
@@ -11,17 +28,7 @@ int main()
 		container.push_back(43);
 		
 		std::list<int>::const_iterator	i = container.end();
-		for (size_t match = 40; match < 45; match++)
-		{
-			try
-			{
-				i = ::easyfind(container, match);
-			}
-			catch(const std::exception& e)
-			{
-				std::cout << e.what() << std::endl;
-			}
-		}
+		_tester(container, i, 40, 44);
 	}
 
 	std::cout << BY "\nVector-int test" RST << std::endl;
@@ -33,17 +40,7 @@ int main()
 		container.push_back(43);
 		
 		std::vector<int>::const_iterator	i = container.end();
-		for (size_t match = 40; match < 45; match++)
-		{
-			try
-			{
-				i = ::easyfind(container, match);
-			}
-			catch(const std::exception& e)
-			{
-				std::cout << e.what() << std::endl;
-			}
-		}
+		_tester(container, i, 40, 44);
 	}
 
 	std::cout << BY "\nVector-char test" RST << std::endl;
@@ -55,17 +52,7 @@ int main()
 		container.push_back('d');
 		
 		std::vector<char>::const_iterator	i = container.end();
-		for (char match = 'a'; match < 'f'; match++)
-		{
-			try
-			{
-				i = ::easyfind(container, match);
-			}
-			catch(const std::exception& e)
-			{
-				std::cout << e.what() << std::endl;
-			}
-		}
+		_tester(container, i, 'a', 'e');
 	}
 
 	return (0);

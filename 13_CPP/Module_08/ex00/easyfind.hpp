@@ -31,9 +31,8 @@ typename T::iterator	easyfind(T &cont, int match)
 {
 	typename T::iterator	i;
 
-	if ((i = find(cont.begin(), cont.end(), match)) == cont.end())
+	if ((i = std::find(cont.begin(), cont.end(), match)) == cont.end())
 		throw NotFoundException();
-	std::cout << match << BG " found" RST << std::endl;
 	return (i);
 };
 
