@@ -2,6 +2,7 @@
 # define SPAN_HPP
 
 #include <iostream>
+#include <vector>
 
 /* ───────────────────────────────── COLORS ───────────────────────────────── */
 #define BRED	"\033[1;31m"
@@ -12,29 +13,36 @@
 #define BRERR	BRED "Error: " RST
 #define BREXC	BRED "Exception: " RST
 
+/* ───────────────────────────────── CLASSES ──────────────────────────────── */
 class Span
 {
 
 	private:
-		/* data */
+		std::vector<int>	_num_container;
+		unsigned int		_n_stored;
 
 	public:
-		/************************Orthodox Canonical Form***********************/
+		/* ───────────────────── Orthodox Canonical Form ──────────────────── */
 		Span();
 		Span(unsigned int N);
 		Span(const Span &);
 		Span &Span::operator=(const Span &);
 		~Span();
 
-		/********************************getters*******************************/
+		/* ──────────────────────────── getters ───────────────────────────── */
 
-		/****************************member function***************************/
+		/* ──────────────────────── member function ───────────────────────── */
 		void			addNumber();
-		unsigned int	shortestSpan();
-		unsigned int	longestSpan();
+		unsigned int	shortestSpan() const;
+		unsigned int	longestSpan() const;
 
-		/*******************************exception******************************/
+		/* ─────────────────────────── exception ──────────────────────────── */
 		class AlreadyFilledException : public std::exception {
+			public:
+				const char*		what() const throw();
+		};
+
+		class NoSpanFoundException : public std::exception {
 			public:
 				const char*		what() const throw();
 		};

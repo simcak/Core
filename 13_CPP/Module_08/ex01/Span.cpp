@@ -1,11 +1,11 @@
 #include "Span.hpp"
 
-/****************************Orthodox Canonical Form***************************/
-Span::Span() {}
+/* ───────────────────────── Orthodox Canonical Form ──────────────────────── */
+Span::Span(): _n_stored(0) {}
 
-Span::Span(unsigned int N)
+Span::Span(unsigned int N): _n_stored(N)
 {
-
+	this->_num_container; //td
 }
 
 Span::Span(const Span &copy)
@@ -22,8 +22,13 @@ Span	&Span::operator=(const Span &src)
 Span::~Span() {}
 
 
-/***********************************exception**********************************/
+/* ──────────────────────────────── exception ─────────────────────────────── */
 const char* Span::AlreadyFilledException::what() const throw()
 {
 	return (BREXC "There are already N elements stored.");
+}
+
+const char* Span::NoSpanFoundException::what() const throw()
+{
+	return (BREXC "There are no numbers stored, or only one.");
 }
