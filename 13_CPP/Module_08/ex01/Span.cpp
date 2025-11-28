@@ -8,7 +8,7 @@ Span::Span(unsigned int N): _n_stored(N)
 	this->_num_container; //td
 }
 
-Span::Span(const Span &copy)
+Span::Span(const Span &copy): _n_stored(copy._n_stored)
 {
 	*this = copy;
 }
@@ -21,6 +21,24 @@ Span	&Span::operator=(const Span &src)
 
 Span::~Span() {}
 
+/* ───────────────────────────────── getters ──────────────────────────────── */
+unsigned int	Span::getNStored() const { return this->_n_stored; }
+
+/* ──────────────────────────── member functions ──────────────────────────── */
+void	Span::addNumber()
+{
+
+}
+
+unsigned int	Span::shortestSpan() const
+{
+
+}
+
+unsigned int	Span::longestSpan() const
+{
+
+}
 
 /* ──────────────────────────────── exception ─────────────────────────────── */
 const char* Span::AlreadyFilledException::what() const throw()

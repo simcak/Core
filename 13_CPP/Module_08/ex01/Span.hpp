@@ -30,6 +30,7 @@ class Span
 		~Span();
 
 		/* ──────────────────────────── getters ───────────────────────────── */
+		unsigned int	getNStored() const;
 
 		/* ──────────────────────── member function ───────────────────────── */
 		void			addNumber();
