@@ -25,9 +25,9 @@ Span::~Span() {}
 unsigned int	Span::getNStored() const { return this->_n_stored; }
 
 /* ──────────────────────────── member functions ──────────────────────────── */
-void	Span::addNumber()
+void	Span::addNumber(int num)
 {
-
+	this->_num_container.push_back(num);
 }
 
 unsigned int	Span::shortestSpan() const

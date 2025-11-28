@@ -33,7 +33,7 @@ class Span
 		unsigned int	getNStored() const;
 
 		/* ──────────────────────── member function ───────────────────────── */
-		void			addNumber();
+		void			addNumber(int);
 		unsigned int	shortestSpan() const;
 		unsigned int	longestSpan() const;
 
