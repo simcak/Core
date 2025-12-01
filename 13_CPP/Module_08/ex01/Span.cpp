@@ -36,16 +36,7 @@ void	Span::addNumber(unsigned int range, time_t seed)
 {
 	srand(seed);
 	for (size_t i = 0; i < range; i++)
-	{
-		try
-		{
-			addNumber(rand());
-		}
-		catch(const std::exception& e)
-		{
-			std::cerr << e.what() << '\n';
-		}
-	}
+		addNumber(rand());
 }
 
 unsigned int Span::shortestSpan() const {

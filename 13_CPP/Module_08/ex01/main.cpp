@@ -50,10 +50,17 @@ int	main( void )
 
 	std::cout << BY "\nMy Test 2" RST << std::endl;
 	{
-		Span sp_r = Span(20000);
-		sp_r.addNumber(20001, time(NULL));
-		std::cout << sp_r.shortestSpan() << std::endl;
-		std::cout << sp_r.longestSpan() << std::endl;
+		try
+		{
+			Span sp_r = Span(20000);
+			sp_r.addNumber(20000, time(NULL));
+			std::cout << sp_r.shortestSpan() << std::endl;
+			std::cout << sp_r.longestSpan() << std::endl;
+		}
+		catch(const std::exception& e)
+		{
+			std::cerr << e.what() << std::endl;
+		}
 	}
 
 	return 0;
