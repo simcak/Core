@@ -1,5 +1,5 @@
 # ──────────────────────────────────MAKEFILE────────────────────────────────── #
-NAME	= easyFind
+NAME	= mutantStack
 COM		= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
