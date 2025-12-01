@@ -50,8 +50,8 @@ int	main( void )
 
 	std::cout << BY "\nMy Test 2" RST << std::endl;
 	{
-		Span sp_r = Span(20000);
-		sp_r.addNumber(20001, time(NULL));
+		Span sp_r = Span(1);
+		sp_r.addNumber(1, time(NULL));
 		std::cout << sp_r.shortestSpan() << std::endl;
 		std::cout << sp_r.longestSpan() << std::endl;
 	}
