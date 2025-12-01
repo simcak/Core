@@ -1,5 +1,5 @@
 # ──────────────────────────────────MAKEFILE────────────────────────────────── #
-NAME	= easyFind
+NAME	= span
 COM		= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
