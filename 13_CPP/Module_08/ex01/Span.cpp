@@ -50,7 +50,11 @@ unsigned int Span::shortestSpan() const {
 
 	shortest = c.back();
 	for (size_t i = 1; i < c.size(); ++i)
+	{
 		shortest = std::min<unsigned int>(shortest, c[i] - c[i-1]);
+		if (shortest == 0)
+			return shortest;
+	}
 	return shortest;
 }
 

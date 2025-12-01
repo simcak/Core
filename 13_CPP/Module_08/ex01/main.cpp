@@ -32,12 +32,12 @@ int	main( void )
 			sp.addNumber(3);
 			sp.addNumber(1);
 			sp.addNumber(-4);
-			sp.addNumber(1);
+			sp.addNumber(11);
 			sp.addNumber(5);
 			sp.addNumber(9);
 			sp.addNumber(-9);
-			sp.addNumber(12);
-			// sp.addNumber(12);
+			sp.addNumber(14);
+			// sp.addNumber(1);
 			
 			std::cout << sp.shortestSpan() << std::endl;
 			std::cout << sp.longestSpan() << std::endl;
@@ -48,12 +48,12 @@ int	main( void )
 		}
 	}
 
-	std::cout << BY "\nMy Test 2" RST << std::endl;
+	std::cout << BY "\nMy Test 2 000 000" RST << std::endl;
 	{
 		try
 		{
-			Span sp_r = Span(20000);
-			sp_r.addNumber(20000, time(NULL));
+			Span sp_r = Span(2000000);
+			sp_r.addNumber(2000000, time(NULL));
 			std::cout << sp_r.shortestSpan() << std::endl;
 			std::cout << sp_r.longestSpan() << std::endl;
 		}
