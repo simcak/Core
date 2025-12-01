@@ -5,8 +5,7 @@ FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 DIR		= .
 T_SRC	= $(shell find $(DIR) -iname "*.cpp")
-
-SRC		= ./main.cpp
+SRC		= ./Span.cpp ./main.cpp
 OBJ		= $(SRC:%.cpp=%.o)
 
 # ───────────────────────────────────COLORS─────────────────────────────────── #
