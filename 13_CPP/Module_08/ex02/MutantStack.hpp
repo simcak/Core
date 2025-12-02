@@ -9,9 +9,6 @@ template<typename T>
 class MutantStack : public std::stack<T>
 {
 
-	private:
-		/* data */
-
 	public:
 		/* ───────────────────── Orthodox Canonical Form ──────────────────── */
 		MutantStack();
