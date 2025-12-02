@@ -8,15 +8,15 @@ Span::Span(unsigned int N): _n_stored(N)
 	this->_num_container.reserve(N);
 }
 
-Span::Span(const Span &copy): _n_stored(copy._n_stored)
-{
-	*this = copy;
-}
+Span::Span(const Span &copy): _num_container(copy._num_container), _n_stored(copy._n_stored) {}
 
 Span	&Span::operator=(const Span &src)
 {
-	(void)src;
-	return (*this);
+	if (this == &src)
+		return *this;
+	this->_n_stored = src._n_stored;
+	this->_num_container = src._num_container;
+	return *this;
 }
 
 Span::~Span() {}
