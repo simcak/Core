@@ -53,6 +53,7 @@ int	main()
 			++it;
 		}
 		std::stack<int> s(mstack);
+		std::cout << std::endl;
 	}
 
 	std::cout << BY "\nMy test - String" RST << std::endl;
@@ -96,7 +97,7 @@ int	main()
 		_print_info(mstack, BB "↓↓↓ Int Stack Information ↓↓↓" RST);
 
 		/**********************************************************************/
-		std::cout << BB "\n↓↓↓ Const Int Stack Information ↓↓↓\n\n" RST;
+		std::cout << BB "\n↓↓↓ Const Int Stack Information ↓↓↓\n" RST;
 
 		const MutantStack<int> const_mstack = mstack;
 
@@ -107,7 +108,7 @@ int	main()
 		while (const_iter_s != const_iter_e)
 			std::cout << *const_iter_s++ << " ** ";
 
-		std::cout << "]\nSize:  " << const_mstack.size() << "\n";
+		std::cout << "]\n\nSize:  " << const_mstack.size() << "\n";
 		std::cout << "Empty: " << (const_mstack.empty() ? TRUE : FALSE);
 	}
 
