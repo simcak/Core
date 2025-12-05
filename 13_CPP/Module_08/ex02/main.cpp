@@ -1,5 +1,25 @@
 #include "MutantStack.hpp"
 
+template <typename T>
+static void	_print_info(MutantStack<T> &mstack, std::string text)
+{
+	typename MutantStack<T>::iterator ms_begin = mstack.begin();
+	typename MutantStack<T>::iterator ms_end   = mstack.end();
+
+	++ms_begin;
+	--ms_begin;
+
+	std::cout << text << "\n";
+
+	std::cout << "Iterator: [ ** ";
+	while (ms_begin != ms_end)
+		std::cout << *ms_begin++ << " ** ";
+	std::cout << "]\n\n";
+
+	std::cout << "Size:  " << mstack.size() << std::endl;
+	std::cout << "Empty: " << (mstack.empty() ? TRUE : FALSE) << std::endl;
+}
+
 int	main()
 {
 	std::cout << BY "42subject test" RST << std::endl;
@@ -35,10 +55,8 @@ int	main()
 		std::stack<int> s(mstack);
 	}
 
-	std::cout << BY "\nMy test" RST << std::endl;
+	std::cout << BY "\nMy test - String" RST << std::endl;
 	{
-		std::cout << BB "↓↓↓ String Stack Information ↓↓↓\n\n" RST;
-
 		MutantStack<std::string> mstack_str;
 		mstack_str.push("Five");
 		mstack_str.push("Seventeen");
@@ -50,32 +68,20 @@ int	main()
 		mstack_str.push("Seven hundred thirty-seven");
 		mstack_str.pop();
 
+		_print_info(mstack_str, BB "↓↓↓ String Stack Information ↓↓↓" RST);
+
 		MutantStack<std::string>::iterator str_iter_begin = mstack_str.begin();
 		MutantStack<std::string>::iterator str_iter_end = mstack_str.end();
-
-		++str_iter_begin;
-		--str_iter_begin;
-
-		std::cout << "String Iterator: [ ** ";
-		while (str_iter_begin != str_iter_end)
-			std::cout << *str_iter_begin++ << " ** ";
-
-		std::cout << "]\n\nSize:  " << mstack_str.size() << "\n";
-		std::cout << "Empty: " << (mstack_str.empty() ? TRUE : FALSE);
 
 		str_iter_begin = mstack_str.begin();
 		while (str_iter_begin++ != str_iter_end)
 			mstack_str.pop();
 
-		std::cout << "\n\n" BB "↓↓↓ String After Poping ↓↓↓\n" RST;
-		std::cout << "Size:  " << mstack_str.size() << "\n";
-		std::cout << "Empty: " << (mstack_str.empty() ? TRUE : FALSE);
+		_print_info(mstack_str, BB "↓↓↓ String After Poping ↓↓↓" RST);
+	}
 
-		std::cout << "\n----------------------------------------------------\n";
-
-		/**********************************************************************/
-		std::cout << BB "↓↓↓ Int Stack Information ↓↓↓\n\n" RST;
-
+	std::cout << BY "\nMy test - Int" RST << std::endl;
+	{
 		MutantStack<int> mstack;
 		mstack.push(5);
 		mstack.push(17);
@@ -87,18 +93,7 @@ int	main()
 		mstack.push(737);
 		mstack.pop();
 
-		MutantStack<int>::iterator iter_begin = mstack.begin();
-		MutantStack<int>::iterator iter_end = mstack.end();
-
-		++iter_begin;
-		--iter_begin;
-
-		std::cout << "Int Iterator: [ ** ";
-		while (iter_begin != iter_end)
-			std::cout << *iter_begin++ << " ** ";
-
-		std::cout << "]\nSize:  " << mstack.size() << "\n";
-		std::cout << "Empty: " << (mstack.empty() ? TRUE : FALSE);
+		_print_info(mstack, BB "↓↓↓ Int Stack Information ↓↓↓" RST);
 
 		/**********************************************************************/
 		std::cout << BB "\n↓↓↓ Const Int Stack Information ↓↓↓\n\n" RST;
