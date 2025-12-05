@@ -2,6 +2,7 @@
 
 int	main()
 {
+	std::cout << BY "42subject test" RST << std::endl;
 	{
 		MutantStack<int>	mstack;
 
@@ -33,5 +34,11 @@ int	main()
 		}
 		std::stack<int> s(mstack);
 	}
+
+	std::cout << BY "\nMy test" RST << std::endl;
+	{
+
+	}
+
 	return 0;
 }
