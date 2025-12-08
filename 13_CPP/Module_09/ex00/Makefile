@@ -1,5 +1,5 @@
 # ──────────────────────────────────MAKEFILE────────────────────────────────── #
-NAME	= bitcoinExchange
+NAME	= btc
 COM		= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
