@@ -24,19 +24,45 @@ class BitcoinExchange
 
 	private:
 		std::map<std::string, double> _container;
+		
+		/* ──────────────────────── member function ───────────────────────── */
+		void	parseDatabase();
+		void	parseInputFile(const std::string &file);
 
 	public:
 		/* ───────────────────── Orthodox Canonical Form ──────────────────── */
+		BitcoinExchange();
 		BitcoinExchange(const std::string &dbFile);
-		BitcoinExchange(const BitcoinExchange &);
+		BitcoinExchange(const BitcoinExchange &copy);
 		BitcoinExchange &operator=(const BitcoinExchange &);
 		~BitcoinExchange();
 
 		/* ──────────────────────────── getters ───────────────────────────── */
 
-		/* ──────────────────────── member function ───────────────────────── */
-
 		/* ─────────────────────────── exception ──────────────────────────── */
+		class noDatabaseFile : public std::exception {
+			public: const char*		what() const throw();
+		};
+
+		class amountOutOfRange : public std::exception {
+			public: const char*		what() const throw();
+		};
+
+		class invalidDate : public std::exception {
+			public: const char*		what() const throw();
+		};
+
+		class invalidFormat : public std::exception {
+			public: const char*		what() const throw();
+		};
+
+		class wrongHeader : public std::exception {
+			public: const char*		what() const throw();
+		};
+
+		class nothingToRead : public std::exception {
+			public: const char*		what() const throw();
+		};
 
 };
 
