@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 	if (inputFile.peek() == std::ifstream::traits_type::eof())
 		return (_print_err(ERR_MPTY, argv), 1);
 
-	// to-do
+	BitcoinExchange history(argv[1]);
 
 	return (inputFile.close(), 0);
 }
