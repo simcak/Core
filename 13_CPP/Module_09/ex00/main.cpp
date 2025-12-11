@@ -8,8 +8,6 @@ void	_print_err(int key, char **argv)
 		std::cout << BRERR "Couldn't open the file '" << argv[1] << "'\n";
 	else if (key == ERR_MPTY)
 		std::cout << BRERR "No content in the file '" << argv[1] << "'\n";
-
-	std::cout << BRERR << std::endl;
 }
 
 int main(int argc, char **argv)
