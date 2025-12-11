@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <cstdlib>	// std::atof()
 
 #define ERR_ARGS	13
 #define ERR_OPEN	14
