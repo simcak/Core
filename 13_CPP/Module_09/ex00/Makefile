@@ -25,7 +25,7 @@ endef
 
 $(NAME): $(OBJ)
 	@$(COM) $(OBJ) -o $(NAME)
-	$(call INFO,\t$(GREEN),"${NAME} Compiled!"\t)
+	$(call INFO,\t$(GREEN),"${NAME} program Compiled!"\t)
 
 all: $(NAME)
 
