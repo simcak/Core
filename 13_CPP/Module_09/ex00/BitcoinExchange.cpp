@@ -1,19 +1,20 @@
 #include "BitcoinExchange.hpp"
-#include <bits/stdc++.h>
 /* ───────────────────────── Orthodox Canonical Form ──────────────────────── */
 BitcoinExchange::BitcoinExchange() {}
 
-BitcoinExchange::BitcoinExchange(const std::string &dbFile)
+BitcoinExchange::BitcoinExchange(const char *inputFile)
 {
 	parseDatabase();
-	parseInputFile(dbFile);
+	parseInputFile(inputFile);
 }
 
-BitcoinExchange::BitcoinExchange(const BitcoinExchange &copy) { (void)copy; }
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &copy)
+	: _container(copy._container) {}
 
 BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 {
-	(void)other;
+	if (this != &other)
+		_container = other._container;
 	return *this;
 }
 
@@ -26,6 +27,70 @@ inline bool	_thereIsHeaderLine(std::string line, int i)
 	return (line == "date,exchange_rate" && i == 0);
 }
 
+inline bool	_transfer_year(const tm &date)
+{
+	return ((date.tm_year % 4 == 0 && date.tm_year % 100 != 0) ||
+			(date.tm_year % 400 == 0));
+}
+
+int	_printError(ErrorCode key, int i)
+{
+	switch (key)
+	{
+	case MISSING_PIPE:
+		std::cout << BRERR "\tLine " << i << ": ";
+		return (std::cout << "Invalid format - missing ' | '.\n", 1);
+	case EMPTY_PART:
+		std::cout << BRERR "\tLine " << i << ": ";
+		return (std::cout << "Date or Value part is empty.\n", 1);
+	case INVALID_DATE:
+		std::cout << BRERR "\tLine " << i << ": ";
+		return (std::cout << "Date format is invalid.\n", 1);
+	case AMOUNT_RANGE:
+		std::cout << BRERR "\tLine " << i << ": ";
+		return (std::cout << "Amount is out of range <0; 1000>.\n", 1);
+
+	default:
+		return 0;
+	}
+}
+
+bool	_isValidDate(const tm &date)
+{
+	switch (date.tm_mon)
+	{
+	case 1:
+		if (_transfer_year(date))
+			return date.tm_mday <= 29;
+		else
+			return date.tm_mday <= 28;
+	case 3: case 5: case 8: case 10:
+		return date.tm_mday <= 30;
+
+	default:
+		return date.tm_mday <= 31;
+	}
+}
+
+double	BitcoinExchange::findValue(std::string date)
+{
+	std::map<std::string, double>::iterator it = this->_container.begin();
+
+	for (; it != this->_container.end(); it++)
+	{
+		if (date <= it->first)
+		{
+			if ((date < it->first) && (it != _container.begin()))
+				it--;
+			return it->second;
+		}
+	}
+	if ((it == this->_container.end()) && (this->_container.size() > 1))
+		it--;
+
+	return it->second;
+}
+
 // ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  //
 
 void	BitcoinExchange::parseDatabase()
@@ -33,6 +98,9 @@ void	BitcoinExchange::parseDatabase()
 	std::ifstream	database("./data.csv");
 	std::string		line;
 	int				i;
+
+	if (!database.is_open())
+		throw databaseCantOpen();
 
 	for (i = 0; std::getline(database, line); i++)
 	{
@@ -44,53 +112,73 @@ void	BitcoinExchange::parseDatabase()
 		double		ratePart = std::atof(exchangeRate.c_str());
 
 		this->_container.insert(std::make_pair(datePart, ratePart));
-
-		// if (i > 100 && i < 150) {
-		// 	std::cout << line << std::endl;
-		// 	std::cout << datePart << "-------" << ratePart << std::endl;
-		// 	std::cout << "*********************" << std::endl;
-		// 	int j = 1;
-		// 	for (std::map<std::string, double>::const_iterator it = this->_container.begin(); it != this->_container.end(); ++it) {
-		// 		if (j == i)
-		// 			std::cout << it->first << " -> " << it->second << std::endl;
-		// 		j++;
-		// 	}
-		// 	std::cout << "*********************" << std::endl;
-		// }
 	}
 
-	database.close();
 	if (i == 0)
-		throw nothingToRead();
+		throw databaseEmpty();
 }
 
-void	BitcoinExchange::parseInputFile(const std::string &dbFile)
+void	BitcoinExchange::parseInputFile(const char *inputFile)
 {
-	if (dbFile.empty())
-		return ;
+	std::ifstream	fileStream(inputFile);
+	std::string		line;
+	int				i;
+
+	if (!fileStream.is_open())
+		throw inputFileCantOpen();
+
+	for (i = 0; std::getline(fileStream, line); i++)
+	{
+		if (line == "date | value" && i == 0)
+			continue;
+
+		if (line.find(" | ") == std::string::npos) {
+			_printError(MISSING_PIPE, i+1);
+			continue;
+		}
+
+		std::string	datePart = line.substr(0, line.find(" | "));
+		std::string	valuePart = line.substr(line.find(" | ")+3); // +3 is not robust enought - i dont like it
+
+		if (datePart.empty() || valuePart.empty()) { // empty is not robust enought
+			_printError(EMPTY_PART, i+1);
+			continue;
+		}
+
+		struct tm tm = {}; // isnt here a better way?
+		if (!strptime(datePart.c_str(), "%Y-%m-%d", &tm) || !_isValidDate(tm)) {
+			_printError(INVALID_DATE, i+1);
+			continue;
+		}
+
+		double	amount = std::atof(valuePart.c_str());
+		if (amount < 0 || amount > 1000) {
+			_printError(AMOUNT_RANGE, i+1);
+			continue;
+		}
+
+		double		value = findValue(datePart); // is value a good name?
+
+		std::cout << datePart << " => " << valuePart << " = "
+			<< value * amount << std::endl;
+	}
+
+	if (i == 0)
+		throw inputFileEmpty();
 }
 
 /* ──────────────────────────────── exception ─────────────────────────────── */
-const char *BitcoinExchange::noDatabaseFile::what() const throw() {
-	return BREXC "The 'data.csv' file doesn't exists.";
+const char *BitcoinExchange::databaseCantOpen::what() const throw() {
+	return BREXC "The provided database can't be opened.";
 }
 
-const char *BitcoinExchange::amountOutOfRange::what() const throw() {
-	return BREXC "Amount is out of range. Use num in range <0; 1000>.";
+const char *BitcoinExchange::inputFileCantOpen::what() const throw() {
+	return BREXC "The provided file can't be opened.";
+}
+const char *BitcoinExchange::databaseEmpty::what() const throw() {
+	return BREXC "Database file is empty.";
 }
 
-const char *BitcoinExchange::invalidDate::what() const throw() {
-	return BREXC "Date format is invalid.";
-}
-
-const char *BitcoinExchange::invalidFormat::what() const throw() {
-	return BREXC "Invalid format - missing the ' | '.";
-}
-
-const char *BitcoinExchange::wrongHeader::what() const throw() {
-	return BREXC "Wrong header in the file.";
-}
-
-const char *BitcoinExchange::nothingToRead::what() const throw() {
-	return BREXC "There is nothing to read in the file.";
+const char *BitcoinExchange::inputFileEmpty::what() const throw() {
+	return BREXC "Input file is empty.";
 }
