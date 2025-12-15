@@ -5,10 +5,15 @@
 #include <fstream>
 #include <map>
 #include <cstdlib>	// std::atof()
+#include <bits/stdc++.h>
 
-#define ERR_ARGS	13
-#define ERR_OPEN	14
-#define ERR_MPTY	15
+enum ErrorCode
+{
+	MISSING_PIPE = 1,
+	EMPTY_PART,
+	INVALID_DATE,
+	AMOUNT_RANGE
+};
 
 /* ───────────────────────────────── COLORS ───────────────────────────────── */
 #define BR		"\033[1;31m"
@@ -27,13 +32,14 @@ class BitcoinExchange
 		std::map<std::string, double> _container;
 		
 		/* ──────────────────────── member function ───────────────────────── */
+		double	findValue(std::string date);
 		void	parseDatabase();
-		void	parseInputFile(const std::string &file);
+		void	parseInputFile(const char *file);
 
 	public:
 		/* ───────────────────── Orthodox Canonical Form ──────────────────── */
 		BitcoinExchange();
-		BitcoinExchange(const std::string &dbFile);
+		BitcoinExchange(const char *inputFile);
 		BitcoinExchange(const BitcoinExchange &copy);
 		BitcoinExchange &operator=(const BitcoinExchange &);
 		~BitcoinExchange();
@@ -41,27 +47,19 @@ class BitcoinExchange
 		/* ──────────────────────────── getters ───────────────────────────── */
 
 		/* ─────────────────────────── exception ──────────────────────────── */
-		class noDatabaseFile : public std::exception {
+		class databaseCantOpen : public std::exception {
 			public: const char*		what() const throw();
 		};
 
-		class amountOutOfRange : public std::exception {
+		class inputFileCantOpen : public std::exception {
 			public: const char*		what() const throw();
 		};
 
-		class invalidDate : public std::exception {
+		class databaseEmpty : public std::exception {
 			public: const char*		what() const throw();
 		};
 
-		class invalidFormat : public std::exception {
-			public: const char*		what() const throw();
-		};
-
-		class wrongHeader : public std::exception {
-			public: const char*		what() const throw();
-		};
-
-		class nothingToRead : public std::exception {
+		class inputFileEmpty : public std::exception {
 			public: const char*		what() const throw();
 		};
 
