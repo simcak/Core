@@ -32,7 +32,7 @@ class BitcoinExchange
 		std::map<std::string, double> _container;
 		
 		/* ──────────────────────── member function ───────────────────────── */
-		double	findValue(std::string date);
+		double	findPrice(std::string date);
 		void	parseDatabase();
 		void	parseInputFile(const char *file);
 
