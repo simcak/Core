@@ -22,18 +22,12 @@ BitcoinExchange::~BitcoinExchange() {}
 
 /* ──────────────────────────── member functions ──────────────────────────── */
 // ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ helper functions ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ //
-inline bool	_thereIsHeaderLine(std::string line, int i)
+static inline bool	_thereIsHeaderLine(std::string line, int i)
 {
 	return (line == "date,exchange_rate" && i == 0);
 }
 
-inline bool	_transfer_year(const tm &date)
-{
-	return ((date.tm_year % 4 == 0 && date.tm_year % 100 != 0) ||
-			(date.tm_year % 400 == 0));
-}
-
-int	_printError(ErrorCode key, int i)
+static int	_printError(ErrorCode key, int i)
 {
 	switch (key)
 	{
@@ -55,24 +49,47 @@ int	_printError(ErrorCode key, int i)
 	}
 }
 
-bool	_isValidDate(const tm &date)
+static std::string	_ftTrim(const std::string &s)
 {
-	switch (date.tm_mon)
-	{
-	case 1:
-		if (_transfer_year(date))
-			return date.tm_mday <= 29;
-		else
-			return date.tm_mday <= 28;
-	case 3: case 5: case 8: case 10:
-		return date.tm_mday <= 30;
+	std::string::size_type start = s.find_first_not_of(" \t");
+	if (start == std::string::npos)
+		return "";
+	std::string::size_type end = s.find_last_not_of(" \t");
 
-	default:
-		return date.tm_mday <= 31;
-	}
+	return (s.substr(start, end - start + 1));
 }
 
-double	BitcoinExchange::findValue(std::string date)
+static inline bool	_isLeapYear(int year)
+{
+	return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
+}
+
+static bool _isValidDate(const tm &date)
+{
+	int	year = date.tm_year + 1900;
+	int	month = date.tm_mon + 1;
+	int	day = date.tm_mday;
+
+	if (month < 1 || month > 12 || day < 1)
+		return false;
+
+	int maxDay;
+	switch (month) {
+		case 2:
+			maxDay = _isLeapYear(year) ? 29 : 28;
+			break;
+		case 4: case 6: case 9: case 11:
+			maxDay = 30;
+			break;
+		default:
+			maxDay = 31;
+	}
+	std::cout << maxDay << "  " << day << std::endl;
+	return (day <= maxDay);
+}
+
+
+double	BitcoinExchange::findPrice(std::string date)
 {
 	std::map<std::string, double>::iterator it = this->_container.begin();
 
@@ -132,35 +149,35 @@ void	BitcoinExchange::parseInputFile(const char *inputFile)
 		if (line == "date | value" && i == 0)
 			continue;
 
-		if (line.find(" | ") == std::string::npos) {
+		std::string::size_type	pipePos = line.find('|');
+		if (pipePos == std::string::npos) {
 			_printError(MISSING_PIPE, i+1);
 			continue;
 		}
 
-		std::string	datePart = line.substr(0, line.find(" | "));
-		std::string	valuePart = line.substr(line.find(" | ")+3); // +3 is not robust enought - i dont like it
-
-		if (datePart.empty() || valuePart.empty()) { // empty is not robust enought
+		std::string	datePart = _ftTrim(line.substr(0, pipePos));
+		std::string	valuePart = _ftTrim(line.substr(pipePos+1));
+		if (datePart.empty() || valuePart.empty()) {
 			_printError(EMPTY_PART, i+1);
 			continue;
 		}
 
-		struct tm tm = {}; // isnt here a better way?
+		struct tm	tm;
 		if (!strptime(datePart.c_str(), "%Y-%m-%d", &tm) || !_isValidDate(tm)) {
 			_printError(INVALID_DATE, i+1);
 			continue;
 		}
 
-		double	amount = std::atof(valuePart.c_str());
-		if (amount < 0 || amount > 1000) {
+		double	price = findPrice(datePart);
+		double	value = std::atof(valuePart.c_str());
+		if (value < 0 || value > 1000) {
 			_printError(AMOUNT_RANGE, i+1);
 			continue;
 		}
 
-		double		value = findValue(datePart); // is value a good name?
-
-		std::cout << datePart << " => " << valuePart << " = "
-			<< value * amount << std::endl;
+		std::cout <<
+			datePart << " => " << valuePart << " = " << price * value <<
+		std::endl;
 	}
 
 	if (i == 0)
