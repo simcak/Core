@@ -13,10 +13,13 @@ enum ErrorCode
 	MISSING_PIPE = 1,
 	EMPTY_PART,
 	INVALID_DATE,
+	INVALID_VALUE,
 	AMOUNT_RANGE_LARGE,
 	AMOUNT_RANGE_SMALL,
 	TOO_OLD
 };
+
+#define	PRICE_DOESNT_EXIST	-1.0
 
 /* ───────────────────────────────── COLORS ───────────────────────────────── */
 #define BR		"\033[1;31m"
@@ -32,10 +35,10 @@ class BitcoinExchange
 {
 
 	private:
-		std::map<std::string, double> _container;
+		std::map<std::string, double> _exchangeRateDatabase;
 		
 		/* ──────────────────────── member function ───────────────────────── */
-		double	findPrice(const std::string &date, int i) const;
+		double	findPrice(const std::string &date) const;
 		void	parseDatabase();
 		void	parseInputFile(const char *file);
 
