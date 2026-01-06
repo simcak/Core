@@ -22,30 +22,36 @@ BitcoinExchange::~BitcoinExchange() {}
 
 /* ──────────────────────────── member functions ──────────────────────────── */
 // ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ helper functions ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ //
-static inline bool	_thereIsHeaderLine(std::string line, int i)
+static inline bool	_thereIsHeaderLine(std::string &line, int i)
 {
 	return (line == "date,exchange_rate" && i == 0);
 }
 
-static int	_printError(ErrorCode key, int i)
+static void	_printError(ErrorCode key, int i)
 {
 	switch (key)
 	{
 	case MISSING_PIPE:
 		std::cout << BRERR "\tLine " << i << ": ";
-		return (std::cout << "Invalid format - missing ' | '.\n", 1);
+		std::cout << "Invalid format - missing ' | '.\n"; return;
 	case EMPTY_PART:
 		std::cout << BRERR "\tLine " << i << ": ";
-		return (std::cout << "Date or Value part is empty.\n", 1);
+		std::cout << "Date or Value part is empty.\n"; return;
 	case INVALID_DATE:
 		std::cout << BRERR "\tLine " << i << ": ";
-		return (std::cout << "Date format is invalid.\n", 1);
-	case AMOUNT_RANGE:
+		std::cout << "Date format is invalid.\n"; return;
+	case AMOUNT_RANGE_LARGE:
 		std::cout << BRERR "\tLine " << i << ": ";
-		return (std::cout << "Amount is out of range <0; 1000>.\n", 1);
+		std::cout << "Number is larger than 1000.\n"; return;
+	case AMOUNT_RANGE_SMALL:
+		std::cout << BRERR "\tLine " << i << ": ";
+		std::cout << "Number is smaller than 0.\n"; return;
+	case TOO_OLD:
+		std::cout << BRERR "\tLine " << i << ": ";
+		std::cout << "No rate available for dates before "; return;
 
 	default:
-		return 0;
+		return;
 	}
 }
 
@@ -64,7 +70,7 @@ static inline bool	_isLeapYear(int year)
 	return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
 }
 
-static bool _parseDate(std::string datePart)
+static bool _parseDate(const std::string &datePart)
 {
 	if (datePart.size() != 10 || datePart[4] != '-' || datePart[7] != '-')
 		return false;
@@ -100,23 +106,20 @@ static bool _parseDate(std::string datePart)
 	return (d <= maxDay);
 }
 
-
-double	BitcoinExchange::findPrice(std::string date)
+double	BitcoinExchange::findPrice(const std::string &date, int i) const
 {
-	std::map<std::string, double>::iterator it = this->_container.begin();
+	std::map<std::string, double>::const_iterator it = _container.lower_bound(date);
 
-	for (; it != this->_container.end(); it++)
-	{
-		if (date <= it->first)
-		{
-			if ((date < it->first) && (it != _container.begin()))
-				it--;
-			return it->second;
-		}
+	if (it != _container.end() && it->first == date)
+		return it->second;
+
+	if (it == _container.begin()) {
+		_printError(TOO_OLD, i+1);
+		std::cout << _container.begin()->first << std::endl;
+		return -1.0;
 	}
-	if ((it == this->_container.end()) && (this->_container.size() > 1))
-		it--;
 
+	--it;
 	return it->second;
 }
 
@@ -163,27 +166,27 @@ void	BitcoinExchange::parseInputFile(const char *inputFile)
 
 		std::string::size_type	pipePos = line.find('|');
 		if (pipePos == std::string::npos) {
-			_printError(MISSING_PIPE, i+1);
-			continue;
+			_printError(MISSING_PIPE, i+1); continue;
 		}
 
 		std::string	datePart = _ftTrim(line.substr(0, pipePos));
 		std::string	valuePart = _ftTrim(line.substr(pipePos+1));
 		if (datePart.empty() || valuePart.empty()) {
-			_printError(EMPTY_PART, i+1);
-			continue;
+			_printError(EMPTY_PART, i+1); continue;
 		}
 
 		if (!_parseDate(datePart)) {
-			_printError(INVALID_DATE, i+1);
-			continue;
+			_printError(INVALID_DATE, i+1); continue;
 		}
 
-		double	price = findPrice(datePart);
+		double	price = findPrice(datePart, i);
+		if (price < 0) continue;
 		double	value = std::atof(valuePart.c_str());
-		if (value < 0 || value > 1000) {
-			_printError(AMOUNT_RANGE, i+1);
-			continue;
+		if (value < 0) {
+			_printError(AMOUNT_RANGE_SMALL, i+1); continue;
+		}
+		if (value > 1000) {
+			_printError(AMOUNT_RANGE_LARGE, i+1); continue;
 		}
 
 		std::cout <<
