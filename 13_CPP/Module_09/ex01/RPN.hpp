@@ -2,6 +2,13 @@
 # define RPN_HPP
 
 #include <iostream>
+#include <stack>
+#include <exception>
+
+enum ErrorCode
+{
+	
+};
 
 /* ───────────────────────────────── COLORS ───────────────────────────────── */
 #define BR		"\033[1;31m"
@@ -17,10 +24,14 @@ class RPN
 {
 
 	private:
-		/* data */
+		std::stack<std::string>	_container;
+
 	public:
 		/* ───────────────────── Orthodox Canonical Form ──────────────────── */
-		RPN(/* args */);
+		RPN();
+		RPN(const std::string input);
+		RPN(const RPN &copy);
+		RPN &operator=(const RPN &);
 		~RPN();
 
 		/* ──────────────────────────── getters ───────────────────────────── */
@@ -28,7 +39,9 @@ class RPN
 		/* ──────────────────────── member function ───────────────────────── */
 
 		/* ─────────────────────────── exception ──────────────────────────── */
-
+		class placeholder : public std::exception {
+			public: const char*		what() const throw();
+		};
 };
 
 
