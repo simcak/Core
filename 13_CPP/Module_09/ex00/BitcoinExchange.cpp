@@ -9,12 +9,12 @@ BitcoinExchange::BitcoinExchange(const char *inputFile)
 }
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &copy)
-	: _container(copy._container) {}
+	: _exchangeRateDatabase(copy._exchangeRateDatabase) {}
 
 BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 {
 	if (this != &other)
-		_container = other._container;
+		_exchangeRateDatabase = other._exchangeRateDatabase;
 	return *this;
 }
 
@@ -40,6 +40,9 @@ static void	_printError(ErrorCode key, int i)
 	case INVALID_DATE:
 		std::cout << BRERR "\tLine " << i << ": ";
 		std::cout << "Date format is invalid.\n"; return;
+	case INVALID_VALUE:
+		std::cout << BRERR "\tLine " << i << ": ";
+		std::cout << "Value format is invalid.\n"; return;
 	case AMOUNT_RANGE_LARGE:
 		std::cout << BRERR "\tLine " << i << ": ";
 		std::cout << "Number is larger than 1000.\n"; return;
@@ -48,7 +51,7 @@ static void	_printError(ErrorCode key, int i)
 		std::cout << "Number is smaller than 0.\n"; return;
 	case TOO_OLD:
 		std::cout << BRERR "\tLine " << i << ": ";
-		std::cout << "No rate available for dates before "; return;
+		std::cout << "Used date is too long ago.\n"; return;
 
 	default:
 		return;
@@ -106,18 +109,41 @@ static bool _parseDate(const std::string &datePart)
 	return (d <= maxDay);
 }
 
-double	BitcoinExchange::findPrice(const std::string &date, int i) const
+/**
+ * @brief Parses a string into a double value with strict validation.
+ * 
+ * Attempts to convert the input string to a double. The function validates
+ * that the entire string represents a valid number with no trailing characters.
+ * 
+ * @param s The input string to parse
+ * @param out Reference to a double where the parsed value will be stored
+ * 
+ * @return true if the string was successfully parsed as a valid double with
+ *         no extraneous characters, false otherwise
+ */
+static bool	_parseValue(const std::string &str, double &out)
 {
-	std::map<std::string, double>::const_iterator it = _container.lower_bound(date);
+	std::stringstream	stream(str);
+	stream >> out;
+	if (stream.fail())
+		return false;
 
-	if (it != _container.end() && it->first == date)
+	char c;
+	if (stream >> c)
+		return false;
+	return true;
+}
+
+double	BitcoinExchange::findPrice(const std::string &date) const
+{
+	std::map<std::string, double>::const_iterator it;
+
+	it = _exchangeRateDatabase.lower_bound(date);
+	if (it != _exchangeRateDatabase.end() && it->first == date)
 		return it->second;
 
-	if (it == _container.begin()) {
-		_printError(TOO_OLD, i+1);
-		std::cout << _container.begin()->first << std::endl;
-		return -1.0;
-	}
+	if (it == _exchangeRateDatabase.begin())
+		return PRICE_DOESNT_EXIST;
 
 	--it;
 	return it->second;
@@ -143,7 +169,7 @@ void	BitcoinExchange::parseDatabase()
 		std::string	exchangeRate = line.substr(line.find(',')+1);
 		double		ratePart = std::atof(exchangeRate.c_str());
 
-		this->_container.insert(std::make_pair(datePart, ratePart));
+		this->_exchangeRateDatabase.insert(std::make_pair(datePart, ratePart));
 	}
 
 	if (i == 0)
@@ -179,18 +205,24 @@ void	BitcoinExchange::parseInputFile(const char *inputFile)
 			_printError(INVALID_DATE, i+1); continue;
 		}
 
-		double	price = findPrice(datePart, i);
-		if (price < 0) continue;
-		double	value = std::atof(valuePart.c_str());
-		if (value < 0) {
+		double	btcPrice = findPrice(datePart);
+		if (btcPrice == PRICE_DOESNT_EXIST) {
+			_printError(TOO_OLD, i+1); continue;
+		}
+
+		double	btcAmount;
+		if (!_parseValue(valuePart, btcAmount)) {
+			_printError(INVALID_VALUE, i+1); continue;
+		}
+		if (btcAmount < 0) {
 			_printError(AMOUNT_RANGE_SMALL, i+1); continue;
 		}
-		if (value > 1000) {
+		if (btcAmount > 1000) {
 			_printError(AMOUNT_RANGE_LARGE, i+1); continue;
 		}
 
 		std::cout <<
-			datePart << " => " << valuePart << " = " << price * value <<
+			datePart << " => " << valuePart << " = " << btcPrice * btcAmount <<
 		std::endl;
 	}
 
