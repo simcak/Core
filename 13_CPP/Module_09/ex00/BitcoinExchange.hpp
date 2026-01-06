@@ -6,7 +6,6 @@
 #include <map>
 #include <cstdlib>	// std::atof()
 #include <cctype>	// std::isdigit()
-#include <bits/stdc++.h>
 
 enum ErrorCode
 {

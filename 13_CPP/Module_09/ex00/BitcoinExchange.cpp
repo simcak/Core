@@ -1,4 +1,6 @@
 #include "BitcoinExchange.hpp"
+#include <sstream>
+
 /* ───────────────────────── Orthodox Canonical Form ──────────────────────── */
 BitcoinExchange::BitcoinExchange() {}
 
@@ -82,7 +84,7 @@ static bool _parseDate(const std::string &datePart)
 	{
 		if (i == 4 || i == 7)
 			continue;
-		if (!std::isdigit(datePart[i]))
+		if (!std::isdigit(static_cast<unsigned char>(datePart[i])))
 			return false;
 	}
 
