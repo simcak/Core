@@ -1,7 +1,7 @@
 #include "RPN.hpp"
 
 #define USAGE	BG "Usage:" RST " ./RPN \"8 9 * 9 - 9 - 9 - 4 - 1 +\"\n"
-#define ALLOWED	BRERR "Error: Only numbers, operators, space are accepted.\n"
+#define ALLOWED	BRERR "Only numbers, operators, space are accepted.\n"
 
 
 int main(int argc, char **argv)
@@ -17,6 +17,7 @@ int main(int argc, char **argv)
 
 	try {
 		RPN obj1(input);
+		std::cout << obj1.getResult() << std::endl;
 	}
 	catch (const std::exception &e)
 	{
