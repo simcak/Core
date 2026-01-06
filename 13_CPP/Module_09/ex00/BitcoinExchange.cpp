@@ -22,7 +22,7 @@ BitcoinExchange::~BitcoinExchange() {}
 
 /* ──────────────────────────── member functions ──────────────────────────── */
 // ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ helper functions ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ //
-static inline bool	_thereIsHeaderLine(std::string &line, int i)
+static inline bool	_thereIsHeaderLine(const std::string &line, int i)
 {
 	return (line == "date,exchange_rate" && i == 0);
 }
@@ -222,7 +222,7 @@ void	BitcoinExchange::parseInputFile(const char *inputFile)
 		}
 
 		std::cout <<
-			datePart << " => " << valuePart << " = " << btcPrice * btcAmount <<
+			datePart << " => " << btcAmount << " = " << btcPrice * btcAmount <<
 		std::endl;
 	}
 
