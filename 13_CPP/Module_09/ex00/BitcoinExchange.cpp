@@ -64,19 +64,32 @@ static inline bool	_isLeapYear(int year)
 	return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
 }
 
-static bool _isValidDate(const tm &date)
+static bool _parseDate(std::string datePart)
 {
-	int	year = date.tm_year + 1900;
-	int	month = date.tm_mon + 1;
-	int	day = date.tm_mday;
+	if (datePart.size() != 10 || datePart[4] != '-' || datePart[7] != '-')
+		return false;
 
-	if (month < 1 || month > 12 || day < 1)
+	for (size_t i = 0; i < datePart.size(); ++i)
+	{
+		if (i == 4 || i == 7)
+			continue;
+		if (!std::isdigit(datePart[i]))
+			return false;
+	}
+
+	int	y, m, d;
+	y = std::atoi(datePart.substr(0, 4).c_str());
+	m = std::atoi(datePart.substr(5, 2).c_str());
+	d = std::atoi(datePart.substr(8, 2).c_str());
+
+	if (m < 1 || m > 12 || d < 1)
 		return false;
 
 	int maxDay;
-	switch (month) {
+	switch (m)
+	{
 		case 2:
-			maxDay = _isLeapYear(year) ? 29 : 28;
+			maxDay = _isLeapYear(y) ? 29 : 28;
 			break;
 		case 4: case 6: case 9: case 11:
 			maxDay = 30;
@@ -84,8 +97,7 @@ static bool _isValidDate(const tm &date)
 		default:
 			maxDay = 31;
 	}
-	std::cout << maxDay << "  " << day << std::endl;
-	return (day <= maxDay);
+	return (d <= maxDay);
 }
 
 
@@ -162,8 +174,7 @@ void	BitcoinExchange::parseInputFile(const char *inputFile)
 			continue;
 		}
 
-		struct tm	tm;
-		if (!strptime(datePart.c_str(), "%Y-%m-%d", &tm) || !_isValidDate(tm)) {
+		if (!_parseDate(datePart)) {
 			_printError(INVALID_DATE, i+1);
 			continue;
 		}
