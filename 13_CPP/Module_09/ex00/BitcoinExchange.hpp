@@ -5,6 +5,7 @@
 #include <fstream>
 #include <map>
 #include <cstdlib>	// std::atof()
+#include <cctype>	// std::isdigit()
 #include <bits/stdc++.h>
 
 enum ErrorCode
@@ -12,7 +13,9 @@ enum ErrorCode
 	MISSING_PIPE = 1,
 	EMPTY_PART,
 	INVALID_DATE,
-	AMOUNT_RANGE
+	AMOUNT_RANGE_LARGE,
+	AMOUNT_RANGE_SMALL,
+	TOO_OLD
 };
 
 /* ───────────────────────────────── COLORS ───────────────────────────────── */
@@ -32,7 +35,7 @@ class BitcoinExchange
 		std::map<std::string, double> _container;
 		
 		/* ──────────────────────── member function ───────────────────────── */
-		double	findPrice(std::string date);
+		double	findPrice(const std::string &date, int i) const;
 		void	parseDatabase();
 		void	parseInputFile(const char *file);
 
