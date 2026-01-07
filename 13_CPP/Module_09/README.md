@@ -15,7 +15,7 @@ Read a CSV file containing historical Bitcoin prices and compute the USD value f
 - The output is formatted to show the ***date***, the ***amount*** of Bitcoin, and the calculated USD ***value***.
 
 
-### The Calculation
+### The Calculation:
 ```
 For line: "2011-01-02 | 3"
 
@@ -36,3 +36,33 @@ Step 4: Output
    ↑                ↑   ↑
    date         your Bitcoins  total USD value
 ```
+
+
+## ex01 – RPN
+Implement a Reverse Polish Notation (RPN) calculator that evaluates expressions using a stack.
+- I used `std::stack<int>` because its LIFO (Last In, First Out) structure is ideal for evaluating RPN expressions.
+- For stack we need `push()`, `pop()`, and `top()` methods to manage operands and results.
+- When we construct the RPN with argument, we parse the input string token by token (using `std::istringstream` which splits the string by spaces). After evaluating all tokens, there should be exactly one value left in the stack == the final _result.
+
+### Example:
+```
+Input: "3 4 + 2 * 7 /"
+
+Step 1: Push 3 onto the stack.					Stack: [3]
+Step 2: Push 4 onto the stack.					Stack: [3, 4]
+Step 3: Encounter '+',
+        pop 4 and 3, compute 3 + 4 = 7,
+        push 7 back onto the stack.				Stack: [7]
+Step 4: Push 2 onto the stack.					Stack: [7, 2]
+Step 5: Encounter '*',
+        pop 2 and 7, compute 7 * 2 = 14,
+        push 14 back onto the stack.			Stack: [14]
+Step 6: Push 7 onto the stack.					Stack: [14, 7]
+Step 7: Encounter '/',
+        pop 7 and 14, compute 14 / 7 = 2,
+        push 2 back onto the stack.				Stack: [2]
+Final Result: 2
+```
+
+
+## ex02 – PmergeMe
