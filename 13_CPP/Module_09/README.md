@@ -66,3 +66,8 @@ Final Result: 2
 
 
 ## ex02 – PmergeMe
+OMG...
+
+two good resources:
+- [OG book (page 184 => 196)](https://seriouscomputerist.atariverse.com/media/pdf/book/Art%20of%20Computer%20Programming%20-%20Volume%203%20(Sorting%20&%20Searching).pdf)
+- [Ford-Johnson Algorithm: Human Explanation & Visualisation](https://dev.to/emuminov/human-explanation-and-step-by-step-visualisation-of-the-ford-johnson-algorithm-5g91)
