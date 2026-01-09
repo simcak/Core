@@ -1,6 +1,9 @@
 #ifndef PMERGEME_HPP
 # define PMERGEME_HPP
 
+#include <iostream>
+#include <string>
+
 /* ───────────────────────────────── COLORS ───────────────────────────────── */
 #define BR		"\033[1;31m"
 #define BG		"\033[1;32m"
@@ -20,6 +23,9 @@ class PmergeMe
 	public:
 		/* ───────────────────── Orthodox Canonical Form ──────────────────── */
 		PmergeMe();
+		PmergeMe(const std::string input);
+		// PmergeMe(const PmergeMe &copy);
+		PmergeMe	&operator=(const PmergeMe &other);
 		~PmergeMe();
 
 		/* ──────────────────────── member function ───────────────────────── */
@@ -27,17 +33,12 @@ class PmergeMe
 		/* ──────────────────────────── getters ───────────────────────────── */
 
 		/* ─────────────────────────── exception ──────────────────────────── */
+		class Error : public std::exception {
+			public:
+				const char *what() const throw();
+		};
 
 };
-
-PmergeMe::PmergeMe(/* args */)
-{
-}
-
-PmergeMe::~PmergeMe()
-{
-}
-
 
 
 #endif
