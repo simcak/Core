@@ -18,6 +18,8 @@ static std::vector<int>	strToVector(std::string str)
 		
 		output.push_back(static_cast<int>(value));
 	}
+	if (output.empty())
+		throw PmergeMe::EmptyArg();
 	return output;
 }
 
@@ -86,4 +88,8 @@ const char *PmergeMe::Limit::what() const throw() {
 
 const char *PmergeMe::DiffRes::what() const throw() {
 	return (BRERR "The containers must match!");
+}
+
+const char *PmergeMe::EmptyArg::what() const throw() {
+	return (BRERR "There must be non-empty argument on input.");
 }
