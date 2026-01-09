@@ -5,7 +5,7 @@ FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 DIR		= .
 T_SRC	= $(shell find $(DIR) -iname "*.cpp")
-SRC		= 
+SRC		= ./PmergeMe.cpp ./main.cpp
 OBJ		= $(SRC:%.cpp=%.o)
 
 # ───────────────────────────────────COLORS─────────────────────────────────── #
@@ -25,7 +25,7 @@ endef
 
 $(NAME): $(OBJ)
 	@$(COM) $(OBJ) -o $(NAME)
-	$(call INFO,\t$(GREEN),"the ${NAME} is Compiled!"\t)
+	$(call INFO,\t$(GREEN),"${NAME} Compiled!"\t)
 
 all: $(NAME)
 
