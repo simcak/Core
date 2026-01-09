@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <deque>
 
 /* ───────────────────────────────── COLORS ───────────────────────────────── */
 #define BR		"\033[1;31m"
@@ -18,13 +20,14 @@ class PmergeMe
 {
 
 	private:
-		/* data */
+		std::vector<int>	_vector;
+		std::deque<int>		_deque;
 
 	public:
 		/* ───────────────────── Orthodox Canonical Form ──────────────────── */
 		PmergeMe();
 		PmergeMe(const std::string input);
-		// PmergeMe(const PmergeMe &copy);
+		PmergeMe(const PmergeMe &copy);
 		PmergeMe	&operator=(const PmergeMe &other);
 		~PmergeMe();
 
