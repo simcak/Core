@@ -50,6 +50,16 @@ PmergeMe::~PmergeMe() {}
 
 /* ──────────────────────────── member functions ─────────────────────────── */
 // ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ helper functions ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ //
+#include <sys/time.h>
+
+static double now_us()
+{
+	timeval	tv;
+
+	gettimeofday(&tv, 0);
+	return (tv.tv_sec * 1000000.0) + tv.tv_usec;
+}
+
 static bool	same(std::vector<int> vector, std::deque<int> deque)
 {
 	if (vector.size() != deque.size())
@@ -60,25 +70,46 @@ static bool	same(std::vector<int> vector, std::deque<int> deque)
 	return true;
 }
 
-static void	sequence(int key, std::vector<int> &vector)
+template<typename C>
+static void	sequence(int key, C &vector)
 {
 	key == BEFORE ? std::cout << "Before:\t" : std::cout << "After:\t";
-	for (std::vector<int>::iterator it = vector.begin(); it != vector.end(); ++it)
+	for (typename C::iterator it = vector.begin(); it != vector.end(); ++it)
 		std::cout << *it << " ";
 	std::cout << std::endl;
 }
 
+// ─  ─  ─  ─  ─  ─  ─  ─  ─ Ford-Johnson Algorithm ─  ─  ─  ─  ─  ─  ─  ─  ─ //
+template<typename C>
+static double	FordJohnson(C &container)
+{
+	double	time_start = now_us();
+
+	if (container.size() == 1)
+		return (now_us() - time_start);
+
+	// todoo
+
+	return (now_us() - time_start);
+}
+
 // ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  //
+// #include <iomanip> 
 void	PmergeMe::sort()
 {
-	// std::vector<int>	vSorted;
-	// std::deque<int>	dSorted;
+	std::vector<int>	vSorted = _vector;
+	std::deque<int>		dSorted = _deque;
 
 	same(_vector, _deque) ? sequence(BEFORE, _vector) : throw DiffRes();
-	// timeVector = FordJohnson_vector(vSorted);
-	// timeDeque = FordJohnson_deque(dSorted);
-	// same(vSorted, dSorted) ? sequence(AFTER, vSorted) : throw DiffRes();
-	// std::cout << timeVector << "\n" << timeDeque << std::endl;
+	double	timeVector = FordJohnson(vSorted);
+	double	timeDeque = FordJohnson(dSorted);
+	same(vSorted, dSorted) ? sequence(AFTER, vSorted) : throw DiffRes();
+
+	// std::cout << std::fixed << std::setprecision(0);
+	std::cout << "Time to process a range of " << vSorted.size()
+			<< " elements with std::vector : " << timeVector << " us\n";
+	std::cout << "Time to process a range of " << dSorted.size()
+			<< " elements with std::deque  : " << timeDeque << " us\n";
 }
 
 /* ──────────────────────────────── exception ────────────────────────────── */

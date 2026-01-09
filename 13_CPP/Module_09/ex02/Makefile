@@ -5,7 +5,7 @@ FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 DIR		= .
 T_SRC	= $(shell find $(DIR) -iname "*.cpp")
-SRC		= ./PmergeMe.cpp ./main.cpp
+SRC		= ./main.cpp ./PmergeMe.cpp
 OBJ		= $(SRC:%.cpp=%.o)
 
 # ───────────────────────────────────COLORS─────────────────────────────────── #
