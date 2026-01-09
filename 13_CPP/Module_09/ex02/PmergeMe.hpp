@@ -7,6 +7,9 @@
 #include <deque>
 #include <sstream>
 
+#define	BEFORE	1
+#define	AFTER	2
+
 /* ───────────────────────────────── COLORS ───────────────────────────────── */
 #define BR		"\033[1;31m"
 #define BG		"\033[1;32m"
@@ -37,6 +40,11 @@ class PmergeMe
 
 		/* ─────────────────────────── exception ──────────────────────────── */
 		class Limit : public std::exception {
+			public:
+				const char *what() const throw();
+		};
+
+		class DiffRes : public std::exception {
 			public:
 				const char *what() const throw();
 		};

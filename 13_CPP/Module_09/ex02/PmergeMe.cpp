@@ -47,20 +47,43 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 PmergeMe::~PmergeMe() {}
 
 /* ──────────────────────────── member functions ─────────────────────────── */
+// ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ helper functions ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ //
+static bool	same(std::vector<int> vector, std::deque<int> deque)
+{
+	if (vector.size() != deque.size())
+		return false;
+	for (size_t i = 0; i < vector.size(); ++i)
+		if (vector[i] != deque[i])
+			return false;
+	return true;
+}
+
+static void	sequence(int key, std::vector<int> &vector)
+{
+	key == BEFORE ? std::cout << "Before:\t" : std::cout << "After:\t";
+	for (std::vector<int>::iterator it = vector.begin(); it != vector.end(); ++it)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+}
+
+// ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  //
 void	PmergeMe::sort()
 {
-	std::cout << "Vector: ";
-	for (std::vector<int>::iterator it = _vector.begin(); it != _vector.end(); ++it)
-		std::cout << *it << " ";
-	std::cout << std::endl;
+	// std::vector<int>	vSorted;
+	// std::deque<int>	dSorted;
 
-	std::cout << "Deque: ";
-	for (std::deque<int>::iterator it = _deque.begin(); it != _deque.end(); ++it)
-		std::cout << *it << " ";
-	std::cout << std::endl;
+	same(_vector, _deque) ? sequence(BEFORE, _vector) : throw DiffRes();
+	// timeVector = FordJohnson_vector(vSorted);
+	// timeDeque = FordJohnson_deque(dSorted);
+	// same(vSorted, dSorted) ? sequence(AFTER, vSorted) : throw DiffRes();
+	// std::cout << timeVector << "\n" << timeDeque << std::endl;
 }
 
 /* ──────────────────────────────── exception ────────────────────────────── */
 const char *PmergeMe::Limit::what() const throw() {
 	return (BRERR "There is too large int or 0 on input.");
+}
+
+const char *PmergeMe::DiffRes::what() const throw() {
+	return (BRERR "The containers must match!");
 }
