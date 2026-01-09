@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <deque>
+#include <sstream>
 
 /* ───────────────────────────────── COLORS ───────────────────────────────── */
 #define BR		"\033[1;31m"
@@ -32,11 +33,12 @@ class PmergeMe
 		~PmergeMe();
 
 		/* ──────────────────────── member function ───────────────────────── */
+		void	sort();
 		
 		/* ──────────────────────────── getters ───────────────────────────── */
 
 		/* ─────────────────────────── exception ──────────────────────────── */
-		class Error : public std::exception {
+		class Limit : public std::exception {
 			public:
 				const char *what() const throw();
 		};
