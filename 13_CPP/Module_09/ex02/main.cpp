@@ -29,6 +29,7 @@ int	main(int argc, char **argv)
 	try
 	{
 		PmergeMe	seqObj(argsToStr(argv));
+		seqObj.sort();
 	}
 	catch(const std::exception& e)
 	{
