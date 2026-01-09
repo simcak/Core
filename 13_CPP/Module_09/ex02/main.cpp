@@ -1,4 +1,5 @@
 #include "PmergeMe.hpp"
+#include <stdexcept>
 
 #define ARGS_ERR	BRERR "We need a positive integer sequence as an argument"
 
