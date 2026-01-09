@@ -13,7 +13,7 @@ static std::vector<int>	strToVector(std::string str)
 		char	*endptr;
 		long	value = std::strtol(arg.c_str(), &endptr, 10);
 
-		if (*endptr != '\0' || value > INT_MAX)
+		if (*endptr != '\0' || value > INT_MAX || value <= 0)
 			throw PmergeMe::Limit();
 		
 		output.push_back(static_cast<int>(value));
@@ -46,8 +46,6 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 
 PmergeMe::~PmergeMe() {}
 
-/* ──────────────────────────────── getters ──────────────────────────────── */
-
 /* ──────────────────────────── member functions ─────────────────────────── */
 void	PmergeMe::sort()
 {
@@ -64,5 +62,5 @@ void	PmergeMe::sort()
 
 /* ──────────────────────────────── exception ────────────────────────────── */
 const char *PmergeMe::Limit::what() const throw() {
-	return (BRERR "There is too large int on input.");
+	return (BRERR "There is too large int or 0 on input.");
 }
