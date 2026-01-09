@@ -10,7 +10,7 @@ static std::string	argsToStr(char **args)
 	while (args[++i])
 	{
 		tmpArg = args[i];
-		if (tmpArg.find_first_not_of("0123456789 ") != std::string::npos)
+		if (tmpArg.find_first_not_of("0123456789 \n") != std::string::npos)
 			err += tmpArg + ", ";
 		output += tmpArg + " ";
 	}
