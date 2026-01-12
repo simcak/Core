@@ -85,8 +85,24 @@ static void	sequence(int key, const C &v)
 }
 
 // ─  ─  ─  ─  ─  ─  ─  ─  ─ Ford-Johnson Algorithm ─  ─  ─  ─  ─  ─  ─  ─  ─ //
+struct Pair { int small; int big; };
+
+// static int	makeOrderedPairs(std::vector<Pair> &pairs)
+// {
+// 	int	odd_straggler = 0;
+// 	return (odd_straggler);
+// }
+
+// static void mergeSortPairs(std::vector<Pair> &pairs)
+// {
+// }
+
+// static std::vector<size_t> jacobsthalOrder(size_t pairCount)
+// {
+// }
+
 template<typename C>
-static double	FordJohnson(C &container)
+static double	FordJohnsonAlg(C &container)
 {
 	double	time_start = now_us();
 
@@ -106,8 +122,8 @@ void	PmergeMe::sort()
 	std::deque<int>		dSorted = _deque;
 
 	same(_vector, _deque) ? sequence(BEFORE, _vector) : throw DiffRes();
-	double	timeVector = FordJohnson(vSorted);
-	double	timeDeque = FordJohnson(dSorted);
+	double	timeVector = FordJohnsonAlg(vSorted);
+	double	timeDeque = FordJohnsonAlg(dSorted);
 	same(vSorted, dSorted) ? sequence(AFTER, vSorted) : throw DiffRes();
 
 	// std::cout << std::fixed << std::setprecision(0);
