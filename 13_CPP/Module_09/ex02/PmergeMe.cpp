@@ -60,7 +60,7 @@ static double now_us()
 	return (tv.tv_sec * 1000000.0) + tv.tv_usec;
 }
 
-static bool	same(std::vector<int> vector, std::deque<int> deque)
+static bool	same(std::vector<int> &vector, std::deque<int> &deque)
 {
 	if (vector.size() != deque.size())
 		return false;
@@ -71,12 +71,12 @@ static bool	same(std::vector<int> vector, std::deque<int> deque)
 }
 
 template<typename C>
-static void	sequence(int key, C &vector)
+static void	sequence(int key, const C &v)
 {
 	int	i = 0;
 
 	key == BEFORE ? std::cout << "Before:\t" : std::cout << "After:\t";
-	for (typename C::iterator it = vector.begin(); it != vector.end(); ++it)
+	for (typename C::const_iterator it = v.begin(); it != v.end(); ++it)
 	{
 		if (i++ < 13) { std::cout << *it << " "; }
 		else { std::cout << "[...]"; break; }
@@ -90,7 +90,7 @@ static double	FordJohnson(C &container)
 {
 	double	time_start = now_us();
 
-	if (container.size() == 1)
+	if (container.size() <= 1)
 		return (now_us() - time_start);
 
 	// todoo
