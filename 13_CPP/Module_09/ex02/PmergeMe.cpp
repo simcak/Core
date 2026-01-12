@@ -73,9 +73,14 @@ static bool	same(std::vector<int> vector, std::deque<int> deque)
 template<typename C>
 static void	sequence(int key, C &vector)
 {
+	int	i = 0;
+
 	key == BEFORE ? std::cout << "Before:\t" : std::cout << "After:\t";
 	for (typename C::iterator it = vector.begin(); it != vector.end(); ++it)
-		std::cout << *it << " ";
+	{
+		if (i++ < 13) { std::cout << *it << " "; }
+		else { std::cout << "[...]"; break; }
+	}
 	std::cout << std::endl;
 }
 
