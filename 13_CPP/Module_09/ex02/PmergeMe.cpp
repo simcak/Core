@@ -87,31 +87,39 @@ static void	sequence(int key, const C &v)
 // ─  ─  ─  ─  ─  ─  ─  ─  ─ Ford-Johnson Algorithm ─  ─  ─  ─  ─  ─  ─  ─  ─ //
 struct Pair { int small; int big; };
 
-// static int	makeOrderedPairs(std::vector<Pair> &pairs)
-// {
-// 	int	odd_straggler = 0;
-// 	return (odd_straggler);
-// }
 
-// static void mergeSortPairs(std::vector<Pair> &pairs)
-// {
-// }
 
-// static std::vector<size_t> jacobsthalOrder(size_t pairCount)
-// {
-// }
+/**
+ * @brief Carefully decide in what order to insert the remaining small numbers.
+ * 
+ * Jacobsthal order depends ONLY on how many pairs there are (not on the actual
+ *  numbers).
+ */
+static std::vector<size_t> jacobsthalOrder(size_t pairCount)
+{
+}
 
 template<typename C>
 static double	FordJohnsonAlg(C &container)
 {
-	double	time_start = now_us();
-
+	double	timeStart = now_us();
 	if (container.size() <= 1)
-		return (now_us() - time_start);
+		return (now_us() - timeStart);
 
-	// todoo
+	// 1)
+	std::vector<Pair>	pairs;
+	int	oddStraggler = makeSmallBig(pairs, container);
 
-	return (now_us() - time_start);
+	// 2)
+	mergeSortPairs(pairs);
+
+	// 3) 1st small + all big
+	C	sortedOutput; // clean container and put the sorted list there?
+	sortedOutput.insert(sortedOutput.end(), pairs[0].small);
+	for (size_t k = 0; k < pairs.size(); ++k)
+		sortedOutput.insert(sortedOutput.end(), pairs[k].big);
+
+	return (now_us() - timeStart);
 }
 
 // ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  //
