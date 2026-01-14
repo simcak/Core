@@ -88,6 +88,28 @@ static void	sequence(int key, const C &v)
 struct Pair { int small; int big; };
 
 
+/**
+ * @brief container -> [samll, big] pairs + leftover.
+ */
+template<typename C>
+static int	makeSmallBig(std::vector<Pair> &pairs, C &container)
+{
+	bool	hasOdd = (container.size() % 2 != 0);
+	pairs.reserve(container.size() / 2); // could we have "container.size() / 2" in constructor?
+
+	for (size_t i = 1; i < container.size(); i += 2)
+	{
+		int		frst = container[i - 1];
+		int		scnd = container[i];
+		Pair	p;
+		p.small = frst <= scnd ? frst : scnd;
+		p.big   = frst > scnd  ? frst : scnd;
+		pairs.push_back(p);
+	}
+
+	int	straggler = hasOdd ? container[container.size() - 1] : 0;
+	return (straggler);
+}
 
 /**
  * @brief Carefully decide in what order to insert the remaining small numbers.
