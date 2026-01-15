@@ -87,6 +87,39 @@ static void	sequence(int key, const C &v)
 // ─  ─  ─  ─  ─  ─  ─  ─  ─ Ford-Johnson Algorithm ─  ─  ─  ─  ─  ─  ─  ─  ─ //
 struct Pair { int small; int big; };
 
+static void mergePairs(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
+					size_t left, size_t mid, size_t right)
+{
+	size_t	l = left, m = mid, k = left;
+
+	while (l < mid && m < right) {
+		tmP[k++] = (pairs[l].big <= pairs[m].big) ? pairs[l++] : pairs[m++];
+	}
+	while (l < mid)		tmP[k++] = pairs[l++];
+	while (m < right)	tmP[k++] = pairs[m++];
+
+	for (size_t x = left; x < right; ++x)
+		pairs[x] = tmP[x];
+}
+
+static void sortMergePairsRec(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
+							size_t left, size_t right)
+{
+	if (right - left <= 1) return;
+
+	size_t	mid = left + (right - left) / 2;
+	sortMergePairsRec(pairs, tmP, left, mid);
+	sortMergePairsRec(pairs, tmP, mid, right);
+	mergePairs(pairs, tmP, left, mid, right);
+}
+
+static void sortMergePairs(std::vector<Pair> &pairs)
+{
+	if (pairs.size() <= 1) return;
+
+	std::vector<Pair>	tmP(pairs.size());
+	sortMergePairsRec(pairs, tmP, 0, pairs.size());
+}
 
 /**
  * @brief container -> [samll, big] pairs + leftover.
@@ -117,9 +150,9 @@ static int	makeSmallBig(std::vector<Pair> &pairs, C &container)
  * Jacobsthal order depends ONLY on how many pairs there are (not on the actual
  *  numbers).
  */
-static std::vector<size_t> jacobsthalOrder(size_t pairCount)
-{
-}
+// static std::vector<size_t> jacobsthalOrder(size_t pairCount)
+// {
+// }
 
 template<typename C>
 static double	FordJohnsonAlg(C &container)
@@ -133,13 +166,20 @@ static double	FordJohnsonAlg(C &container)
 	int	oddStraggler = makeSmallBig(pairs, container);
 
 	// 2)
-	mergeSortPairs(pairs);
+	sortMergePairs(pairs);
 
 	// 3) 1st small + all big
-	C	sortedOutput; // clean container and put the sorted list there?
-	sortedOutput.insert(sortedOutput.end(), pairs[0].small);
+	C	clean; container = clean;
+	container.insert(container.end(), pairs[0].small);
 	for (size_t k = 0; k < pairs.size(); ++k)
-		sortedOutput.insert(sortedOutput.end(), pairs[k].big);
+		container.insert(container.end(), pairs[k].big);
+
+	if (oddStraggler)
+	{
+		typename C::iterator pos =
+			std::lower_bound(container.begin(), container.end(), oddStraggler);
+		container.insert(pos, oddStraggler);
+	}
 
 	return (now_us() - timeStart);
 }
