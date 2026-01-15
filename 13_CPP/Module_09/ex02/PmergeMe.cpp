@@ -170,7 +170,54 @@ static int	makeSmallBig(std::vector<Pair> &pairs, C &container)
  * Jacobsthal order depends ONLY on how many pairs there are (not on the actual
  *  numbers).
  */
+static std::vector<size_t> jacobsthalOrder(size_t pairCount)
+{
+	std::vector<size_t>	order;
+	if (pairCount <= 1)
+		return order;
 
+	order.push_back(1);
+	
+	size_t	j_minus2 = 0, j_minus1 = 1, insertedUpTo = 1;
+	while (insertedUpTo < pairCount - 1)
+	{
+		size_t	j = j_minus1 + (2 * j_minus2);
+		j_minus2 = j_minus1;
+		j_minus1 = j;
+
+		if (j <= insertedUpTo)
+			continue;
+
+		size_t	limit = j;
+		if (limit > pairCount - 1)
+			limit = pairCount - 1;
+
+		for (size_t idx = limit; idx > insertedUpTo; --idx)
+			order.push_back(idx);
+
+		insertedUpTo = limit;
+	}
+	return order;
+}
+
+#include <algorithm>	// lower/upper_bound()
+template<typename C>
+static void	sortMergeSmall(std::vector<Pair> &pairs, C &cont,
+						   std::vector<size_t> &order)
+{
+	for (size_t oi = 0; oi < order.size(); ++oi)
+	{
+		size_t	idx = order[oi];
+
+		typename C::iterator bound =
+			std::upper_bound(cont.begin(), cont.end(), pairs[idx].big);
+
+		typename C::iterator pos =
+			std::lower_bound(cont.begin(), bound, pairs[idx].small);
+
+		cont.insert(pos, pairs[idx].small);
+	}
+}
 
 template<typename C>
 static double	FordJohnsonAlg(C &container)
