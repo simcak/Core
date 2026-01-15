@@ -204,19 +204,23 @@ static std::vector<size_t> jacobsthalOrder(size_t pairCount)
 #include <algorithm>	// lower/upper_bound()
 template<typename C>
 static void	sortMergeSmall(std::vector<Pair> &pairs, C &cont,
-						   std::vector<size_t> &order)
+						   std::vector<size_t> &order,
+						   std::vector<size_t> &bigPos)
 {
 	for (size_t oi = 0; oi < order.size(); ++oi)
 	{
 		size_t	idx = order[oi];
 
-		typename C::iterator bound =
-			std::upper_bound(cont.begin(), cont.end(), pairs[idx].big);
+		typename C::iterator bound = cont.begin() + bigPos[idx];
 
 		typename C::iterator pos =
 			std::lower_bound(cont.begin(), bound, pairs[idx].small);
 
+		size_t	insertIdx = static_cast<size_t>(pos - cont.begin());
 		cont.insert(pos, pairs[idx].small);
+		for (size_t j = 0; j < bigPos.size(); ++j)
+			if (bigPos[j] >= insertIdx)
+				++bigPos[j];
 	}
 }
 
@@ -238,12 +242,16 @@ static double	FordJohnsonAlg(C &container)
 	// 3) 1st small + all big
 	C	clean; container = clean;
 	container.insert(container.end(), pairs[0].small);
-	for (size_t k = 0; k < pairs.size(); ++k)
-		container.insert(container.end(), pairs[k].big);
+
+	std::vector<size_t>	bigPos(pairs.size());
+	for (size_t k = 0; k < pairs.size(); ++k) {
+		container.push_back(pairs[k].big);
+		bigPos[k] = k + 1;
+	}
 
 	// 4)
 	std::vector<size_t> order = jacobsthalOrder(pairs.size());
-	sortMergeSmall(pairs, container, order);
+	sortMergeSmall(pairs, container, order, bigPos);
 
 	// 5)
 	if (oddStraggler)
