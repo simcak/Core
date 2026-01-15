@@ -1,6 +1,7 @@
 #include "PmergeMe.hpp"
 #include <limits.h>
 #include <stdlib.h>
+#include <algorithm>
 
 static std::vector<int>	strToVector(std::string str)
 {
@@ -102,6 +103,16 @@ static void mergePairs(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
 		pairs[x] = tmP[x];
 }
 
+/**
+ * @brief Split list into 1 int long elements by halfs recursively and merge
+ *        them by size into sorted order.
+ * 
+ * 1st - we split left halfs, until we have one number remaining. Than we split
+ * right halfs. Once we have one element ramaining everywhere - it means we have
+ * finished the recursion and stocked mergePairs() comes in place. It merge the
+ * numbers by size into sorted order in a backward order. The final recursion
+ * merge is comparing sorted left and right lists.
+ */
 static void sortMergePairsRec(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
 							size_t left, size_t right)
 {
@@ -150,9 +161,9 @@ static int	makeSmallBig(std::vector<Pair> &pairs, C &container)
  * Jacobsthal order depends ONLY on how many pairs there are (not on the actual
  *  numbers).
  */
-// static std::vector<size_t> jacobsthalOrder(size_t pairCount)
-// {
-// }
+static std::vector<size_t> jacobsthalOrder(size_t pairCount)
+{
+}
 
 template<typename C>
 static double	FordJohnsonAlg(C &container)
@@ -174,6 +185,10 @@ static double	FordJohnsonAlg(C &container)
 	for (size_t k = 0; k < pairs.size(); ++k)
 		container.insert(container.end(), pairs[k].big);
 
+	// 4)
+	
+
+	// 5)
 	if (oddStraggler)
 	{
 		typename C::iterator pos =
