@@ -84,7 +84,7 @@ static void	sequence(int key, const C &v)
 	std::cout << std::endl;
 }
 
-// ─  ─  ─  ─  ─  ─  ─  ─  ─ Ford-Johnson Algorithm ─  ─  ─  ─  ─  ─  ─  ─  ─ //
+// ─  ─  ─  ─  ─  ─  ─  ─  ─  Big number handeling  ─  ─  ─  ─  ─  ─  ─  ─  ─ //
 struct Pair { int small; int big; };
 
 /**
@@ -164,6 +164,7 @@ static int	makeSmallBig(std::vector<Pair> &pairs, C &container)
 	return (straggler);
 }
 
+// ─  ─  ─  ─  ─  ─  ─  ─  ─ Small number handeling ─  ─  ─  ─  ─  ─  ─  ─  ─ //
 /**
  * @brief Carefully decide in what order to insert the remaining small numbers.
  * 
@@ -219,6 +220,7 @@ static void	sortMergeSmall(std::vector<Pair> &pairs, C &cont,
 	}
 }
 
+// ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ main ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ //
 template<typename C>
 static double	FordJohnsonAlg(C &container)
 {
