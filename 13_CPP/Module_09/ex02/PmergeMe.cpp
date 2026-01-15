@@ -1,7 +1,6 @@
 #include "PmergeMe.hpp"
 #include <limits.h>
 #include <stdlib.h>
-#include <algorithm>
 
 static std::vector<int>	strToVector(std::string str)
 {
@@ -51,14 +50,14 @@ PmergeMe::~PmergeMe() {}
 
 /* ──────────────────────────── member functions ─────────────────────────── */
 // ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ helper functions ─  ─  ─  ─  ─  ─  ─  ─  ─  ─ //
-#include <sys/time.h>
+#include <time.h>
 
 static double now_us()
 {
-	timeval	tv;
+	struct timespec	ts;
 
-	gettimeofday(&tv, 0);
-	return (tv.tv_sec * 1000000.0) + tv.tv_usec;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ts.tv_sec * 1000000.0 + ts.tv_nsec / 1000.0;
 }
 
 static bool	same(std::vector<int> &vector, std::deque<int> &deque)
@@ -79,7 +78,7 @@ static void	sequence(int key, const C &v)
 	key == BEFORE ? std::cout << "Before:\t" : std::cout << "After:\t";
 	for (typename C::const_iterator it = v.begin(); it != v.end(); ++it)
 	{
-		if (i++ < 13) { std::cout << *it << " "; }
+		if (i++ < 42) { std::cout << *it << " "; }
 		else { std::cout << "[...]"; break; }
 	}
 	std::cout << std::endl;
@@ -88,8 +87,18 @@ static void	sequence(int key, const C &v)
 // ─  ─  ─  ─  ─  ─  ─  ─  ─ Ford-Johnson Algorithm ─  ─  ─  ─  ─  ─  ─  ─  ─ //
 struct Pair { int small; int big; };
 
+/**
+ * @brief Merge step for merge-sort: merges two sorted subranges of `pairs` into
+ *        one sorted range.
+ *
+ * Merges the half-open ranges [left, mid) and [mid, right) from `pairs` into
+ * the temporary buffer `tmP`, ordered by `Pair::big`, then copies the merged
+ * result back into `pairs`.
+ *
+ * when `pairs[l].big == pairs[m].big`, the left element is chosen first.
+ */
 static void mergePairs(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
-					size_t left, size_t mid, size_t right)
+					   size_t left, size_t mid, size_t right)
 {
 	size_t	l = left, m = mid, k = left;
 
@@ -114,7 +123,7 @@ static void mergePairs(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
  * merge is comparing sorted left and right lists.
  */
 static void sortMergePairsRec(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
-							size_t left, size_t right)
+							  size_t left, size_t right)
 {
 	if (right - left <= 1) return;
 
@@ -124,7 +133,7 @@ static void sortMergePairsRec(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
 	mergePairs(pairs, tmP, left, mid, right);
 }
 
-static void sortMergePairs(std::vector<Pair> &pairs)
+static void sortMergeBig(std::vector<Pair> &pairs)
 {
 	if (pairs.size() <= 1) return;
 
@@ -161,9 +170,7 @@ static int	makeSmallBig(std::vector<Pair> &pairs, C &container)
  * Jacobsthal order depends ONLY on how many pairs there are (not on the actual
  *  numbers).
  */
-static std::vector<size_t> jacobsthalOrder(size_t pairCount)
-{
-}
+
 
 template<typename C>
 static double	FordJohnsonAlg(C &container)
@@ -177,7 +184,7 @@ static double	FordJohnsonAlg(C &container)
 	int	oddStraggler = makeSmallBig(pairs, container);
 
 	// 2)
-	sortMergePairs(pairs);
+	sortMergeBig(pairs);
 
 	// 3) 1st small + all big
 	C	clean; container = clean;
@@ -186,7 +193,8 @@ static double	FordJohnsonAlg(C &container)
 		container.insert(container.end(), pairs[k].big);
 
 	// 4)
-	
+	std::vector<size_t> order = jacobsthalOrder(pairs.size());
+	sortMergeSmall(pairs, container, order);
 
 	// 5)
 	if (oddStraggler)
@@ -200,7 +208,7 @@ static double	FordJohnsonAlg(C &container)
 }
 
 // ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  ─  //
-// #include <iomanip> 
+#include <iomanip> 
 void	PmergeMe::sort()
 {
 	std::vector<int>	vSorted = _vector;
@@ -211,7 +219,7 @@ void	PmergeMe::sort()
 	double	timeDeque = FordJohnsonAlg(dSorted);
 	same(vSorted, dSorted) ? sequence(AFTER, vSorted) : throw DiffRes();
 
-	// std::cout << std::fixed << std::setprecision(0);
+	std::cout << std::fixed << std::setprecision(3);
 	std::cout << "Time to process a range of " << vSorted.size()
 			<< " elements with std::vector : " << timeVector << " us\n";
 	std::cout << "Time to process a range of " << dSorted.size()
