@@ -4,7 +4,7 @@ COM		= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 DIR		= .
-T_SRC	= $(shell find $(DIR) -iname "*.cpp")
+T_SRC	= $(shell find $(DIR) -maxdepth 1 -iname "*.cpp")
 SRC		= ./main.cpp ./PmergeMe.cpp
 OBJ		= $(SRC:%.cpp=%.o)
 
