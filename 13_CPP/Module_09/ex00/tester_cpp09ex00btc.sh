@@ -46,7 +46,7 @@ make re 1>/dev/null 2> stderrmake.txt
 make  > stdoutmakebis.txt 2>&1
 [[ -s stderrmake.txt ]] && echo -ne "${RED}make wrote on std err${END}" || echo -ne "${GREEN}no make error${END}" 
 echo -n " -- "
-cat stdoutmakebis.txt | egrep -viq "(nothin|already|date)" && echo -e "${RED}makefile relink?${END}" || echo -e "${GREEN}no relink${END}"
+cat stdoutmakebis.txt | grep -E -viq "(nothin|already|date)" && echo -e "${RED}makefile relink?${END}" || echo -e "${GREEN}no relink${END}"
 rm -rf stderrmake.txt stdoutmakebis.txt
 
 #-------------------------
@@ -65,7 +65,7 @@ echo ""
 else make >/dev/null ; fi
 
 # ------------------------------------------------------------------------------
-#				-----		TESTS		-----
+# -----                                TESTS                               -----
 # ------------------------------------------------------------------------------
 
 
