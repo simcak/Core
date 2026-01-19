@@ -198,8 +198,8 @@ void	BitcoinExchange::parseInputFile(const char *inputFile)
 		}
 
 		std::string	datePart = _ftTrim(line.substr(0, pipePos));
-		std::string	valuePart = _ftTrim(line.substr(pipePos+1));
-		if (datePart.empty() || valuePart.empty()) {
+		std::string	amountPart = _ftTrim(line.substr(pipePos+1));
+		if (datePart.empty() || amountPart.empty()) {
 			_printError(EMPTY_PART, i+1); continue;
 		}
 
@@ -213,7 +213,7 @@ void	BitcoinExchange::parseInputFile(const char *inputFile)
 		}
 
 		double	btcAmount;
-		if (!_parseValue(valuePart, btcAmount)) {
+		if (!_parseValue(amountPart, btcAmount)) {
 			_printError(INVALID_VALUE, i+1); continue;
 		}
 		if (btcAmount < 0) {
