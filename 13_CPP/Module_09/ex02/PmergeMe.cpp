@@ -97,8 +97,8 @@ struct Pair { int small; int big; };
  *
  * when `pairs[l].big == pairs[m].big`, the left element is chosen first.
  */
-static void mergePairs(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
-					   size_t left, size_t mid, size_t right)
+static void	mergePairsByBig(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
+							size_t left, size_t mid, size_t right)
 {
 	size_t	l = left, m = mid, k = left;
 
@@ -122,23 +122,23 @@ static void mergePairs(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
  * numbers by size into sorted order in a backward order. The final recursion
  * merge is comparing sorted left and right lists.
  */
-static void sortMergePairsRec(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
+static void sortPairsByBigRec(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
 							  size_t left, size_t right)
 {
 	if (right - left <= 1) return;
 
 	size_t	mid = left + (right - left) / 2;
-	sortMergePairsRec(pairs, tmP, left, mid);
-	sortMergePairsRec(pairs, tmP, mid, right);
-	mergePairs(pairs, tmP, left, mid, right);
+	sortPairsByBigRec(pairs, tmP, left, mid);
+	sortPairsByBigRec(pairs, tmP, mid, right);
+	mergePairsByBig(pairs, tmP, left, mid, right);
 }
 
-static void sortMergeBig(std::vector<Pair> &pairs)
+static void sortPairsByBig(std::vector<Pair> &pairs)
 {
 	if (pairs.size() <= 1) return;
 
 	std::vector<Pair>	tmP(pairs.size());
-	sortMergePairsRec(pairs, tmP, 0, pairs.size());
+	sortPairsByBigRec(pairs, tmP, 0, pairs.size());
 }
 
 /**
@@ -237,7 +237,7 @@ static double	FordJohnsonAlg(C &container)
 	int	oddStraggler = makeSmallBig(pairs, container);
 
 	// 2)
-	sortMergeBig(pairs);
+	sortPairsByBig(pairs);
 
 	// 3) 1st small + all big
 	C	clean; container = clean;
