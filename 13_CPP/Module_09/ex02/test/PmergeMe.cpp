@@ -110,24 +110,16 @@ static void	sequence(int key, const C &v)
 // ─  ─  ─  ─  ─  ─  ─  ─  ─  Big number handeling  ─  ─  ─  ─  ─  ─  ─  ─  ─ //
 struct Pair { int small; int big; };
 
-/**
- * @brief Merge step for merge-sort: merges two sorted subranges of `pairs` into
- *        one sorted range.
- *
- * Merges the half-open ranges [left, mid) and [mid, right) from `pairs` into
- * the temporary buffer `tmP`, ordered by `Pair::big`, then copies the merged
- * result back into `pairs`.
- *
- * when `pairs[l].big == pairs[m].big`, the left element is chosen first.
- */
-static void mergePairs(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
-					   size_t left, size_t mid, size_t right)
+// stable: pick left if !(right < left)
+static void	mergePairsByBig(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
+							size_t left, size_t mid, size_t right)
 {
 	size_t	l = left, m = mid, k = left;
-	CountingLess	cmp;
 
-	while (l < mid && m < right) {
-		if (cmp(pairs[m].big, pairs[l].big))
+	while (l < mid && m < right)
+	{
+		// if pairs[m].big < pairs[l].big -> take right, else take left
+		if (PmergeMe::countedLess(pairs[m].big, pairs[l].big))
 			tmP[k++] = pairs[m++];
 		else
 			tmP[k++] = pairs[l++];
@@ -139,33 +131,23 @@ static void mergePairs(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
 		pairs[x] = tmP[x];
 }
 
-/**
- * @brief Split list into 1 int long elements by halfs recursively and merge
- *        them by size into sorted order.
- * 
- * 1st - we split left halfs, until we have one number remaining. Than we split
- * right halfs. Once we have one element ramaining everywhere - it means we have
- * finished the recursion and stocked mergePairs() comes in place. It merge the
- * numbers by size into sorted order in a backward order. The final recursion
- * merge is comparing sorted left and right lists.
- */
-static void sortMergePairsRec(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
+static void sortPairsByBigRec(std::vector<Pair> &pairs, std::vector<Pair> &tmP,
 							  size_t left, size_t right)
 {
 	if (right - left <= 1) return;
 
 	size_t	mid = left + (right - left) / 2;
-	sortMergePairsRec(pairs, tmP, left, mid);
-	sortMergePairsRec(pairs, tmP, mid, right);
-	mergePairs(pairs, tmP, left, mid, right);
+	sortPairsByBigRec(pairs, tmP, left, mid);
+	sortPairsByBigRec(pairs, tmP, mid, right);
+	mergePairsByBig(pairs, tmP, left, mid, right);
 }
 
-static void sortMergeBig(std::vector<Pair> &pairs)
+static void sortPairsByBig(std::vector<Pair> &pairs)
 {
 	if (pairs.size() <= 1) return;
 
 	std::vector<Pair>	tmP(pairs.size());
-	sortMergePairsRec(pairs, tmP, 0, pairs.size());
+	sortPairsByBigRec(pairs, tmP, 0, pairs.size());
 }
 
 /**
@@ -263,14 +245,14 @@ static double	FordJohnsonAlg(C &container)
 	if (container.size() <= 1)
 		return (now_us() - timeStart);
 
-	// 1)
+	// 1) make (small,big) pairs + possibly one odd straggler
 	std::vector<Pair>	pairs;
 	int	oddStraggler = makeSmallBig(pairs, container);
 
-	// 2)
-	sortMergeBig(pairs);
+	// 2) sort pairs by big
+	sortPairsByBig(pairs);
 
-	// 3) 1st small + all big
+	// 3) build main chain: first small + all bigs, and track big positions
 	C	clean; container = clean;
 	container.insert(container.end(), pairs[0].small);
 
@@ -280,11 +262,11 @@ static double	FordJohnsonAlg(C &container)
 		bigPos[k] = k + 1;
 	}
 
-	// 4)
+	// 4) insert remaining smalls in Jacobsthal order, bounded by each bigPos[idx]
 	std::vector<size_t> order = jacobsthalOrder(pairs.size());
 	sortMergeSmall(pairs, container, order, bigPos);
 
-	// 5)
+	// 5) insert straggler into full chain
 	if (oddStraggler)
 	{
 		typename C::iterator pos =
