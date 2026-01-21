@@ -268,18 +268,15 @@ static double	FordJohnsonAlg(C &container)
 #include <iomanip> 
 void	PmergeMe::sort()
 {
-	std::vector<int>	vSorted = _vector;
-	std::deque<int>		dSorted = _deque;
-
 	same(_vector, _deque) ? sequence(BEFORE, _vector) : throw DiffRes();
-	double	timeVector = FordJohnsonAlg(vSorted);
-	double	timeDeque = FordJohnsonAlg(dSorted);
-	same(vSorted, dSorted) ? sequence(AFTER, vSorted) : throw DiffRes();
+	double	timeVector = FordJohnsonAlg(_vector);
+	double	timeDeque = FordJohnsonAlg(_deque);
+	same(_vector, _deque) ? sequence(AFTER, _vector) : throw DiffRes();
 
 	std::cout << std::fixed << std::setprecision(3);
-	std::cout << "Time to process a range of " << vSorted.size()
+	std::cout << "Time to process a range of " << _vector.size()
 			<< " elements with std::vector : " << timeVector << " us\n";
-	std::cout << "Time to process a range of " << dSorted.size()
+	std::cout << "Time to process a range of " << _deque.size()
 			<< " elements with std::deque  : " << timeDeque << " us\n";
 }
 
