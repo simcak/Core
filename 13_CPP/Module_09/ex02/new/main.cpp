@@ -5,10 +5,10 @@ int	main(int argc, char **argv)
 	PmergeMe	pm;
 
 	try {
-		pm.CheckInput(argc, argv);
+		pm.checkInput(argc, argv);
 		pm.printBefore();
-		pm.SortVector();
-		pm.SortDeque();
+		pm.sortVector();
+		pm.sortDeque();
 		pm.printAfter();
 	}
 	catch (std::exception &e) {
