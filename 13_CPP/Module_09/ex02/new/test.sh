@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export CXXFLAGS="-DCOMPARISON_COUNT=1"
+
 max_comp_vec=0
 max_comp_deq=0
 min_comp_vec=999999
