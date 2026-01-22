@@ -1,7 +1,7 @@
 # ──────────────────────────────────MAKEFILE────────────────────────────────── #
 NAME	= PmergeMe
 COM		= c++
-FLAGS	= -Wall -Wextra -Werror -std=c++98
+FLAGS	= -Wall -Wextra -Werror -std=c++98 $(CXXFLAGS)
 
 DIR		= .
 T_SRC	= $(shell find $(DIR) -maxdepth 1 -iname "*.cpp")
