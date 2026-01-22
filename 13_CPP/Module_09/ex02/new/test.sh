@@ -17,8 +17,8 @@ rst="\033[0m"
 
 make > /dev/null 2>&1
 
-for i in {1..10}; do
-    numbers=$(shuf -i 1-${1:-10000} -n ${1:-4200})
+for i in {1..42}; do
+    numbers=$(shuf -i 1-${1:-10000} -n ${1:-3000})
     numbers_str=$(echo $numbers | tr '\n' ' ')
 
     output=$(./PmergeMe $numbers_str)
@@ -41,7 +41,7 @@ avg_comp_deq=$((sum_comp_deq / count))
 
 ################################################################################
 echo ""
-echo -e "After ${by}10${rst} runs with ${by}${1:-4200}${rst} numbers:"
+echo -e "After ${by}42${rst} runs with ${by}${1:-3000}${rst} numbers:"
 echo -e "Maximum allowed comparisons: ${by}$comp_max${rst}"
 
 # Vector colors
