@@ -3,8 +3,6 @@
 
 #include <vector>
 #include <deque>
-#include <set>
-#include <string>
 #include <iostream>
 #include <iomanip>
 #include <exception>
@@ -12,28 +10,34 @@
 #include <ctime>
 #include <limits>
 
+#ifndef COMPARISON_COUNT
+# define COMPARISON_COUNT 0
+#endif
+
+/* ───────────────────────────────── Colors ───────────────────────────────── */
 #define BR		"\033[1;31m"
 #define BG		"\033[1;32m"
 #define BY		"\033[1;33m"
 #define RST		"\033[0m"
 #define BRERR	BR "Error" RST "\n"
 
-#define COMPARISON_COUNT 1
 
 class PmergeMe
 {
 public:
+	/* ─────────────────────── Orthodox Canonical Form ────────────────────── */
 	PmergeMe();
 	PmergeMe(const PmergeMe &copy);
 	PmergeMe	&operator=(const PmergeMe &other);
 	~PmergeMe();
 
-	void	checkInput(int argc, char** argv);
+	void	initCheckInput(int argc, char **argv);
 	void	printBefore() const;
 	void	sortVector();
 	void	sortDeque();
 	void	printAfter() const;
 
+	/* ────────────────────────────── Exception ───────────────────────────── */
 	class Error : public std::exception {
 	public:
 		const char* what() const throw() {
@@ -42,63 +46,69 @@ public:
 	};
 
 private:
-	// ---------- input ----------
+	/* ──────────────────────────────── Input ─────────────────────────────── */
 	std::vector<int>	_input;
-
-	// ---------- results ----------
+	/* ─────────────────────────────── Results ────────────────────────────── */
 	std::vector<int>	_sortedVec;
 	std::deque<int>		_sortedDeq;
-
-	// ---------- timing ----------
+	/* ─────────────────────────────── Timing ─────────────────────────────── */
 	double				_msVec;
 	double				_msDeq;
-
-	// ---------- comparisons ----------
-	long				_compsVec;
-	long				_compsDeq;
+	/* ───────────────────────────── Comparation ──────────────────────────── */
+	long				_compsVecCounter;
+	long				_compsDeqCounter;
 
 private:
-	// ===== validation helpers =====
-	static bool	_isDigitString(const char* s);
-	static long	_parsePositiveLong(const char* s);
-
-	// ===== algorithm helpers (templated) =====
-	template <typename Block, typename Outer>
-	static void	_buildBlocks(const std::vector<int>& in, Outer& outBlocks)
+	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ limits: 3, 5, 11, 21, 43, ...  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
+	static std::vector<int>	_genJacobsthalLimits(int need)
 	{
-		outBlocks.clear();
-		for (std::vector<int>::const_iterator it = in.begin(); it != in.end(); ++it) {
-			Block b;
-			b.push_back(*it);
-			outBlocks.push_back(b);
+		std::vector<int>	jContainer;
+		int					a = 1, b = 3, next = 0;
+
+		while (b < need + 2)
+		{
+			jContainer.push_back(b);
+			next = b + 2 * a;
+			a = b;
+			b = next;
 		}
+		return jContainer;
 	}
 
-	template <typename Block, typename Outer, typename IntCont>
-	static void	_flattenBlocks(const Outer& blocks, IntCont& out)
+	template <typename Cont>
+	static int	_indexOfValue(const Cont &c, int value)
 	{
-		out.clear();
-		for (typename Outer::const_iterator it = blocks.begin(); it != blocks.end(); ++it) {
-			// block is a container itself
-			for (typename Block::const_iterator jt = it->begin(); jt != it->end(); ++jt)
-				out.push_back(*jt);
-		}
+		for (int i = 0; i < (int)c.size(); ++i)
+			if (c[i] == value)
+				return i;
+		return -1;
 	}
 
-	template <typename Block>
-	static bool	_blockEq(const Block& a, const Block& b) { return a == b; }
-
-	template <typename Block>
-	static int	_blockKey(const Block& b) { return b.back(); }
-
-	template <typename Block>
-	static bool	_findSmallOfLarge(
-		const std::vector< std::pair<Block, Block> >& pairs,
-		const Block& large,
-		Block& outSmall)
+	// upper_bound index in c[0..hiExclusive) for value
+	template <typename Cont>
+	static int	_upperBoundIndex(const Cont &c,
+		int hiExclusive, int value, long &compsCount)
 	{
-		for (size_t i = 0; i < pairs.size(); ++i) {
-			if (_blockEq(pairs[i].second, large)) {
+		int	lo = 0;
+		int	hi = hiExclusive;
+
+		while (lo < hi)
+		{
+			int	mid = lo + (hi - lo) / 2;
+
+			compsCount++;
+			(c[mid] <= value) ? lo = mid + 1 : hi = mid;
+		}
+		return lo;
+	}
+
+	template <typename P>
+	static bool	_findSmallOfLarge(const P &pairs, int large, int &outSmall)
+	{
+		for (int i = 0; i < (int)pairs.size(); ++i)
+		{
+			if (pairs[i].second == large)
+			{
 				outSmall = pairs[i].first;
 				return true;
 			}
@@ -106,14 +116,13 @@ private:
 		return false;
 	}
 
-	template <typename Block>
-	static bool	_findLargeOfSmall(
-		const std::vector< std::pair<Block, Block> >& pairs,
-		const Block& small,
-		Block& outLarge)
+	template <typename P>
+	static bool	_findLargeOfSmall(const P &pairs, int small, int &outLarge)
 	{
-		for (size_t i = 0; i < pairs.size(); ++i) {
-			if (_blockEq(pairs[i].first, small)) {
+		for (int i = 0; i < (int)pairs.size(); ++i)
+		{
+			if (pairs[i].first == small)
+			{
 				outLarge = pairs[i].second;
 				return true;
 			}
@@ -121,187 +130,162 @@ private:
 		return false;
 	}
 
-	template <typename Outer, typename Block>
-	static int	_indexOf(const Outer& chain, const Block& value)
-	{
-		for (int i = 0; i < (int)chain.size(); ++i) {
-			if (_blockEq(chain[i], value))
-				return i;
-		}
-		return -1;
-	}
-
-	// upper_bound in [0..hi] comparing by .back()
-	template <typename Outer>
-	static int	_upperBoundByBack(const Outer& chain, int hi, int target, long& comps)
-	{
-		if (hi < 0) return 0; // empty prefix => insert at begin
-		int lo = 0;
-		int r  = hi;
-
-		while (lo <= r) {
-			int mid = lo + (r - lo) / 2;
-			comps++;
-			if (chain[mid].back() < target)
-				lo = mid + 1;
-			else
-				r = mid - 1;
-		}
-		return lo;
-	}
-
-	static std::vector<int>	_genJacobLimits(int need)
-	{
-		// sequence: 3, 5, 11, 21, 43, ...
-		// recurrence: next = b + 2*a (with a=1, b=3)
-		std::vector<int> j;
-		int a = 1;
-		int b = 3;
-		while (b < need + 2) {
-			j.push_back(b);
-			int c = b + 2 * a;
-			a = b;
-			b = c;
-		}
-		return j;
-	}
-
-	template <typename Outer, typename Block>
-	static void	_insertPendFordJohnson(
-		Outer& mainChain,
-		Outer& pend,
-		const std::vector< std::pair<Block, Block> >& pairs,
-		long& comps)
+	template <typename Cont, typename P>
+	static void	_insertPendFordJohnson(Cont &main_chain, Cont &pend,
+		const P &pairs, bool hasStraggler, int straggler, long &compsCount)
 	{
 		if (pend.empty())
 			return;
 
-		std::vector<int> jac = _genJacobLimits((int)pend.size());
-		int prev = 1;
+		std::vector<int>	jac = _genJacobsthalLimits((int)pend.size());
+		int					prev = 1;
+		int					jidx = -1;
 
-		for (size_t j = 0; j < jac.size() && !pend.empty(); ++j) {
-			int cur = jac[j];
-			int groupCount = cur - prev;
-			if (groupCount <= 0) {
+		// Process Jacobsthal groups as long as they fit
+		while (!pend.empty() && ++jidx < (int)jac.size())
+		{
+			int	cur = jac[jidx];
+			int	groupCount = cur - prev;
+
+			if (groupCount <= 0)
+			{
 				prev = cur;
 				continue;
 			}
 
-			// If not enough elements left for this group => stop and insert the rest from the back
 			if (groupCount > (int)pend.size())
 				break;
 
-			// Insert first groupCount elements in reverse index order: groupCount-1 .. 0
-			for (int idx = groupCount - 1; idx >= 0; --idx) {
-				Block b = pend[idx];
+			// Insert indices groupCount-1 .. 0 (reverse inside group)
+			for (int idx = groupCount - 1; idx >= 0; --idx)
+			{
+				int	b = pend[idx];
+				int	boundExclusive = (int)main_chain.size();
 
-				// bounded search end: before partner large
-				Block partnerLarge;
-				int searchHi = (int)mainChain.size() - 1; // default: full chain
-				if (_findLargeOfSmall(pairs, b, partnerLarge)) {
-					int partnerPos = _indexOf(mainChain, partnerLarge);
-					if (partnerPos >= 0)
-						searchHi = partnerPos - 1;
+				if (!(hasStraggler && b == straggler))
+				{
+					int	a = 0;
+
+					if (_findLargeOfSmall(pairs, b, a))
+					{
+						int	posA = _indexOfValue(main_chain, a);
+
+						if (posA >= 0)
+							boundExclusive = posA; // exclusive => before a
+					}
 				}
 
-				int pos = _upperBoundByBack(mainChain, searchHi, _blockKey(b), comps);
-				mainChain.insert(mainChain.begin() + pos, b);
+				int	pos = _upperBoundIndex(main_chain, boundExclusive, b, compsCount);
 
-				// erase b from pend at idx (safe since idx goes down)
+				main_chain.insert(main_chain.begin() + pos, b);
 				pend.erase(pend.begin() + idx);
 			}
-
 			prev = cur;
 		}
 
-		// Insert whatever remains from the back (safe indices)
-		for (int idx = (int)pend.size() - 1; idx >= 0; --idx) {
-			Block b = pend[idx];
+		// Insert whatever remains from the back
+		for (int idx = (int)pend.size() - 1; idx >= 0; --idx)
+		{
+			int	b = pend[idx];
+			int	boundExclusive = (int)main_chain.size();
 
-			Block partnerLarge;
-			int searchHi = (int)mainChain.size() - 1;
-			if (_findLargeOfSmall(pairs, b, partnerLarge)) {
-				int partnerPos = _indexOf(mainChain, partnerLarge);
-				if (partnerPos >= 0)
-					searchHi = partnerPos - 1;
+			if (!(hasStraggler && b == straggler))
+			{
+				int	a = 0;
+
+				if (_findLargeOfSmall(pairs, b, a))
+				{
+					int	posA = _indexOfValue(main_chain, a);
+
+					if (posA >= 0)
+						boundExclusive = posA;
+				}
 			}
+			int	pos = _upperBoundIndex(main_chain, boundExclusive, b, compsCount);
 
-			int pos = _upperBoundByBack(mainChain, searchHi, _blockKey(b), comps);
-			mainChain.insert(mainChain.begin() + pos, b);
+			main_chain.insert(main_chain.begin() + pos, b);
 			pend.erase(pend.begin() + idx);
 		}
 	}
 
-	template <typename Outer, typename Block>
-	static void	_fordJohnsonBlocks(Outer& elems, long& comps)
+	template <typename Cont, typename P>
+	static void	_makePairs(Cont &arr, long &cc, P &pairs, Cont &larges, int n)
 	{
-		if (elems.size() <= 1)
-			return;
+		int	pairCount = n / 2;
 
-		// 1) Pair up elements, keep (small, large) + list of larges
-		size_t pairCount = elems.size() / 2;
-		std::vector< std::pair<Block, Block> > pairs;
 		pairs.reserve(pairCount);
+		for (int i = 0; i < pairCount; ++i)
+		{
+			int	x = arr[2*i];
+			int	y = arr[2*i + 1];
 
-		Outer larges;
-		bool hasStraggler = (elems.size() % 2 != 0);
-		Block straggler;
-
-		for (size_t i = 0; i < pairCount; ++i) {
-			Block x = elems[2 * i];
-			Block y = elems[2 * i + 1];
-
-			comps++;
-			if (x.back() <= y.back()) {
-				pairs.push_back(std::make_pair(x, y)); // (small, large)
+			cc++;
+			if (x <= y)
+			{
+				pairs.push_back(std::make_pair(x, y));
 				larges.push_back(y);
 			} else {
 				pairs.push_back(std::make_pair(y, x));
 				larges.push_back(x);
 			}
 		}
+	}
+
+	template <typename Cont>
+	static void	_fordJohnsonSort(Cont &arr, long &compsCount)
+	{
+		int	n = (int)arr.size();
+		if (n <= 1)
+			return;
+
+		// 1) Pair into (b_i, a_i) where b_i <= a_i, collect all a_i
+		std::vector< std::pair<int,int> >	pairs;
+		Cont								larges;
+
+		_makePairs(arr, compsCount, pairs, larges, n);
+
+		bool	hasStraggler = (n % 2 != 0);
+		int		straggler = 0;
 
 		if (hasStraggler)
-			straggler = elems[elems.size() - 1];
+			straggler = arr[n - 1];
 
-		// 2) Recursively sort larges
-		_fordJohnsonBlocks<Outer, Block>(larges, comps);
+		// 2) Recursively sort the a_i sequence
+		_fordJohnsonSort(larges, compsCount);
 
-		// 3) Build main chain + pend
-		Outer mainChain;
-		Outer pend;
+		// 3) Build main_chain = [b1, a1, a2, ...] and pend = remaining b's (in order of sorted a's)
+		Cont	main_chain;
+		Cont	pend;
+		int		a1 = larges[0];
+		int		b1 = 0;
 
-		// mainChain starts with b1 (small of smallest large) then smallest large
-		Block smallestLarge = larges[0];
-		Block b1;
-		if (!_findSmallOfLarge(pairs, smallestLarge, b1)) {
-			// should not happen with valid pairs
-			return;
+		if (!_findSmallOfLarge(pairs, a1, b1))
+			return;	// should not happen if pairs are consistent
+
+		main_chain.push_back(b1);
+		main_chain.push_back(a1);
+
+		// For each remaining sorted a, append a to main chain and collect its partner b to pend
+		for (int i = 1; i < (int)larges.size(); ++i)
+		{
+			int	a = larges[i];
+			int	b = 0;
+
+			_findSmallOfLarge(pairs, a, b);
+			main_chain.push_back(a);
+			pend.push_back(b);
 		}
-		mainChain.push_back(b1);
-		mainChain.push_back(smallestLarge);
 
-		// append remaining larges in sorted order
-		for (size_t i = 1; i < larges.size(); ++i)
-			mainChain.push_back(larges[i]);
-
-		// pend = small partners of larges[1..] in that order, plus straggler at end
-		for (size_t i = 1; i < larges.size(); ++i) {
-			Block si;
-			_findSmallOfLarge(pairs, larges[i], si);
-			pend.push_back(si);
-		}
 		if (hasStraggler)
 			pend.push_back(straggler);
 
-		// 4) Insert pend using Jacobsthal grouping + bounded search
-		_insertPendFordJohnson<Outer, Block>(mainChain, pend, pairs, comps);
+		// 4) Insert pend using Jacobsthal order, bounded by partner position
+		_insertPendFordJohnson(main_chain, pend, pairs, hasStraggler, straggler, compsCount);
 
-		elems.swap(mainChain);
+		// Write back
+		arr.swap(main_chain);
 	}
 
-	static bool	_isSorted(const std::vector<int>& v);
-	static bool	_sameResult(const std::vector<int>& v, const std::deque<int>& d);
 };
 
 #endif
