@@ -5,7 +5,7 @@ int	main(int argc, char **argv)
 	PmergeMe	pm;
 
 	try {
-		pm.checkInput(argc, argv);
+		pm.initCheckInput(argc, argv);
 		pm.printBefore();
 		pm.sortVector();
 		pm.sortDeque();
