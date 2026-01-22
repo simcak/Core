@@ -2,10 +2,14 @@
 
 int	main(int argc, char **argv)
 {
-	PmergeMe	pm;
+	PmergeMe	pm2;
+	PmergeMe	pm1;
 
 	try {
-		pm.initCheckInput(argc, argv);
+		pm2.initCheckInput(argc, argv);
+		pm1 = pm2;
+		PmergeMe	pm(pm1);
+
 		pm.printBefore();
 		pm.sortVector();
 		pm.sortDeque();
