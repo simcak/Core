@@ -30,7 +30,7 @@ PmergeMe::~PmergeMe() {}
 
 /* ───────────────────────────────── helpers ──────────────────────────────── */
 /*  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ For debugging / defending ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
-#include <math.h>
+#include <cmath>
 static long	_maxComparisonsAllowed(int n)
 {
 	long	sum = 0;
@@ -90,13 +90,13 @@ static bool	_isDigitString(const char *s)
 static long	_parsePositiveLong(const char *s)
 {
 	if (!_isDigitString(s))
-		return -1;
+		throw PmergeMe::Error();
 
 	char	*end = 0;
 	long	v = std::strtol(s, &end, 10);
 
 	if (!end || *end != '\0' || v <= 0 || v > std::numeric_limits<int>::max())
-		return -1;
+		throw PmergeMe::Error();
 
 	return v;
 }
@@ -108,12 +108,9 @@ void	PmergeMe::initCheckInput(int argc, char **argv)
 		throw Error();
 
 	_input.clear();
-	for (int i = 1; i < argc; ++i) 
+	for (int i = 1; i < argc; ++i)
 	{
 		long	v = _parsePositiveLong(argv[i]);
-
-		if(v == -1)
-			throw Error();
 
 		for (std::vector<int>::const_iterator it = _input.begin(); it != _input.end(); ++it)
 			if (*it == (int)v)
