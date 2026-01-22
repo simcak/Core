@@ -13,6 +13,8 @@ bg="\033[1;32m"
 by="\033[1;33m"
 rst="\033[0m"
 
+make > /dev/null 2>&1
+
 for i in {1..10}; do
     numbers=$(shuf -i 1-${1:-10000} -n ${1:-4200})
     numbers_str=$(echo $numbers | tr '\n' ' ')
@@ -60,3 +62,5 @@ echo "---------------------------------"
 echo -e "${by}Vector${rst} - Max: ${vec_max_col}$max_comp_vec${rst}, Min: ${vec_min_col}$min_comp_vec${rst}, Avg: ${vec_avg_col}$avg_comp_vec${rst}"
 echo -e "${by}Deque${rst}  - Max: ${deq_max_col}$max_comp_deq${rst}, Min: ${deq_min_col}$min_comp_deq${rst}, Avg: ${deq_avg_col}$avg_comp_deq${rst}"
 echo ""
+
+make fclean > /dev/null 2>&1
