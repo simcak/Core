@@ -154,7 +154,14 @@ void	PmergeMe::printBefore() const
 {
 	std::cout << "Before: ";
 	for (std::vector<int>::const_iterator it = _input.begin(); it != _input.end(); ++it)
+	{
+		if (it - _input.begin() == 42)
+		{
+			std::cout << "[...]";
+			break;
+		}
 		std::cout << *it << " ";
+	}
 	std::cout << "\n";
 }
 
@@ -165,10 +172,16 @@ void	PmergeMe::printAfter() const
 
 	std::cout << "After:  ";
 	for (std::deque<int>::const_iterator it = _sortedDeq.begin(); it != _sortedDeq.end(); ++it)
+	{
+		if (it - _sortedDeq.begin() == 42)
+		{
+			std::cout << "[...]";
+			break;
+		}
 		std::cout << *it << " ";
-	std::cout << "\n";
+	}
 
-	std::cout << "Time to process a range of " << _input.size()
+	std::cout << "\nTime to process a range of " << _input.size()
 			  << " with std::vector : " << std::setprecision(5) << _msVec << " ms\n";
 	std::cout << "Time to process a range of " << _input.size()
 			  << " with std::deque  : " << std::setprecision(5) << _msDeq << " ms\n";
