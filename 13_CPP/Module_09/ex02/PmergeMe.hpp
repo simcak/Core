@@ -60,11 +60,11 @@ private:
 
 private:
 	/* ─────────────────────────────── Helpers ────────────────────────────── */
-	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ limits: 3, 5, 11, 21, 43, ...  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
+	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ limits: (1), 3, 5, 11, 21, 43, ... ─ ─ ─ ─ ─ ─ ─ ─ ─ */
 	static std::vector<int>	_genJacobsthalLimits(int need)
 	{
 		std::vector<int>	jContainer;
-		int					a = 1, b = 3, next = 0;
+		int					a = 1, b = 1, next = 0;
 
 		while (b < need + 2)
 		{
@@ -180,25 +180,20 @@ private:
 			return;
 
 		std::vector<int>	jac = _genJacobsthalLimits((int)pendC.size());
-		int					prev = 1;
 
 		// Process Jacobsthal groups as long as they fit
-		for (int i = 0; !pendC.empty() && i < (int)jac.size(); ++i)
+		for (int i = 1; !pendC.empty() && i < (int)jac.size(); ++i)
 		{
-			int	groupCount = jac[i] - prev;
+			int	groupLen = jac[i] - jac[i-1];
 
-			if (groupCount <= 0)
-			{
-				prev = jac[i];
+			if (groupLen <= 0)
 				continue;
-			}
 
-			if (groupCount > (int)pendC.size())
+			if (groupLen > (int)pendC.size())
 				break;
 
-			// Insert indices groupCount-1 .. 0 (reverse inside group)
-			_insertPendGroup(groupCount, mainC, pendC, pairs, hasStraggler, straggler, cc);
-			prev = jac[i];
+			// Insert indices groupLen-1 .. 0 (reverse inside group)
+			_insertPendGroup(groupLen, mainC, pendC, pairs, hasStraggler, straggler, cc);
 		}
 \
 		// Insert whatever remains from the back (reverse after groups)
