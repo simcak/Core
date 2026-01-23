@@ -59,6 +59,7 @@ private:
 	long				_compsDeqCounter;
 
 private:
+	/* ─────────────────────────────── Helpers ────────────────────────────── */
 	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ limits: 3, 5, 11, 21, 43, ...  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
 	static std::vector<int>	_genJacobsthalLimits(int need)
 	{
@@ -86,17 +87,14 @@ private:
 
 	// upper_bound index in c[0..hiExclusive) for value
 	template <typename Cont>
-	static int	_upperBoundIndex(const Cont &c,
-		int hiExclusive, int value, long &compsCount)
+	static int	_upperBoundIndex(const Cont &c, int hi, int value, long &cc)
 	{
-		int	lo = 0;
-		int	hi = hiExclusive;
+		int	lo = 0, mid = 0;
 
 		while (lo < hi)
 		{
-			int	mid = lo + (hi - lo) / 2;
-
-			compsCount++;
+			mid = lo + (hi - lo) / 2;
+			cc++;
 			(c[mid] <= value) ? lo = mid + 1 : hi = mid;
 		}
 		return lo;
@@ -138,22 +136,24 @@ private:
 		return false;
 	}
 
+	/* ───────────────────────────── Hub helpers ──────────────────────────── */
+	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ quatro ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
 	/**
 	 * 
 	 */
 	template <typename Cont, typename P>
-	static void	_insertPendFordJohnson(Cont &main_chain, Cont &pend,
-		const P &pairs, bool hasStraggler, int straggler, long &compsCount)
+	static void	_insertPend(Cont &mainC, Cont &pendC,
+		const P &pairs, bool hasStraggler, int straggler, long &cc)
 	{
-		if (pend.empty())
+		if (pendC.empty())
 			return;
 
-		std::vector<int>	jac = _genJacobsthalLimits((int)pend.size());
+		std::vector<int>	jac = _genJacobsthalLimits((int)pendC.size());
 		int					prev = 1;
 		int					jidx = -1;
 
 		// Process Jacobsthal groups as long as they fit
-		while (!pend.empty() && ++jidx < (int)jac.size())
+		while (!pendC.empty() && ++jidx < (int)jac.size())
 		{
 			int	cur = jac[jidx];
 			int	groupCount = cur - prev;
@@ -164,14 +164,14 @@ private:
 				continue;
 			}
 
-			if (groupCount > (int)pend.size())
+			if (groupCount > (int)pendC.size())
 				break;
 
 			// Insert indices groupCount-1 .. 0 (reverse inside group)
 			for (int idx = groupCount - 1; idx >= 0; --idx)
 			{
-				int	b = pend[idx];
-				int	boundExclusive = (int)main_chain.size();
+				int	b = pendC[idx];
+				int	boundExclusive = (int)mainC.size();
 
 				if (!(hasStraggler && b == straggler))
 				{
@@ -179,26 +179,26 @@ private:
 
 					if (_findLargeOfSmall(pairs, b, a))
 					{
-						int	posA = _indexOfValue(main_chain, a);
+						int	posA = _indexOfValue(mainC, a);
 
 						if (posA >= 0)
 							boundExclusive = posA; // exclusive => before a
 					}
 				}
 
-				int	pos = _upperBoundIndex(main_chain, boundExclusive, b, compsCount);
+				int	pos = _upperBoundIndex(mainC, boundExclusive, b, cc);
 
-				main_chain.insert(main_chain.begin() + pos, b);
-				pend.erase(pend.begin() + idx);
+				mainC.insert(mainC.begin() + pos, b);
+				pendC.erase(pendC.begin() + idx);
 			}
 			prev = cur;
 		}
 
 		// Insert whatever remains from the back
-		for (int idx = (int)pend.size() - 1; idx >= 0; --idx)
+		for (int idx = (int)pendC.size() - 1; idx >= 0; --idx)
 		{
-			int	b = pend[idx];
-			int	boundExclusive = (int)main_chain.size();
+			int	b = pendC[idx];
+			int	boundExclusive = (int)mainC.size();
 
 			if (!(hasStraggler && b == straggler))
 			{
@@ -206,19 +206,44 @@ private:
 
 				if (_findLargeOfSmall(pairs, b, a))
 				{
-					int	posA = _indexOfValue(main_chain, a);
+					int	posA = _indexOfValue(mainC, a);
 
 					if (posA >= 0)
 						boundExclusive = posA;
 				}
 			}
-			int	pos = _upperBoundIndex(main_chain, boundExclusive, b, compsCount);
+			int	pos = _upperBoundIndex(mainC, boundExclusive, b, cc);
 
-			main_chain.insert(main_chain.begin() + pos, b);
-			pend.erase(pend.begin() + idx);
+			mainC.insert(mainC.begin() + pos, b);
+			pendC.erase(pendC.begin() + idx);
 		}
 	}
 
+	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ tr3s ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
+	template <typename Cont, typename P>
+	static void	_build_mainAndPend_chains(Cont &mainC, Cont &pendC, P &pairs,
+		Cont &larges)
+	{
+		int	a1 = larges[0], b1 = 0;
+
+		if (!_findSmallOfLarge(pairs, a1, b1))
+			return;	// should not happen if pairs are consistent
+
+		mainC.push_back(b1);
+		mainC.push_back(a1);
+
+		// For each remaining sorted a, append a to main chain and collect its partner b to pend
+		for (int i = 1; i < (int)larges.size(); ++i)
+		{
+			int	a = larges[i], b = 0;
+
+			_findSmallOfLarge(pairs, a, b);
+			mainC.push_back(a);
+			pendC.push_back(b);
+		}
+	}
+
+	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ 1) uno ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
 	template <typename Cont, typename P>
 	static void	_makePairs(Cont &arr, long &cc, P &pairs, Cont &larges, int n)
 	{
@@ -242,8 +267,9 @@ private:
 		}
 	}
 
+	/* ───────────────────────────────── Hub ──────────────────────────────── */
 	template <typename Cont>
-	static void	_fordJohnsonSort(Cont &arr, long &compsCount)
+	void	_fordJohnsonSort(Cont &arr, long &compsCount)
 	{
 		int	n = (int)arr.size();
 		if (n <= 1)
@@ -264,37 +290,20 @@ private:
 		// 2) Recursively sort the a_i sequence
 		_fordJohnsonSort(larges, compsCount);
 
-		// 3) Build main_chain = [b1, a1, a2, ...] and pend = remaining b's (in order of sorted a's)
-		Cont	main_chain;
-		Cont	pend;
-		int		a1 = larges[0];
-		int		b1 = 0;
+		// 3) Build mainChain = [b1, a1, a2, ...] and pendChain = remaining b's (in order of sorted a's)
+		Cont	mainChain;
+		Cont	pendChain;
 
-		if (!_findSmallOfLarge(pairs, a1, b1))
-			return;	// should not happen if pairs are consistent
-
-		main_chain.push_back(b1);
-		main_chain.push_back(a1);
-
-		// For each remaining sorted a, append a to main chain and collect its partner b to pend
-		for (int i = 1; i < (int)larges.size(); ++i)
-		{
-			int	a = larges[i];
-			int	b = 0;
-
-			_findSmallOfLarge(pairs, a, b);
-			main_chain.push_back(a);
-			pend.push_back(b);
-		}
+		_build_mainAndPend_chains(mainChain, pendChain, pairs, larges);
 
 		if (hasStraggler)
-			pend.push_back(straggler);
+			pendChain.push_back(straggler);
 
-		// 4) Insert pend using Jacobsthal order, bounded by partner position
-		_insertPendFordJohnson(main_chain, pend, pairs, hasStraggler, straggler, compsCount);
+		// 4) Insert pendChain using Jacobsthal order, bounded by partner position
+		_insertPend(mainChain, pendChain, pairs, hasStraggler, straggler, compsCount);
 
 		// Write back
-		arr.swap(main_chain);
+		arr.swap(mainChain);
 	}
 
 };
