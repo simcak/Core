@@ -103,6 +103,8 @@ private:
 	/** @brief:
 	 *  By the `large` var, find its paired.small from `pairs` and store it to
 	 *  the value `outSmall`.
+	 * 
+	 * for: _buildMainPend()
 	*/
 	template <typename P>
 	static bool	_findSmallOfLarge(const P &pairs, int large, int &outSmall)
@@ -121,6 +123,8 @@ private:
 	/** @brief:
 	 *  By the `small` var, find its paired.large from `pairs` and store it to
 	 *  the value `outLarge`.
+	 * 
+	 * for: _insertPend()
 	*/
 	template <typename P>
 	static bool	_findLargeOfSmall(const P &pairs, int small, int &outLarge)
@@ -136,31 +140,56 @@ private:
 		return false;
 	}
 
+	template <typename Cont, typename P>
+	static void	_insertPendGroup(int groupLen, Cont &mainC, Cont &pendC, const P &pairs, bool hasStraggler, int straggler, long &cc)
+	{
+		for (int i = groupLen - 1; i >= 0; --i)
+		{
+			int	bi = pendC[i];
+			int	boundExclusive = (int)mainC.size();
+
+			if (!(hasStraggler && bi == straggler))
+			{
+				int	ai = 0;
+
+				if (_findLargeOfSmall(pairs, bi, ai))
+				{
+					int	posA = _indexOfValue(mainC, ai);
+
+					if (posA >= 0)
+						boundExclusive = posA; // exclusive => before ai
+				}
+			}
+
+			int	pos = _upperBoundIndex(mainC, boundExclusive, bi, cc);
+
+			mainC.insert(mainC.begin() + pos, bi);
+			pendC.erase(pendC.begin() + i);
+		}
+	}
+
 	/* ───────────────────────────── Hub helpers ──────────────────────────── */
 	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ quatro ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
 	/**
 	 * 
 	 */
 	template <typename Cont, typename P>
-	static void	_insertPend(Cont &mainC, Cont &pendC,
-		const P &pairs, bool hasStraggler, int straggler, long &cc)
+	static void	_insertPend(Cont &mainC, Cont &pendC, const P &pairs, bool hasStraggler, int straggler, long &cc)
 	{
 		if (pendC.empty())
 			return;
 
 		std::vector<int>	jac = _genJacobsthalLimits((int)pendC.size());
 		int					prev = 1;
-		int					jidx = -1;
 
 		// Process Jacobsthal groups as long as they fit
-		while (!pendC.empty() && ++jidx < (int)jac.size())
+		for (int i = 0; !pendC.empty() && i < (int)jac.size(); ++i)
 		{
-			int	cur = jac[jidx];
-			int	groupCount = cur - prev;
+			int	groupCount = jac[i] - prev;
 
 			if (groupCount <= 0)
 			{
-				prev = cur;
+				prev = jac[i];
 				continue;
 			}
 
@@ -168,63 +197,24 @@ private:
 				break;
 
 			// Insert indices groupCount-1 .. 0 (reverse inside group)
-			for (int idx = groupCount - 1; idx >= 0; --idx)
-			{
-				int	b = pendC[idx];
-				int	boundExclusive = (int)mainC.size();
-
-				if (!(hasStraggler && b == straggler))
-				{
-					int	a = 0;
-
-					if (_findLargeOfSmall(pairs, b, a))
-					{
-						int	posA = _indexOfValue(mainC, a);
-
-						if (posA >= 0)
-							boundExclusive = posA; // exclusive => before a
-					}
-				}
-
-				int	pos = _upperBoundIndex(mainC, boundExclusive, b, cc);
-
-				mainC.insert(mainC.begin() + pos, b);
-				pendC.erase(pendC.begin() + idx);
-			}
-			prev = cur;
+			_insertPendGroup(groupCount, mainC, pendC, pairs, hasStraggler, straggler, cc);
+			prev = jac[i];
 		}
-
-		// Insert whatever remains from the back
-		for (int idx = (int)pendC.size() - 1; idx >= 0; --idx)
-		{
-			int	b = pendC[idx];
-			int	boundExclusive = (int)mainC.size();
-
-			if (!(hasStraggler && b == straggler))
-			{
-				int	a = 0;
-
-				if (_findLargeOfSmall(pairs, b, a))
-				{
-					int	posA = _indexOfValue(mainC, a);
-
-					if (posA >= 0)
-						boundExclusive = posA;
-				}
-			}
-			int	pos = _upperBoundIndex(mainC, boundExclusive, b, cc);
-
-			mainC.insert(mainC.begin() + pos, b);
-			pendC.erase(pendC.begin() + idx);
-		}
+\
+		// Insert whatever remains from the back (reverse after groups)
+		_insertPendGroup((int)pendC.size(), mainC, pendC, pairs, hasStraggler, straggler, cc);
 	}
 
 	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ tr3s ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
+	/** @brief
+	 *  mainChain = [b1, a1, a2, ...]
+	 *  pendChain = remaining b's (in order of sorted a's)
+	 *  a = large   b = small   (for pairs)
+	 */
 	template <typename Cont, typename P>
-	static void	_build_mainAndPend_chains(Cont &mainC, Cont &pendC, P &pairs,
-		Cont &larges)
+	static void	_buildMainPend(Cont &mainC, Cont &pendC, P &pairs, Cont &aArr)
 	{
-		int	a1 = larges[0], b1 = 0;
+		int	a1 = aArr[0], b1 = 0;
 
 		if (!_findSmallOfLarge(pairs, a1, b1))
 			return;	// should not happen if pairs are consistent
@@ -232,28 +222,24 @@ private:
 		mainC.push_back(b1);
 		mainC.push_back(a1);
 
-		// For each remaining sorted a, append a to main chain and collect its partner b to pend
-		for (int i = 1; i < (int)larges.size(); ++i)
+		for (int i = 1; i < (int)aArr.size(); ++i)
 		{
-			int	a = larges[i], b = 0;
+			int	ai = aArr[i], bi = 0;
 
-			_findSmallOfLarge(pairs, a, b);
-			mainC.push_back(a);
-			pendC.push_back(b);
+			_findSmallOfLarge(pairs, ai, bi);
+			mainC.push_back(ai);
+			pendC.push_back(bi);
 		}
 	}
 
 	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ 1) uno ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
 	template <typename Cont, typename P>
-	static void	_makePairs(Cont &arr, long &cc, P &pairs, Cont &larges, int n)
+	static void	_makePairs(Cont &arr, P &pairs, Cont &larges, int n, long &cc)
 	{
-		int	pairCount = n / 2;
-
-		pairs.reserve(pairCount);
-		for (int i = 0; i < pairCount; ++i)
+		pairs.reserve(n / 2);
+		for (int i = 0; i < n-1; i+=2)
 		{
-			int	x = arr[2*i];
-			int	y = arr[2*i + 1];
+			int	x = arr[i], y = arr[i+1];
 
 			cc++;
 			if (x <= y)
@@ -279,7 +265,7 @@ private:
 		std::vector< std::pair<int,int> >	pairs;
 		Cont								larges;
 
-		_makePairs(arr, compsCount, pairs, larges, n);
+		_makePairs(arr, pairs, larges, n, compsCount);
 
 		bool	hasStraggler = (n % 2 != 0);
 		int		straggler = 0;
@@ -290,11 +276,11 @@ private:
 		// 2) Recursively sort the a_i sequence
 		_fordJohnsonSort(larges, compsCount);
 
-		// 3) Build mainChain = [b1, a1, a2, ...] and pendChain = remaining b's (in order of sorted a's)
+		// 3) Build Chains
 		Cont	mainChain;
 		Cont	pendChain;
 
-		_build_mainAndPend_chains(mainChain, pendChain, pairs, larges);
+		_buildMainPend(mainChain, pendChain, pairs, larges);
 
 		if (hasStraggler)
 			pendChain.push_back(straggler);
