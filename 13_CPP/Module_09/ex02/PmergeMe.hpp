@@ -102,6 +102,10 @@ private:
 		return lo;
 	}
 
+	/** @brief:
+	 *  By the `large` var, find its paired.small from `pairs` and store it to
+	 *  the value `outSmall`.
+	*/
 	template <typename P>
 	static bool	_findSmallOfLarge(const P &pairs, int large, int &outSmall)
 	{
@@ -116,6 +120,10 @@ private:
 		return false;
 	}
 
+	/** @brief:
+	 *  By the `small` var, find its paired.large from `pairs` and store it to
+	 *  the value `outLarge`.
+	*/
 	template <typename P>
 	static bool	_findLargeOfSmall(const P &pairs, int small, int &outLarge)
 	{
@@ -130,6 +138,9 @@ private:
 		return false;
 	}
 
+	/**
+	 * 
+	 */
 	template <typename Cont, typename P>
 	static void	_insertPendFordJohnson(Cont &main_chain, Cont &pend,
 		const P &pairs, bool hasStraggler, int straggler, long &compsCount)
