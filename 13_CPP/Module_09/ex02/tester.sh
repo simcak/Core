@@ -5,5 +5,5 @@ for size in '   1' '   3' '   5' '  13' '  21' '  42' '  55' ' 100' ' 543' '1042
 	echo "====================================="
 	echo "|     Running with $size numbers     |"
 	echo "====================================="
-	./test.sh $size
+	./t_comp.sh $size
 done
