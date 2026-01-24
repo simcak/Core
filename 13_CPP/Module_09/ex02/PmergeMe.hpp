@@ -92,35 +92,27 @@ private:
 		return jContainer;
 	}
 
-	/* ─ ─ ─ ─ ─ ─ ─ Find 'outSmall' from 'pairs' by 'large' el ─ ─ ─ ─ ─ ─ ─ */
+	/* ─ ─ ─ ─ ─ ─ ─ Find the 'small' from 'pairs' by 'large' ─ ─ ─ ─ ─ ─ ─ ─ */
 	template <typename P>
-	static bool	_findSmallOfLarge(const P &pairs, int large, int &outSmall)
+	static int	_findSmallOfLarge(const P &pairs, int large)
 	{
 		for (int i = 0; i < (int)pairs.size(); ++i)
-		{
 			if (pairs[i].second == large)
-			{
-				outSmall = pairs[i].first;
-				return true;
-			}
-		}
-		return false;
+				return pairs[i].first;
+
+		throw Error();
 	}
 
 	/* ───────────────────── _insertPendGroup() helpers ───────────────────── */
-	/* ─ ─ ─ ─ ─ ─ ─ Find 'outLarge' from 'pairs' by 'small' el ─ ─ ─ ─ ─ ─ ─ */
+	/* ─ ─ ─ ─ ─ ─ ─ Find the 'large' from 'pairs' by 'small' ─ ─ ─ ─ ─ ─ ─ ─ */
 	template <typename P>
-	static bool	_findLargeOfSmall(const P &pairs, int small, int &outLarge)
+	static int	_findLargeOfSmall(const P &pairs, int small)
 	{
 		for (int i = 0; i < (int)pairs.size(); ++i)
-		{
 			if (pairs[i].first == small)
-			{
-				outLarge = pairs[i].second;
-				return true;
-			}
-		}
-		return false;
+				return pairs[i].second;
+
+		throw Error();
 	}
 
 	/* ─ ─ ─ ─ ─ ─ ─ ─ ─  find index in _insertPendGroup()  ─ ─ ─ ─ ─ ─ ─ ─ ─ */
@@ -159,15 +151,11 @@ private:
 
 			if (!(fj.hasStraggler && bi == fj.straggler))
 			{
-				int	ai = 0;
+				int	ai = _findLargeOfSmall(fj.pairs, bi);
+				int	posA = _indexOfValue(fj.mainC, ai);
 
-				if (_findLargeOfSmall(fj.pairs, bi, ai))
-				{
-					int	posA = _indexOfValue(fj.mainC, ai);
-
-					if (posA >= 0)
-						boundExclusive = posA; // exclusive => before ai
-				}
+				if (posA >= 0)
+					boundExclusive = posA; // exclusive => before ai
 			}
 
 			int	pos = _upperBoundIndex(fj.mainC, boundExclusive, bi, cc);
@@ -204,7 +192,6 @@ private:
 			// Insert indices jacGroupLen-1 .. 0 (reverse inside group)
 			_insertPendGroup(jacGroupLen, fj, cc);
 		}
-\
 		// Insert whatever remains from the back (reverse after groups)
 		_insertPendGroup((int)fj.pendC.size(), fj, cc);
 	}
@@ -218,19 +205,17 @@ private:
 	template <typename Cont, typename P>
 	static void	_buildMainPend(Cont &mainC, Cont &pendC, P &pairs, Cont &aArr)
 	{
-		int	a1 = aArr[0], b1 = 0;
-
-		if (!_findSmallOfLarge(pairs, a1, b1))
-			return;	// should not happen if pairs are consistent
+		int	a1 = aArr[0];
+		int	b1 = _findSmallOfLarge(pairs, a1);
 
 		mainC.push_back(b1);
 		mainC.push_back(a1);
 
 		for (int i = 1; i < (int)aArr.size(); ++i)
 		{
-			int	ai = aArr[i], bi = 0;
+			int	ai = aArr[i];
+			int	bi = _findSmallOfLarge(pairs, ai);
 
-			_findSmallOfLarge(pairs, ai, bi);
 			mainC.push_back(ai);
 			pendC.push_back(bi);
 		}
