@@ -60,6 +60,22 @@ private:
 
 private:
 	/* ─────────────────────────────── Helpers ────────────────────────────── */
+	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ FordJohnson context holder ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
+	template <typename Cont>
+	struct FJ
+	{
+		int									n;
+		bool								hasStraggler;
+		int									straggler;
+		std::vector< std::pair<int,int> >	pairs;
+		Cont								larges;
+		Cont								mainC;
+		Cont								pendC;
+
+		FJ(int size) : n(size), hasStraggler(size % 2 != 0), straggler(0),
+			pairs(), larges(), mainC(), pendC() {}
+	};
+
 	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ limits: (1), 3, 5, 11, 21, 43, ... ─ ─ ─ ─ ─ ─ ─ ─ ─ */
 	static std::vector<int>	_genJacobsthalLimits(int need)
 	{
@@ -133,31 +149,31 @@ private:
 	}
 
 	/* ─ ─ ─ ─ ─ ─ insert each group from 'pendC' to 'main' chain ─ ─ ─ ─ ─ ─ */
-	template <typename Cont, typename P>
-	static void	_insertPendGroup(int groupLen, Cont &mainC, Cont &pendC, const P &pairs, bool hasStraggler, int straggler, long &cc)
+	template <typename Cont>
+	static void	_insertPendGroup(int groupLen, FJ<Cont> &fj, long &cc)
 	{
 		for (int i = groupLen - 1; i >= 0; --i)
 		{
-			int	bi = pendC[i];
-			int	boundExclusive = (int)mainC.size();
+			int	bi = fj.pendC[i];
+			int	boundExclusive = (int)fj.mainC.size();
 
-			if (!(hasStraggler && bi == straggler))
+			if (!(fj.hasStraggler && bi == fj.straggler))
 			{
 				int	ai = 0;
 
-				if (_findLargeOfSmall(pairs, bi, ai))
+				if (_findLargeOfSmall(fj.pairs, bi, ai))
 				{
-					int	posA = _indexOfValue(mainC, ai);
+					int	posA = _indexOfValue(fj.mainC, ai);
 
 					if (posA >= 0)
 						boundExclusive = posA; // exclusive => before ai
 				}
 			}
 
-			int	pos = _upperBoundIndex(mainC, boundExclusive, bi, cc);
+			int	pos = _upperBoundIndex(fj.mainC, boundExclusive, bi, cc);
 
-			mainC.insert(mainC.begin() + pos, bi);
-			pendC.erase(pendC.begin() + i);
+			fj.mainC.insert(fj.mainC.begin() + pos, bi);
+			fj.pendC.erase(fj.pendC.begin() + i);
 		}
 	}
 
@@ -166,31 +182,31 @@ private:
 	/** @brief
 	 *  By Jacobsthal order, insert from pend to main chain in reverse order.
 	 */
-	template <typename Cont, typename P>
-	static void	_insertPend(Cont &mainC, Cont &pendC, const P &pairs, bool hasStraggler, int straggler, long &cc)
+	template <typename Cont>
+	static void	_insertPend(FJ<Cont> &fj, long &cc)
 	{
-		if (pendC.empty())
+		if (fj.pendC.empty())
 			return;
 
-		std::vector<int>	jac = _genJacobsthalLimits((int)pendC.size());
+		std::vector<int>	jac = _genJacobsthalLimits((int)fj.pendC.size());
 
 		// Process Jacobsthal groups as long as they fit
-		for (int i = 1; !pendC.empty() && i < (int)jac.size(); ++i)
+		for (int i = 1; !fj.pendC.empty() && i < (int)jac.size(); ++i)
 		{
 			int	jacGroupLen = jac[i] - jac[i-1];
 
 			if (jacGroupLen <= 0)
 				continue;
 
-			if (jacGroupLen > (int)pendC.size())
+			if (jacGroupLen > (int)fj.pendC.size())
 				break;
 
 			// Insert indices jacGroupLen-1 .. 0 (reverse inside group)
-			_insertPendGroup(jacGroupLen, mainC, pendC, pairs, hasStraggler, straggler, cc);
+			_insertPendGroup(jacGroupLen, fj, cc);
 		}
 \
 		// Insert whatever remains from the back (reverse after groups)
-		_insertPendGroup((int)pendC.size(), mainC, pendC, pairs, hasStraggler, straggler, cc);
+		_insertPendGroup((int)fj.pendC.size(), fj, cc);
 	}
 
 	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ tr3s ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
@@ -221,22 +237,22 @@ private:
 	}
 
 	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ 1) uno ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
-	template <typename Cont, typename P>
-	static void	_makePairs(Cont &arr, P &pairs, Cont &larges, int n, long &cc)
+	template <typename Cont>
+	static void	_makePairs(Cont &arr, FJ<Cont> &fj, long &cc)
 	{
-		pairs.reserve(n / 2);
-		for (int i = 0; i < n-1; i+=2)
+		fj.pairs.reserve(fj.n / 2);
+		for (int i = 0; i < fj.n - 1; i+=2)
 		{
-			int	x = arr[i], y = arr[i+1];
+			int	x = arr[i], y = arr[i + 1];
 
 			cc++;
 			if (x <= y)
 			{
-				pairs.push_back(std::make_pair(x, y));
-				larges.push_back(y);
+				fj.pairs.push_back(std::make_pair(x, y));
+				fj.larges.push_back(y);
 			} else {
-				pairs.push_back(std::make_pair(y, x));
-				larges.push_back(x);
+				fj.pairs.push_back(std::make_pair(y, x));
+				fj.larges.push_back(x);
 			}
 		}
 	}
@@ -245,39 +261,31 @@ private:
 	template <typename Cont>
 	void	_fordJohnsonSort(Cont &arr, long &compsCount)
 	{
-		int	n = (int)arr.size();
-		if (n <= 1)
+		FJ<Cont>	fj((int)arr.size());
+
+		if (fj.n <= 1)
 			return;
 
 		// 1) Pair into (b_i, a_i) where b_i <= a_i, collect all a_i
-		std::vector< std::pair<int,int> >	pairs;
-		Cont								larges;
+		_makePairs(arr, fj, compsCount);
 
-		_makePairs(arr, pairs, larges, n, compsCount);
-
-		bool	hasStraggler = (n % 2 != 0);
-		int		straggler = 0;
-
-		if (hasStraggler)
-			straggler = arr[n - 1];
+		if (fj.hasStraggler)
+			fj.straggler = arr[fj.n - 1];
 
 		// 2) Recursively sort the a_i sequence
-		_fordJohnsonSort(larges, compsCount);
+		_fordJohnsonSort(fj.larges, compsCount);
 
 		// 3) Build Chains
-		Cont	mainChain;
-		Cont	pendChain;
+		_buildMainPend(fj.mainC, fj.pendC, fj.pairs, fj.larges);
 
-		_buildMainPend(mainChain, pendChain, pairs, larges);
+		if (fj.hasStraggler)
+			fj.pendC.push_back(fj.straggler);
 
-		if (hasStraggler)
-			pendChain.push_back(straggler);
-
-		// 4) Insert pendChain using Jacobsthal order, bounded by partner position
-		_insertPend(mainChain, pendChain, pairs, hasStraggler, straggler, compsCount);
+		// 4) Insert pendChain using Jacobsthal order, bounded by partner pos
+		_insertPend(fj, compsCount);
 
 		// Write back
-		arr.swap(mainChain);
+		arr.swap(fj.mainC);
 	}
 
 };
