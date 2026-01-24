@@ -1,4 +1,5 @@
 #include "PmergeMe.hpp"
+#include <cmath>
 
 /* ───────────────────────── Orthodox Canonical Form ──────────────────────── */
 PmergeMe::PmergeMe() : _input(), _sortedVec(), _sortedDeq(), _msVec(0.0),
@@ -31,7 +32,6 @@ PmergeMe::~PmergeMe() {}
 
 /* ───────────────────────────────── helpers ──────────────────────────────── */
 /*  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ For debugging / defending ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
-#include <cmath>
 static long	_maxComparisonsAllowed(int n)
 {
 	long	sum = 0;
