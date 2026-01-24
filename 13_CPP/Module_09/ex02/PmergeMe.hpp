@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
+#include <utility>
 
 #ifndef COMPARISON_COUNT
 # define COMPARISON_COUNT 0
@@ -122,7 +123,8 @@ private:
 		for (int i = 0; i < (int)c.size(); ++i)
 			if (c[i] == value)
 				return i;
-		return -1;
+
+		throw Error();
 	}
 
 	/* ─ ─ upper_bound index in c[0...hi) for value in _insertPendGroup() ─ ─ */
@@ -152,10 +154,7 @@ private:
 			if (!(fj.hasStraggler && bi == fj.straggler))
 			{
 				int	ai = _findLargeOfSmall(fj.pairs, bi);
-				int	posA = _indexOfValue(fj.mainC, ai);
-
-				if (posA >= 0)
-					boundExclusive = posA; // exclusive => before ai
+				boundExclusive = _indexOfValue(fj.mainC, ai);
 			}
 
 			int	pos = _upperBoundIndex(fj.mainC, boundExclusive, bi, cc);

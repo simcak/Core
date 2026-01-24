@@ -7,7 +7,8 @@ PmergeMe::PmergeMe() : _input(), _sortedVec(), _sortedDeq(), _msVec(0.0),
 
 PmergeMe::PmergeMe(const PmergeMe &copy) : _input(copy._input),
 		_sortedVec(copy._sortedVec), _sortedDeq(copy._sortedDeq),
-		_msVec(copy._msVec), _msDeq(copy._msDeq), _compsVecCounter(copy._compsVecCounter),
+		_msVec(copy._msVec), _msDeq(copy._msDeq),
+		_compsVecCounter(copy._compsVecCounter),
 		_compsDeqCounter(copy._compsDeqCounter)
 {}
 
