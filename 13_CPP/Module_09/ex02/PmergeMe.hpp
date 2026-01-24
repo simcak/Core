@@ -76,36 +76,7 @@ private:
 		return jContainer;
 	}
 
-	template <typename Cont>
-	static int	_indexOfValue(const Cont &c, int value)
-	{
-		for (int i = 0; i < (int)c.size(); ++i)
-			if (c[i] == value)
-				return i;
-		return -1;
-	}
-
-	// upper_bound index in c[0..hiExclusive) for value
-	template <typename Cont>
-	static int	_upperBoundIndex(const Cont &c, int hi, int value, long &cc)
-	{
-		int	lo = 0, mid = 0;
-
-		while (lo < hi)
-		{
-			mid = lo + (hi - lo) / 2;
-			cc++;
-			(c[mid] <= value) ? lo = mid + 1 : hi = mid;
-		}
-		return lo;
-	}
-
-	/** @brief:
-	 *  By the `large` var, find its paired.small from `pairs` and store it to
-	 *  the value `outSmall`.
-	 * 
-	 * for: _buildMainPend()
-	*/
+	/* ─ ─ ─ ─ ─ ─ ─ Find 'outSmall' from 'pairs' by 'large' el ─ ─ ─ ─ ─ ─ ─ */
 	template <typename P>
 	static bool	_findSmallOfLarge(const P &pairs, int large, int &outSmall)
 	{
@@ -120,12 +91,8 @@ private:
 		return false;
 	}
 
-	/** @brief:
-	 *  By the `small` var, find its paired.large from `pairs` and store it to
-	 *  the value `outLarge`.
-	 * 
-	 * for: _insertPend()
-	*/
+	/* ───────────────────── _insertPendGroup() helpers ───────────────────── */
+	/* ─ ─ ─ ─ ─ ─ ─ Find 'outLarge' from 'pairs' by 'small' el ─ ─ ─ ─ ─ ─ ─ */
 	template <typename P>
 	static bool	_findLargeOfSmall(const P &pairs, int small, int &outLarge)
 	{
@@ -140,6 +107,32 @@ private:
 		return false;
 	}
 
+	/* ─ ─ ─ ─ ─ ─ ─ ─ ─  find index in _insertPendGroup()  ─ ─ ─ ─ ─ ─ ─ ─ ─ */
+	template <typename Cont>
+	static int	_indexOfValue(const Cont &c, int value)
+	{
+		for (int i = 0; i < (int)c.size(); ++i)
+			if (c[i] == value)
+				return i;
+		return -1;
+	}
+
+	/* ─ ─ upper_bound index in c[0...hi) for value in _insertPendGroup() ─ ─ */
+	template <typename Cont>
+	static int	_upperBoundIndex(const Cont &c, int hi, int value, long &cc)
+	{
+		int	lo = 0, mid = 0;
+
+		while (lo < hi)
+		{
+			mid = lo + (hi - lo) / 2;
+			cc++;
+			(c[mid] <= value) ? lo = mid + 1 : hi = mid;
+		}
+		return lo;
+	}
+
+	/* ─ ─ ─ ─ ─ ─ insert each group from 'pendC' to 'main' chain ─ ─ ─ ─ ─ ─ */
 	template <typename Cont, typename P>
 	static void	_insertPendGroup(int groupLen, Cont &mainC, Cont &pendC, const P &pairs, bool hasStraggler, int straggler, long &cc)
 	{
@@ -170,8 +163,8 @@ private:
 
 	/* ───────────────────────────── Hub helpers ──────────────────────────── */
 	/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ quatro ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
-	/**
-	 * 
+	/** @brief
+	 *  By Jacobsthal order, insert from pend to main chain in reverse order.
 	 */
 	template <typename Cont, typename P>
 	static void	_insertPend(Cont &mainC, Cont &pendC, const P &pairs, bool hasStraggler, int straggler, long &cc)
@@ -184,16 +177,16 @@ private:
 		// Process Jacobsthal groups as long as they fit
 		for (int i = 1; !pendC.empty() && i < (int)jac.size(); ++i)
 		{
-			int	groupLen = jac[i] - jac[i-1];
+			int	jacGroupLen = jac[i] - jac[i-1];
 
-			if (groupLen <= 0)
+			if (jacGroupLen <= 0)
 				continue;
 
-			if (groupLen > (int)pendC.size())
+			if (jacGroupLen > (int)pendC.size())
 				break;
 
-			// Insert indices groupLen-1 .. 0 (reverse inside group)
-			_insertPendGroup(groupLen, mainC, pendC, pairs, hasStraggler, straggler, cc);
+			// Insert indices jacGroupLen-1 .. 0 (reverse inside group)
+			_insertPendGroup(jacGroupLen, mainC, pendC, pairs, hasStraggler, straggler, cc);
 		}
 \
 		// Insert whatever remains from the back (reverse after groups)
