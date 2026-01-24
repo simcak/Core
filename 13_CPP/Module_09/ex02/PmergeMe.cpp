@@ -2,13 +2,13 @@
 #include <cmath>
 
 /* ───────────────────────── Orthodox Canonical Form ──────────────────────── */
-PmergeMe::PmergeMe() : _input(), _sortedVec(), _sortedDeq(), _msVec(0.0),
-		_msDeq(0.0), _compsVecCounter(0), _compsDeqCounter(0)
+PmergeMe::PmergeMe() : _input(), _sortedVec(), _sortedDeq(), _usVec(0.0),
+		_usDeq(0.0), _compsVecCounter(0), _compsDeqCounter(0)
 {}
 
 PmergeMe::PmergeMe(const PmergeMe &copy) : _input(copy._input),
 		_sortedVec(copy._sortedVec), _sortedDeq(copy._sortedDeq),
-		_msVec(copy._msVec), _msDeq(copy._msDeq),
+		_usVec(copy._usVec), _usDeq(copy._usDeq),
 		_compsVecCounter(copy._compsVecCounter),
 		_compsDeqCounter(copy._compsDeqCounter)
 {}
@@ -17,11 +17,11 @@ PmergeMe	&PmergeMe::operator=(const PmergeMe &other)
 {
 	if (this != &other)
 	{
-		_input		= other._input;
-		_sortedVec	= other._sortedVec;
-		_sortedDeq	= other._sortedDeq;
-		_msVec		= other._msVec;
-		_msDeq		= other._msDeq;
+		_input				= other._input;
+		_sortedVec			= other._sortedVec;
+		_sortedDeq			= other._sortedDeq;
+		_usVec				= other._usVec;
+		_usDeq				= other._usDeq;
 		_compsVecCounter	= other._compsVecCounter;
 		_compsDeqCounter	= other._compsDeqCounter;
 	}
@@ -123,28 +123,27 @@ void	PmergeMe::initCheckInput(int argc, char **argv)
 /*  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ sorting ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
 void	PmergeMe::sortVector()
 {
-	std::vector<int>	v = _input;
 	clock_t				start = std::clock();
+	std::vector<int>	v = _input;
 
 	_compsVecCounter = 0;
 	_fordJohnsonSort(v, _compsVecCounter);
 	_sortedVec = v;
-	_msVec = (double)(std::clock() - start) * 1000.0 / (double)CLOCKS_PER_SEC;
+	_usVec = (double)(std::clock() - start) * 1000000.0 / (double)CLOCKS_PER_SEC;
 }
 
 void	PmergeMe::sortDeque()
 {
+	clock_t			start = std::clock();
 	std::deque<int>	d;
-	clock_t			start = 0;
 
 	for (std::vector<int>::const_iterator it = _input.begin(); it != _input.end(); ++it)
 		d.push_back(*it);
 
-	start = std::clock();
 	_compsDeqCounter = 0;
 	_fordJohnsonSort(d, _compsDeqCounter);
 	_sortedDeq = d;
-	_msDeq = (double)(std::clock() - start) * 1000.0 / (double)CLOCKS_PER_SEC;
+	_usDeq = (double)(std::clock() - start) * 1000000.0 / (double)CLOCKS_PER_SEC;
 }
 
 /* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─  ─ ─ ─ ─ ─ ─ printing ─ ─ ─ ─ ─ ─ ─ ─ ─ ─  ─ ─ ─ ─ ─ ─ */
@@ -180,9 +179,9 @@ void	PmergeMe::printAfter() const
 	}
 
 	std::cout << "\nTime to process a range of " << _input.size()
-			  << " with std::vector : " << std::setprecision(5) << _msVec << " ms\n";
+			  << " with std::vector : " << std::setprecision(5) << _usVec << " us\n";
 	std::cout << "Time to process a range of " << _input.size()
-			  << " with std::deque  : " << std::setprecision(5) << _msDeq << " ms\n";
+			  << " with std::deque  : " << std::setprecision(5) << _usDeq << " us\n";
 
 	if (COMPARISON_COUNT)
 	{

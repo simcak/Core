@@ -53,8 +53,8 @@ private:
 	std::vector<int>	_sortedVec;
 	std::deque<int>		_sortedDeq;
 	/* ─────────────────────────────── Timing ─────────────────────────────── */
-	double				_msVec;
-	double				_msDeq;
+	double				_usVec;
+	double				_usDeq;
 	/* ───────────────────────────── Comparation ──────────────────────────── */
 	long				_compsVecCounter;
 	long				_compsDeqCounter;
