@@ -35,7 +35,7 @@ class BitcoinExchange
 
 	private:
 		std::map<std::string, double> _exchangeRateDatabase;
-		
+
 		/* ──────────────────────── member function ───────────────────────── */
 		double	findPrice(const std::string &date) const;
 		void	parseDatabase();
