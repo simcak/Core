@@ -1,3 +1,7 @@
+#!/bin/bash
+
+export DEBUG_FLAG="-DDEBUG=1"
+
 while true; do
 	sic -h localhost -p 6697 -k h
 	echo ""

@@ -32,8 +32,6 @@
 # define magenta "\033[1;35m"
 # define reset "\033[0m"
 
-# define DEBUG 1 //TODO: remove later - should be enabled by flag
-
 #ifndef DEBUG
 # define DEBUG 0
 #endif
