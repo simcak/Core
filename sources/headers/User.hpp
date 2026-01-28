@@ -1,7 +1,7 @@
 #ifndef USER_HPP
 # define USER_HPP
 
-#include "ft_irc.hpp"
+#include "IRC.hpp"
 class Channel; // Forward declaration
 
 class User{

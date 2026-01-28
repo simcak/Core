@@ -1,4 +1,4 @@
-#include "../headers/ft_irc.hpp"
+#include "../headers/IRC.hpp"
 #include "../headers/Channel.hpp"
 #include "../headers/User.hpp"
 #include "../headers/Server.hpp"

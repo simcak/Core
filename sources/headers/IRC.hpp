@@ -23,14 +23,14 @@
 # include <iomanip>
 # include <vector>
 
-# include "numreply.hpp"
+# include "NumReply.hpp"
 
-# define red   "\033[1;31m"
-# define green "\033[1;32m"
-# define blue   "\033[1;34m"
-# define yellow "\033[1;33m"
-# define magenta "\033[1;35m"
-# define reset "\033[0m"
+# define red		"\033[1;31m"
+# define green		"\033[1;32m"
+# define blue		"\033[1;34m"
+# define yellow		"\033[1;33m"
+# define magenta	"\033[1;35m"
+# define reset		"\033[0m"
 
 #ifndef DEBUG
 # define DEBUG 0
@@ -41,9 +41,8 @@
 // flushing std::cerr is unnecessary but is fine. Kept it there just for clarity
 # define ERROR(msg) (std::cerr << red << "[ERROR] " << reset << msg << std::endl)
 # define DEBG(msg) do {\
-       		if (DEBUG) { \
-			std::cerr << magenta << "[DEBG] " << reset \
-			<< msg << std::endl;}\
+	if (DEBUG) { \
+		std::cerr << magenta << "[DEBG] " << reset << msg << std::endl;}\
 	} while (0)
 
 # define	PORT 6667

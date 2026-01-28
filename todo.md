@@ -45,7 +45,7 @@
 
 ## Standrads and whatevs
  - Since we can use macros now I created 3 for sending messages to the terminal in a uniform way [ERROR(), INFO(), DEBG()] they are just streams so work with them like that way eg. `ERROR(msg << another_msg)`
- - There is also a `numreply.hpp` that defines all num replyes
+ - There is also a `NumReply.hpp` that defines all num replyes
 
 ---
 # Command Reference

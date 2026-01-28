@@ -28,7 +28,7 @@ PROCESS (4 steps)
 
 */
 
-#include "sources/headers/ft_irc.hpp"
+#include "sources/headers/IRC.hpp"
 #include "sources/headers/User.hpp"
 #include "sources/headers/Channel.hpp"
 #include "sources/headers/Server.hpp"

@@ -1,4 +1,4 @@
-#include "../headers/ft_irc.hpp"
+#include "../headers/IRC.hpp"
 #include "../headers/Server.hpp" 
 
 void	signalController(int signum){

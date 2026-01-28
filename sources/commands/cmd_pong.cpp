@@ -1,5 +1,5 @@
 
-#include "../headers/ft_irc.hpp"
+#include "../headers/IRC.hpp"
 #include "../headers/Server.hpp" //full definition needed
 #include "../headers/User.hpp"
 #include "../headers/Channel.hpp"

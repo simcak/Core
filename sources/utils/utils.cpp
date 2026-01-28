@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberneri <cberneri@student.42prague.com    +#+  +:+       +#+        */
+/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:53:35 by cberneri          #+#    #+#             */
-/*   Updated: 2025/10/27 15:15:13 by cberneri         ###   ########.fr       */
+/*   Updated: 2026/01/28 12:33:08 by psimcak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/ft_irc.hpp"
+#include "../headers/IRC.hpp"
 
 bool OnlyDigits(const std::string &str) {
 	for (size_t i = 0; i < str.length(); ++i) {
