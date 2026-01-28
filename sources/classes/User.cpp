@@ -1,6 +1,6 @@
-#include "../headers/IRC.hpp"
-#include "../headers/User.hpp"
-#include "../headers/Channel.hpp"
+#include "./IRC.hpp"
+#include "./User.hpp"
+#include "./Channel.hpp"
 
 User::User() :
 	_port(11111),

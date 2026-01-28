@@ -1,7 +1,7 @@
-#include "../headers/IRC.hpp"
-#include "../headers/Server.hpp" //full definition needed
-#include "../headers/User.hpp"
-#include "../headers/Channel.hpp"
+#include "../classes/IRC.hpp"
+#include "../classes/Server.hpp" //full definition needed
+#include "../classes/User.hpp"
+#include "../classes/Channel.hpp"
 
 /**
  * QUIT command - Gracefully disconnects a client from the server

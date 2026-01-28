@@ -1,5 +1,5 @@
-#include "../headers/IRC.hpp"
-#include "../headers/Server.hpp" 
+#include "../classes/IRC.hpp"
+#include "../classes/Server.hpp" 
 
 void	signalController(int signum){
 	std::cout << BR "\nSignal (" << signum << ") interrupt received.\n" RST;

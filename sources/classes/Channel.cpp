@@ -1,6 +1,6 @@
-#include "../headers/IRC.hpp"
-#include "../headers/Channel.hpp"
-#include "../headers/User.hpp"
+#include "./IRC.hpp"
+#include "./Channel.hpp"
+#include "./User.hpp"
 
 /* ───────────────────────────── Con/Des-tructor ──────────────────────────── */
 Channel::Channel(std::string const &name) :

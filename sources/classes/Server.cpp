@@ -1,7 +1,7 @@
-#include "../headers/IRC.hpp"
-#include "../headers/Channel.hpp"
-#include "../headers/User.hpp"
-#include "../headers/Server.hpp"
+#include "./IRC.hpp"
+#include "./Channel.hpp"
+#include "./User.hpp"
+#include "./Server.hpp"
 
 /* ───────────────────────────── Con/Des-tructor ──────────────────────────── */
 Server::Server(int port, std::string const &password) :

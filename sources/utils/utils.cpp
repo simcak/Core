@@ -1,4 +1,4 @@
-#include "../headers/IRC.hpp"
+#include "../classes/IRC.hpp"
 
 bool	OnlyDigits(const std::string &str)
 {

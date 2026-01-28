@@ -28,10 +28,10 @@ PROCESS (4 steps)
 
 */
 
-#include "sources/headers/IRC.hpp"
-#include "sources/headers/User.hpp"
-#include "sources/headers/Channel.hpp"
-#include "sources/headers/Server.hpp"
+#include "sources/classes/IRC.hpp"
+#include "sources/classes/User.hpp"
+#include "sources/classes/Channel.hpp"
+#include "sources/classes/Server.hpp"
 
 int	main(int argc, char **argv)
 {
