@@ -3,31 +3,30 @@
 #include "../headers/User.hpp"
 #include "../headers/Channel.hpp"
 
-bool isValidNick(const std::string &nick)
+bool	isValidNick(const std::string &nick)
 {
 	if (nick.empty())
 		return false;
 	for (size_t i = 0; i < nick.size(); ++i)
 	{
-		char c = nick[i];
+		char	c = nick[i];
 		if (!std::isalnum(c) && c != '_' && c != '-' && c != '[' && c != ']')
 			return false;
 	}
 	return true;
 }
 
-bool Server::isNickInUse(const std::string &nick)
+bool	Server::isNickInUse(const std::string &nick)
 {
 	for (size_t i = 0; i < _users.size(); ++i)
-	{
 		if (_users[i]->getNickName() == nick)
 			return true;
-	}
+
 	return false;
 }
 
 
-void Server::Cmd_Nick(User *user, const std::vector<std::string> &tokens)
+void	Server::Cmd_Nick(User *user, const std::vector<std::string> &tokens)
 {
 	if (tokens.size() < 2)
 	{

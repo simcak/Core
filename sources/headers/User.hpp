@@ -2,9 +2,11 @@
 # define USER_HPP
 
 #include "IRC.hpp"
+
 class Channel; // Forward declaration
 
-class User{
+class User
+{
 
 	private:
 		int				_port;
@@ -18,8 +20,8 @@ class User{
 //		bool			_invited;
 
 // esto es para quit/exit hecho por Claude
-		bool			_disconnected;
-		std::vector<Channel *>		_channels;
+		bool					_disconnected;
+		std::vector<Channel *>	_channels;
 
 	public:
 		User();
@@ -39,8 +41,6 @@ class User{
 		void setNickName(const std::string &nick) { _nickname = nick; }
 		void setUserName(const std::string &user) { _username = user; }
 		void setRealName(const std::string &real) { _name = real; }
-
-
 
 		//para QUIT/EXIT
 		bool isDisconnected() const;

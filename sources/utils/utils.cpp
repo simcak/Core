@@ -1,30 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.cpp                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: psimcak <psimcak@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/02 11:53:35 by cberneri          #+#    #+#             */
-/*   Updated: 2026/01/28 12:33:08 by psimcak          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../headers/IRC.hpp"
 
-bool OnlyDigits(const std::string &str) {
-	for (size_t i = 0; i < str.length(); ++i) {
-		if (!isdigit(static_cast<unsigned char>(str[i]))) {
+bool	OnlyDigits(const std::string &str)
+{
+	for (size_t i = 0; i < str.length(); ++i)
+		if (!isdigit(static_cast<unsigned char>(str[i])))
 			return false;
-		}
-	}
+
 	return !str.empty();
 }
 
-std::string getCurrentDateTime(void)
+std::string	getCurrentDateTime(void)
 {
-	time_t rawtime;
-	struct tm timeinfo;
+	time_t		rawtime;
+	struct tm	timeinfo;
 
 	// Get current time
 	time(&rawtime);
@@ -51,19 +39,23 @@ std::string getCurrentDateTime(void)
 }
 
 
-bool isPortInUse(int port) {
-	int sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (sock < 0) return true;
+bool	isPortInUse(int port)
+{
+	int	sock = socket(AF_INET, SOCK_STREAM, 0);
+	int	opt = 1;
 
-	int opt = 1;
+	if (sock < 0)
+		return true;
 	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
-	struct sockaddr_in addr;
+	struct sockaddr_in	addr;
+
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = INADDR_ANY;
 	addr.sin_port = htons(port);
 
-	if (bind(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
+	if (bind(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0)
+	{
 		close(sock);
 		return true; // port is in use
 	}

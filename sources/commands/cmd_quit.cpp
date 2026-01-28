@@ -3,21 +3,20 @@
 #include "../headers/User.hpp"
 #include "../headers/Channel.hpp"
 
-/*
-** QUIT command - Gracefully disconnects a client from the server
-** 
-** Syntax: QUIT :[quit message]
-** 
-** Example: QUIT :Goodbye everyone!
-**
-** This function:
-** 1. Sends QUIT message to all channels the user is in
-** 2. Removes user from all channels
-** 3. Closes the connection
-** 4. Cleans up user data
-*/
-
-void Server::Cmd_Quit(User *user, const std::vector<std::string> &tokens)
+/**
+ * QUIT command - Gracefully disconnects a client from the server
+ * 
+ * Syntax: QUIT :[quit message]
+ * 
+ * Example: QUIT :Goodbye everyone!
+ *
+ * This function:
+ * 1. Sends QUIT message to all channels the user is in
+ * 2. Removes user from all channels
+ * 3. Closes the connection
+ * 4. Cleans up user data
+ */
+void	Server::Cmd_Quit(User *user, const std::vector<std::string> &tokens)
  {
 	(void)user; // BORRAR
 	(void)tokens; // BORRAR

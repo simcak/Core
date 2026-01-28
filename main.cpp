@@ -33,10 +33,11 @@ PROCESS (4 steps)
 #include "sources/headers/Channel.hpp"
 #include "sources/headers/Server.hpp"
 
-int	main(int argc, char **argv){
+int	main(int argc, char **argv)
+{
+	User	user1;
+	Channel	channel("ChannelNamePlaceholder");
 
-	User user1;
-	Channel channel("ChannelNamePlaceholder");
 	channel.addUser(&user1);
 	if (channel.isUserInChanel(&user1)) 
 		DEBG("New user in channel");
@@ -46,14 +47,14 @@ int	main(int argc, char **argv){
 	if (argc != 3)
 	{ 
 		WARN( "Usage: " << argv[0] << " <port> <password>" );
-		return (1);
+		return 1;
 	}
 	else if (!OnlyDigits(argv[1]))
 	{
 		ERROR( "Port must be a number");
-		return (1);
+		return 1;
 	}
 
 	ServerController(argv[1], argv[2]);
- 	return (0);
+ 	return 0;
 }

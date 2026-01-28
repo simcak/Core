@@ -31,9 +31,7 @@ User::User(int fd, const struct sockaddr_in &addr)	:
 			  << " (FD: " << _fd << ")" << reset << std::endl;
 }
 
-User::~User(){
-	std::cout << yellow << "User destroyed!" << reset << std::endl;
-}
+User::~User(){ std::cout << yellow << "User destroyed!" << reset << std::endl; }
 
 
 

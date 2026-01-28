@@ -3,21 +3,19 @@
 #include "../headers/User.hpp"
 #include "../headers/Channel.hpp"
 
-/*
-	Command: JOIN
-	Parameters: <channel,channels> [<password>]
-
-	JOIN command allows a user to join a channel. If the channel doesn't 
-	exist, it gets created.
-*/
-/*
-	Command: NAMES
-	Parameters: <channel,channels>
-
-	NAMES command command returns a list of all users in a specific 
-	channel, which can be requested without joining. 
-*/
-/*
+/**
+ * COMMAND: JOIN
+ * PARAMETERS: <channel,channels> [<password>]
+ * 
+ * JOIN command allows a user to join a channel. If the channel doesn't
+ * exist, it gets created.
+ * 
+ * COMMAND: NAMES
+ * PARAMETERS: <channel,channels>
+ * 
+ * NAMES command command returns a list of all users in a specific
+ * channel, which can be requested without joining. 
+ * 
  * Validate user
  *  -[X] Does the chanel exist? -> if not create it
  *  -[X] is he in chanel already
@@ -33,10 +31,10 @@
  *
  *  Other
  *   -[ ] Handle mutiple channels
- * */
-void Server::Cmd_Join(User *user, const std::vector<std::string> &tokens)
+ */
+void	Server::Cmd_Join(User *user, const std::vector<std::string> &tokens)
 {
-	Channel *	chan;
+	Channel	*chan;
 	int		i = 1; // we have to iterate through all the chanel
 			       // names evetually, so I am using this for 
 			       // ease later
@@ -54,8 +52,7 @@ void Server::Cmd_Join(User *user, const std::vector<std::string> &tokens)
 	chan = this->findChanelByName(tokens[i]);
 	if (!chan)
 	{
-		DEBG("Channel <" << tokens[i] << "> does not exist."
-				<< " Now Creating");
+		DEBG("Channel <" << tokens[i] << "> does not exist. Now Creating");
 		chan = new Channel(tokens[i]);
 		this->addChannel(chan);
 	}

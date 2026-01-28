@@ -3,10 +3,10 @@
 #include "../headers/User.hpp"
 #include "../headers/Channel.hpp"
 
-/*
-	Command: SEND
-	Parameters: <filename> <target>
-	
-	SEND command is used for a file transferring via server storage.
-*/
+/**
+ * Command: SEND
+ * Parameters: <filename> <target>
+ * 
+ * SEND command is used for a file transferring via server storage.
+ */
  

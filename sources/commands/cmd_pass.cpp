@@ -3,16 +3,14 @@
 #include "../headers/User.hpp"
 #include "../headers/Channel.hpp"
 
-/*
-	Command: PASS
-	Parameters: <password>
-	
-	In IRC, the PASS command is used to set a connection password
-	that a client must provide before registering their nickname and user information. 
-*/
-
-
-void Server::Cmd_Pass(User *user, const std::vector<std::string> &tokens)
+/**
+ * COMMAND: PASS
+ * PARAMETERS: <password>
+ * 
+ * In IRC, the PASS command is used to set a connection password that a client
+ * must provide before registering their nickname and user information. 
+ */
+void	Server::Cmd_Pass(User *user, const std::vector<std::string> &tokens)
 {
 	if (tokens.size() < 2)
 	{
@@ -27,7 +25,8 @@ void Server::Cmd_Pass(User *user, const std::vector<std::string> &tokens)
 		return;
 	}
 
-	std::string providedPass = tokens[1];
+	std::string	providedPass = tokens[1];
+
 	if (providedPass != _password)
 	{
 		sendToUser(user, ":" + _server_name + " 464 * :Password incorrect");

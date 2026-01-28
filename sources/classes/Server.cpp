@@ -29,11 +29,12 @@ Server::~Server(){
 
 
 
-void	Server::SetServer(){
-
+void	Server::SetServer()
+{
 	// Create the socket
 	_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (_server_socket < 0) {
+	if (_server_socket < 0)
+	{
 		std::cerr << red << "Error: Socket creation failed." << reset << std::endl;
 		return;
 	}
@@ -52,11 +53,12 @@ void	Server::SetServer(){
 
 }
 
-void	Server::BindServer(){
-
+void	Server::BindServer()
+{
 	// Enables reusing the same IP address and port immediately after the server restarts (SO_REUSEADDR)
 	int reuse_option = 1;
-	if (setsockopt(_server_socket, SOL_SOCKET, SO_REUSEADDR, &reuse_option, sizeof(reuse_option)) < 0){
+	if (setsockopt(_server_socket, SOL_SOCKET, SO_REUSEADDR, &reuse_option, sizeof(reuse_option)) < 0)
+	{
 		std::cerr << red << "Error: setsockopt(SO_REUSEADDR) failed." << reset << std::endl;
 		return;
 	}
@@ -65,7 +67,8 @@ void	Server::BindServer(){
 	SetNonBlocking(_server_socket);
 
 	// Bind the socket to the server’s IP port and address
-	if (bind(_server_socket, (struct sockaddr*)&_server_address, sizeof(_server_address)) < 0){
+	if (bind(_server_socket, (struct sockaddr*)&_server_address, sizeof(_server_address)) < 0)
+	{
 		std::cerr << red << "Error: bind() failed." << reset << std::endl;
 		return;
 	}
@@ -74,19 +77,20 @@ void	Server::BindServer(){
 
 }
 
-void	Server::ListenServer(){
- 
+void	Server::ListenServer()
+{
 	// Switches the server socket to listening mode, allowing it to accept new client connections.
 	// SOMAXCONN defines the maximum number of pending connection requests that can be queued.
-	if (listen(_server_socket, SOMAXCONN) < 0){
+	if (listen(_server_socket, SOMAXCONN) < 0)
+	{
 		std::cerr << red << "Error: Failed to listen on socket." << reset << std::endl;
 		return;
 	}
 	std::cout << magenta <<  "Server is up and listening for new connections..." << green << reset << std::endl;
 }
 
-void Server::BuildPollVector(){
-	
+void	Server::BuildPollVector()
+{
 	_poll_fds.clear(); //**Clears** the existing vector (removes all previous sockets).
 	_poll_fds.reserve(_users.size() + 1); //Allocate space for all sockets (server + users) to avoid reallocations.
 
@@ -138,20 +142,19 @@ void Server::BuildPollVector(){
 	*/
 }
 
-void	Server::StopServer(){
-	_server_running = false;
-}
-
+void	Server::StopServer(){ _server_running = false; }
 
 void	Server:: SetNonBlocking(int fd)
 {
 	int flags = fcntl(fd, F_GETFL, 0);
-	if (flags == -1) {
+	if (flags == -1)
+	{
 		std::cerr << red << "Error: fcntl(F_GETFL) failed." << reset << std::endl;
 		return;
 	}
 
-	if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1) {
+	if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1)
+	{
 		std::cerr << red << "Error: fcntl(F_SETFL, O_NONBLOCK) failed." << reset << std::endl;
 		return;
 	}
@@ -166,10 +169,11 @@ When the server detects a new incoming connection, it should:
 */
 void	Server::AcceptNewUser(void)
 {
-	struct sockaddr_in client_addr;
-	socklen_t addr_len = sizeof(client_addr);
+	struct sockaddr_in	client_addr;
+	socklen_t			addr_len = sizeof(client_addr);
+	int					user_fd;
 
-	int user_fd = accept(_server_socket, (struct sockaddr*)&client_addr, &addr_len);
+	user_fd = accept(_server_socket, (struct sockaddr*)&client_addr, &addr_len);
 	if (user_fd < 0)
 	{
 		std::cerr << red << "Error: Failed to accept a new connection!" << reset << std::endl;
@@ -180,53 +184,60 @@ void	Server::AcceptNewUser(void)
 	SetNonBlocking(user_fd);
 	
 	// Create a new Client object
-	User* newUser = new User(user_fd, client_addr);
+	User*	newUser = new User(user_fd, client_addr);
+
 	_users.push_back(newUser);
-
 	std::cout << "New User (" << newUser->getUserName() << ") connected on fd " << user_fd << std::endl;
-
 	// Update poll list so we start monitoring this client
 	this->BuildPollVector();
-
 }
 
 //remove from _users
-void Server::RemoveUser(User *user) {
-	if (!user) return;
-	int fd = user->getFd();
+void	Server::RemoveUser(User *user)
+{
+	if (!user)
+		return;
+
+	int	fd = user->getFd();
+
 	close(fd);
 
 	// erase pointer from vector
 	std::vector<User *>::iterator it = std::find(_users.begin(), _users.end(), user);
-	if (it != _users.end()) {
+	if (it != _users.end())
 		_users.erase(it);
-	}
 	delete user;
 	std::cout << yellow << "Removed user (fd: " << fd << ")" << reset << std::endl;
 }
 
-static std::vector<std::string> splitTokens(const std::string &line) {
-	std::vector<std::string> tokens;
-	std::istringstream iss(line);
-	std::string token;
-	while (iss >> token) tokens.push_back(token);
+static std::vector<std::string>	splitTokens(const std::string &line)
+{
+	std::vector<std::string>	tokens;
+	std::istringstream			iss(line);
+	std::string					token;
+
+	while (iss >> token)
+		tokens.push_back(token);
+
 	return tokens;
 }
 
 // Utility: send a message to the user
-void Server::sendToUser(User *user, const std::string &message)
+void	Server::sendToUser(User *user, const std::string &message)
 {
-	if (!user) return;
+	if (!user)
+		return;
 
 	//this message can be deleted
 	std::cout << "[SEND to " << user->getNickName() << "]: " << message << std::endl;
 
-//	This prepares the message according to the IRC protocol format, which requires lines to end with \r\n (carriage return + newline).
-//	If the message is empty → add \r\n
-//	If the message doesn’t already end with a newline → also add \r\n
-	std::string out = message;
+	// This prepares the message according to the IRC protocol format, which requires lines to end with \r\n (carriage return + newline).
+	// If the message is empty → add \r\n
+	// If the message doesn’t already end with a newline → also add \r\n
+	std::string	out = message;
+
 	if (out.empty() || out[out.size() - 1] != '\n')
-	out += "\r\n";
+		out += "\r\n";
 	send(user->getFd(), out.c_str(), out.size(), 0);
 }
 
@@ -293,20 +304,22 @@ void Server::handlePrivMsg(User *user, const std::vector<std::string> &tokens) {
 /////// end of COMMANDS
 
 
-Channel *	Server::findChanelByName(const std::string &name)
+Channel	*Server::findChanelByName(const std::string &name)
 {
-	for(std::vector<Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)
-	{
+	std::vector<Channel *>::iterator	it = _channels.begin();
+
+	for(; it != _channels.end(); ++it)
 		if((*it)->getUserName() == name)
 			return (*it);
-	}
+
 	return (NULL);
 }
 
 Channel *	Server::addChannel(Channel *chan)
 {
-	std::vector<Channel *>::iterator it = _channels.begin();
-	while(it != _channels.end())
+	std::vector<Channel *>::iterator	it = _channels.begin();
+
+	for(; it != _channels.end(); ++it)
 	{
 		if (*it == chan)
 		{
@@ -314,7 +327,6 @@ Channel *	Server::addChannel(Channel *chan)
 					<< "> already exists");
 			return (chan);
 		}
-		it++;
 	}
 	_channels.push_back(chan);
 	return (chan);
@@ -323,18 +335,15 @@ Channel *	Server::addChannel(Channel *chan)
 
 void Server::debugPrintCommands() const
 {
-	std::cout << "[DEBUG] Available commands:" << std::endl;
+	std::map<std::string, CommandHandler>::const_iterator	it = _commandMap.begin();
 
-	for (std::map<std::string, CommandHandler>::const_iterator it = _commandMap.begin();
-		it != _commandMap.end();
-		++it)
-	{
+	std::cout << "[DEBUG] Available commands:" << std::endl;
+	for (; it != _commandMap.end(); ++it)
 		std::cout << "  - " << it->first << std::endl;
-	}
 }
 
-void Server::InitCommandMap(){
-
+void Server::InitCommandMap()
+{
 	_commandMap.clear();
 
 	_commandMap["NICK"] = &Server::Cmd_Nick;
@@ -347,7 +356,6 @@ void Server::InitCommandMap(){
 	//_commandMap["PRIVMSG"] = &Server::Cmd_PrivMsg;
 
 	INFO("Command map initialized");
-
 }
 
 /*
@@ -374,35 +382,39 @@ void Server::ParseCommand(User *user, const std::vector<std::string> &tokens) {
 */
 
 
-void Server::ParseCommand(User *user, const std::vector<std::string> &tokens) {
+void Server::ParseCommand(User *user, const std::vector<std::string> &tokens)
+{
 	if (!user || tokens.empty())
 		return;
 
-	size_t i = 0;
+	size_t	i = 0;
 
 	// Skip prefix if present
-	if (tokens[i][0] == ':') {
+	if (tokens[i][0] == ':')
+	{
 		i++;
 		if (i >= tokens.size())
 			return; // nothing left after prefix
 	}
 
-	std::string cmd = tokens[i++];
+	std::string	cmd = tokens[i++];
 
 	// Normalize command to uppercase
 	for (size_t j = 0; j < cmd.size(); ++j)
 		cmd[j] = std::toupper(cmd[j]);
 
 	// Collect parameters
-	std::vector<std::string> params;
+	std::vector<std::string>	params;
+
 	for (; i < tokens.size(); ++i)
 		params.push_back(tokens[i]);
 
 	// Find the command in the MAP handler
-	std::map<std::string, CommandHandler>::iterator it = _commandMap.find(cmd);
-	if (it != _commandMap.end()) {
+	std::map<std::string, CommandHandler>::iterator	it = _commandMap.find(cmd);
+
+	if (it != _commandMap.end())
 		(this->*(it->second))(user, params); //Call the member function stored in the map, on this Server instance (example: this->cmd_quit(user, tokens);).
-	} else {
+	else {
 		// Unknown command numeric reply (421)
 		sendToUser(user, ":" + _server_name + " 421 " + cmd + " :Unknown command");
 		debugPrintCommands();
@@ -413,26 +425,32 @@ void Server::ParseCommand(User *user, const std::vector<std::string> &tokens) {
 // This lets your server receive text from connected clients.
 void Server::HandleClientMessage(User *user) {
 	
- 	char buffer[BUFF_SIZE + 1];
+ 	char	buffer[BUFF_SIZE + 1];
+
 	std::memset(buffer, 0, sizeof(buffer));
- 
+
 	//recv reads data from a socket and returns how many bytes were actually received, the structure: recv(int sockfd, void *buffer, size_t length, int flags);
 	//bytesReceived receives data from the client’s socket (the connection to the user).
 	//It tries to read up to BUF_SIZE bytes of data from that connection and store them inside the buffer array.
 	int bytesReceived = recv(user->getFd(), buffer, BUFF_SIZE, 0);
 	
-	if (bytesReceived <= 0) {
+	if (bytesReceived <= 0)
+	{
 		INFO("User disconnected (fd: " << user->getFd() << ")");
 		RemoveUser(user);
 		return;
 	}
 
 	//This takes the bytes you received from the client (buffer) and turns them into a proper C++ string called messagedata.
-	std::string messagedata(buffer, bytesReceived);
+	std::string	messagedata(buffer, bytesReceived);
+
 	INFO( "Received: <<" << messagedata << ">>~end rcv");
-	std::istringstream stream(messagedata);
-	std::string line;
-	while (std::getline(stream, line)) {
+
+	std::istringstream	stream(messagedata);
+	std::string			line;
+
+	while (std::getline(stream, line))
+	{
 		if (!line.empty() && line[line.size() - 1] == '\r')
 			line.erase(line.size() - 1);
 
@@ -443,7 +461,6 @@ void Server::HandleClientMessage(User *user) {
 
 		ParseCommand(user, tokens);
 	}
-	
 }
 
 
@@ -458,15 +475,17 @@ void Server::HandleClientMessage(User *user) {
 - Handles new connections or messages.
 - Loops again forever — until the user presses Ctrl+C or you shut down gracefully (execute the command QUIT or EXIT).
 */
-void	Server::RunServer(){
-	
+void	Server::RunServer()
+{
 	// run and handle new connections, messages, etc.
-	while (_server_running){
-
+	while (_server_running)
+	{
 		this->BuildPollVector();	// rebuilds the socket list
 
-		int poll_ret = poll(_poll_fds.data(), _poll_fds.size(), -1);
-		if (poll_ret < 0){
+		int	poll_ret = poll(_poll_fds.data(), _poll_fds.size(), -1);
+
+		if (poll_ret < 0)
+		{
 			std::cerr << red << "Poll error!" << reset << std::endl;
 			break;
 		}
@@ -477,13 +496,9 @@ void	Server::RunServer(){
 
 		// Check if existing clients have sent data
 		// starts in 1 because i[0] is the server
-		for (size_t i = 1; i < _poll_fds.size(); ++i){
-
+		for (size_t i = 1; i < _poll_fds.size(); ++i)
 			if (_poll_fds[i].revents & POLLIN)
 				HandleClientMessage(_users[i - 1]);
-		}
 	}
-
-std::cout << yellow << "Server shutting down..." << reset << std::endl;
-
+	std::cout << yellow << "Server shutting down..." << reset << std::endl;
 }
