@@ -1,74 +1,60 @@
-################################################
-## ARGUMENTS
+################################################################################
 
-NAME = ircserv
-CFLAGS = -Wall -Wextra -Werror -std=c++98
-CXX = c++
-OBJDIR = .objects
-################################################
-## COLORS
+NAME	= ircserv
+CFLAGS	= -Wall -Wextra -Werror -std=c++98
+CXX		= c++
+DIR		= ./sources ./
+OBJDIR	= ./objects
 
-# Reset
-END_COLOR	= \033[0m       # Text Reset
+#################################### COLORES ###################################
 
-# Regular Colors
-BLACK	= \033[0;30m        # Black
-RED		= \033[0;31m          # Red
-GREEN	= \033[0;32m        # Green
-YELLOW	= \033[0;33m       # Yellow
-BLUE	= \033[0;34m         # Blue
-PURPLE	= \033[0;35m       # Purple
-CYAN	= \033[0;36m         # Cyan
-WHITE	= \033[0;37m        # White
+RED		= \033[31m
+GREEN	= \033[32m
+RST		= \033[0m
 
-################################################
-## SOURCES
+define INFO
+	@echo " ______________________________________________________"
+	@echo "|     \t$(1)$(2)$(RST)\t       |"
+	@echo " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+endef
 
-SRC	= 	main.cpp \
-		sources/classes/Server.cpp \
-		sources/classes/User.cpp \
-		sources/classes/Channel.cpp \
-		sources/controllers/ServerController.cpp \
-		sources/utils/utils.cpp \
-		sources/commands/cmd_nickname.cpp \
-		sources/commands/cmd_user.cpp \
-		sources/commands/cmd_join.cpp \
-		sources/commands/cmd_pass.cpp \
-		sources/commands/cmd_receive_msg.cpp \
-		sources/commands/cmd_send_msg.cpp \
-		sources/commands/cmd_pong.cpp \
-		sources/commands/cmd_quit.cpp \
- 
+################################# DEPENDENCIES #################################
 
-
-HEADER	=	sources/headers/ft_irc.hpp \
-			sources/headers/Server.hpp \
-			sources/headers/User.hpp \
-			sources/headers/Channel.hpp \
+T_SRC	= $(shell find $(DIR) -maxdepth 2 -iname "*.cpp")
+SRC		= ./sources/classes/Channel.cpp ./sources/classes/Server.cpp ./sources/classes/User.cpp ./sources/commands/cmd_join.cpp ./sources/commands/cmd_nickname.cpp ./sources/commands/cmd_pass.cpp ./sources/commands/cmd_pong.cpp ./sources/commands/cmd_quit.cpp ./sources/commands/cmd_receive_msg.cpp ./sources/commands/cmd_send_msg.cpp ./sources/commands/cmd_user.cpp ./sources/controllers/ServerController.cpp ./sources/utils/utils.cpp ./main.cpp
 
 OBJ	= $(patsubst %.cpp, $(OBJDIR)/%.o, $(SRC))
 DEP	= $(OBJ:.o=.d)
-################################################
-## RULES
+
+#################################### BUILD #####################################
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(CXX) $(CFLAGS) $(OBJ) -o $(NAME)
-	@echo "$(GREEN)$(NAME) COMPILED!! $(END_COLOR)"
+	$(call INFO,\t$(GREEN),"${NAME} Compiled!"\t)
 
 $(OBJDIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJDIR)
+	@rm -rf $(OBJDIR)
+	$(call INFO,\t$(RED),"Deleting o-files!"\t)
 
-fclean: clean
-	rm -rf $(NAME)
+fclean:
+	@rm -rf $(OBJDIR) $(NAME)
+	$(call INFO,$(RED),"Deleting o-files \&\& compiled file!")
 
-re: fclean all
+re: update_makefile fclean all
+
+update_makefile:
+	@sed '24d' Makefile > Makefile.tmp
+	@awk 'NR==23{print $$0 "\nSRC\t\t= $(T_SRC)"; next}1' Makefile.tmp > Makefile
+	@rm Makefile.tmp
 
 -include $(DEP)
 
 .PHONY: all clean fclean re
+
+################################################################################
