@@ -25,24 +25,25 @@
 
 # include "NumReply.hpp"
 
-# define red		"\033[1;31m"
-# define green		"\033[1;32m"
-# define blue		"\033[1;34m"
-# define yellow		"\033[1;33m"
-# define magenta	"\033[1;35m"
-# define reset		"\033[0m"
+# define BR		"\033[1;31m"
+# define BG		"\033[1;32m"
+# define BB		"\033[1;34m"
+# define BY		"\033[1;33m"
+# define BM		"\033[1;35m"
+# define RST	"\033[0m"
+# define BRERR	BR "Error: " RST
 
 #ifndef DEBUG
 # define DEBUG 0
 #endif
 
-# define WARN(msg) (std::cerr << yellow << "[WARN] " << reset << msg << std::endl)
-# define INFO(msg) (std::cout << blue << "[INFO] " << reset << msg << std::endl)
+# define WARN(msg) (std::cerr << BY "[WARN] " RST << msg << std::endl)
+# define INFO(msg) (std::cout << BB "[INFO] " RST << msg << std::endl)
 // flushing std::cerr is unnecessary but is fine. Kept it there just for clarity
-# define ERROR(msg) (std::cerr << red << "[ERROR] " << reset << msg << std::endl)
+# define ERROR(msg) (std::cerr << BR "[ERROR] " RST << msg << std::endl)
 # define DEBG(msg) do {\
 	if (DEBUG) { \
-		std::cerr << magenta << "[DEBG] " << reset << msg << std::endl;}\
+		std::cerr << BM "[DEBG] " RST << msg << std::endl;}\
 	} while (0)
 
 # define	PORT 6667

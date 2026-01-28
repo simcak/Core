@@ -2,7 +2,7 @@
 #include "../headers/Server.hpp" 
 
 void	signalController(int signum){
-	std::cout << std::endl << red  << "Signal (" << signum << ") interrupt received." << reset << std::endl;
+	std::cout << BR "\nSignal (" << signum << ") interrupt received.\n" RST;
 	//globalServer->StopServer(); // stops the loop FIX THIS LATER
 }
 
@@ -12,7 +12,7 @@ void	ServerController(std::string const &port_str, std::string const &pass){
 	int port = atoi(port_str.c_str());
 
 	if (isPortInUse(port)) {
-		std::cerr << red << "Error: Port " << green << port << red << " is already in use!" << reset << std::endl;
+		std::cerr << BRERR "Port " BG << port << " is already in use!\n" RST;
 		return;
 	}
 	

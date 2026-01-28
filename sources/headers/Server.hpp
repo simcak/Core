@@ -23,42 +23,43 @@ class Server
 		socklen_t					_user_address_length;	//It tells accept() how large the client_addr structure is and gets updated to the actual size used. So you’ll use it when a client connects — it’s necessary for retrieving their address.
 		//CommandHandler			_handler; 		// CHANGE NAME of this, comes from other class
 	
-	//borrar luego sino funcionan
- 	typedef void (Server::*CommandHandler)(User*, const std::vector<std::string>&);	// This defines a pointer to a member function of the Server class. A CommandHandler is a pointer to a function inside Server, which takes (User*, const std::vector<std::string>&) and returns void.
-	
-	std::map<std::string, CommandHandler> _commandMap; //  Map of command names -> member function pointers It’s a std::map (an associative container) that links a command string (like "NICK", "USER", "PING", etc.) to the function inside your Server class that should handle it.
-	void	Cmd_Nick(User *user, const std::vector<std::string> &tokens);
-	void	Cmd_User(User *user, const std::vector<std::string> &tokens);
-	void	Cmd_Pass(User *user, const std::vector<std::string> &tokens);
-	//void	Cmd_Ping(User *user, const std::vector<std::string> &tokens);
-	void	Cmd_Pong(User *user, const std::vector<std::string> &tokens);
-	void	Cmd_Quit(User *user, const std::vector<std::string> &tokens);
-	void	Cmd_Join(User *user, const std::vector<std::string> &tokens);
-	//void	Cmd_PrivMsg(User *user, const std::vector<std::string> &tokens);
- 	void	sendToUser(User *user, const std::string &msg);
+		//borrar luego sino funcionan
+		typedef void (Server::*CommandHandler)(User*, const std::vector<std::string>&);	// This defines a pointer to a member function of the Server class. A CommandHandler is a pointer to a function inside Server, which takes (User*, const std::vector<std::string>&) and returns void.
+		
+		std::map<std::string, CommandHandler> _commandMap; //  Map of command names -> member function pointers It’s a std::map (an associative container) that links a command string (like "NICK", "USER", "PING", etc.) to the function inside your Server class that should handle it.
+		void	Cmd_Nick(User *user, const std::vector<std::string> &tokens);
+		void	Cmd_User(User *user, const std::vector<std::string> &tokens);
+		void	Cmd_Pass(User *user, const std::vector<std::string> &tokens);
+		//void	Cmd_Ping(User *user, const std::vector<std::string> &tokens);
+		void	Cmd_Pong(User *user, const std::vector<std::string> &tokens);
+		void	Cmd_Quit(User *user, const std::vector<std::string> &tokens);
+		void	Cmd_Join(User *user, const std::vector<std::string> &tokens);
+		//void	Cmd_PrivMsg(User *user, const std::vector<std::string> &tokens);
+		void	sendToUser(User *user, const std::string &msg);
 
 	public:
-
+		/* ───────────────────────── Con/Des-tructor ──────────────────────── */
 		Server(int port, std::string const &password);
 		~Server(void);
 
-		Channel *	findChanelByName(const std::string &name);	
-		Channel *	addChannel(Channel *chan);
-		void		SetServer(void);
-		void		BindServer(void);
-		void		ListenServer(void);
-		void		BuildPollVector(void);
-		void		RunServer(void);
-		void		StopServer(void);
-		void		AcceptNewUser(void);
-		void		RemoveUser(User *user);
-		void		HandleClientMessage(User *user);
-		void		SetNonBlocking(int fd);
-		void		InitCommandMap();
- 		void		ParseCommand(User *user, const std::vector<std::string> &tokens);
-		bool		isNickInUse(const std::string &nick);
+		/* ──────────────────────── Member functions ──────────────────────── */
+		Channel	*findChanelByName(const std::string &name);	
+		Channel	*addChannel(Channel *chan);
+		void	SetServer(void);
+		void	BindServer(void);
+		void	ListenServer(void);
+		void	BuildPollVector(void);
+		void	RunServer(void);
+		void	StopServer(void);
+		void	AcceptNewUser(void);
+		void	RemoveUser(User *user);
+		void	HandleClientMessage(User *user);
+		void	SetNonBlocking(int fd);
+		void	InitCommandMap();
+ 		void	ParseCommand(User *user, const std::vector<std::string> &tokens);
+		bool	isNickInUse(const std::string &nick);
 
-		void		debugPrintCommands() const;
+		void	debugPrintCommands() const;
 
 
 		/*

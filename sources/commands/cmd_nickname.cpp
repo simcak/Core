@@ -54,5 +54,5 @@ void	Server::Cmd_Nick(User *user, const std::vector<std::string> &tokens)
 
 	user->setNickName(newNick);
 
-	std::cout << green << "User (fd " << user->getFd() << ") set nickname to '" << newNick << "'" << reset << std::endl;
+	std::cout << BG "User (fd " << user->getFd() << ") set nickname to '" << newNick << "'" RST << std::endl;
 }

@@ -35,6 +35,6 @@ void	Server::Cmd_Pass(User *user, const std::vector<std::string> &tokens)
 
 	user->setAuthenticated(true);
 	sendToUser(user, ":" + _server_name + " NOTICE * :Password accepted");
-	std::cout << green << "User (fd " << user->getFd() << ") authenticated successfully." << reset << std::endl;
+	std::cout << BG "User (fd " << user->getFd() << ") authenticated successfully." RST << std::endl;
 }
  

@@ -11,10 +11,10 @@ User::User() :
 	_nickname("DEFAULT_Nickname"),
 	_authenticated(false)	
 {
-	std::cout << magenta << "User created (default)" << reset << std::endl;
+	std::cout << BM "User created (default)" RST << std::endl;
 }
 
-User::User(int fd, const struct sockaddr_in &addr)	:
+User::User(int fd, const struct sockaddr_in &addr):
 		_port(ntohs(addr.sin_port)),	// convert port from network to host byte order
 		_fd(fd),
 		_name("Unknown"),
@@ -26,12 +26,12 @@ User::User(int fd, const struct sockaddr_in &addr)	:
 	inet_ntop(AF_INET, &(addr.sin_addr), ipStr, INET_ADDRSTRLEN);
 	_hostname = ipStr;
  
-	std::cout << magenta << "User " << _username << " connected from "
+	std::cout << BM "User " << _username << " connected from "
 			  << _hostname << ":" << _port
-			  << " (FD: " << _fd << ")" << reset << std::endl;
+			  << " (FD: " << _fd << ")" RST << std::endl;
 }
 
-User::~User(){ std::cout << yellow << "User destroyed!" << reset << std::endl; }
+User::~User(){ std::cout << BY "User destroyed!" RST << std::endl; }
 
 
 

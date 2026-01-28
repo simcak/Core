@@ -3,7 +3,7 @@
 #include "../headers/User.hpp"
 #include "../headers/Server.hpp"
 
-
+/* ───────────────────────────── Con/Des-tructor ──────────────────────────── */
 Server::Server(int port, std::string const &password) :
 	_port(port),
 	_password(password),
@@ -18,27 +18,27 @@ Server::Server(int port, std::string const &password) :
 	//_handler(CommandHandler(this)) // passes pointer to Server
 {
 	std::memset(&_server_address, 0, sizeof(_server_address)); // clear struct
-	std::cout << yellow << "Server created!" << reset << std::endl;
-	std::cout << magenta << "Port: "<< green << _port << reset << std::endl;
-	std::cout << magenta << "Pass: "<< green << _password << reset << std::endl;
+	std::cout << BY "Server created!" RST << std::endl;
+	std::cout << BM "Port: " BG << _port << RST << std::endl;
+	std::cout << BM "Pass: " BG << _password << RST << std::endl;
 }
 
 Server::~Server(){
-	std::cout << yellow << "Server destroyed." << reset << std::endl;
+	std::cout << BY "Server destroyed." RST << std::endl;
 }
 
 
-
+/* ──────────────────────────── Member functions ──────────────────────────── */
 void	Server::SetServer()
 {
 	// Create the socket
 	_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (_server_socket < 0)
 	{
-		std::cerr << red << "Error: Socket creation failed." << reset << std::endl;
+		std::cerr << BRERR "Socket creation failed." RST << std::endl;
 		return;
 	}
-	std::cout << magenta << "Socket created" << reset << std::endl;
+	std::cout << BM "Socket created" RST << std::endl;
 
 	// Initialize address
 	memset(&_server_address, 0, sizeof(_server_address)); // sets a block of memory to zero
@@ -59,7 +59,7 @@ void	Server::BindServer()
 	int reuse_option = 1;
 	if (setsockopt(_server_socket, SOL_SOCKET, SO_REUSEADDR, &reuse_option, sizeof(reuse_option)) < 0)
 	{
-		std::cerr << red << "Error: setsockopt(SO_REUSEADDR) failed." << reset << std::endl;
+		std::cerr << BRERR "setsockopt(SO_REUSEADDR) failed." RST << std::endl;
 		return;
 	}
 	
@@ -69,11 +69,11 @@ void	Server::BindServer()
 	// Bind the socket to the server’s IP port and address
 	if (bind(_server_socket, (struct sockaddr*)&_server_address, sizeof(_server_address)) < 0)
 	{
-		std::cerr << red << "Error: bind() failed." << reset << std::endl;
+		std::cerr << BRERR "bind() failed." RST << std::endl;
 		return;
 	}
 
-	std::cout << magenta <<  "Server bound to port " << green << _port << reset << std::endl;
+	std::cout << BM "Server bound to port " BG << _port << RST << std::endl;
 
 }
 
@@ -83,10 +83,10 @@ void	Server::ListenServer()
 	// SOMAXCONN defines the maximum number of pending connection requests that can be queued.
 	if (listen(_server_socket, SOMAXCONN) < 0)
 	{
-		std::cerr << red << "Error: Failed to listen on socket." << reset << std::endl;
+		std::cerr << BRERR "Failed to listen on socket." RST << std::endl;
 		return;
 	}
-	std::cout << magenta <<  "Server is up and listening for new connections..." << green << reset << std::endl;
+	std::cout << BM "Server is up and listening for new connections..." RST << std::endl;
 }
 
 void	Server::BuildPollVector()
@@ -149,13 +149,13 @@ void	Server:: SetNonBlocking(int fd)
 	int flags = fcntl(fd, F_GETFL, 0);
 	if (flags == -1)
 	{
-		std::cerr << red << "Error: fcntl(F_GETFL) failed." << reset << std::endl;
+		std::cerr << BRERR "fcntl(F_GETFL) failed.\n" RST;
 		return;
 	}
 
 	if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1)
 	{
-		std::cerr << red << "Error: fcntl(F_SETFL, O_NONBLOCK) failed." << reset << std::endl;
+		std::cerr << BRERR "fcntl(F_SETFL, O_NONBLOCK) failed.\n" RST;
 		return;
 	}
 }
@@ -176,7 +176,7 @@ void	Server::AcceptNewUser(void)
 	user_fd = accept(_server_socket, (struct sockaddr*)&client_addr, &addr_len);
 	if (user_fd < 0)
 	{
-		std::cerr << red << "Error: Failed to accept a new connection!" << reset << std::endl;
+		std::cerr << BRERR "Failed to accept new connection!\n" RST;
 		return;
 	}
 
@@ -187,7 +187,8 @@ void	Server::AcceptNewUser(void)
 	User*	newUser = new User(user_fd, client_addr);
 
 	_users.push_back(newUser);
-	std::cout << "New User (" << newUser->getUserName() << ") connected on fd " << user_fd << std::endl;
+	std::cout << "New User (" << newUser->getUserName() << ") connected on fd "
+		<< user_fd << std::endl;
 	// Update poll list so we start monitoring this client
 	this->BuildPollVector();
 }
@@ -207,7 +208,7 @@ void	Server::RemoveUser(User *user)
 	if (it != _users.end())
 		_users.erase(it);
 	delete user;
-	std::cout << yellow << "Removed user (fd: " << fd << ")" << reset << std::endl;
+	std::cout << BY "Removed user (fd: " << fd << ")\n" RST;
 }
 
 static std::vector<std::string>	splitTokens(const std::string &line)
@@ -486,7 +487,7 @@ void	Server::RunServer()
 
 		if (poll_ret < 0)
 		{
-			std::cerr << red << "Poll error!" << reset << std::endl;
+			std::cerr << BR "Poll error!" RST << std::endl;
 			break;
 		}
 
@@ -500,5 +501,5 @@ void	Server::RunServer()
 			if (_poll_fds[i].revents & POLLIN)
 				HandleClientMessage(_users[i - 1]);
 	}
-	std::cout << yellow << "Server shutting down..." << reset << std::endl;
+	std::cout << BY "Server shutting down..." RST << std::endl;
 }

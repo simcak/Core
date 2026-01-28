@@ -45,8 +45,7 @@ void	Server::Cmd_Join(User *user, const std::vector<std::string> &tokens)
 		return;
 	}
 	
-	INFO("User <" << user->getUserName() 
-			<< "> trying to join a channel <" 
+	INFO("User <" << user->getUserName() << "> trying to join a channel <" 
 			<< tokens[1] << ">");
 	
 	chan = this->findChanelByName(tokens[i]);
@@ -67,8 +66,7 @@ void	Server::Cmd_Join(User *user, const std::vector<std::string> &tokens)
 	if (chan->isUserBanned(user))
 	{
 		DEBG("hadnleJoin: User <" << user->getUserName()
-				<< "> is banned in chan <" 
-				<< chan->getUserName() << ">. Quitting");
+			<< "> is banned in chan <" << chan->getUserName() << ">. Quitting");
 		return;
 	}
 

@@ -50,8 +50,8 @@ void	Server::Cmd_User(User *user, const std::vector<std::string> &tokens)
 	user->setRealName(realname);
 	//user->setRegistered(true);
 
-	std::cout << green << "User (fd " << user->getFd() << ") registered with USER: " 
-			  << username << " | Real name: " << realname << reset << std::endl;
+	std::cout << BG "User (fd " << user->getFd() << ") registered with USER: " 
+			  << username << " | Real name: " << realname << RST << std::endl;
 
 	sendToUser(user, ":" + _server_name + " 001 " + user->getNickName() + " :Welcome to the IRC server!");
 }

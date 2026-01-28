@@ -26,7 +26,7 @@ class User
 	public:
 		User();
 		User(int fd, const struct sockaddr_in &addr);
-		~User(void);
+		~User();
 
 		int			getFd() const { return _fd; }
 		bool		isAuthenticated() const { return _authenticated; }
