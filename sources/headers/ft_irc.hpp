@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_irc.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cberneri <cberneri@student.42prague.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/02 11:53:35 by cberneri          #+#    #+#             */
-/*   Updated: 2026/01/20 14:22:41 by cberneri         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-# ifndef IRC_H
+#ifndef IRC_H
 # define IRC_H
 
 # include <netinet/in.h>
@@ -46,9 +34,9 @@
 
 # define DEBUG 1 //TODO: remove later - should be enabled by flag
 
-# ifndef DEBUG
-#  define DEBUG 0
-# endif
+#ifndef DEBUG
+# define DEBUG 0
+#endif
 
 # define WARN(msg) (std::cerr << yellow << "[WARN] " << reset << msg << std::endl)
 # define INFO(msg) (std::cout << blue << "[INFO] " << reset << msg << std::endl)
