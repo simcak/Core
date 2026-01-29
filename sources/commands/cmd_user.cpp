@@ -12,7 +12,7 @@
  */
 void	Server::Cmd_User(User *user, const std::vector<std::string> &tokens)
 {
-	if (tokens.size() < 5)
+	if (tokens.size() < 4)
 	{
 		sendToUser(user, ":" + _server_name + " 461 * :USER Expects 4 parameters");
 		return;
@@ -30,20 +30,19 @@ void	Server::Cmd_User(User *user, const std::vector<std::string> &tokens)
 		return;
 	}
 
-	std::string username = tokens[1];
-	std::string realname;
+	std::string	username = tokens[0];
+	std::string	realname;
 
 	// The real name starts after ':' (typical IRC format)
-	for (size_t i = 4; i < tokens.size(); ++i)
+	for (size_t i = 3; i < tokens.size(); ++i)
 	{
-		if (i == 4 && tokens[i][0] == ':')
-			realname = tokens[i].substr(1);
-		else
-		{
-			if (!realname.empty())
-				realname += " ";
-			realname += tokens[i];
-		}
+		std::string	part = tokens[i];
+		if (i == 3 && !part.empty() && part[0] == ':')
+			part = part.substr(1);
+
+		if (!realname.empty())
+			realname += " ";
+		realname += part;
 	}
 
 	user->setUserName(username);

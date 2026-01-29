@@ -28,13 +28,13 @@ bool	Server::isNickInUse(const std::string &nick)
 
 void	Server::Cmd_Nick(User *user, const std::vector<std::string> &tokens)
 {
-	if (tokens.size() < 2)
+	if (tokens.size() < 1)
 	{
 		sendToUser(user, ":" + _server_name + " 431 * :No nickname given");
 		return;
 	}
 
-	std::string newNick = tokens[1];
+	std::string newNick = tokens[0];
 
 	if (!isValidNick(newNick))
 	{

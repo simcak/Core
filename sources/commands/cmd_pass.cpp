@@ -12,7 +12,7 @@
  */
 void	Server::Cmd_Pass(User *user, const std::vector<std::string> &tokens)
 {
-	if (tokens.size() < 2)
+	if (tokens.size() < 1)
 	{
 		sendToUser(user, ":" + _server_name + " 461 * PASS :Not enough parameters");
 		return;
@@ -25,7 +25,7 @@ void	Server::Cmd_Pass(User *user, const std::vector<std::string> &tokens)
 		return;
 	}
 
-	std::string	providedPass = tokens[1];
+	std::string	providedPass = tokens[0];
 
 	if (providedPass != _password)
 	{
