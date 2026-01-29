@@ -25,6 +25,7 @@
 
 # include "NumReply.hpp"
 
+/* ───────────────────────────────── Colors ───────────────────────────────── */
 # define BR		"\033[1;31m"
 # define BG		"\033[1;32m"
 # define BB		"\033[1;34m"
@@ -42,8 +43,7 @@
 // flushing std::cerr is unnecessary but is fine. Kept it there just for clarity
 # define ERROR(msg) (std::cerr << BR "[ERROR] " RST << msg << std::endl)
 # define DEBG(msg) do {\
-	if (DEBUG) { \
-		std::cerr << BM "[DEBG] " RST << msg << std::endl;}\
+	if (DEBUG) { std::cerr << BM "[DEBG] " RST << msg << std::endl;}\
 	} while (0)
 
 # define	PORT 6667
