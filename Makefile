@@ -13,15 +13,15 @@ GREEN	= \033[32m
 RSET	= \033[0m
 
 define INFO
-	@echo " _________________________________________________"
-	@echo "|     \t$(1)$(2)$(RSET)\t       |"
-	@echo " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+	@echo " __________________________________________________"
+	@echo "|         $(1)$(2)$(RSET)           |"
+	@echo " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
 endef
 
 ################################# DEPENDENCIES #################################
 
 T_SRC	= $(shell find $(DIR) -maxdepth 2 -iname "*.cpp")
-SRC		= ./sources/commands/cmd_join.cpp ./sources/commands/cmd_nickname.cpp ./sources/commands/cmd_pass.cpp ./sources/commands/cmd_pong.cpp ./sources/commands/cmd_quit.cpp ./sources/commands/cmd_receive_msg.cpp ./sources/commands/cmd_send_msg.cpp ./sources/commands/cmd_user.cpp ./sources/controllers/ServerController.cpp ./sources/utils/utils.cpp ./sources/classes/Channel.cpp ./sources/classes/Server.cpp ./sources/classes/User.cpp ./main.cpp
+SRC		= ./sources/commands/CmdJoin.cpp ./sources/commands/CmdUser.cpp ./sources/commands/CmdSendMsg.cpp ./sources/commands/CmdReceiveMsg.cpp ./sources/commands/CmdQuit.cpp ./sources/commands/CmdPong.cpp ./sources/commands/CmdPass.cpp ./sources/commands/CmdNick.cpp ./sources/controllers/ServerController.cpp ./sources/utils/utils.cpp ./sources/classes/Channel.cpp ./sources/classes/Server.cpp ./sources/classes/User.cpp ./sources/classes/Message.cpp ./main.cpp
 
 OBJ	= $(patsubst %.cpp, $(OBJDIR)/%.o, $(SRC))
 DEP	= $(OBJ:.o=.d)
@@ -32,7 +32,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(CXX) $(CFLAGS) $(OBJ) -o $(NAME)
-	$(call INFO,\t\t$(GREEN),"${NAME} Compiled!"\t)
+	$(call INFO,\t$(GREEN),"${NAME} Compiled!"\t)
 
 $(OBJDIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
@@ -40,11 +40,11 @@ $(OBJDIR)/%.o: %.cpp
 
 clean:
 	@rm -rf $(OBJDIR)
-	$(call INFO,\t\t$(RED),"Deleting o-files!"\t)
+	$(call INFO,\t$(RED),"Deleting o-files!"\t)
 
 fclean:
 	@rm -rf $(OBJDIR) $(NAME)
-	$(call INFO,$(RED),"Deleting o-files \&\& compiled file!")
+	$(call INFO,$(RED)," Deleting o-files \&\& ircserv! ")
 
 re: update_makefile fclean all
 
