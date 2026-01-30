@@ -1,102 +1,60 @@
-#include "./IRC.hpp"
-#include "./User.hpp"
-#include "./Channel.hpp"
+#include "User.hpp"
+#include "Channel.hpp"
 
+/* ───────────────────────────── Con/Des-tructor ──────────────────────────── */
 User::User() :
-	_port(11111),
-	_fd(-1),
-	_hostname("DEFAULT_Hostname"),
-	_name("DEFAULT_Name"),
-	_username("DEFAULT_User"),
-	_nickname("DEFAULT_Nickname"),
-	_authenticated(false)	
+	_port(0), _fd(-1), _ip("DEFAULT_Hostname"),
+	_name("DEFAULT_Name"), _username("Unknown"), _nickname("Unknown"),
+	_authenticated(false),
+	_inBuffer(), _outBuffer(),
+	_disconnected(false),
+	_channels()
 {
-	std::cout << BM "User created (default)" RST << std::endl;
+	CST("Default user created");
 }
 
-User::User(int fd, const struct sockaddr_in &addr):
-		_port(ntohs(addr.sin_port)),	// convert port from network to host byte order
-		_fd(fd),
-		_name("Unknown"),
-		_username("Unknown"),
-		_nickname("Unknown"),
-		_authenticated(false)	
+User::User(int fd, const struct sockaddr_in &addr) :
+	_port(ntohs(addr.sin_port)), _fd(fd), _ip("UnknownHost"),
+	_name("Unknown"), _username("Unknown"), _nickname("Unknown"),
+	_authenticated(false),
+	_inBuffer(), _outBuffer(),
+	_disconnected(false),
+	_channels()
 {
-	char ipStr[INET_ADDRSTRLEN];
+	char	ipStr[INET_ADDRSTRLEN];
+
+	std::memset(ipStr, 0, sizeof(ipStr));
 	inet_ntop(AF_INET, &(addr.sin_addr), ipStr, INET_ADDRSTRLEN);
-	_hostname = ipStr;
- 
-	std::cout << BM "User " << _username << " connected from "
-			  << _hostname << ":" << _port
-			  << " (FD: " << _fd << ")" RST << std::endl;
+	_ip = ipStr;
+
+	CST("New user connected from " << _ip << ":" << _port << " (FD: " << _fd << ")");
 }
 
-User::~User(){ std::cout << BY "User destroyed!" RST << std::endl; }
+User::~User(){ DST("User destroyed"); }
 
-
-
-
-
-
-
-
-
-
-
-//done by CLaude
-//para QUIT / EXIT
-/*
-bool User::isDisconnected() const
+/* ──────────────────────────── member functions ──────────────────────────── */
+void	User::addChannel(Channel *ch)
 {
-    return _disconnected;
+	if (!ch)
+		return;
+
+	for (size_t i = 0; i < _channels.size(); ++i)
+		if (_channels[i] == ch)
+			return;
+
+	_channels.push_back(ch);
 }
 
-void User::setDisconnected(bool value)
+void	User::removeChannel(Channel *ch)
 {
-    _disconnected = value;
+	std::vector<Channel *>::iterator	it = _channels.begin();
+
+	for (; it != _channels.end(); ++it)
+	{
+		if (*it == ch)
+		{
+			_channels.erase(it);
+			return;
+		}
+	}
 }
-
-std::vector<Channel *> User::getChannels() const
-{
-    return _channels;
-}
-
-void User::addChannel(Channel *channel)
-{
-    // Check if already in this channel
-    for (size_t i = 0; i < _channels.size(); i++)
-    {
-        if (_channels[i] == channel)
-            return;
-    }
-    _channels.push_back(channel);
-}
-
-void User::removeChannel(Channel *channel)
-{
-    std::vector<Channel *>::iterator it = _channels.begin();
-    while (it != _channels.end())
-    {
-        if (*it == channel)
-        {
-            _channels.erase(it);
-            return;
-        }
-        ++it;
-    }
-}
-
-std::string User::getHostname() const
-{
-    return _hostname;
-}
-
-void User::setHostname(const std::string &hostname)
-{
-    _hostname = hostname;
-}
-
-
-// finish of QUIT / EXIT
-
-*/
