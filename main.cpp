@@ -28,33 +28,22 @@ PROCESS (4 steps)
 
 */
 
-#include "sources/classes/IRC.hpp"
-#include "sources/classes/User.hpp"
-#include "sources/classes/Channel.hpp"
-#include "sources/classes/Server.hpp"
+#include "./sources/classes/IRC.hpp"
+#include "./sources/classes/Server.hpp"
 
 int	main(int argc, char **argv)
 {
-	User	user1;
-	Channel	channel("ChannelNamePlaceholder");
-
-	channel.addUser(&user1);
-	if (channel.isUserInChanel(&user1)) 
-		DEBG("New user in channel");
-	else 
-		DEBG("something is wrong");
-
 	if (argc != 3)
-	{ 
-		WARN( "Usage: " << argv[0] << " <port> <password>" );
+	{
+		WARN("Usage: " << argv[0] << " <port> <password>");
 		return 1;
 	}
-	else if (!OnlyDigits(argv[1]))
+	if (!onlyDigits(argv[1]))
 	{
-		ERROR( "Port must be a number");
+		ERROR("Port must be a number");
 		return 1;
 	}
 
 	ServerController(argv[1], argv[2]);
- 	return 0;
+	return 0;
 }
