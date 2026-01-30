@@ -3,7 +3,7 @@
 
 #include "IRC.hpp"
 
-class Channel; // Forward declaration
+class Channel;
 
 class User
 {
@@ -11,46 +11,57 @@ class User
 	private:
 		int				_port;
 		int				_fd;
-		std::string		_hostname;
+		std::string		_ip;
 		std::string		_name;
 		std::string		_username;
 		std::string		_nickname;
 		bool			_authenticated;
-//		bool			_is_operator;
-//		bool			_invited;
 
-// esto es para quit/exit hecho por Claude
+		// Buffers (required for partial recv/send correctness) :contentReference[oaicite:4]{index=4}
+		/* ──────────────────────────── buffers ───────────────────────────── */
+		std::string		_inBuffer;
+		std::string		_outBuffer;
+
+		/* ─────────────────────── quit/exit helpers ──────────────────────── */
 		bool					_disconnected;
 		std::vector<Channel *>	_channels;
 
+
 	public:
+		/* ──────────────────────── Con/Des-tructors ──────────────────────── */
 		User();
 		User(int fd, const struct sockaddr_in &addr);
 		~User();
 
+		/* ──────────────────────────── getters ───────────────────────────── */
 		int			getFd() const { return _fd; }
+		std::string	getIP() const { return _ip; }
+		std::string	getRealName() const { return _name; }
+		std::string	getUserName() const { return _username; }
+		std::string	getNickName() const { return _nickname; }
 		bool		isAuthenticated() const { return _authenticated; }
-		void		setAuthenticated(bool val) { _authenticated = val; }
 
-		// getters
-		std::string getNickName() const { return _nickname; }
-		std::string getUserName() const { return _username; }
-		std::string getRealName() const { return _name; }
+		/* ──────────────────────────── setters ───────────────────────────── */
+		void	setIP(const std::string &ip) { _ip = ip; }
+		void	setRealName(const std::string &real) { _name = real; }
+		void	setUserName(const std::string &user) { _username = user; }
+		void	setNickName(const std::string &nick) { _nickname = nick; }
+		void	setAuthenticated(bool val) { _authenticated = val; }
 
-		// setters
-		void setNickName(const std::string &nick) { _nickname = nick; }
-		void setUserName(const std::string &user) { _username = user; }
-		void setRealName(const std::string &real) { _name = real; }
+		/* ──────────────────────────── buffers ───────────────────────────── */
+		std::string	&inBuffer() { return _inBuffer; }
+		std::string	&outBuffer() { return _outBuffer; }
 
-		//para QUIT/EXIT
-		bool isDisconnected() const;
-		void setDisconnected(bool value);
-		void addChannel(Channel *channel);
-		void removeChannel(Channel *channel);
-		void setHostname(const std::string &hostname);
-		std::vector<Channel *> getChannels() const;
-		std::string getHostname() const;
+		/* ─────────────────────── quit/exit helpers ──────────────────────── */
+		bool	isDisconnected() const { return _disconnected; }
+		void	setDisconnected(bool value) { _disconnected = value; }
 
+
+		/* ──────────────────────── ChannelFunctions ──────────────────────── */
+		void					addChannel(Channel *channel);
+		void					removeChannel(Channel *channel);
+		// getter
+		std::vector<Channel *>	getChannels() const { return _channels; }
 
 };
 
