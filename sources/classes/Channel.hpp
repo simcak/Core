@@ -3,18 +3,19 @@
 
 #include "IRC.hpp"
 
-class User; // Forward declaration
+class User;
 
 class Channel
 {
+
 	private:
-		std::string			_name;
-		std::string			_topic;
-		std::vector<User *>	_users;
-		std::vector<User *>	_banList;
-		std::vector<User *>	_operators;
-		std::string			_password;
-		size_t				_user_limit;
+		std::string				_name;
+		std::string				_topic;
+		std::vector<User *>		_users;
+		std::vector<User *>		_banList;
+		std::vector<User *>		_operators;
+		std::string				_password;
+
 
 	public:
 		/* ───────────────────────── Con/Des-tructor ──────────────────────── */
@@ -22,26 +23,20 @@ class Channel
 		~Channel();
 
 		/* ──────────────────────────── Getters ───────────────────────────── */
-		std::string			getUserName() const;
-		std::string			getTopic() const;
-		// size_t				getUserLimit() const;
-		// std::vector<User *>	getUsers() const;
-		
+		std::string	getUserName() const { return _name; }
+		std::string	getTopic() const { return _topic; }
+
 		/* ──────────────────────── Member functions ──────────────────────── */
-		// void		removeUser(User *user);
-		bool		isUserInChanel(User *user) const;
-		bool		isUserBanned(User *user) const;
+		bool	isUserInChanel(User *user) const;
+		bool	isUserBanned(User *user) const;
 
-		Channel&	addUser(User *user);
-		Channel&	setUserLimit(size_t limit);
-		Channel&	setTopic(const std::string &topic);
-		Channel&	banUser(User *);
-		Channel&	unBanUser(User *);
+		Channel	&addUser(User *user);
+		Channel	&removeUser(User *user);
 
-		// void		addOperator(User *user);
-		// void		removeOperator(User *user);
-		// bool		isOperator(User *user) const;
-		// std::string	getPassword() const;
+		Channel	&banUser(User *user);
+		Channel	&unBanUser(User *user);
+
+		Channel	&setTopic(const std::string &t) { _topic = t; return *this; }
 
 };
 
