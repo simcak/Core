@@ -34,6 +34,10 @@
 # define RST	"\033[0m"
 # define BRERR	BR "Error: " RST
 
+/* ───────────────────────── Con/Des-tructor PrintM ───────────────────────── */
+# define CST(msg) (std::cout << BG "[CONSTRUCTOR] " RST << msg << std::endl)
+# define DST(msg) (std::cout << BR "[DESTRUCTOR] "  RST << msg << std::endl)
+
 /* ───────────────────────────────── PrintM ───────────────────────────────── */
 # define WARN(msg) (std::cerr << BY "[WARN] " RST << msg << std::endl)
 # define INFO(msg) (std::cout << BB "[INFO] " RST << msg << std::endl)
@@ -41,10 +45,6 @@
 # define DEBG(msg) do {\
 	if (DEBUG) { std::cerr << BY "[DEBG] " RST << msg << std::endl; }\
 } while (0)
-
-/* ───────────────────────── Con/Des-tructor PrintM ───────────────────────── */
-# define CST(msg) (std::cout << BG "[CONSTRUCTOR] " RST << msg << std::endl)
-# define DST(msg) (std::cout << BR "[DESTRUCTOR] " RST << msg << std::endl)
 
 /* ──────────────────────────────── Defines ───────────────────────────────── */
 # define DEFAULT_PORT	6667
