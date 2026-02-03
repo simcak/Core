@@ -3,7 +3,7 @@
 NAME	= ircserv
 CFLAGS	= -Wall -Wextra -Werror -std=c++98 $(DEBUG_FLAG)
 CXX		= c++
-DIR		= ./sources ./
+DIR		= .
 OBJDIR	= ./objects
 
 #################################### COLORES ###################################
@@ -20,8 +20,8 @@ endef
 
 ################################# DEPENDENCIES #################################
 
-T_SRC	= $(shell find $(DIR) -maxdepth 2 -iname "*.cpp")
-SRC		= ./sources/commands/CmdJoin.cpp ./sources/commands/CmdUser.cpp ./sources/commands/CmdSendMsg.cpp ./sources/commands/CmdReceiveMsg.cpp ./sources/commands/CmdQuit.cpp ./sources/commands/CmdPong.cpp ./sources/commands/CmdPass.cpp ./sources/commands/CmdNick.cpp ./sources/controllers/ServerController.cpp ./sources/utils/utils.cpp ./sources/classes/Channel.cpp ./sources/classes/Server.cpp ./sources/classes/User.cpp ./sources/classes/Message.cpp ./main.cpp
+T_SRC	= $(shell find $(DIR) -iname "*.cpp")
+SRC		= ./main.cpp ./srcs/Channel.cpp ./srcs/Message.cpp ./srcs/Server.cpp ./srcs/User.cpp ./srcs/utils.cpp ./srcs/cmds/Join.cpp ./srcs/cmds/Quit.cpp ./srcs/cmds/PingPong.cpp ./srcs/cmds/User.cpp ./srcs/cmds/Nick.cpp ./srcs/cmds/Pass.cpp
 
 OBJ	= $(patsubst %.cpp, $(OBJDIR)/%.o, $(SRC))
 DEP	= $(OBJ:.o=.d)
