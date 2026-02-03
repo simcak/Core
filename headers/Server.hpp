@@ -1,0 +1,81 @@
+#ifndef SERVER_HPP
+# define SERVER_HPP
+
+# include "IRC.hpp"
+# include "Message.hpp"
+
+class User;
+class Channel;
+
+class Server
+{
+	private:
+		const int							_port;
+		std::string							_password;
+		std::string							_creationTime;
+		std::string							_serverName;
+
+		int									_serverSocket;
+		struct sockaddr_in					_serverAddr;
+
+		bool								_serverRunning;
+		bool								_shuttingDown;
+
+		std::map<int, User*>				_users;
+		std::vector<Channel*>				_channels;
+
+		typedef void (Server::*CommandHandler)(User*, const Message&);
+		std::map<std::string, CommandHandler> _commandMap;
+
+	private:
+		bool		setupSocket();
+		void		setNonBlocking(int fd);
+
+		void		runLoopOnce();
+		void		buildPollFds(std::vector<struct pollfd> &pfds) const;
+		void		handlePollEvents(const std::vector<struct pollfd> &pfds, size_t userStartIndex);
+
+		void		acceptNewUser();
+		void		onReadable(User *user);
+		void		onWritable(User *user);
+
+		void		queueLine(User *user, const std::string &line);
+		void		sendNumeric(User *user, const std::string &code,
+							 const std::string &middle, const std::string &trailing);
+
+		static bool	isPreRegisterCommand(const std::string &cmd);
+		void		tryRegister(User *user);
+
+		void		beginShutdown();
+		void		beginUserDisconnect(User *user, const std::string &reason);
+		void		removeUserNow(int fd, const std::string &reason);
+
+		Channel*	findChannelByName(const std::string &name);
+		Channel*	getOrCreateChannel(const std::string &name);
+		void		deleteChannelIfEmpty(Channel *ch);
+
+		void		detachFromAllChannels(User *user, const std::string &reason);
+		void		broadcastToChannel(Channel *ch, const std::string &line, User *exclude);
+
+		void		initCommandMap();
+		void		dispatch(User *user, const Message &msg);
+
+		void		cmdPass(User *user, const Message &msg);
+		void		cmdNick(User *user, const Message &msg);
+		void		cmdUser(User *user, const Message &msg);
+		void		cmdPing(User *user, const Message &msg);
+		void		cmdPong(User *user, const Message &msg);
+		void		cmdQuit(User *user, const Message &msg);
+		void		cmdJoin(User *user, const Message &msg);
+
+	public:
+		Server(int port, const std::string &password);
+		~Server();
+
+		bool		start();
+		void		run();
+};
+
+void	ServerController(const std::string &portStr, const std::string &pass);
+
+#endif
