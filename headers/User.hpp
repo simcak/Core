@@ -36,6 +36,8 @@ class User
 		const std::string			&getUserName() const;
 		const std::string			&getNickName() const;
 
+		std::string					prefix() const;
+
 		bool						passAccepted() const;
 		bool						isRegistered() const;
 		bool						wantsDisconnect() const;

@@ -29,6 +29,11 @@ Channel::Channel(const std::string &name)
 	, _users()
 	, _banList()
 	, _operators()
+	, _invitedUsers()
+	, _key("")
+	, _inviteOnly(false)
+	, _topicProtected(false)
+	, _userLimit(0)
 {
 	INFO("Channel <" << _name << "> created");
 }
@@ -59,7 +64,10 @@ void Channel::removeUser(User *user)
 {
 	if (!user)
 		return;
+
 	eraseOne(_users, user);
+	// keep operator list consistent
+	eraseOne(_operators, user);
 }
 
 void Channel::addOperator(User *user)
@@ -90,6 +98,65 @@ void Channel::unbanUser(User *user)
 	eraseOne(_banList, user);
 }
 
+/* ───────────────────────── invites ───────────────────────── */
+
+bool Channel::isInvited(User *user) const { return contains(_invitedUsers, user); }
+
+void Channel::addInvited(User *user)
+{
+	if (!user || isInvited(user))
+		return;
+	_invitedUsers.push_back(user);
+}
+
+void Channel::removeInvited(User *user)
+{
+	if (!user)
+		return;
+	eraseOne(_invitedUsers, user);
+}
+
+/* ───────────────────────── modes ───────────────────────── */
+
+const std::string &Channel::getKey() const { return _key; }
+void Channel::setKey(const std::string &key) { _key = key; }
+
+bool Channel::inviteOnly() const { return _inviteOnly; }
+void Channel::setInviteOnly(bool v) { _inviteOnly = v; }
+
+bool Channel::topicProtected() const { return _topicProtected; }
+void Channel::setTopicProtected(bool v) { _topicProtected = v; }
+
+int Channel::userLimit() const { return _userLimit; }
+void Channel::setUserLimit(int limit) { _userLimit = (limit < 0 ? 0 : limit); }
+
+std::string Channel::modeString() const
+{
+	std::string modes = "+";
+	std::string params;
+
+	if (_inviteOnly)
+		modes += "i";
+	if (_topicProtected)
+		modes += "t";
+	if (!_key.empty())
+	{
+		modes += "k";
+		params += " " + _key;
+	}
+	if (_userLimit > 0)
+	{
+		modes += "l";
+		std::ostringstream oss;
+		oss << _userLimit;
+		params += " " + oss.str();
+	}
+
+	if (modes == "+")
+		return "+";
+	return modes + params;
+}
+
 void Channel::removeAllReferences(User *user)
 {
 	if (!user)
@@ -97,6 +164,7 @@ void Channel::removeAllReferences(User *user)
 	removeUser(user);
 	removeOperator(user);
 	unbanUser(user);
+	removeInvited(user);
 }
 
 bool Channel::empty() const

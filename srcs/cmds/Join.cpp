@@ -2,6 +2,7 @@
 #include "../../headers/User.hpp"
 #include "../../headers/Channel.hpp"
 
+/////////////////////////////// helper functions ///////////////////////////////
 static bool	isValidChannelName(const std::string &s)
 {
 	return (!s.empty() && s[0] == '#');
@@ -35,8 +36,6 @@ static std::string	buildNamesList(Channel *ch)
  * JOIN command format:
  * JOIN <#channel>
  * 
- * The user joins the specified channel. If the channel does not exist, it is
- * created. If the user is banned from the channel, they receive an error.
  */
 void	Server::cmdJoin(User *user, const Message &msg)
 {
@@ -64,15 +63,44 @@ void	Server::cmdJoin(User *user, const Message &msg)
 		return;
 	}
 
+	// +i invite-only
+	if (ch->inviteOnly() && !ch->isInvited(user))
+	{
+		sendNumeric(user, irc::err::INVITEONLYCHAN, chanName, "Cannot join channel (+i)");
+		return;
+	}
+
+	// +k key
+	if (!ch->getKey().empty())
+	{
+		const bool hasKeyParam = (msg.params.size() >= 2);
+		if (!hasKeyParam || msg.params[1] != ch->getKey())
+		{
+			sendNumeric(user, irc::err::BADCHANNELKEY, chanName, "Cannot join channel (+k)");
+			return;
+		}
+	}
+
+	// +l limit
+	if (ch->userLimit() > 0 && ch->users().size() >= static_cast<size_t>(ch->userLimit()))
+	{
+		sendNumeric(user, irc::err::CHANNELISFULL, chanName, "Cannot join channel (+l)");
+		return;
+	}
+
 	if (!ch->isUserInChannel(user))
 	{
 		ch->addUser(user);
 		user->addChannel(ch);
 
+		// consume invite once used
+		if (ch->inviteOnly())
+			ch->removeInvited(user);
+
 		if (ch->users().size() == 1)
 			ch->addOperator(user);
 
-		broadcastToChannel(ch, ":" + user->getNickName() + " JOIN :" + chanName, NULL);
+		broadcastToChannel(ch, ":" + user->prefix() + " JOIN :" + chanName, NULL);
 	}
 
 	if (ch->getTopic().empty())

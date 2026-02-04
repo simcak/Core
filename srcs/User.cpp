@@ -50,6 +50,14 @@ const std::string &User::getRealName() const { return _realName; }
 const std::string &User::getUserName() const { return _username; }
 const std::string &User::getNickName() const { return _nickname; }
 
+std::string	User::prefix() const
+{
+	const std::string nick = (_nickname == "Unknown") ? "*" : _nickname;
+	const std::string usr  = (_username == "Unknown") ? "unknown" : _username;
+	return nick + "!~" + usr + "@" + _ip;
+}
+
+
 bool	User::passAccepted() const { return _passAccepted; }
 bool	User::isRegistered() const { return _registered; }
 bool	User::wantsDisconnect() const { return _disconnectAfterFlush; }
@@ -73,16 +81,16 @@ void	User::addChannel(Channel *ch)
 		return;
 
 	for (size_t i = 0; i < _channels.size(); ++i)
-	{
 		if (_channels[i] == ch)
 			return;
-	}
 	_channels.push_back(ch);
 }
 
 void	User::removeChannel(Channel *ch)
 {
-	for (std::vector<Channel*>::iterator it = _channels.begin(); it != _channels.end(); ++it)
+	std::vector<Channel*>::iterator	it = _channels.begin();
+
+	for (; it != _channels.end(); ++it)
 	{
 		if (*it == ch)
 		{

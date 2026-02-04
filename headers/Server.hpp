@@ -50,6 +50,7 @@ class Server
 		void		beginUserDisconnect(User *user, const std::string &reason);
 		void		removeUserNow(int fd, const std::string &reason);
 
+		User*		findUserByNick(const std::string &nick);
 		Channel*	findChannelByName(const std::string &name);
 		Channel*	getOrCreateChannel(const std::string &name);
 		void		deleteChannelIfEmpty(Channel *ch);
@@ -67,6 +68,12 @@ class Server
 		void		cmdPong(User *user, const Message &msg);
 		void		cmdQuit(User *user, const Message &msg);
 		void		cmdJoin(User *user, const Message &msg);
+		void		cmdPrivMsg(User *user, const Message &msg);
+		void		cmdKick(User *user, const Message &msg);
+		void		cmdInvite(User *user, const Message &msg);
+		void		cmdTopic(User *user, const Message &msg);
+		void		cmdMode(User *user, const Message &msg);
+		void		cmdPart(User *user, const Message &msg);
 
 	public:
 		Server(int port, const std::string &password);

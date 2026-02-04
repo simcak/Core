@@ -451,7 +451,7 @@ void	Server::detachFromAllChannels(User *user, const std::string &reason)
 		return;
 
 	const std::vector<Channel*> chans = user->getChannels();
-	const std::string quitLine = ":" + user->getNickName() + " QUIT :" + reason;
+	const std::string quitLine = ":" + user->prefix() + " QUIT :" + reason;
 
 	for (size_t i = 0; i < chans.size(); ++i)
 	{
@@ -510,7 +510,15 @@ void	Server::initCommandMap()
 	_commandMap["PING"] = &Server::cmdPing;
 	_commandMap["PONG"] = &Server::cmdPong;
 	_commandMap["QUIT"] = &Server::cmdQuit;
+
 	_commandMap["JOIN"] = &Server::cmdJoin;
+	_commandMap["PART"] = &Server::cmdPart;
+	_commandMap["TOPIC"] = &Server::cmdTopic;
+	_commandMap["MODE"] = &Server::cmdMode;
+	_commandMap["INVITE"] = &Server::cmdInvite;
+	_commandMap["KICK"] = &Server::cmdKick;
+
+	_commandMap["PRIVMSG"] = &Server::cmdPrivMsg;
 }
 
 void	Server::dispatch(User *user, const Message &msg)
@@ -532,6 +540,19 @@ void	Server::dispatch(User *user, const Message &msg)
 	}
 
 	(this->*(it->second))(user, msg);
+}
+
+User*	Server::findUserByNick(const std::string &nick)
+{
+	std::map<int, User*>::iterator	it = _users.begin();
+
+	for (; it != _users.end(); ++it)
+	{
+		User *u = it->second;
+		if (u && u->getNickName() == nick)
+			return u;
+	}
+	return NULL;
 }
 
 /* ───────────────────────── channels ───────────────────────── */

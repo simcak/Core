@@ -15,6 +15,13 @@ class Channel
 		std::vector<User*>	_banList;
 		std::vector<User*>	_operators;
 
+		// modes/state
+		std::vector<User*>	_invitedUsers;
+		std::string			_key;
+		bool				_inviteOnly;
+		bool				_topicProtected;
+		int					_userLimit;
+
 	public:
 		Channel(const std::string &name);
 		~Channel();
@@ -37,6 +44,26 @@ class Channel
 
 		void						banUser(User *user);
 		void						unbanUser(User *user);
+
+		// invite list
+		bool						isInvited(User *user) const;
+		void						addInvited(User *user);
+		void						removeInvited(User *user);
+
+		// modes
+		const std::string			&getKey() const;
+		void						setKey(const std::string &key);
+
+		bool						inviteOnly() const;
+		void						setInviteOnly(bool v);
+
+		bool						topicProtected() const;
+		void						setTopicProtected(bool v);
+
+		int							userLimit() const;
+		void						setUserLimit(int limit);
+
+		std::string					modeString() const;
 
 		void						removeAllReferences(User *user);
 
