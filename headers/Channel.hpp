@@ -19,7 +19,7 @@ class Channel
 		std::vector<User*>	_invitedUsers;
 		std::string			_key;
 		bool				_inviteOnly;
-		bool				_topicProtected;
+		bool				_topicLock;
 		int					_userLimit;
 
 	public:
@@ -33,14 +33,14 @@ class Channel
 		const std::vector<User*>	&getUsers() const { return _users; }
 		const std::string			&getKey() const { return _key; }
 		bool						getInviteOnly() const { return _inviteOnly; }
-		bool						getTopicProtected() const { return _topicProtected; }
+		bool						getTopicLock() const { return _topicLock; }
 		int							getUserLimit() const { return _userLimit; }
 
 		/* ──────────────────────────── setters ───────────────────────────── */
 		void	setTopic(const std::string &t) { _topic = t; }
 		void	setKey(const std::string &k) { _key = k; }
 		void	setInviteOnly(bool v) { _inviteOnly = v; }
-		void	setTopicProtected(bool v) { _topicProtected = v; }
+		void	setTopicLock(bool v) { _topicLock = v; }
 		void	setUserLimit(int lim) { _userLimit = ((lim < 0) ? 0 : lim); }
 
 		/* ───────────────────────────── users ────────────────────────────── */

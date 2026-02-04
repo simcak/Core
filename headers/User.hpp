@@ -25,37 +25,41 @@ class User
 		std::vector<Channel*>	_channels;
 
 	public:
+		/* ──────────────────────── Con/Des-tructors ──────────────────────── */
 		User();
 		User(int fd, const struct sockaddr_in &addr);
 		~User();
 
-		int							getFd() const;
-		const std::string			&getIP() const;
+		/* ──────────────────────────── getters ───────────────────────────── */
+		int						getFd() const { return _fd; }
+		const std::string		&getIP() const { return _ip; }
 
-		const std::string			&getRealName() const;
-		const std::string			&getUserName() const;
-		const std::string			&getNickName() const;
+		const std::string		&getRealName() const { return _realName; }
+		const std::string		&getUserName() const { return _username; }
+		const std::string		&getNickName() const { return _nickname; }
 
-		std::string					prefix() const;
+		bool			passAccepted() const { return _passAccepted; }
+		bool			isRegistered() const { return _registered; }
+		bool			wantsDisconnect() const { return _disconnectAfterFlush; }
 
-		bool						passAccepted() const;
-		bool						isRegistered() const;
-		bool						wantsDisconnect() const;
+		std::string			&inBuffer() { return _inBuffer; }
+		std::string			&outBuffer() { return _outBuffer; }
 
-		void						setRealName(const std::string &real);
-		void						setUserName(const std::string &user);
-		void						setNickName(const std::string &nick);
+		const std::vector<Channel*>		&getChannels() const { return _channels; }
 
-		void						setPassAccepted(bool v);
-		void						setRegistered(bool v);
-		void						setDisconnectAfterFlush(bool v);
+		/* ──────────────────────────── setters ───────────────────────────── */
+		void			setRealName(const std::string &r) { _realName = r; }
+		void			setUserName(const std::string &u) { _username = u; }
+		void			setNickName(const std::string &n) { _nickname = n; }
+		
+		void			setPassAccepted(bool v) { _passAccepted = v; }
+		void			setRegistered(bool v) { _registered = v; }
+		void			setDisconnectAfterFlush(bool v) { _disconnectAfterFlush = v; }
 
-		std::string					&inBuffer();
-		std::string					&outBuffer();
-
-		void						addChannel(Channel *channel);
-		void						removeChannel(Channel *channel);
-		const std::vector<Channel*>	&getChannels() const;
+		/* ──────────────────────── member functions ──────────────────────── */
+		std::string			prefix() const;
+		void				addChannel(Channel *channel);
+		void				removeChannel(Channel *channel);
 };
 
 #endif

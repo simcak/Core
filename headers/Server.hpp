@@ -43,7 +43,6 @@ class Server
 		void		sendNumeric(User *user, const std::string &code,
 							 const std::string &middle, const std::string &trailing);
 
-		static bool	isPreRegisterCommand(const std::string &cmd);
 		void		tryRegister(User *user);
 
 		void		beginShutdown();
@@ -61,6 +60,7 @@ class Server
 		void		initCommandMap();
 		void		dispatch(User *user, const Message &msg);
 
+		/* ──────────────────────────── commands ──────────────────────────── */
 		void		cmdPass(User *user, const Message &msg);
 		void		cmdNick(User *user, const Message &msg);
 		void		cmdUser(User *user, const Message &msg);
@@ -77,7 +77,6 @@ class Server
 		void		cmdNames(User *user, const Message &msg);
 		void		cmdWho(User *user, const Message &msg);
 		void		cmdList(User *user, const Message &msg);
-
 
 	public:
 		Server(int port, const std::string &password);

@@ -14,8 +14,8 @@ namespace irc
 		static const char	*LISTSTART			= "321";
 		static const char	*LIST				= "322";
 		static const char	*LISTEND			= "323";
-		static const char	*CHANNELMODEIS		= "324"; // RPL_CHANNELMODEIS
-		static const char	*INVITING			= "341"; // RPL_INVITING
+		static const char	*CHANNELMODEIS		= "324";
+		static const char	*INVITING			= "341";
 
 		static const char	*NOTOPIC			= "331";
 		static const char	*TOPIC				= "332";
