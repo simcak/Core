@@ -519,6 +519,10 @@ void	Server::initCommandMap()
 	_commandMap["KICK"] = &Server::cmdKick;
 
 	_commandMap["PRIVMSG"] = &Server::cmdPrivMsg;
+
+	_commandMap["NAMES"] = &Server::cmdNames;
+	_commandMap["WHO"] = &Server::cmdWho;
+	_commandMap["LIST"] = &Server::cmdList;
 }
 
 void	Server::dispatch(User *user, const Message &msg)
