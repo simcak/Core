@@ -51,6 +51,14 @@ Server::~Server()
 
 /* ────────────────────────────── command map ─────────────────────────────── */
 
+/**
+ * @brief Initializes the command map that associates IRC command strings with
+ * their corresponding handler member functions.
+ * 
+ * This function populates the _commandMap member variable with pairs of
+ * command strings and pointers to the corresponding member functions that
+ * handle those commands.
+ */
 void	Server::initCommandMap()
 {
 	_commandMap.clear();
@@ -107,6 +115,15 @@ void	Server::run()
 	INFO("Server exiting");
 }
 
+/**
+ * @brief Controller function to initialize and run the server with the
+ * specified port and password.
+ * This function validates the port number, checks if the port is already in
+ * use, and then creates and starts the server instance.
+ * 
+ * @param portStr The port number as a string to listen on.
+ * @param pass The password required for clients to connect to the server.
+ */
 void	ServerController(const std::string &portStr, const std::string &pass)
 {
 	int	port = std::atoi(portStr.c_str());
@@ -132,6 +149,14 @@ void	ServerController(const std::string &portStr, const std::string &pass)
 
 /* ───────────────────────── socket setup ───────────────────────── */
 
+/**
+ * @brief Sets up the server socket by creating, binding, and listening on it.
+ * @return bool True if the socket was set up successfully, false otherwise.
+ * 
+ * This function creates a TCP socket, sets it to non-blocking mode, binds it to
+ * the specified port on all interfaces, and starts listening for incoming
+ * connections. If any step fails, it logs an error and returns false.
+ */
 bool	Server::setupSocket()
 {
 	_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -184,6 +209,13 @@ void	Server::setNonBlocking(int fd)
 
 /* ───────────────────────── poll loop ───────────────────────── */
 
+/**
+ * @brief Runs one iteration of the server's main loop, handling incoming
+ * connections and data.
+ * 
+ * This function builds the list of file descriptors to poll, calls poll(), and
+ * then processes any events that occur on those file descriptors.
+ */
 void	Server::runLoopOnce()
 {
 	if (g_stop)
@@ -217,6 +249,11 @@ void	Server::runLoopOnce()
 		_serverRunning = false;
 }
 
+/**
+ * @brief Builds the vector of pollfd structures for the poll() call, including
+ * the server socket and all user sockets.
+ * @param pfds The vector to be filled with pollfd structures.
+ */
 void	Server::buildPollFds(std::vector<struct pollfd> &pfds) const
 {
 	pfds.clear();
@@ -224,16 +261,19 @@ void	Server::buildPollFds(std::vector<struct pollfd> &pfds) const
 
 	if (!_shuttingDown)
 	{
-		struct pollfd sfd;
+		struct pollfd	sfd;
+
 		std::memset(&sfd, 0, sizeof(sfd));
 		sfd.fd = _serverSocket;
 		sfd.events = POLLIN;
 		pfds.push_back(sfd);
 	}
 
-	for (std::map<int, User*>::const_iterator it = _users.begin(); it != _users.end(); ++it)
+	std::map<int, User*>::const_iterator	it = _users.begin();
+	for (; it != _users.end(); ++it)
 	{
-		struct pollfd p;
+		struct	pollfd	p;
+
 		std::memset(&p, 0, sizeof(p));
 		p.fd = it->first;
 		p.events = POLLIN;
@@ -243,6 +283,13 @@ void	Server::buildPollFds(std::vector<struct pollfd> &pfds) const
 	}
 }
 
+/**
+ * @brief Handles events from the poll() call, such as new connections and
+ * incoming data.
+ * @param pfds The vector of pollfd structures returned by poll().
+ * @param userStartIndex The index in pfds where user connections start (0 if
+ * the server socket is not included, 1 if it is).
+ */
 void	Server::handlePollEvents(const std::vector<struct pollfd> &pfds, size_t userStartIndex)
 {
 	if (!_shuttingDown && !pfds.empty() && (pfds[0].revents & POLLIN))
@@ -276,10 +323,14 @@ void	Server::handlePollEvents(const std::vector<struct pollfd> &pfds, size_t use
 
 /* ───────────────────────── accept / I/O ───────────────────────── */
 
+/**
+ * @brief Accepts a new incoming connection on the server socket and adds it to
+ * the list of users.
+ */
 void	Server::acceptNewUser()
 {
-	struct sockaddr_in clientAddr;
-	socklen_t len = sizeof(clientAddr);
+	struct sockaddr_in	clientAddr;
+	socklen_t			len = sizeof(clientAddr);
 
 	int fd = accept(_serverSocket, (struct sockaddr*)&clientAddr, &len);
 	if (fd < 0)
@@ -293,17 +344,22 @@ void	Server::acceptNewUser()
 	_users[fd] = new User(fd, clientAddr);
 }
 
+/**
+ * @brief Handles readable events on a user socket, reading incoming data and
+ * processing complete lines.
+ * @param user The User object corresponding to the socket that is readable.
+ */
 void	Server::onReadable(User *user)
 {
 	if (!user)
 		return;
 
-	const int fd = user->getFd();
-	char buf[BUFF_SIZE];
+	const int	fd = user->getFd();
+	char		buf[BUFF_SIZE];
 
 	while (true)
 	{
-		ssize_t n = recv(fd, buf, sizeof(buf), 0);
+		ssize_t	n = recv(fd, buf, sizeof(buf), 0);
 		if (n == 0)
 		{
 			removeUserNow(fd, "Client disconnected");
@@ -348,13 +404,18 @@ void	Server::onReadable(User *user)
 	}
 }
 
+/**
+ * @brief Handles writable events on a user socket, sending any queued output
+ * data to the client.
+ * @param user The User object corresponding to the socket that is writable.
+ */
 void	Server::onWritable(User *user)
 {
 	if (!user)
 		return;
 
-	const int fd = user->getFd();
-	std::string &out = user->outBuffer();
+	const int	fd = user->getFd();
+	std::string	&out = user->outBuffer();
 
 	if (out.empty())
 	{
@@ -439,6 +500,11 @@ static bool	registrationUncompleted(User *user) {
 			user->getUserName() == "Unknown");
 }
 
+/**
+ * @brief Attempts to register a user if they have completed the necessary
+ * registration steps (PASS, NICK, USER).
+ * @param user Pointer to the User object to attempt registration for.
+ */
 void	Server::tryRegister(User *user)
 {
 	if (!user || user->isRegistered() || registrationUncompleted(user))
@@ -454,6 +520,10 @@ void	Server::tryRegister(User *user)
 
 /* ─────────────────────────── shutdown / cleanup ─────────────────────────── */
 
+/**
+ * @brief Initiates a graceful shutdown of the server, notifying all connected
+ * users and preventing new connections.
+ */
 void	Server::beginShutdown()
 {
 	if (_shuttingDown)
@@ -468,6 +538,13 @@ void	Server::beginShutdown()
 			beginUserDisconnect(it->second, "Server shutting down");
 }
 
+/**
+ * @brief Initiates a graceful disconnection of a user, sending a quit message
+ * to the user and detaching them from all channels.
+ * @param user Pointer to the User object to disconnect.
+ * @param reason The reason for disconnection to be sent to the user and other
+ * users in the same channels.
+ */
 void	Server::beginUserDisconnect(User *user, const std::string &reason)
 {
 	if (!user)
@@ -479,6 +556,14 @@ void	Server::beginUserDisconnect(User *user, const std::string &reason)
 	detachFromAllChannels(user, reason);
 }
 
+/**
+ * @brief Immediately removes a user from the server, closing their socket and
+ * deleting their User object. This is used for error conditions or when a user
+ * needs to be disconnected without waiting for the output buffer to flush.
+ * @param fd The file descriptor of the user to remove.
+ * @param reason The reason for removal, which will be sent to other users in
+ * the same channels.
+ */
 void	Server::removeUserNow(int fd, const std::string &reason)
 {
 	std::map<int, User*>::iterator it = _users.find(fd);
@@ -494,6 +579,19 @@ void	Server::removeUserNow(int fd, const std::string &reason)
 	_users.erase(it);
 }
 
+/**
+ * @brief Detaches a user from all channels they are currently in, broadcasting
+ * a quit message to those channels and removing the user from the channel
+ * members list.
+ * 
+ * This is typically called when a user is disconnecting, to ensure that other
+ * users in the same channels are notified and that the server's internal state
+ * is cleaned up appropriately.
+ * 
+ * @param user Pointer to the User object to detach from channels.
+ * @param reason The reason for detachment, which will be included in the quit
+ * message sent to other users in the same channels.
+ */
 void	Server::detachFromAllChannels(User *user, const std::string &reason)
 {
 	if (!user)
@@ -517,6 +615,12 @@ void	Server::detachFromAllChannels(User *user, const std::string &reason)
 	}
 }
 
+/**
+ * @brief Deletes a channel if it is empty (has no users). This is called after
+ * a user leaves a channel or is disconnected, to clean up channels that are no
+ * longer in use.
+ * @param ch Pointer to the Channel object to check and potentially delete.
+ */
 void	Server::deleteChannelIfEmpty(Channel *ch)
 {
 	if (!ch || !ch->empty())
@@ -533,6 +637,14 @@ void	Server::deleteChannelIfEmpty(Channel *ch)
 	}
 }
 
+/**
+ * @brief Broadcasts a message to all users in a channel, optionally excluding
+ * a specific user (e.g., the sender).
+ * @param ch Pointer to the Channel object to broadcast the message to.
+ * @param line The message line to send to the channel members.
+ * @param exclude Pointer to a User object to exclude from receiving the message,
+ * or NULL to send to all members.
+ */
 void	Server::broadcastToChannel(Channel *ch, const std::string &line, User *exclude)
 {
 	if (!ch)
@@ -556,6 +668,17 @@ static bool	isPreRegisterCommand(const std::string &cmd)
 			cmd == "PING" || cmd == "PONG" || cmd == "QUIT");
 }
 
+/**
+ * @brief Dispatches an incoming IRC command message to the appropriate handler
+ * function based on the command name.
+ * @param user Pointer to the User object that sent the command.
+ * @param msg The parsed Message object containing the command and parameters.
+ * 
+ * This function checks if the user is registered before allowing most commands,
+ * and then looks up the command in the command map to call the corresponding
+ * handler function. If the command is unknown, it sends an error numeric back
+ * to the user.
+ */
 void	Server::dispatch(User *user, const Message &msg)
 {
 	if (!user)
