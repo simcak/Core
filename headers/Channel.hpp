@@ -15,7 +15,7 @@ class Channel
 		std::vector<User*>	_banList;
 		std::vector<User*>	_operators;
 
-		// modes/state
+		/* ────────────────────────── modes/state ─────────────────────────── */
 		std::vector<User*>	_invitedUsers;
 		std::string			_key;
 		bool				_inviteOnly;
@@ -23,51 +23,48 @@ class Channel
 		int					_userLimit;
 
 	public:
+		/* ──────────────────────── Con/Des-tructors ──────────────────────── */
 		Channel(const std::string &name);
 		~Channel();
 
-		const std::string			&getName() const;
-		const std::string			&getTopic() const;
-		void						setTopic(const std::string &topic);
+		/* ──────────────────────────── getters ───────────────────────────── */
+		const std::string			&getName() const { return _name; }
+		const std::string			&getTopic() const { return _topic; }
+		const std::vector<User*>	&getUsers() const { return _users; }
+		const std::string			&getKey() const { return _key; }
+		bool						getInviteOnly() const { return _inviteOnly; }
+		bool						getTopicProtected() const { return _topicProtected; }
+		int							getUserLimit() const { return _userLimit; }
 
-		const std::vector<User*>	&users() const;
+		/* ──────────────────────────── setters ───────────────────────────── */
+		void	setTopic(const std::string &t) { _topic = t; }
+		void	setKey(const std::string &k) { _key = k; }
+		void	setInviteOnly(bool v) { _inviteOnly = v; }
+		void	setTopicProtected(bool v) { _topicProtected = v; }
+		void	setUserLimit(int lim) { _userLimit = ((lim < 0) ? 0 : lim); }
 
-		bool						isUserInChannel(User *user) const;
-		bool						isUserBanned(User *user) const;
-		bool						isOperator(User *user) const;
+		/* ───────────────────────────── users ────────────────────────────── */
+		bool			isUserInChannel(User *user) const;
+		bool			isUserBanned(User *user) const;
+		bool			isOperator(User *user) const;
 
-		void						addUser(User *user);
-		void						removeUser(User *user);
+		void			addUser(User *user);
+		void			removeUser(User *user);
+		void			banUser(User *user);
+		void			unbanUser(User *user);
 
-		void						addOperator(User *user);
-		void						removeOperator(User *user);
+		void			addOperator(User *user);
+		void			removeOperator(User *user);
 
-		void						banUser(User *user);
-		void						unbanUser(User *user);
+		/* ────────────────────────── invite list ─────────────────────────── */
+		bool			isInvited(User *user) const;
+		void			addInvited(User *user);
+		void			removeInvited(User *user);
 
-		// invite list
-		bool						isInvited(User *user) const;
-		void						addInvited(User *user);
-		void						removeInvited(User *user);
-
-		// modes
-		const std::string			&getKey() const;
-		void						setKey(const std::string &key);
-
-		bool						inviteOnly() const;
-		void						setInviteOnly(bool v);
-
-		bool						topicProtected() const;
-		void						setTopicProtected(bool v);
-
-		int							userLimit() const;
-		void						setUserLimit(int limit);
-
-		std::string					modeString() const;
-
-		void						removeAllReferences(User *user);
-
-		bool						empty() const;
+		/* ───────────────────────────── modes ────────────────────────────── */
+		std::string		modeString() const;
+		void			removeAllReferences(User *user);
+		bool			empty() const;
 };
 
 #endif

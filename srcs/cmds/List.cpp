@@ -26,11 +26,11 @@ static std::string modeInfoForList(Channel *ch)
 {
 	std::string	modeInfo;
 
-	if (ch->inviteOnly())
+	if (ch->getInviteOnly())
 		modeInfo += "[+i] ";
 	if (!ch->getKey().empty())
 		modeInfo += "[+k] ";
-	if (ch->userLimit() > 0)
+	if (ch->getUserLimit() > 0)
 		modeInfo += "[+l] ";
 	return modeInfo;
 }
@@ -65,7 +65,7 @@ void	Server::cmdList(User *user, const Message &msg)
 				continue;
 
 			std::ostringstream cnt;
-			cnt << ch->users().size();
+			cnt << ch->getUsers().size();
 
 			const std::string chanName = ch->getName();
 			const std::string topic = ch->getTopic();
@@ -85,7 +85,7 @@ void	Server::cmdList(User *user, const Message &msg)
 				continue;
 
 			std::ostringstream cnt;
-			cnt << ch->users().size();
+			cnt << ch->getUsers().size();
 
 			const std::string chanName = ch->getName();
 			const std::string topic = ch->getTopic();

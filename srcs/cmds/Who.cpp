@@ -45,7 +45,7 @@ void	Server::cmdWho(User *user, const Message &msg)
 			return;
 		}
 
-		const std::vector<User*> &members = ch->users();
+		const std::vector<User*> &members = ch->getUsers();
 		for (size_t i = 0; i < members.size(); ++i)
 		{
 			User *t = members[i];

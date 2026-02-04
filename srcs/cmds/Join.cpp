@@ -11,7 +11,7 @@ static bool	isValidChannelName(const std::string &s)
 static std::string	buildNamesList(Channel *ch)
 {
 	std::ostringstream oss;
-	const std::vector<User*> &members = ch->users();
+	const std::vector<User*> &members = ch->getUsers();
 
 	for (size_t i = 0; i < members.size(); ++i)
 	{
@@ -67,7 +67,7 @@ void	Server::cmdJoin(User *user, const Message &msg)
 	}
 
 	// +i invite-only
-	if (ch->inviteOnly() && !ch->isInvited(user))
+	if (ch->getInviteOnly() && !ch->isInvited(user))
 	{
 		sendNumeric(user, irc::err::INVITEONLYCHAN, chanName, "Cannot join channel (+i)");
 		return;
@@ -85,7 +85,7 @@ void	Server::cmdJoin(User *user, const Message &msg)
 	}
 
 	// +l limit
-	if (ch->userLimit() > 0 && ch->users().size() >= static_cast<size_t>(ch->userLimit()))
+	if (ch->getUserLimit() > 0 && ch->getUsers().size() >= static_cast<size_t>(ch->getUserLimit()))
 	{
 		sendNumeric(user, irc::err::CHANNELISFULL, chanName, "Cannot join channel (+l)");
 		return;
@@ -97,10 +97,10 @@ void	Server::cmdJoin(User *user, const Message &msg)
 		user->addChannel(ch);
 
 		// consume invite once used
-		if (ch->inviteOnly())
+		if (ch->getInviteOnly())
 			ch->removeInvited(user);
 
-		if (ch->users().size() == 1)
+		if (ch->getUsers().size() == 1)
 			ch->addOperator(user);
 
 		broadcastToChannel(ch, ":" + user->prefix() + " JOIN :" + chanName, NULL);

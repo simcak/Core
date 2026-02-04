@@ -46,7 +46,7 @@ void	Server::cmdInvite(User *user, const Message &msg)
 		return;
 	}
 
-	if (ch->inviteOnly() && !ch->isOperator(user))
+	if (ch->getInviteOnly() && !ch->isOperator(user))
 	{
 		sendNumeric(user, irc::err::CHANOPRIVSNEEDED, chanName, "You're not channel operator");
 		return;

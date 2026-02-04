@@ -25,7 +25,7 @@ static std::vector<std::string> splitCommaList(const std::string &s)
 static std::string buildNames(Channel *ch)
 {
 	std::ostringstream oss;
-	const std::vector<User*> &members = ch->users();
+	const std::vector<User*> &members = ch->getUsers();
 	bool first = true;
 
 	for (size_t i = 0; i < members.size(); ++i)

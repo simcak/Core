@@ -489,7 +489,7 @@ void	Server::broadcastToChannel(Channel *ch, const std::string &line, User *excl
 	if (!ch)
 		return;
 
-	const std::vector<User*> &members = ch->users();
+	const std::vector<User*> &members = ch->getUsers();
 	for (size_t i = 0; i < members.size(); ++i)
 	{
 		User *u = members[i];

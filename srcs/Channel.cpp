@@ -22,7 +22,7 @@ Channel::~Channel()
 	INFO("Channel <" << _name << "> destroyed");
 }
 
-/* ──────────────────────────────── helpers ───────────────────────────────── */
+/* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ getter helpers ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
 static bool	contains(const std::vector<User*> &v, User *u)
 {
 	for (size_t i = 0; i < v.size(); ++i)
@@ -46,16 +46,11 @@ static void	eraseOne(std::vector<User*> &v, User *u)
 }
 
 /* ──────────────────────────────── getters ───────────────────────────────── */
-const std::string &Channel::getName() const { return _name; }
-const std::string &Channel::getTopic() const { return _topic; }
-void Channel::setTopic(const std::string &topic) { _topic = topic; }
-
-const std::vector<User*> &Channel::users() const { return _users; }
-
 bool Channel::isUserInChannel(User *user) const { return contains(_users, user); }
 bool Channel::isUserBanned(User *user) const { return contains(_banList, user); }
 bool Channel::isOperator(User *user) const { return contains(_operators, user); }
 
+/* ───────────────────────────────── users ────────────────────────────────── */
 void Channel::addUser(User *user)
 {
 	if (!user || isUserInChannel(user))
@@ -73,20 +68,6 @@ void Channel::removeUser(User *user)
 	eraseOne(_operators, user);
 }
 
-void Channel::addOperator(User *user)
-{
-	if (!user || isOperator(user))
-		return;
-	_operators.push_back(user);
-}
-
-void Channel::removeOperator(User *user)
-{
-	if (!user)
-		return;
-	eraseOne(_operators, user);
-}
-
 void Channel::banUser(User *user)
 {
 	if (!user || isUserBanned(user))
@@ -99,6 +80,21 @@ void Channel::unbanUser(User *user)
 	if (!user)
 		return;
 	eraseOne(_banList, user);
+}
+
+/* ──────────────────────────────── operators ─────────────────────────────── */
+void Channel::addOperator(User *user)
+{
+	if (!user || isOperator(user))
+		return;
+	_operators.push_back(user);
+}
+
+void Channel::removeOperator(User *user)
+{
+	if (!user)
+		return;
+	eraseOne(_operators, user);
 }
 
 /* ──────────────────────────────── invites ───────────────────────────────── */
@@ -119,18 +115,6 @@ void Channel::removeInvited(User *user)
 }
 
 /* ───────────────────────────────── modes ────────────────────────────────── */
-const std::string &Channel::getKey() const { return _key; }
-void Channel::setKey(const std::string &key) { _key = key; }
-
-bool Channel::inviteOnly() const { return _inviteOnly; }
-void Channel::setInviteOnly(bool v) { _inviteOnly = v; }
-
-bool Channel::topicProtected() const { return _topicProtected; }
-void Channel::setTopicProtected(bool v) { _topicProtected = v; }
-
-int Channel::userLimit() const { return _userLimit; }
-void Channel::setUserLimit(int limit) { _userLimit = (limit < 0 ? 0 : limit); }
-
 std::string Channel::modeString() const
 {
 	std::string modes = "+";
