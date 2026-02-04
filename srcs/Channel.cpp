@@ -1,6 +1,28 @@
 #include "../headers/Channel.hpp"
 #include "../headers/User.hpp"
 
+/* ──────────────────────────── Con/Des-tructors ──────────────────────────── */
+Channel::Channel(const std::string &name)
+	: _name(name)
+	, _topic("")
+	, _users()
+	, _banList()
+	, _operators()
+	, _invitedUsers()
+	, _key("")
+	, _inviteOnly(false)
+	, _topicProtected(false)
+	, _userLimit(0)
+{
+	INFO("Channel <" << _name << "> created");
+}
+
+Channel::~Channel()
+{
+	INFO("Channel <" << _name << "> destroyed");
+}
+
+/* ──────────────────────────────── helpers ───────────────────────────────── */
 static bool	contains(const std::vector<User*> &v, User *u)
 {
 	for (size_t i = 0; i < v.size(); ++i)
@@ -23,26 +45,7 @@ static void	eraseOne(std::vector<User*> &v, User *u)
 	}
 }
 
-Channel::Channel(const std::string &name)
-	: _name(name)
-	, _topic("")
-	, _users()
-	, _banList()
-	, _operators()
-	, _invitedUsers()
-	, _key("")
-	, _inviteOnly(false)
-	, _topicProtected(false)
-	, _userLimit(0)
-{
-	INFO("Channel <" << _name << "> created");
-}
-
-Channel::~Channel()
-{
-	INFO("Channel <" << _name << "> destroyed");
-}
-
+/* ──────────────────────────────── getters ───────────────────────────────── */
 const std::string &Channel::getName() const { return _name; }
 const std::string &Channel::getTopic() const { return _topic; }
 void Channel::setTopic(const std::string &topic) { _topic = topic; }
@@ -98,8 +101,7 @@ void Channel::unbanUser(User *user)
 	eraseOne(_banList, user);
 }
 
-/* ───────────────────────── invites ───────────────────────── */
-
+/* ──────────────────────────────── invites ───────────────────────────────── */
 bool Channel::isInvited(User *user) const { return contains(_invitedUsers, user); }
 
 void Channel::addInvited(User *user)
@@ -116,8 +118,7 @@ void Channel::removeInvited(User *user)
 	eraseOne(_invitedUsers, user);
 }
 
-/* ───────────────────────── modes ───────────────────────── */
-
+/* ───────────────────────────────── modes ────────────────────────────────── */
 const std::string &Channel::getKey() const { return _key; }
 void Channel::setKey(const std::string &key) { _key = key; }
 
