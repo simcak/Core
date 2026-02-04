@@ -40,7 +40,7 @@
 # define ERROR(msg) (std::cerr << BR "[ERROR] " RST << msg << std::endl)
 
 #ifndef DEBUG
-# define DEBUG 0
+# define DEBUG 1
 #endif
 
 # define DEBG(msg) do { \
