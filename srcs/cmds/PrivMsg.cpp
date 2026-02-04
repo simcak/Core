@@ -2,11 +2,16 @@
 #include "../../headers/User.hpp"
 #include "../../headers/Channel.hpp"
 
-/**
+/*******************************************************************************
  * @brief
+ * Allows a user to send a private message to another user or a channel.
  * 
- * PRIVMSG command format:
- * PRIVMSG
+ * FORMAT:
+ * PRIVMSG <target> :<message>         <- without :, it takes one parameter
+ * 
+ * EXAMPLES:
+ * PRIVMSG john :Hello there!          <- sends "Hello there!" to user "john"
+ * PRIVMSG #channel :Hello everyone!   <- sends "Hello everyone!" to #channel
  */
 void	Server::cmdPrivMsg(User *user, const Message &msg)
 {

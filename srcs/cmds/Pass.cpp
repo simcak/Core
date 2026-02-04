@@ -1,6 +1,16 @@
 #include "../../headers/Server.hpp"
 #include "../../headers/User.hpp"
 
+/*******************************************************************************
+ * @brief
+ * Allows a user to provide a password for authentication.
+ * 
+ * FORMAT:
+ * PASS <password>
+ * 
+ * EXAMPLES:
+ * PASS mysecretpassword
+ */
 void	Server::cmdPass(User *user, const Message &msg)
 {
 	if (!user)

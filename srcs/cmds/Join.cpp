@@ -30,12 +30,15 @@ static std::string	buildNamesList(Channel *ch)
 	return oss.str();
 }
 
-/**
- * @brief Handles the JOIN command from a user, allowing them to join a channel.
+/*******************************************************************************
+ * @brief
+ * Allows a user to join a channel.
  * 
- * JOIN command format:
- * JOIN <#channel>
+ * FORMAT:
+ * JOIN <channel> [<key>]
  * 
+ * EXAMPLES:
+ * JOIN #channel [secretkey]     <- joins the channel, optionally with a key
  */
 void	Server::cmdJoin(User *user, const Message &msg)
 {

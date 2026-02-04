@@ -1,8 +1,15 @@
 #include "../../headers/Server.hpp"
 
-/**
- * @brief Handles the QUIT command from a user, allowing them to disconnect
- * from the server with an optional quit message.
+/*******************************************************************************
+ * @brief
+ * Allows a user to quit the server with an optional quit message.
+ * 
+ * FORMAT:
+ * QUIT [<reason>]
+ * 
+ * EXAMPLES:
+ * QUIT                        <- quits with default reason "Quit"
+ * QUIT :Gone to have lunch    <- quits with reason "Gone to have lunch"
  */
 void	Server::cmdQuit(User *user, const Message &msg)
 {

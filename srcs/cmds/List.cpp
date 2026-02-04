@@ -36,19 +36,15 @@ static std::string modeInfoForList(Channel *ch)
 }
 
 /*******************************************************************************
- * Command: LIST
- * Parameters: [<channel>{,<channel>}]
+ * @brief
+ * Print out all/specific channels on the server along with their topics.
  * 
- * The LIST command is used to list channels and their topics.
- * If no parameters are given, all channels are listed.
+ * FORMAT:
+ * LIST [<channel1,channel2,...>]
  * 
- * Format of RPL_LIST (322):
- * <channel> <# visible> :<topic>
- * 
- * Examples:
- *   LIST
- *   LIST #channel
- *   LIST #chan1,#chan2
+ * EXAMPLES:
+ * LIST                      <- lists all channels
+ * LIST #channel1,#channel2  <- lists only specified channels
  */
 void	Server::cmdList(User *user, const Message &msg)
 {

@@ -8,17 +8,17 @@ static bool	isValidPositiveInt(const std::string &s)
 	if (s.empty())
 		return false;
 	for (size_t i = 0; i < s.size(); ++i)
-	{
 		if (!std::isdigit(static_cast<unsigned char>(s[i])))
 			return false;
-	}
+
 	int v = std::atoi(s.c_str());
 	return (v > 0);
 }
 
 static void	appendMode(std::string &outModes, char &lastSign, bool adding, char modeChar)
 {
-	char sign = adding ? '+' : '-';
+	char	sign = adding ? '+' : '-';
+
 	if (lastSign != sign)
 	{
 		outModes += sign;
@@ -29,9 +29,25 @@ static void	appendMode(std::string &outModes, char &lastSign, bool adding, char 
 
 /*******************************************************************************
  * @brief
+ * MODE command is used to change or view the mode of a channel.
+ * Users must be channel operators to change modes.
  * 
- * MODE command format:
- * MODE
+ * INCLUDE: [either + (set) or - (unset)]:
+ * - i: invite-only
+ * - t: topic-protected
+ * - k: key (password) protected
+ * - o: operator status
+ * - l: user limit
+ * 
+ * FORMAT:
+ * MODE <channel> [<modes> [<mode params>]]
+ * 
+ * EXAMPLES:
+ * MODE #channel                  <- queries current modes
+ * MODE #channel +/-i             <- sets/unsets invite-only
+ * MODE #channel +/-k secretkey   <- sets/removes key
+ * MODE #channel +/-o usernick    <- gives/removes operator status
+ * MODE #channel + 10             <- sets user limit to 10
  */
 void	Server::cmdMode(User *user, const Message &msg)
 {

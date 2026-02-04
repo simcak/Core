@@ -2,11 +2,15 @@
 #include "../../headers/User.hpp"
 #include "../../headers/Channel.hpp"
 
-/**
+/*******************************************************************************
  * @brief
+ * Allows a user to invite another user to a channel.
  * 
- * INVITE command format:
- * INVITE
+ * FORMAT:
+ * INVITE <nickname> <channel>
+ * 
+ * EXAMPLES:
+ * INVITE john #channel
  */
 void	Server::cmdInvite(User *user, const Message &msg)
 {
@@ -19,8 +23,8 @@ void	Server::cmdInvite(User *user, const Message &msg)
 		return;
 	}
 
-	const std::string &targetNick = msg.params[0];
-	const std::string &chanName = msg.params[1];
+	const std::string	&targetNick = msg.params[0];
+	const std::string	&chanName = msg.params[1];
 
 	User *target = findUserByNick(targetNick);
 	if (!target)

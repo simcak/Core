@@ -1,13 +1,17 @@
 #include "../../headers/Server.hpp"
 
-/**
- * @brief Handles the PING command from a user, responding with a PONG.
+/*******************************************************************************
+ * @brief
+ * Allows a user to send a PING command to the server.
  * 
- * PING command format:
+ * That means the server should respond with a PONG command. It is used to test
+ * the connection's liveness.
+ * 
+ * FORMAT:
  * PING <token>
  * 
- * Ping is used to test the connection between the client and server. The server
- * responds with a PONG command, echoing back the token provided by the client.
+ * EXAMPLES:
+ * PING 12345
  */
 void	Server::cmdPing(User *user, const Message &msg)
 {

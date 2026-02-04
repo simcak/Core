@@ -2,11 +2,16 @@
 #include "../../headers/User.hpp"
 #include "../../headers/Channel.hpp"
 
-/**
+/*******************************************************************************
  * @brief
+ * Allows a user to set or query the topic of a channel.
  * 
- * TOPIC command format:
- * TOPIC
+ * FORMAT:
+ * TOPIC <channel> [<topic>]
+ * 
+ * EXAMPLES:
+ * TOPIC #channel NewTopic     <- sets the topic of #channel to "NewTopic"
+ * TOPIC #channel              <- queries the current topic of the channel
  */
 void	Server::cmdTopic(User *user, const Message &msg)
 {

@@ -2,11 +2,15 @@
 #include "../../headers/User.hpp"
 #include "../../headers/Channel.hpp"
 
-/**
+/*******************************************************************************
  * @brief
+ * Allows a user to kick another user from a channel.
  * 
- * KICK command format:
- * KICK
+ * FORMAT:
+ * KICK <channel> <user> [<reason>]
+ * 
+ * EXAMPLES:
+ * KICK #channel john :Spamming with fake news
  */
 void	Server::cmdKick(User *user, const Message &msg)
 {

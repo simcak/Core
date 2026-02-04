@@ -28,9 +28,16 @@ static bool	isNickInUseByOther(const std::map<int, User*> &users, const std::str
 	return false;
 }
 
-/**
- * @brief Handles the NICK command from a user, allowing them to set or change
- * their nickname.
+/*******************************************************************************
+ * @brief
+ * Allows a user to SET or CHANGE their nickname.
+ * 
+ * FORMAT:
+ * NICK <nickname>
+ * 
+ * EXAMPLES:
+ * NICK john              <- sets/change nickname to "john"
+ * NICK cool_user         <- sets/change nickname to "cool_user"
  */
 void	Server::cmdNick(User *user, const Message &msg)
 {

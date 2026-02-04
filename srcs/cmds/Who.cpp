@@ -2,24 +2,24 @@
 #include "../../headers/User.hpp"
 #include "../../headers/Channel.hpp"
 
-/**
- * Command: WHO
- * Parameters: [<name> [<o>]]
- * 
- * The WHO command is used to query information about users.
- * It can be used to get information about all users on a channel,
- * or about a specific user.
+/*******************************************************************************
+ * @brief
+ * Allows a user to query information about users on the SERVER / in a CHANNEL.
  * 
  * Format of RPL_WHOREPLY (352):
  * <channel> <user> <host> <server> <nick> <H|G>[*][@|+] :<hopcount> <real name>
  * H = here, G = gone (away)
  * * = IRC operator
- * @ = channel operator, + = voiced
+ * @ = channel operator, + = voiced 
  * 
- * Examples:
- *   WHO #channel
- *   WHO nickname
- *   WHO *
+ * FORMAT:
+ * WHO <mask>
+ * 
+ * EXAMPLES:
+ * WHO #channel          <- lists users in #channel
+ * WHO nickname          <- lists info about user with nickname
+ * WHO *                 <- lists all users on the server
+ * 
  */
 void	Server::cmdWho(User *user, const Message &msg)
 {

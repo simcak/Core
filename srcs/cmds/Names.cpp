@@ -46,20 +46,16 @@ static std::string buildNames(Channel *ch)
 }
 
 /*******************************************************************************
- * Command: NAMES
- * Parameters: [<channel>{,<channel>}]
+ * @brief
+ * Allows a user to list all nicknames that are visible to them.
  * 
- * The NAMES command is used to list all nicknames that are visible to the user.
- * If a channel parameter is given, only the users in that channel are listed.
+ * FORMAT:
+ * NAMES [<channel>{,<channel>}]
  * 
- * Format of RPL_NAMREPLY (353):
- * <symbol> <channel> :<names>
- * symbol: = for public, * for private, @ for secret
- * 
- * Examples:
- *   NAMES
- *   NAMES #channel
- *   NAMES #chan1,#chan2
+ * EXAMPLES:
+ * NAMES                   <- lists all channels
+ * NAMES #channel          <- lists users in #channel
+ * NAMES #chan1,#chan2     <- lists users in #chan1 and #chan2
  */
 void	Server::cmdNames(User *user, const Message &msg)
 {

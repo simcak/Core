@@ -1,9 +1,16 @@
 #include "../../headers/Server.hpp"
 #include "../../headers/User.hpp"
 
-/**
- * @brief Handles the USER command from a user, allowing them to set their
- * username and real name.
+/*******************************************************************************
+ * @brief
+ * Allows a user to specify their username and real name.
+ * 
+ * FORMAT:
+ * USER <username> <ip> <servername> :<realname>
+ * 
+ * EXAMPLES:
+ * USER john doe server.com :John Doe
+ * USER peta 0 * :Peta Smith
  */
 void	Server::cmdUser(User *user, const Message &msg)
 {

@@ -2,11 +2,16 @@
 #include "../../headers/User.hpp"
 #include "../../headers/Channel.hpp"
 
-/**
+/*******************************************************************************
  * @brief
+ * Allows a user to leave a channel.
  * 
- * PART command format:
- * PART
+ * FORMAT:
+ * PART <channel> [(:)<message>]
+ * 
+ * EXAMPLES:
+ * PART #channel                 <- without message
+ * PART #channel :Goodbye!       <- with message
  */
 void	Server::cmdPart(User *user, const Message &msg)
 {
