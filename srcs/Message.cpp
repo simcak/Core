@@ -1,5 +1,6 @@
 #include "../headers/Message.hpp"
 
+/////////////////////////////// helper functions ///////////////////////////////
 static void	skipSpaces(const std::string &s, size_t &i)
 {
 	while (i < s.size() && s[i] == ' ')
@@ -44,6 +45,22 @@ static void	parseParams(const std::string &line, size_t &i, Message &out)
 	}
 }
 
+/*******************************************************************************
+ * @brief Parses a raw IRC line into a Message structure.
+ * 
+ * FORMAT:
+ * Input: ":prefix COMMAND param1 param2 :trailing param with spaces"
+ * Output:
+ *   Message.prefix = "prefix"
+ *   Message.command = "COMMAND"
+ *   Message.params = ["param1", "param2", "trailing param with spaces"]
+ * 
+ * EXAMPLES:
+ * PRIVMSG #42 :Hello there!
+ *   <- prefix="", command="PRIVMSG", params=["#42", "Hello there!"]
+ * :nick!user@host JOIN #channel     // TODO
+ *   <- prefix="nick!user@host", command="JOIN", params=["#channel"]
+ */
 bool	parseIrcLine(const std::string &line, Message &out)
 {
 	out.prefix.clear();
