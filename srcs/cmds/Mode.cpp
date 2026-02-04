@@ -87,13 +87,13 @@ void	Server::cmdMode(User *user, const Message &msg)
 		return;
 	}
 
-	const std::string &modeStr = msg.params[1];
-	size_t paramIndex = 2;
+	const std::string	&modeStr = msg.params[1];
+	size_t				paramIndex = 2;
 
-	bool adding = true;
-	std::string outModes;
-	std::string outParams;
-	char lastSign = 0;
+	bool				adding = true;
+	std::string			outModes;
+	std::string			outParams;
+	char				lastSign = 0;
 
 	for (size_t i = 0; i < modeStr.size(); ++i)
 	{
@@ -109,7 +109,7 @@ void	Server::cmdMode(User *user, const Message &msg)
 				break;
 
 			case 't':
-				ch->setTopicProtected(adding);
+				ch->setTopicLock(adding);
 				appendMode(outModes, lastSign, adding, 't');
 				break;
 

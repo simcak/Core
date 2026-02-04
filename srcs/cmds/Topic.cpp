@@ -51,7 +51,7 @@ void	Server::cmdTopic(User *user, const Message &msg)
 	// set
 	const std::string newTopic = msg.params[1];
 
-	if (ch->getTopicProtected() && !ch->isOperator(user))
+	if (ch->getTopicLock() && !ch->isOperator(user))
 	{
 		sendNumeric(user, irc::err::CHANOPRIVSNEEDED, chanName, "You're not channel operator");
 		return;

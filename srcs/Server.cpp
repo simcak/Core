@@ -2,28 +2,22 @@
 #include "../headers/User.hpp"
 #include "../headers/Channel.hpp"
 
-/* ───────────────────────── signal handling ───────────────────────── */
+/* ──────────────────────────── signal handling ───────────────────────────── */
 
 static volatile sig_atomic_t	g_stop = 0;
 
-static void	onSigInt(int)
-{
-	g_stop = 1;
-}
+static void	onSigInt(int) { g_stop = 1; }
 
-/* ───────────────────────── ctor/dtor ───────────────────────── */
+/* ──────────────────────────── Con/Des-tructor ───────────────────────────── */
 
 Server::Server(int port, const std::string &password)
-	: _port(port)
-	, _password(password)
+	: _port(port), _password(password)
 	, _creationTime(getCurrentDateTime())
 	, _serverName(SERVER_NAME)
 	, _serverSocket(-1)
 	, _serverAddr()
-	, _serverRunning(true)
-	, _shuttingDown(false)
-	, _users()
-	, _channels()
+	, _serverRunning(true), _shuttingDown(false)
+	, _users(), _channels()
 	, _commandMap()
 {
 	std::memset(&_serverAddr, 0, sizeof(_serverAddr));
@@ -32,7 +26,9 @@ Server::Server(int port, const std::string &password)
 
 Server::~Server()
 {
-	for (std::map<int, User*>::iterator it = _users.begin(); it != _users.end(); ++it)
+	std::map<int, User*>::iterator	it = _users.begin();
+
+	for (; it != _users.end(); ++it)
 	{
 		if (it->second)
 		{
@@ -52,8 +48,42 @@ Server::~Server()
 	INFO("Server destroyed");
 }
 
-/* ───────────────────────── start/run ───────────────────────── */
 
+/* ────────────────────────────── command map ─────────────────────────────── */
+
+void	Server::initCommandMap()
+{
+	_commandMap.clear();
+	_commandMap["PASS"] = &Server::cmdPass;
+	_commandMap["NICK"] = &Server::cmdNick;
+	_commandMap["USER"] = &Server::cmdUser;
+	_commandMap["PING"] = &Server::cmdPing;
+	_commandMap["PONG"] = &Server::cmdPong;
+	_commandMap["QUIT"] = &Server::cmdQuit;
+
+	_commandMap["JOIN"] = &Server::cmdJoin;
+	_commandMap["PART"] = &Server::cmdPart;
+	_commandMap["TOPIC"] = &Server::cmdTopic;
+	_commandMap["MODE"] = &Server::cmdMode;
+	_commandMap["INVITE"] = &Server::cmdInvite;
+	_commandMap["KICK"] = &Server::cmdKick;
+
+	_commandMap["PRIVMSG"] = &Server::cmdPrivMsg;
+
+	_commandMap["NAMES"] = &Server::cmdNames;
+	_commandMap["WHO"] = &Server::cmdWho;
+	_commandMap["LIST"] = &Server::cmdList;
+}
+
+/* ───────────────────────── start/run ───────────────────────── */
+/**
+ * @brief Starts the server by setting up the socket and initializing the
+ * command map.
+ * @return True if the server started successfully, false otherwise.
+ * 
+ * Setting up the server involves creating and binding the server socket,
+ * as well as preparing the command map for handling incoming IRC commands.
+ */
 bool	Server::start()
 {
 	if (!setupSocket())
@@ -63,6 +93,9 @@ bool	Server::start()
 	return true;
 }
 
+/**
+ * @brief Runs the main server loop, handling incoming connections and data.
+ */
 void	Server::run()
 {
 	signal(SIGPIPE, SIG_IGN);
@@ -76,7 +109,8 @@ void	Server::run()
 
 void	ServerController(const std::string &portStr, const std::string &pass)
 {
-	int port = std::atoi(portStr.c_str());
+	int	port = std::atoi(portStr.c_str());
+
 	if (port <= 0 || port > 65535)
 	{
 		ERROR("Invalid port (must be 1..65535)");
@@ -343,55 +377,71 @@ void	Server::onWritable(User *user)
 		removeUserNow(fd, "Flushed");
 }
 
-/* ───────────────────────── output helpers ───────────────────────── */
+/* ───────────────────────────── output helpers ───────────────────────────── */
 
+/**
+ * @brief Queues a line to be sent to the user.
+ * @param user Pointer to the User object to send the line to.
+ * @param line The line to be sent.
+ * 
+ * This function appends the given line to the user's output buffer, ensuring it
+ * ends with the proper IRC line terminators (\r\n).
+ */
 void	Server::queueLine(User *user, const std::string &line)
 {
 	if (!user)
 		return;
 
-	std::string out = line;
+	std::string	out = line;
+
 	if (out.size() < 2 || out.substr(out.size() - 2) != "\r\n")
 		out += "\r\n";
 
 	user->outBuffer() += out;
 }
 
+/**
+ * @brief Sends a numeric reply to the user according to the IRC protocol.
+ * @param user Pointer to the User object to send the reply to.
+ * @param code The numeric reply code as a string.
+ * @param middle The middle parameter of the reply (optional).
+ * @param trailing The trailing parameter of the reply (optional).
+ * 
+ * This function constructs a numeric reply message according to the IRC protocol
+ * and queues it for sending to the specified user.
+ * 
+ * EXAMPLE:
+ * To send a welcome message:
+ *     sendNumeric(user, "001", "", "Welcome to the IRC server!");
+ * This will result in a message like:
+ *     :server.name 001 <user-nick> :Welcome to the IRC server!
+ */
 void	Server::sendNumeric(User *user, const std::string &code,
 							const std::string &middle, const std::string &trailing)
 {
 	if (!user)
 		return;
 
-	const std::string nick = (user->getNickName() == "Unknown") ? "*" : user->getNickName();
+	const std::string	nick = (user->getNickName() == "Unknown") ? "*" : user->getNickName();
+	std::string			line = ":" + _serverName + " " + code + " " + nick;
 
-	std::string line = ":" + _serverName + " " + code + " " + nick;
-	if (!middle.empty())
-		line += " " + middle;
-	if (!trailing.empty())
-		line += " :" + trailing;
+	if (!middle.empty())   { line += " " + middle; }
+	if (!trailing.empty()) { line += " :" + trailing; }
 
 	queueLine(user, line);
 }
 
-/* ───────────────────────── registration ───────────────────────── */
+/* ────────────────────────────── registration ────────────────────────────── */
 
-bool	Server::isPreRegisterCommand(const std::string &cmd)
-{
-	return (cmd == "PASS" || cmd == "NICK" || cmd == "USER" ||
-			cmd == "PING" || cmd == "PONG" || cmd == "QUIT");
+static bool	registrationUncompleted(User *user) {
+	return (!user || !user->passAccepted() ||
+			user->getNickName() == "Unknown" ||
+			user->getUserName() == "Unknown");
 }
 
 void	Server::tryRegister(User *user)
 {
-	if (!user || user->isRegistered())
-		return;
-
-	if (!user->passAccepted())
-		return;
-	if (user->getNickName() == "Unknown")
-		return;
-	if (user->getUserName() == "Unknown")
+	if (!user || user->isRegistered() || registrationUncompleted(user))
 		return;
 
 	user->setRegistered(true);
@@ -402,7 +452,7 @@ void	Server::tryRegister(User *user)
 	sendNumeric(user, irc::rpl::MYINFO, _serverName + " 1.0 o o", "");
 }
 
-/* ───────────────────────── shutdown / cleanup ───────────────────────── */
+/* ─────────────────────────── shutdown / cleanup ─────────────────────────── */
 
 void	Server::beginShutdown()
 {
@@ -412,11 +462,10 @@ void	Server::beginShutdown()
 	_shuttingDown = true;
 	INFO("SIGINT received: graceful shutdown started");
 
-	for (std::map<int, User*>::iterator it = _users.begin(); it != _users.end(); ++it)
-	{
+	std::map<int, User*>::iterator	it = _users.begin();
+	for (; it != _users.end(); ++it)
 		if (it->second)
 			beginUserDisconnect(it->second, "Server shutting down");
-	}
 }
 
 void	Server::beginUserDisconnect(User *user, const std::string &reason)
@@ -499,30 +548,12 @@ void	Server::broadcastToChannel(Channel *ch, const std::string &line, User *excl
 	}
 }
 
-/* ───────────────────────── dispatch ───────────────────────── */
+/* ──────────────────────────────── dispatch ──────────────────────────────── */
 
-void	Server::initCommandMap()
+static bool	isPreRegisterCommand(const std::string &cmd)
 {
-	_commandMap.clear();
-	_commandMap["PASS"] = &Server::cmdPass;
-	_commandMap["NICK"] = &Server::cmdNick;
-	_commandMap["USER"] = &Server::cmdUser;
-	_commandMap["PING"] = &Server::cmdPing;
-	_commandMap["PONG"] = &Server::cmdPong;
-	_commandMap["QUIT"] = &Server::cmdQuit;
-
-	_commandMap["JOIN"] = &Server::cmdJoin;
-	_commandMap["PART"] = &Server::cmdPart;
-	_commandMap["TOPIC"] = &Server::cmdTopic;
-	_commandMap["MODE"] = &Server::cmdMode;
-	_commandMap["INVITE"] = &Server::cmdInvite;
-	_commandMap["KICK"] = &Server::cmdKick;
-
-	_commandMap["PRIVMSG"] = &Server::cmdPrivMsg;
-
-	_commandMap["NAMES"] = &Server::cmdNames;
-	_commandMap["WHO"] = &Server::cmdWho;
-	_commandMap["LIST"] = &Server::cmdList;
+	return (cmd == "PASS" || cmd == "NICK" || cmd == "USER" ||
+			cmd == "PING" || cmd == "PONG" || cmd == "QUIT");
 }
 
 void	Server::dispatch(User *user, const Message &msg)
@@ -559,7 +590,7 @@ User*	Server::findUserByNick(const std::string &nick)
 	return NULL;
 }
 
-/* ───────────────────────── channels ───────────────────────── */
+/* ──────────────────────────────── channels ──────────────────────────────── */
 
 Channel*	Server::findChannelByName(const std::string &name)
 {

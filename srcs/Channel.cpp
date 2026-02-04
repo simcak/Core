@@ -3,36 +3,18 @@
 
 /* ──────────────────────────── Con/Des-tructors ──────────────────────────── */
 Channel::Channel(const std::string &name)
-	: _name(name)
-	, _topic("")
-	, _users()
-	, _banList()
-	, _operators()
-	, _invitedUsers()
+	: _name(name), _topic("")
+	, _users(), _banList(), _operators(), _invitedUsers()
 	, _key("")
-	, _inviteOnly(false)
-	, _topicProtected(false)
+	, _inviteOnly(false), _topicLock(false)
 	, _userLimit(0)
 {
 	INFO("Channel <" << _name << "> created");
 }
 
-Channel::~Channel()
-{
-	INFO("Channel <" << _name << "> destroyed");
-}
+Channel::~Channel() { INFO("Channel <" << _name << "> destroyed"); }
 
 /* ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ getter helpers ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ */
-static bool	contains(const std::vector<User*> &v, User *u)
-{
-	for (size_t i = 0; i < v.size(); ++i)
-	{
-		if (v[i] == u)
-			return true;
-	}
-	return false;
-}
-
 static void	eraseOne(std::vector<User*> &v, User *u)
 {
 	for (std::vector<User*>::iterator it = v.begin(); it != v.end(); ++it)
@@ -43,6 +25,15 @@ static void	eraseOne(std::vector<User*> &v, User *u)
 			return;
 		}
 	}
+}
+
+static bool	contains(const std::vector<User*> &v, User *u)
+{
+	for (size_t i = 0; i < v.size(); ++i)
+		if (v[i] == u)
+			return true;
+
+	return false;
 }
 
 /* ──────────────────────────────── getters ───────────────────────────────── */
@@ -120,10 +111,8 @@ std::string Channel::modeString() const
 	std::string modes = "+";
 	std::string params;
 
-	if (_inviteOnly)
-		modes += "i";
-	if (_topicProtected)
-		modes += "t";
+	if (_inviteOnly) { modes += "i"; }
+	if (_topicLock) { modes += "t"; }
 	if (!_key.empty())
 	{
 		modes += "k";
@@ -137,8 +126,8 @@ std::string Channel::modeString() const
 		params += " " + oss.str();
 	}
 
-	if (modes == "+")
-		return "+";
+	if (modes == "+") { return "+"; }
+
 	return modes + params;
 }
 
@@ -152,6 +141,7 @@ void Channel::removeAllReferences(User *user)
 	removeInvited(user);
 }
 
+// ?
 bool Channel::empty() const
 {
 	return _users.empty();

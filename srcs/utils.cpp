@@ -1,5 +1,10 @@
 #include "../headers/IRC.hpp"
 
+/**
+ * @brief Checks if a string consists only of digit characters.
+ * @param str The string to check.
+ * @return bool True if the string contains only digits, false otherwise.
+ */
 bool	onlyDigits(const std::string &str)
 {
 	if (str.empty())
@@ -13,6 +18,10 @@ bool	onlyDigits(const std::string &str)
 	return true;
 }
 
+/**
+ * @brief Gets the current date and time as a formatted string.
+ * @return std::string The current date and time as "yyy-mm-dd hh:mm:ss".
+ */
 std::string	getCurrentDateTime(void)
 {
 	time_t rawtime;
@@ -37,8 +46,9 @@ std::string	getCurrentDateTime(void)
 }
 
 /**
- * Checks if a given port is already in use by attempting to bind to it.
- * Returns true if the port is in use, false otherwise.
+ * @brief Checks if a given port is already in use by attempting to bind to it.
+ * @param port The port number to check.
+ * @return bool True if the port is in use, false otherwise.
 */
 bool	isPortInUse(int port)
 {
