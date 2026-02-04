@@ -74,6 +74,10 @@ class Server
 		void		cmdTopic(User *user, const Message &msg);
 		void		cmdMode(User *user, const Message &msg);
 		void		cmdPart(User *user, const Message &msg);
+		void		cmdNames(User *user, const Message &msg);
+		void		cmdWho(User *user, const Message &msg);
+		void		cmdList(User *user, const Message &msg);
+
 
 	public:
 		Server(int port, const std::string &password);

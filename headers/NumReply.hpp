@@ -10,12 +10,17 @@ namespace irc
 		static const char	*CREATED			= "003";
 		static const char	*MYINFO				= "004";
 
+		static const char	*ENDOFWHO			= "315";
+		static const char	*LISTSTART			= "321";
+		static const char	*LIST				= "322";
+		static const char	*LISTEND			= "323";
 		static const char	*CHANNELMODEIS		= "324"; // RPL_CHANNELMODEIS
 		static const char	*INVITING			= "341"; // RPL_INVITING
 
 		static const char	*NOTOPIC			= "331";
 		static const char	*TOPIC				= "332";
 
+		static const char	*WHOREPLY			= "352";
 		static const char	*NAMREPLY			= "353";
 		static const char	*ENDOFNAMES			= "366";
 	}
