@@ -60,6 +60,26 @@ class Server
 		void		initCommandMap();
 		void		dispatch(User *user, const Message &msg);
 
+		/* ───────────────────────── mode handling ────────────────────────── */
+		bool		modePreprocess(User *user, const Message &msg, Channel *ch, const std::string &chanName);
+		
+		struct ModeCtx;
+		
+		typedef bool (*ModeFn)(Server*, User*, const Message&, ModeCtx&);
+		
+		struct ModeDispatch {
+			char	mode;
+			ModeFn	fn;
+		};
+		
+		static ModeFn	getModeHandler(char c);
+
+		static bool		mode_i(Server*, User*, const Message&, ModeCtx&);
+		static bool		mode_t(Server*, User*, const Message&, ModeCtx&);
+		static bool		mode_k(Server*, User*, const Message&, ModeCtx&);
+		static bool		mode_o(Server*, User*, const Message&, ModeCtx&);
+		static bool		mode_l(Server*, User*, const Message&, ModeCtx&);
+
 		/* ──────────────────────────── commands ──────────────────────────── */
 		void		cmdPass(User *user, const Message &msg);
 		void		cmdNick(User *user, const Message &msg);
