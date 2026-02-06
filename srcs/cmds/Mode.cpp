@@ -163,7 +163,7 @@ bool	Server::mode_o(Server *srv, User *user, const Message &msg, ModeCtx &m)
 	}
 
 	if (m._adding) m._ch->addOperator(target);
-	else          m._ch->removeOperator(target);
+	else           m._ch->removeOperator(target);
 
 	appendMode(m._outModes, m._lastSign, m._adding, 'o');
 	m._outParams += " " + targetNick;
