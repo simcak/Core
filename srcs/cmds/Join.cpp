@@ -16,14 +16,9 @@ static std::string	buildNamesList(Channel *ch)
 	for (size_t i = 0; i < members.size(); ++i)
 	{
 		User *u = members[i];
-		if (!u)
-			continue;
-
-		if (i != 0)
-			oss << " ";
-
-		if (ch->isOperator(u))
-			oss << "@";
+		if (!u)						continue;
+		if (i != 0)					oss << " ";
+		if (ch->isOperator(u))		oss << "@";
 
 		oss << u->getNickName();
 	}
@@ -63,6 +58,12 @@ void	Server::cmdJoin(User *user, const Message &msg)
 	if (ch->isUserBanned(user))
 	{
 		sendNumeric(user, irc::err::BANNEDFROMCHAN, chanName, "Banned from channel");
+		return;
+	}
+
+	if (ch->isUserInChannel(user))
+	{
+		sendNumeric(user, irc::err::USERONCHANNEL, chanName, "You're already on that channel");
 		return;
 	}
 
@@ -106,9 +107,8 @@ void	Server::cmdJoin(User *user, const Message &msg)
 		broadcastToChannel(ch, ":" + user->prefix() + " JOIN :" + chanName, NULL);
 	}
 
-	if (ch->getTopic().empty())
-		sendNumeric(user, irc::rpl::NOTOPIC, chanName, "No topic is set");
-	else
+	(ch->getTopic().empty()) ?
+		sendNumeric(user, irc::rpl::NOTOPIC, chanName, "No topic is set") :
 		sendNumeric(user, irc::rpl::TOPIC, chanName, ch->getTopic());
 
 	sendNumeric(user, irc::rpl::NAMREPLY, "= " + chanName, buildNamesList(ch));
