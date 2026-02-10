@@ -5,7 +5,21 @@
 /////////////////////////////// helper functions ///////////////////////////////
 static bool	isValidChannelName(const std::string &s)
 {
-	return (!s.empty() && s[0] == '#' && s.length() > 1);
+	bool	validPrefix = (!s.empty() && (s[0] == '#' || s[0] == '&' ||
+							s[0] == '+' || s[0] == '!'));
+	bool	validLength = (s.length() > 1 && s.length() <= 50);
+	bool	validChars = true;
+
+	for (size_t i = 0; i < s.size(); ++i)
+	{
+		unsigned char	c = static_cast<unsigned char>(s[i]);
+		if (c == ' ' || c == '\a' || c == ',' || c == ':')
+		{
+			validChars = false;
+			break;
+		}
+	}
+	return (validPrefix && validLength && validChars);
 }
 
 static std::string	buildNamesList(Channel *ch)
