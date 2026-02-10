@@ -80,6 +80,7 @@ void	Server::initCommandMap()
 	_commandMap["NAMES"] = &Server::cmdNames;
 	_commandMap["WHO"] = &Server::cmdWho;
 	_commandMap["LIST"] = &Server::cmdList;
+	_commandMap["PING"] = &Server::cmdPong;
 }
 
 /* ───────────────────────── start/run ───────────────────────── */
