@@ -26,6 +26,7 @@ void	Server::cmdPart(User *user, const Message &msg)
 
 	const std::string &chanName = msg.params[0];
 	const std::string partMsg = (msg.params.size() >= 2) ? msg.params[1] : "";
+	const std::string &userNick = user->getNickName();
 
 	Channel *ch = findChannelByName(chanName);
 	if (!ch)
@@ -40,7 +41,7 @@ void	Server::cmdPart(User *user, const Message &msg)
 		return;
 	}
 
-	std::string line = ":" + user->prefix() + " PART " + chanName;
+	std::string line = ":" + user->prefix() + " PART " + userNick + " " + chanName;
 	if (!partMsg.empty())
 		line += " :" + partMsg;
 
