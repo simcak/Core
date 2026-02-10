@@ -58,7 +58,7 @@ static void	parseParams(const std::string &line, size_t &i, Message &out)
  * EXAMPLES:
  * PRIVMSG #42 :Hello there!
  *   <- prefix="", command="PRIVMSG", params=["#42", "Hello there!"]
- * :nick!user@host JOIN #channel     // TODO
+ * :nick!user@host JOIN #channel
  *   <- prefix="nick!user@host", command="JOIN", params=["#channel"]
  */
 bool	parseIrcLine(const std::string &line, Message &out)

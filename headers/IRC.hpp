@@ -40,11 +40,19 @@
 # define ERROR(msg) (std::cerr << BR "[ERROR] " RST << msg << std::endl)
 
 #ifndef DEBUG
-# define DEBUG 1
+# define DEBUG 0
+#endif
+
+#ifndef PONGY
+# define PONGY 0
 #endif
 
 # define DEBG(msg) do { \
 	if (DEBUG) { std::cerr << BY "[DEBG] " RST << msg << std::endl; } \
+} while (0)
+
+# define PONG(msg) do { \
+	if (PONGY) { std::cerr << BY "[PONG] " RST << msg << std::endl; } \
 } while (0)
 
 /* Defaults */

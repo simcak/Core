@@ -1,7 +1,7 @@
 ################################################################################
 
 NAME	= ircserv
-CFLAGS	= -Wall -Wextra -Werror -std=c++98 $(DEBUG_FLAG)
+CFLAGS	= -Wall -Wextra -Werror -std=c++98
 CXX		= c++
 DIR		= .
 OBJDIR	= ./objects
@@ -21,7 +21,7 @@ endef
 ################################# DEPENDENCIES #################################
 
 T_SRC	= $(shell find $(DIR) -iname "*.cpp")
-SRC		= ./main.cpp ./srcs/Channel.cpp ./srcs/Message.cpp ./srcs/Server.cpp ./srcs/User.cpp ./srcs/utils.cpp ./srcs/cmds/Quit.cpp ./srcs/cmds/User.cpp ./srcs/cmds/Nick.cpp ./srcs/cmds/Pass.cpp ./srcs/cmds/Kick.cpp ./srcs/cmds/Invite.cpp ./srcs/cmds/Topic.cpp ./srcs/cmds/Part.cpp ./srcs/cmds/PrivMsg.cpp ./srcs/cmds/Mode.cpp ./srcs/cmds/Names.cpp ./srcs/cmds/List.cpp ./srcs/cmds/Who.cpp ./srcs/cmds/Join.cpp
+SRC		= ./main.cpp ./srcs/Channel.cpp ./srcs/Message.cpp ./srcs/Server.cpp ./srcs/User.cpp ./srcs/utils.cpp ./srcs/cmds/Quit.cpp ./srcs/cmds/User.cpp ./srcs/cmds/Nick.cpp ./srcs/cmds/Pass.cpp ./srcs/cmds/Kick.cpp ./srcs/cmds/Invite.cpp ./srcs/cmds/Topic.cpp ./srcs/cmds/Part.cpp ./srcs/cmds/PrivMsg.cpp ./srcs/cmds/Mode.cpp ./srcs/cmds/Names.cpp ./srcs/cmds/List.cpp ./srcs/cmds/Who.cpp ./srcs/cmds/Join.cpp ./srcs/cmds/PingPong.cpp
 
 OBJ	= $(patsubst %.cpp, $(OBJDIR)/%.o, $(SRC))
 DEP	= $(OBJ:.o=.d)

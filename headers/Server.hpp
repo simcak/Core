@@ -95,6 +95,8 @@ class Server
 		void		cmdNames(User *user, const Message &msg);
 		void		cmdWho(User *user, const Message &msg);
 		void		cmdList(User *user, const Message &msg);
+//		void		cmdPing(User *user, const Message &msg);
+		void		cmdPong(User *user, const Message &msg);
 
 	public:
 		Server(int port, const std::string &password);

@@ -28,8 +28,10 @@ namespace irc
 	namespace err
 	{
 		static const char	*NOSUCHNICK			= "401";
+		static const char	*NOSUCHSERVER		= "402";
 		static const char	*NOSUCHCHANNEL		= "403";
 		static const char	*CANNOTSENDTOCHAN	= "404";
+		static const char	*NOORIGIN			= "409";
 		static const char	*NORECIPIENT		= "411";
 		static const char	*NOTEXTTOSEND		= "412";
 		static const char	*UNKNOWNCOMMAND		= "421";
