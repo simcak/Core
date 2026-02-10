@@ -195,7 +195,6 @@ bool	Server::setupSocket()
 
 void	Server::setNonBlocking(int fd)
 {
-
 	if (fcntl(fd, F_SETFL, O_NONBLOCK) < 0)
 	{
 		ERROR("fcntl(F_SETFL, O_NONBLOCK) failed");
