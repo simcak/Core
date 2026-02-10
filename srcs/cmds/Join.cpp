@@ -69,9 +69,9 @@ void	Server::cmdJoin(User *user, const Message &msg)
 
 	Channel *ch = getOrCreateChannel(chanName);
 
-	if (ch->getUsers().size() >= 100000)
+	if (ch->getUsers().size() >= 1000)
 	{
-		sendNumeric(user, irc::err::CHANNELISFULL, chanName, "Cannot join channel (server limit of 100 000 users)");
+		sendNumeric(user, irc::err::CHANNELISFULL, chanName, "Cannot join channel (server limit of 1000 users)");
 		return;
 	}
 
