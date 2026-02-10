@@ -195,14 +195,12 @@ bool	Server::setupSocket()
 
 void	Server::setNonBlocking(int fd)
 {
-	int flags = fcntl(fd, F_GETFL, 0);
-	if (flags < 0)
+
+	if (fcntl(fd, F_SETFL, O_NONBLOCK) < 0)
 	{
-		ERROR("fcntl(F_GETFL) failed");
+		ERROR("fcntl(F_SETFL, O_NONBLOCK) failed");
 		return;
 	}
-	if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) < 0)
-		ERROR("fcntl(F_SETFL, O_NONBLOCK) failed");
 }
 
 /* ───────────────────────── poll loop ───────────────────────── */
