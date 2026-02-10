@@ -65,8 +65,6 @@ void	Server::initCommandMap()
 	_commandMap["PASS"] = &Server::cmdPass;
 	_commandMap["NICK"] = &Server::cmdNick;
 	_commandMap["USER"] = &Server::cmdUser;
-	_commandMap["PING"] = &Server::cmdPing;
-	_commandMap["PONG"] = &Server::cmdPong;
 	_commandMap["QUIT"] = &Server::cmdQuit;
 
 	_commandMap["JOIN"] = &Server::cmdJoin;
@@ -664,8 +662,7 @@ void	Server::broadcastToChannel(Channel *ch, const std::string &line, User *excl
 
 static bool	isPreRegisterCommand(const std::string &cmd)
 {
-	return (cmd == "PASS" || cmd == "NICK" || cmd == "USER" ||
-			cmd == "PING" || cmd == "PONG" || cmd == "QUIT");
+	return (cmd == "PASS" || cmd == "NICK" || cmd == "USER" || cmd == "QUIT");
 }
 
 /**

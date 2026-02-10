@@ -84,8 +84,6 @@ class Server
 		void		cmdPass(User *user, const Message &msg);
 		void		cmdNick(User *user, const Message &msg);
 		void		cmdUser(User *user, const Message &msg);
-		void		cmdPing(User *user, const Message &msg);
-		void		cmdPong(User *user, const Message &msg);
 		void		cmdQuit(User *user, const Message &msg);
 		void		cmdJoin(User *user, const Message &msg);
 		void		cmdPrivMsg(User *user, const Message &msg);
