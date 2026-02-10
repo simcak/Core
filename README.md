@@ -100,3 +100,15 @@ How AI was used:
 - Used ChatGPT to **draft and iterate** several files for formatting purposes (structure, wording, and command summary).
 - Used ChatGPT and Claude during development to **explain protocol details**, **Socket/Port Binding** , **review parsing/dispatch ideas**, **bug fixing** and **spot edge cases** in command handling.
 - All final code decisions and implementation were made by the project team and validated by compiling/running locally.
+
+## How to connect WeeChat
+
+```
+/server add my_irc localhost/6697 -notls
+/set irc.server.my_irc.password "your_server_password"
+/connect my_irc
+
+```
+
+## to run another Weechat do:
+## weechat --dir .
