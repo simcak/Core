@@ -37,7 +37,7 @@ PRIVMSG #42 :hello everyone
 
 Notes:
 - Registration is considered complete only after **PASS + NICK + USER**.
-- Input is handled as IRC lines terminated by `\r\n` (or `\n` with optional `\r`).
+- Input is handled as IRC lines terminated by `\r\n`.
 
 ## Supported commands
 
@@ -45,15 +45,16 @@ Notes:
 - `NICK <nickname>` (allowed chars: alnum + `_ - [ ]`)
 - `USER <username> <ip> <servername> :<realname>`
 - `PASS <password>`
-- `QUIT [:reason]`
 
 ### Channels / queries
 - `JOIN #channel [key]`
-- `PART #channel [:message]`
 - `TOPIC #channel [topic]`
+
+Optional:
 - `NAMES [#chan1,#chan2,...]`
 - `LIST [#chan1,#chan2,...]`
 - `WHO <#channel|nick|*>`
+- `PART #channel [:message]`
 
 ### Messaging
 - `PRIVMSG <nick>/<channel> :<text>`
@@ -73,7 +74,7 @@ Examples for `MODE` command:
 
 Behavior:
 - The first user to join a new channel becomes an operator.
-- If operators leave, no new operators are assigned automatically.
+- If operators leave, **no** new operators are assigned automatically.
 - When `+i` is enabled, invitations are consumed on successful JOIN.
 - Empty channels are deleted.
 
@@ -83,28 +84,19 @@ Behavior:
 - **Buffers per client:**
   - input buffer accumulates bytes until a full line arrives
   - output buffer queues server replies and flushes on writable events
-- **Parsing:** `parseIrcLine()` supports `:prefix`, command, parameters, and `:trailing` (spaces)
+- **Parsing:** `parseIrcLine()` supports `:prefix`, `command`, `parameters`, and `:trailing` (spaces)
 - **Dispatch:** command string → member-function pointer lookup (`std::map`)
 - **Numerics:** helper for IRC numeric replies (`001/002/003/004`, `3xx`, `4xx`, ...)
-
-## Repository layout (key files)
-
-- `main.cpp` — argument validation and server start
-- `headers/Server.hpp`, `srcs/Server.cpp` — socket setup, poll loop, dispatch, shutdown
-- `headers/User.hpp`, `srcs/User.cpp` — per-client state (buffers, nick/user/realname)
-- `headers/Channel.hpp`, `srcs/Channel.cpp` — channel state (members, ops, bans, invites, modes)
-- `headers/Message.hpp`, `srcs/Message.cpp` — IRC line parsing
-- `headers/NumReply.hpp` — numeric reply codes
-- `srcs/cmds/*` — individual command handlers
 
 ## Resources
 
 Classic references:
 - [ircgod](https://ircgod.com/)
 - [Medium article: Small IRC Server](https://medium.com/@afatir.ahmedfatir/small-irc-server-ft-irc-42-network-7cee848de6f9)
+- [Medium article: FT_IRC : Channels and Command Management](https://medium.com/@mohamedsarda/ft-irc-channels-and-command-management-ff1ff3758a0b)
 - IRC message format and numerics: **[RFC 2812](https://datatracker.ietf.org/doc/html/rfc2812)**
 
 How AI was used:
-- Used ChatGPT to **draft and iterate** this README (structure, wording, and command summary).
-- Used ChatGPT during development to **explain protocol details**, **review parsing/dispatch ideas**, and **spot edge cases** in command handling.
+- Used ChatGPT to **draft and iterate** several files for formatting purposes (structure, wording, and command summary).
+- Used ChatGPT and Claude during development to **explain protocol details**, **Socket/Port Binding** , **review parsing/dispatch ideas**, **bug fixing** and **spot edge cases** in command handling.
 - All final code decisions and implementation were made by the project team and validated by compiling/running locally.
