@@ -3,7 +3,7 @@
 
 static bool	isValidNick(const std::string &nick)
 {
-	if (nick.empty())
+	if (nick.empty() || nick.size() > 9)
 		return false;
 
 	for (size_t i = 0; i < nick.size(); ++i)
