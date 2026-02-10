@@ -44,7 +44,7 @@ namespace irc
 
 		static const char	*NOTREGISTERED		= "451";
 		static const char	*NEEDMOREPARAMS		= "461";
-		static const char	*TOOMANYUSER		= "462"; // check the numeric code
+		static const char	*TOOMANYUSER		= "462";
 		static const char	*ALREADYREGISTRED	= "463";
 		static const char	*PASSWDMISMATCH		= "464";
 

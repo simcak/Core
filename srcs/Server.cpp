@@ -65,10 +65,8 @@ void	Server::initCommandMap()
 	_commandMap["PASS"] = &Server::cmdPass;
 	_commandMap["NICK"] = &Server::cmdNick;
 	_commandMap["USER"] = &Server::cmdUser;
-	_commandMap["QUIT"] = &Server::cmdQuit;
 
 	_commandMap["JOIN"] = &Server::cmdJoin;
-	_commandMap["PART"] = &Server::cmdPart;
 	_commandMap["TOPIC"] = &Server::cmdTopic;
 	_commandMap["MODE"] = &Server::cmdMode;
 	_commandMap["INVITE"] = &Server::cmdInvite;
@@ -76,6 +74,9 @@ void	Server::initCommandMap()
 
 	_commandMap["PRIVMSG"] = &Server::cmdPrivMsg;
 
+	// extra commands
+	_commandMap["QUIT"] = &Server::cmdQuit;
+	_commandMap["PART"] = &Server::cmdPart;
 	_commandMap["NAMES"] = &Server::cmdNames;
 	_commandMap["WHO"] = &Server::cmdWho;
 	_commandMap["LIST"] = &Server::cmdList;

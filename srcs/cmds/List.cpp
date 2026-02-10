@@ -51,11 +51,8 @@ void	Server::cmdList(User *user, const Message &msg)
 	if (!user)
 		return;
 
-	// 321 RPL_LISTSTART: "Channel :Users Name"
 	sendNumeric(user, irc::rpl::LISTSTART, "Channel", "Users Name");
 
-	// helper *inside* member context: safe to call private sendNumeric
-	// (no C++11 lambda, so just inline the repeated code)
 	if (msg.params.empty())
 	{
 		for (size_t i = 0; i < _channels.size(); ++i)
@@ -71,7 +68,6 @@ void	Server::cmdList(User *user, const Message &msg)
 			const std::string topic = ch->getTopic();
 			const std::string modeInfo = modeInfoForList(ch);
 
-			// 322 RPL_LIST: <channel> <# visible> :<topic>
 			sendNumeric(user, irc::rpl::LIST, chanName + " " + cnt.str(), modeInfo + topic);
 		}
 	}
@@ -94,9 +90,6 @@ void	Server::cmdList(User *user, const Message &msg)
 			sendNumeric(user, irc::rpl::LIST, chanName + " " + cnt.str(), modeInfo + topic);
 		}
 	}
-
-	// 323 RPL_LISTEND
 	sendNumeric(user, irc::rpl::LISTEND, "", "End of LIST");
-
 	DEBG("User " << user->getNickName() << " requested LIST");
 }

@@ -26,7 +26,6 @@ void	Server::cmdWho(User *user, const Message &msg)
 	if (!user)
 		return;
 
-	// WHO with no params: keep minimal
 	if (msg.params.empty())
 	{
 		sendNumeric(user, irc::rpl::ENDOFWHO, "*", "End of WHO list");
@@ -56,7 +55,6 @@ void	Server::cmdWho(User *user, const Message &msg)
 			if (ch->isOperator(t))
 				flags += "@";
 
-			// 352: <channel> <user> <host> <server> <nick> <flags> :<hopcount> <real name>
 			const std::string middle =
 				mask + " " +
 				t->getUserName() + " " +

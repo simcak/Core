@@ -191,13 +191,13 @@ bool	Server::mode_l(Server *srv, User *user, const Message &msg, ModeCtx &m)
 		if (!isValidPositiveInt(limitStr))
 		{
 			srv->sendNumeric(user, irc::err::NEEDMOREPARAMS, "MODE",
-				"Invalid limit"); // find the correct numeric code for this error
+				"Invalid limit");
 			return true;
 		}
 		if (std::atoi(limitStr.c_str()) < static_cast<int>(m._ch->getUsers().size()))
 		{
 			srv->sendNumeric(user, irc::err::TOOMANYUSER, "MODE",
-				"Limit is less than current number of users"); // find the correct numeric code for this error
+				"Limit is less than current number of users");
 			return true;
 		}
 		m._ch->setUserLimit(std::atoi(limitStr.c_str()));
@@ -301,7 +301,6 @@ bool	Server::modePreprocess(User *usr, const Message &msg, Channel *ch,
 	if (msg.params.size() == 1) // print out the current modes - not an error
 	{
 		std::string	modeStr = ch->modeString();
-		// if (modeStr == "+") modeStr += " (no modes set)"; // should we?
 		sendNumeric(usr, irc::rpl::CHANNELMODEIS, chName + " " + modeStr, "");
 		return true;
 	}
