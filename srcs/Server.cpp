@@ -348,7 +348,6 @@ void	Server::acceptNewUser()
  */
 void	Server::onReadable(User *user)
 {
-
 	if (!user)
 		return;
 
