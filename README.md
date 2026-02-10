@@ -69,7 +69,7 @@ Examples for `MODE` command:
 - `MODE #channel +/-t`             <- sets/unsets topic-protected
 - `MODE #channel +/-k secretkey`   <- sets/removes key
 - `MODE #channel +/-o usernick`    <- gives/removes operator status
-- `MODE #channel +l 10`            <- sets user limit to 10
+- `MODE #channel +/-l 10`          <- sets/unsets user limit to 10
 
 Behavior:
 - The first user to join a new channel becomes an operator.
