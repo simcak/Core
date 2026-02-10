@@ -713,10 +713,8 @@ User*	Server::findUserByNick(const std::string &nick)
 Channel*	Server::findChannelByName(const std::string &name)
 {
 	for (size_t i = 0; i < _channels.size(); ++i)
-	{
 		if (_channels[i] && _channels[i]->getName() == name)
 			return _channels[i];
-	}
 	return NULL;
 }
 

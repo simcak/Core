@@ -11,10 +11,8 @@ bool	onlyDigits(const std::string &str)
 		return false;
 
 	for (size_t i = 0; i < str.size(); ++i)
-	{
 		if (!std::isdigit(static_cast<unsigned char>(str[i])))
 			return false;
-	}
 	return true;
 }
 
