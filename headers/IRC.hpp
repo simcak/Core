@@ -44,7 +44,7 @@
 #endif
 
 #ifndef PONGY
-# define PONGY 0
+# define PONGY 1
 #endif
 
 # define DEBG(msg) do { \

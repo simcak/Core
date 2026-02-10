@@ -348,6 +348,7 @@ void	Server::acceptNewUser()
  */
 void	Server::onReadable(User *user)
 {
+
 	if (!user)
 		return;
 
@@ -661,7 +662,8 @@ void	Server::broadcastToChannel(Channel *ch, const std::string &line, User *excl
 
 static bool	isPreRegisterCommand(const std::string &cmd)
 {
-	return (cmd == "PASS" || cmd == "NICK" || cmd == "USER" || cmd == "QUIT");
+	return (cmd == "PASS" || cmd == "NICK" || cmd == "USER" || cmd == "QUIT"
+			|| cmd == "PING" || cmd == "PONG");
 }
 
 /**
