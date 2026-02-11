@@ -35,9 +35,21 @@ JOIN #42
 PRIVMSG #42 :hello everyone
 ```
 
-Notes:
+#### Notes:
 - Registration is considered complete only after **PASS + NICK + USER**.
 - Input is handled as IRC lines terminated by `\r\n`.
+
+#### **ports** on Unix-like systems:
+| Range      | Type         | Meaning                       |
+| ---------- | ------------ | ----------------------------- |
+| 1–1023     | privileged   | binding usually requires root |
+| 1024–65535 | unprivileged | normal user programs can bind |
+
+#### **LAN IP** of the server can be found with:
+```ip a | grep inet | grep enp```
+- finds IPv4 addresses of network interfaces (e.g. `enp0s3`)
+- clients on the same LAN can connect using this IP instead of `127.0.0.1`
+
 
 ## Supported commands
 
@@ -102,7 +114,6 @@ How AI was used:
 - All final code decisions and implementation were made by the project team and validated by compiling/running locally.
 
 ## How to connect WeeChat
-
 ```
 /server add 42 localhost/6697 -notls
 /set irc.server.42.password "your_server_password"
@@ -110,5 +121,7 @@ How AI was used:
 
 ```
 
-## to run another Weechat do:
-## weechat --dir .
+**to run another Weechat do:**
+```
+weechat --dir .
+```

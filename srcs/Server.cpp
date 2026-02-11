@@ -174,7 +174,7 @@ bool	Server::setupSocket()
 	}
 
 	_serverAddr.sin_family = AF_INET;
-	_serverAddr.sin_addr.s_addr = INADDR_ANY;
+	_serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	_serverAddr.sin_port = htons(static_cast<uint16_t>(_port));
 
 	setNonBlocking(_serverSocket);
