@@ -39,12 +39,15 @@
 # define INFO(msg)  (std::cout << BB "[INFO] "  RST << msg << std::endl)
 # define ERROR(msg) (std::cerr << BR "[ERROR] " RST << msg << std::endl)
 
+# define DEBUG 1 //TODO: remove this when not needed anymore
+# define PONGY 1 //TODO: remove this when not needed anymore
+
 #ifndef DEBUG
 # define DEBUG 0
 #endif
 
 #ifndef PONGY
-# define PONGY 1
+# define PONGY 0
 #endif
 
 # define DEBG(msg) do { \
@@ -52,7 +55,7 @@
 } while (0)
 
 # define PONG(msg) do { \
-	if (PONGY) { std::cerr << BY "[PONG] " RST << msg << std::endl; } \
+	if (PONGY) { std::cerr << BM "[PONG] " RST << msg << std::endl; } \
 } while (0)
 
 /* Defaults */
