@@ -104,9 +104,9 @@ How AI was used:
 ## How to connect WeeChat
 
 ```
-/server add my_irc localhost/6697 -notls
-/set irc.server.my_irc.password "your_server_password"
-/connect my_irc
+/server add 42 localhost/6697 -notls
+/set irc.server.42.password "your_server_password"
+/connect 42
 
 ```
 
