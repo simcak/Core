@@ -65,3 +65,15 @@ bool	isPortInUse(int port)
 
 	return (ret < 0);
 }
+
+void splitByDelim(std::vector<std::string>& store, const std::string &string, char delim)
+{
+	std::stringstream convert(string);
+	std::string segment;
+	for (int i = 0; std::getline(convert, segment, delim); i++)
+	{
+		// DEBG("sBD i:" << i << "seg: <" << segment  << ">");
+		store.push_back(segment);
+	}
+	return;
+}

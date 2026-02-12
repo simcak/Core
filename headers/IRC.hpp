@@ -66,5 +66,6 @@
 bool		onlyDigits(const std::string &str);
 std::string	getCurrentDateTime(void);
 bool		isPortInUse(int port);
+void		splitByDelim(std::vector<std::string>& store, const std::string &string, char delim);
 
 #endif
