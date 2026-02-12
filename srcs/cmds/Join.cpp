@@ -3,8 +3,21 @@
 #include "../../headers/Channel.hpp"
 
 /////////////////////////////// helper functions ///////////////////////////////
-static bool	isValidChannelName(const std::string &s)
+static void	trimRN(std::string &s)
 {
+	std::string	invalidChars = "\\r\\n";
+	size_t		pos = s.find_first_of(invalidChars);
+
+	while (pos != std::string::npos)
+	{
+		s.erase(pos, 1);
+		pos = s.find_first_of(invalidChars);
+	}
+}
+
+static bool	isValidChannelName(std::string &s)
+{
+	trimRN(s);
 	bool	validPrefix = (!s.empty() && (s[0] == '#' || s[0] == '&' ||
 							s[0] == '+' || s[0] == '!'));
 	bool	validLength = (s.length() > 1 && s.length() <= 50);
@@ -24,8 +37,8 @@ static bool	isValidChannelName(const std::string &s)
 
 static std::string	buildNamesList(Channel *ch)
 {
-	std::ostringstream oss;
-	const std::vector<User*> &members = ch->getUsers();
+	std::ostringstream			oss;
+	const std::vector<User*>	&members = ch->getUsers();
 
 	for (size_t i = 0; i < members.size(); ++i)
 	{
@@ -60,7 +73,7 @@ void	Server::cmdJoin(User *user, const Message &msg)
 		return;
 	}
 
-	const std::string &chanName = msg.params[0];
+	std::string	chanName = msg.params[0];
 	if (!isValidChannelName(chanName))
 	{
 		sendNumeric(user, irc::err::NOSUCHCHANNEL, chanName, "No such channel");
