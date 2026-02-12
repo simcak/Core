@@ -370,6 +370,11 @@ void	Server::onReadable(User *user)
 			return;
 		}
 		user->inBuffer().append(buf, buf + n);
+		if (user->inBuffer().size() > MAX_INBUF)
+		{
+			removeUserNow(fd, "Input buffer overflow");
+			return;
+		}
 	}
 
 	std::string &in = user->inBuffer();
@@ -444,18 +449,32 @@ void	Server::onWritable(User *user)
  * 
  * This function appends the given line to the user's output buffer, ensuring it
  * ends with the proper IRC line terminators (\r\n).
+ * It also checks if the output buffer exceeds the maximum allowed size, and if
+ * so, it disconnects the user to protect the server from slow or unresponsive
+ * clients.
  */
 void	Server::queueLine(User *user, const std::string &line)
 {
 	if (!user)
 		return;
 
-	std::string	out = line;
+	if (user->wantsDisconnect())
+		return;
 
+	std::string out = line;
 	if (out.size() < 2 || out.substr(out.size() - 2) != "\r\n")
 		out += "\r\n";
 
-	user->outBuffer() += out;
+	std::string &buf = user->outBuffer();
+
+	// Protect server against slow/stopped clients (Ctrl+Z flood test)
+	if (buf.size() + out.size() > MAX_OUTBUF)
+	{
+		removeUserNow(user->getFd(), "Send queue overflow (slow client)");
+		return;
+	}
+
+	buf += out;
 }
 
 /**

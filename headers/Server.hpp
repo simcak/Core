@@ -7,6 +7,9 @@
 class User;
 class Channel;
 
+static const size_t	MAX_OUTBUF = 64 * 1024; // 64KB
+static const size_t	MAX_INBUF  = 64 * 1024; // 64KB
+
 class Server
 {
 	private:
