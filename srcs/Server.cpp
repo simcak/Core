@@ -195,27 +195,13 @@ bool	Server::setupSocket()
 	return true;
 }
 
-// void	Server::setNonBlocking(int fd)
-// {
-// 	if (fcntl(fd, F_SETFL, O_NONBLOCK) < 0)
-// 	{
-// 		ERROR("fcntl(F_SETFL, O_NONBLOCK) failed");
-// 		return;
-// 	}
-// }
-
-// TODO: illegal!
 void	Server::setNonBlocking(int fd)
 {
-	int flags = fcntl(fd, F_GETFL, 0);
-
-	if (flags < 0)
+	if (fcntl(fd, F_SETFL, O_NONBLOCK) < 0)
 	{
-		ERROR("fcntl(F_GETFL) failed");
+		ERROR("fcntl(F_SETFL, O_NONBLOCK) failed");
 		return;
 	}
-	if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) < 0)
-		ERROR("fcntl(F_SETFL, O_NONBLOCK) failed");
 }
 
 /* ───────────────────────── poll loop ───────────────────────── */
@@ -401,7 +387,7 @@ void	Server::onReadable(User *user)
 
 		if (line.empty())
 			continue;
-		DEBG("Received line from " << user->getNickName() << ": " << line); // TODO: remove this
+
 		Message msg;
 		if (!parseIrcLine(line, msg))
 			continue;
@@ -470,7 +456,6 @@ void	Server::queueLine(User *user, const std::string &line)
 		out += "\r\n";
 
 	user->outBuffer() += out;
-	DEBG("Queued line for " << user->getNickName() << ": " << out); // TODO: remove this
 }
 
 /**
