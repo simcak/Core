@@ -15,7 +15,7 @@ class bigint
 		////////////////////////////////////////////////////////////////////////
 		bigint();
 		bigint(unsigned int n);
-		bigint(bigint const &other);
+		bigint(bigint const &copy);
 		bigint &operator=(const bigint &other);
 		~bigint();
 

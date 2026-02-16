@@ -11,7 +11,7 @@ bigint::bigint(unsigned int num)
 	_str = ss.str();
 }
 
-bigint::bigint(const bigint& other) { *this = other; }
+bigint::bigint(const bigint& copy) { *this = copy; }
 
 bigint&	bigint::operator=(const bigint& other)
 {
