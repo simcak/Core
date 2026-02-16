@@ -1,4 +1,3 @@
-[EN]
 Assignment name : bigint
 Expected files : bigint.hpp, bigint.cpp
 --------------------------------------------------------------------------------
@@ -14,20 +13,6 @@ instead of shifting the bits you will shift the digits in base 10, e.g.:
 Your bigint must be printable with the << operator (in base 10) and the output
 should not contain any leading zeros.
 You will find a main in this directory that must work with your class
-
-[TR]
-Bilgisayar bilimlerinde bignum, keyfi bir hassasiyetteki sayıyı temsil eden bir nesnedir.
-Bu, herhangi bir hassasiyet kaybı olmadan SIZE_MAX değerinden büyük bir sayıyı depolamak istediğinizde kullanışlıdır.
-Bu genellikle sayının farklı "kısımlarını" içeren bir dizi veya dize depolayarak elde edilir.
-
-keyfi bir hassasiyetteki işaretsiz tamsayıyı depolayacak bigint adlı bir sınıf oluşturun.
-Sınıfınız toplama, karşılaştırma ve "rakam kaydırma" işlemlerini desteklemelidir
-(bit kaydırma gibi, ancak bitleri kaydırmak yerine 10 tabanındaki rakamları kaydırırsınız
-örneğin: (42 << 3 == 42000) ve (1337 >> 2 == 13)).
-
-bigint değeriniz << operatörüyle (10 tabanında) yazdırılabilir olmalı ve çıktıda başta sıfır bulunmamalıdır.
-
-Bu dizinde, sınıfınızla uyumlu olması gereken bir main bulacaksınız.
 
 [SUBJECT MAIN]
 #include "bigint.hpp"
