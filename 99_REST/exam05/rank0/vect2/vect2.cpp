@@ -1,6 +1,7 @@
 #include "vect2.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////// OCF
 vect2::vect2()
 {
 	_x = 0;
@@ -35,7 +36,6 @@ vect2 &vect2::operator=(const vect2 &other)
 vect2::~vect2() {}
 
 ////////////////////////////////////////////////////////////////////////////////
-
 //////////////////////////////////////////////////// square brackets operator []
 float	&vect2::operator[](unsigned int idx)
 {
@@ -55,6 +55,7 @@ const float	&vect2::operator[](unsigned int idx) const
 	throw std::out_of_range("Index out of bounds");
 }
 
+////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////// iterators
 vect2	&vect2::operator++()
 {
@@ -85,6 +86,118 @@ vect2	vect2::operator--(int)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////// math operations
+//------------------------------------------------------------------------------
+vect2	vect2::operator+(const vect2 &rhs) const
+{
+	vect2	output((*this)._x + rhs._x, (*this)._y + rhs._y);
+	return output;
+}
+
+vect2	vect2::operator-(const vect2 &rhs) const
+{
+	vect2	output((*this)._x - rhs._x, (*this)._y - rhs._y);
+	return output;
+}
+
+vect2	vect2::operator*(const vect2 &rhs) const
+{
+	vect2	output((*this)._x * rhs._x, (*this)._y * rhs._y);
+	return output;
+}
+
+//------------------------------------------------------------------------------
+vect2	vect2::operator+(float num) const
+{
+	vect2	output((*this)._x + num, (*this)._y + num);
+	return output;
+}
+
+vect2	vect2::operator-(float num) const
+{
+	vect2	output((*this)._x - num, (*this)._y - num);
+	return output;
+}
+
+vect2	vect2::operator*(float num) const
+{
+	vect2	output((*this)._x * num, (*this)._y * num);
+	return output;
+}
+
+//------------------------------------------------------------------------------
+vect2	&vect2::operator+=(const vect2 &rhs)
+{
+	*this = *this + rhs;
+	return *this;
+}
+
+vect2	&vect2::operator-=(const vect2 &rhs)
+{
+	*this = *this - rhs;
+	return *this;
+}
+
+vect2	&vect2::operator*=(const vect2 &rhs)
+{
+	*this = *this * rhs;
+	return *this;
+}
+
+//------------------------------------------------------------------------------
+vect2	&vect2::operator+=(float num)
+{
+	*this = *this + num;
+	return *this;
+}
+
+vect2	&vect2::operator-=(float num)
+{
+	*this = *this - num;
+	return *this;
+}
+
+vect2	&vect2::operator*=(float num)
+{
+	*this = *this * num;
+	return *this;
+}
+
+/////////////////////////////////////////////////////////////////////// negation
+vect2	&vect2::operator-()
+{
+	*this *= -1;
+	return *this;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////// comperation
+bool	vect2::operator==(const vect2 &rhs) const
+{
+	bool	out;
+
+	((*this)._x == rhs._x && (*this)._y == rhs._y) ? out = true : out = false;
+	return out;
+}
+
+bool	vect2::operator!=(const vect2 &rhs) const
+{
+	bool	out;
+
+	((*this)._x != rhs._x || (*this)._y != rhs._y) ? out = true : out = false;
+	return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////// out of class operators
+vect2	operator*(float lhs, const vect2 &rhs)
+{
+	vect2	output(rhs);
+
+	output *= lhs;
+	return output;
+}
+
 std::ostream	&operator<<(std::ostream &os, const vect2 &v)
 {
 	os << "{" << v[0] << ", " << v[1] << "}";
