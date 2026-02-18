@@ -169,23 +169,29 @@ bigint	&bigint::operator>>=(const bigint &rhs)
 
 //------------------------------------------------------------------ comparation
 bool	bigint::operator<(const bigint &rhs) const
-{ return strTo<long>(this->getStr()) < strTo<long>(rhs.getStr()); }
+{ return
+	strTo<unsigned int>(this->getStr()) < strTo<unsigned int>(rhs.getStr()); }
 
 bool	bigint::operator<=(const bigint &rhs) const
-{ return strTo<long>(this->getStr()) <= strTo<long>(rhs.getStr()); }
+{ return
+	strTo<unsigned int>(this->getStr()) <= strTo<unsigned int>(rhs.getStr()); }
 
 bool	bigint::operator>(const bigint &rhs) const
-{ return strTo<long>(this->getStr()) > strTo<long>(rhs.getStr()); }
+{ return
+	strTo<unsigned int>(this->getStr()) > strTo<unsigned int>(rhs.getStr()); }
 
 bool	bigint::operator>=(const bigint &rhs) const
-{ return strTo<long>(this->getStr()) >= strTo<long>(rhs.getStr()); }
+{ return
+	strTo<unsigned int>(this->getStr()) >= strTo<unsigned int>(rhs.getStr()); }
 
 //------------------------------------------------------------------------------
 bool	bigint::operator==(const bigint &rhs) const
-{ return strTo<long>(this->getStr()) == strTo<long>(rhs.getStr()); }
+{ return
+	strTo<unsigned int>(this->getStr()) == strTo<unsigned int>(rhs.getStr()); }
 
 bool	bigint::operator!=(const bigint &rhs) const
-{ return strTo<long>(this->getStr()) != strTo<long>(rhs.getStr()); }
+{ return
+	strTo<unsigned int>(this->getStr()) != strTo<unsigned int>(rhs.getStr()); }
 
 
 ////////////////////////////////////////// assignment operator for output stream

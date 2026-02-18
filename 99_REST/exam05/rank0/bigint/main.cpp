@@ -3,7 +3,7 @@
 int main()
 {
 	const bigint	a(49);
-	bigint			b(79), c, d(9999999999999999999999999999999999999999999999999999999919399), e(d);
+	bigint			b(79), c, d(4294967295), e(d);
 
 	std::cout << "a = " << a << std::endl;
 	std::cout << "b = " << b << std::endl;
@@ -22,7 +22,7 @@ int main()
 
 	std::cout << "\ndigit shifting" << std::endl;
 	std::cout << "d = " << d << std::endl;
-	std::cout << "(b << 10) + 42 = " << ((b << 10) + 42) << std::endl;
+	std::cout << "(b << 20) + 42 = " << ((b << 20) + 42) << std::endl;
 	std::cout << "(d >> 2) = " << (d >> 2) << std::endl;
 	std::cout << "(d <<= 4) = " << (d <<= 4) << std::endl;
 	std::cout << "(d >>= 4) = " << (d >>= 4) << std::endl;
