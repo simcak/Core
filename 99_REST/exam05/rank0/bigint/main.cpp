@@ -3,7 +3,7 @@
 int main()
 {
 	const bigint	a(49);
-	bigint			b(79), c, d(1939), e(d);
+	bigint			b(79), c, d(9999999999999999999999999999999999999999999999999999999919399), e(d);
 
 	std::cout << "a = " << a << std::endl;
 	std::cout << "b = " << b << std::endl;
