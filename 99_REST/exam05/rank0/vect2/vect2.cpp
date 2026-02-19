@@ -89,41 +89,20 @@ vect2	vect2::operator--(int)
 //////////////////////////////////////////////////////////////// math operations
 //------------------------------------------------------------------------------
 vect2	vect2::operator+(const vect2 &rhs) const
-{
-	vect2	output((*this)._x + rhs._x, (*this)._y + rhs._y);
-	return output;
-}
+{ return vect2(_x + rhs._x, _y + rhs._y); }
 
 vect2	vect2::operator-(const vect2 &rhs) const
-{
-	vect2	output((*this)._x - rhs._x, (*this)._y - rhs._y);
-	return output;
-}
+{ return vect2(_x - rhs._x, _y - rhs._y); }
 
 vect2	vect2::operator*(const vect2 &rhs) const
-{
-	vect2	output((*this)._x * rhs._x, (*this)._y * rhs._y);
-	return output;
-}
+{ return vect2(_x * rhs._x, _y * rhs._y); }
 
 //------------------------------------------------------------------------------
-vect2	vect2::operator+(float num) const
-{
-	vect2	output((*this)._x + num, (*this)._y + num);
-	return output;
-}
+vect2	vect2::operator+(float n) const { return vect2(_x + n, _y + n); }
 
-vect2	vect2::operator-(float num) const
-{
-	vect2	output((*this)._x - num, (*this)._y - num);
-	return output;
-}
+vect2	vect2::operator-(float n) const { return vect2(_x - n, _y - n); }
 
-vect2	vect2::operator*(float num) const
-{
-	vect2	output((*this)._x * num, (*this)._y * num);
-	return output;
-}
+vect2	vect2::operator*(float n) const { return vect2(_x * n, _y * n); }
 
 //------------------------------------------------------------------------------
 vect2	&vect2::operator+=(const vect2 &rhs)
@@ -140,26 +119,26 @@ vect2	&vect2::operator-=(const vect2 &rhs)
 
 vect2	&vect2::operator*=(const vect2 &rhs)
 {
-	*this = *this * rhs;
+	*this = *this ;
 	return *this;
 }
 
 //------------------------------------------------------------------------------
-vect2	&vect2::operator+=(float num)
+vect2	&vect2::operator+=(float n)
 {
-	*this = *this + num;
+	*this = *this + n;
 	return *this;
 }
 
-vect2	&vect2::operator-=(float num)
+vect2	&vect2::operator-=(float n)
 {
-	*this = *this - num;
+	*this = *this - n;
 	return *this;
 }
 
-vect2	&vect2::operator*=(float num)
+vect2	&vect2::operator*=(float n)
 {
-	*this = *this * num;
+	*this = *this * n;
 	return *this;
 }
 
@@ -174,18 +153,16 @@ vect2	vect2::operator-() const
 //////////////////////////////////////////////////////////////////// comperation
 bool	vect2::operator==(const vect2 &rhs) const
 {
-	bool	out;
-
-	((*this)._x == rhs._x && (*this)._y == rhs._y) ? out = true : out = false;
-	return out;
+	if (_x == rhs._x && _y == rhs._y)
+		return true;
+	return false;
 }
 
 bool	vect2::operator!=(const vect2 &rhs) const
 {
-	bool	out;
-
-	((*this)._x != rhs._x || (*this)._y != rhs._y) ? out = true : out = false;
-	return out;
+	if (_x != rhs._x || _y != rhs._y)
+		return true;
+	return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -200,6 +177,5 @@ vect2	operator*(float lhs, const vect2 &rhs)
 
 std::ostream	&operator<<(std::ostream &os, const vect2 &v)
 {
-	os << "{" << v[0] << ", " << v[1] << "}";
-	return os;
+	return os << "{" << v[0] << ", " << v[1] << "}";
 }
