@@ -28,10 +28,13 @@ int main()
 	v1 *= 42;			std::cout << "v1 = " << v1 << std::endl;	// -84, -168
 	v1 = v1 - v1 + v1;	std::cout << "v1 = " << v1 << std::endl;	// -84, -168
 
-	std::cout << "\nrest is operation" << std::endl;
+	std::cout << "\nnegging" << std::endl;
 	std::cout << "v1: " << v1 << std::endl;
+	std::cout << "-v1: " << -v1 << std::endl;
 	std::cout << "v2: " << v2 << std::endl;
 	std::cout << "-v2: " << -v2 << std::endl;
+
+	std::cout << "\ncomparation" << std::endl;
 	std::cout << "v1[1]: " << v1[1] << std::endl;
 	v1[1] = 2;
 	std::cout << "v1[1]: " << v1[1] << std::endl;
