@@ -107,17 +107,6 @@ int	loadMap(FILE* file, t_map* map, t_elements* elements)
 			}
 		}
 	}
-
-	/*
-	ssize_t extra = getline(&line, &len, file);
-	if(extra != -1) {  // Fazladan satır var!
-		free(line);
-		free_map(map->grid);
-		return -1;
-	}
-	// gerek var mı bilmiyorum??
-	*/
-
 	if (element_control(map->grid, elements->empty, elements->obstacle) == -1) 
 	{
 		free(line);
@@ -142,7 +131,6 @@ int	find_min(int n1, int n2, int n3)
 
 void	find_big_square(t_map* map, t_square* square, t_elements* elements)
 {
-	// matrix init
 	int	matrix[map->height][map->width];
 
 	for (int i = 0; i < map->height; i++)
@@ -196,10 +184,10 @@ int	execute_bsq(FILE* file)
 	t_map	map;
 	if (loadMap(file, &map, &elements) == -1)
 		return -1;
+
 	t_square	square;
 	square.size = 0; square.i = 0; square.j = 0;
 	find_big_square(&map, &square, &elements);
-	// printf("size: %d, i: %d, j: %d", square.size, square.i, square.j);
 	print_filled_square(&map, &square, &elements);
 	free_map(map.grid);
 	return 0;
