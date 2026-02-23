@@ -2,7 +2,7 @@
 
 int	loadElements(FILE* file, t_elements* elements)
 {
-	int	ret = fscanf(file, "%d%c%c%c", &(elements->n_lines), &(elements->empty), &(elements->obstacle), &(elements->full));
+	int	ret = fscanf(file, "%d %c %c %c", &(elements->n_lines), &(elements->empty), &(elements->obstacle), &(elements->full));
 
 	if (ret != 4)
 		return -1;
