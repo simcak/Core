@@ -162,7 +162,6 @@ void	find_big_square(t_map* map, t_square* square, t_elements* elements)
 
 void	print_filled_square(t_map* map, t_square* square, t_elements* elements)
 {
-
 	for (int i = square->i; i < square->i + square->size; i++)
 		for (int j = square->j; j < square->j + square->size; j++)
 			if ((i < map->height) && (j < map->width))
