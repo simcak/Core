@@ -1,5 +1,43 @@
 #include "bsq.h"
 
+// ---------------------------- helper functions ---------------------------- //
+void	free_map(char** arr)
+{
+	if (arr)
+	{
+		for (int i = 0; arr[i] != NULL; i++)
+			if(arr[i])
+				free(arr[i]);
+		free(arr);
+	}
+}
+
+// ------------------------ loadMap helper functions ------------------------ //
+char*	ft_substr(const char* arr, int start, int len)
+{
+	char	*str = malloc((size_t)len + 1);
+	if (!str) return NULL;
+
+	for (int k = 0; k < len; ++k)
+		str[k] = arr[start + k];
+
+	str[len] = '\0';
+	return str;
+}
+
+int	element_control(char** map, char c1, char c2)
+{
+	for (int i = 0; map[i]; ++i)
+		for (int j = 0; map[i][j]; j++)
+			if ((map[i][j] != c1) && (map[i][j] != c2))
+				return -1;
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/**
+ * @brief Loads the elements from the file ptr into the t_elements structure.
+ */
 int	loadElements(FILE* file, t_elements* elements)
 {
 	int	ret = fscanf(file, "%d %c %c %c", &(elements->n_lines), &(elements->empty), &(elements->obstacle), &(elements->full));
@@ -21,38 +59,9 @@ int	loadElements(FILE* file, t_elements* elements)
 	return 0;
 }
 
-char*	ft_substr(const char* arr, int start, int len)
-{
-	char	*str = malloc((size_t)len + 1);
-	if (!str) return NULL;
-
-	for (int k = 0; k < len; ++k)
-		str[k] = arr[start + k];
-
-	str[len] = '\0';
-	return str;
-}
-
-void	free_map(char** arr)
-{
-	if (arr)
-	{
-		for (int i = 0; arr[i] != NULL; i++)
-			if(arr[i])
-				free(arr[i]);
-		free(arr);
-	}
-}
-
-int	element_control(char** map, char c1, char c2)
-{
-	for (int i = 0; map[i]; ++i)
-		for (int j = 0; map[i][j] != '\0'; j++)
-			if ((map[i][j] != c1) && (map[i][j] != c2))
-				return -1;
-	return 0;
-}
-
+/**
+ * @brief Loads the map from the file pointer into the t_map structure.
+ */
 int	loadMap(FILE* file, t_map* map, t_elements* elements)
 {
 	map->height = elements->n_lines;
@@ -117,6 +126,21 @@ int	loadMap(FILE* file, t_map* map, t_elements* elements)
 	return 0;
 }
 
+void	print_filled_square(t_map* map, t_square* square, t_elements* elements)
+{
+	for (int i = square->i; i < square->i + square->size; i++)
+		for (int j = square->j; j < square->j + square->size; j++)
+			if ((i < map->height) && (j < map->width)) // necessary?
+				map->grid[i][j] = elements->full;
+
+	for (int i = 0; i < map->height; i++)
+	{
+		fputs(map->grid[i], stdout);
+		fputc('\n', stdout);
+	}
+}
+
+// -------------------- find_big_square helper function --------------------- //
 int	find_min(int n1, int n2, int n3)
 {
 	int	min = n1;
@@ -128,6 +152,13 @@ int	find_min(int n1, int n2, int n3)
 	return min;
 }
 
+/**
+ * @brief Finds the biggest square in the map using dynamic programming.
+ * 
+ * It fills a matrix where each cell contains the size of the biggest square
+ * that can be formed with the cell as the bottom-right corner. It updates the
+ * square structure with the size and position of the biggest square found.
+ */
 void	find_big_square(t_map* map, t_square* square, t_elements* elements)
 {
 	int	matrix[map->height][map->width];
@@ -159,27 +190,18 @@ void	find_big_square(t_map* map, t_square* square, t_elements* elements)
 	}
 }
 
-void	print_filled_square(t_map* map, t_square* square, t_elements* elements)
-{
-	for (int i = square->i; i < square->i + square->size; i++)
-		for (int j = square->j; j < square->j + square->size; j++)
-			if ((i < map->height) && (j < map->width))
-				map->grid[i][j] = elements->full;
-
-	for (int i = 0; i < map->height; i++)
-	{
-		fputs(map->grid[i], stdout);
-		fputc('\n', stdout);
-	}
-}
-
+/**
+ * Main function to execute the BSQ algorithm on a given file pointer.
+ * It loads the elements and the map, finds the biggest square, prints it, and
+ * frees the allocated memory for the map.
+ */
 int	execute_bsq(FILE* file)
 {
 	t_elements	elements;
 	if (loadElements(file, &elements) == -1)
 		return -1;
 
-	t_map	map;
+	t_map		map;
 	if (loadMap(file, &map, &elements) == -1)
 		return -1;
 
@@ -191,6 +213,10 @@ int	execute_bsq(FILE* file)
 	return 0;
 }
 
+/**
+ * Converts a file name to a file pointer and executes the main BSQ algorithm on
+ * it.
+ */
 int	convert_file_pointer(char* name)
 {
 	int		ret = 0;
