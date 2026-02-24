@@ -21,17 +21,15 @@ int	loadElements(FILE* file, t_elements* elements)
 	return 0;
 }
 
-char*	ft_substr(char* arr, int start, int len)
+char*	ft_substr(const char* arr, int start, int len)
 {
-	char*	str = (char*)malloc(len + 1);
-	int	i = -1, j = -1;
+	char	*str = malloc((size_t)len + 1);
+	if (!str) return NULL;
 
-	if (!str)
-		return NULL;
-	while (arr[++i])
-		if ((i >= start) && (j < len))
-			str[++j] = arr[i];
-	str[j] = '\0';
+	for (int k = 0; k < len; ++k)
+		str[k] = arr[start + k];
+
+	str[len] = '\0';
 	return str;
 }
 
@@ -58,8 +56,9 @@ int	element_control(char** map, char c1, char c2)
 int	loadMap(FILE* file, t_map* map, t_elements* elements)
 {
 	map->height = elements->n_lines;
-	map->grid = (char**)malloc((map->height + 1) * (sizeof(char *)));
-	map->grid[map->height] = NULL;
+	map->grid = calloc((size_t)map->height + 1, sizeof(char *));
+	if (!map->grid)
+		return -1;
 
 	char*	line = NULL;
 	size_t	len = 0;
