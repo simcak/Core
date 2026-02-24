@@ -12,6 +12,13 @@ void	free_map(char** arr)
 	}
 }
 
+void	free_all(char** arr, char* line)
+{
+	free_map(arr);
+	if (line)
+		free(line);
+}
+
 // ------------------------ loadMap helper functions ------------------------ //
 char*	ft_substr(const char* arr, int start, int len)
 {
@@ -73,54 +80,31 @@ int	loadMap(FILE* file, t_map* map, t_elements* elements)
 	size_t	len = 0;
 
 	if (getline(&line, &len, file) == -1)
-	{
-		free_map(map->grid);
-		return -1;
-	}
+		return (free_all(map->grid, line), -1);
 
 	for (int i = 0; i < map->height; i++)
 	{
 		int	read = getline(&line, &len, file);
-		if (read == -1) 
-		{
-			free(line);
-			free_map(map->grid);
-			return -1;
-		}
+
+		if (read == -1)
+			return (free_all(map->grid, line), -1);
 		if (line[read - 1] == '\n')
 			read--;
 		else
-		{
-			free(line);
-			free_map(map->grid);
-			return -1;
-		}
+			return (free_all(map->grid, line), -1);
+
 		map->grid[i] = ft_substr(line, 0, read);
+
 		if (!(map->grid[i]))
-		{
-			free(line);
-			free_map(map->grid);
-			return -1;
-		}
+			return (free_all(map->grid, line), -1);
 
 		if (i == 0)
 			map->width = read;
-		else
-		{
-			if (map->width != read)
-			{
-				free(line);
-				free_map(map->grid);
-				return -1;
-			}
-		}
+		else if (map->width != read)
+			return (free_all(map->grid, line), -1);
 	}
 	if (element_control(map->grid, elements->empty, elements->obstacle) == -1) 
-	{
-		free(line);
-		free_map(map->grid);
-		return -1;
-	}
+		return (free_all(map->grid, line), -1);
 	free(line);
 
 	return 0;
