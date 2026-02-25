@@ -32,7 +32,7 @@ int	lets_play_game(char **av)
 	for (int i = 0, j; i < map.height; ++i)
 	{
 		for (j = 0; j < map.width ; ++j)
-			grid[i][j] = '.';
+			grid[i][j] = ' ';
 		grid[i][j] = '\n';
 	}
 
@@ -48,6 +48,44 @@ int	lets_play_game(char **av)
 	}
 
 	/// GAME: loop
+	for (int i = 0; i < map.gol; ++i)
+	{
+		char	tmp[map.height][map.width + 1];
+		for (int i = 0, j; i < map.height; ++i)
+			for (j = 0; j <= map.width ; ++j)
+				tmp[i][j] = grid[i][j];
+
+		for (int i = 0; i < map.height; ++i)
+			for (int j = 0; j < map.width; ++j)
+			{
+				int	live_neighbors = 0;
+				if (i > 0 && j > 0 && grid[i - 1][j - 1] == '0')
+					live_neighbors++;
+				if (i > 0 && grid[i - 1][j] == '0')
+					live_neighbors++;
+				if (i > 0 && j < map.width - 1 && grid[i - 1][j + 1] == '0')
+					live_neighbors++;
+				if (j > 0 && grid[i][j - 1] == '0')
+					live_neighbors++;
+				if (j < map.width - 1 && grid[i][j + 1] == '0')
+					live_neighbors++;
+				if (i < map.height - 1 && j > 0 && grid[i + 1][j - 1] == '0')
+					live_neighbors++;
+				if (i < map.height - 1 && grid[i + 1][j] == '0')
+					live_neighbors++;
+				if (i < map.height - 1 && j < map.width - 1 && grid[i + 1][j + 1] == '0')
+					live_neighbors++;
+
+				if (grid[i][j] == '0' && (live_neighbors < 2 || live_neighbors > 3))
+					tmp[i][j] = ' ';
+				else if (grid[i][j] == ' ' && live_neighbors == 3)
+					tmp[i][j] = '0';
+			}
+
+		for (int i = 0, j; i < map.height; ++i)
+			for (j = 0; j < map.width ; ++j)
+				grid[i][j] = tmp[i][j];
+	}
 
 	/// PRINT:
 	for (int i = 0; i < map.height; ++i)
