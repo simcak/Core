@@ -163,7 +163,6 @@ void	find_big_square(t_map* map, t_square* square, t_elements* elements)
 				int min = find_min(matrix[i - 1][j],matrix[i - 1][j - 1], matrix[i][j - 1]);
 				matrix[i][j] = min + 1;
 			}
-
 			if (matrix[i][j] > square->size)
 			{
 				square->size = matrix[i][j];
