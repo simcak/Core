@@ -51,10 +51,6 @@ int	lets_play_game(char **av)
 	for (int i = 0; i < map.gol; ++i)
 	{
 		char	tmp[map.height][map.width + 1];
-		for (int i = 0, j; i < map.height; ++i)
-			for (j = 0; j <= map.width ; ++j)
-				tmp[i][j] = grid[i][j];
-
 		for (int i = 0; i < map.height; ++i)
 			for (int j = 0; j < map.width; ++j)
 			{
@@ -80,8 +76,9 @@ int	lets_play_game(char **av)
 					tmp[i][j] = ' ';
 				else if (grid[i][j] == ' ' && live_neighbors == 3)
 					tmp[i][j] = 'O';
+				else
+					tmp[i][j] = grid[i][j];
 			}
-
 		for (int i = 0, j; i < map.height; ++i)
 			for (j = 0; j < map.width ; ++j)
 				grid[i][j] = tmp[i][j];
@@ -103,8 +100,6 @@ int	main(int ac, char **av)
 			return (write(STDERR_FILENO, "error\n", 6), 1);
 	}
 	else
-	{
 		return (write(STDERR_FILENO, "error\n", 6), 1);
-	}
 	return 0;
 }
