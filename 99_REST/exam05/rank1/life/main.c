@@ -44,7 +44,7 @@ int	lets_play_game(char **av)
 		if (map.x < 0 || map.y < 0 || map.x > map.height || map.y > map.width)
 			return -1;
 		if (map.writing)
-			grid[map.x][map.y] = '0';
+			grid[map.x][map.y] = 'O';
 	}
 
 	/// GAME: loop
@@ -59,27 +59,27 @@ int	lets_play_game(char **av)
 			for (int j = 0; j < map.width; ++j)
 			{
 				int	live_neighbors = 0;
-				if (i > 0 && j > 0 && grid[i - 1][j - 1] == '0')
+				if (i > 0 && j > 0 && grid[i - 1][j - 1] == 'O')
 					live_neighbors++;
-				if (i > 0 && grid[i - 1][j] == '0')
+				if (i > 0 && grid[i - 1][j] == 'O')
 					live_neighbors++;
-				if (i > 0 && j < map.width - 1 && grid[i - 1][j + 1] == '0')
+				if (i > 0 && j < map.width - 1 && grid[i - 1][j + 1] == 'O')
 					live_neighbors++;
-				if (j > 0 && grid[i][j - 1] == '0')
+				if (j > 0 && grid[i][j - 1] == 'O')
 					live_neighbors++;
-				if (j < map.width - 1 && grid[i][j + 1] == '0')
+				if (j < map.width - 1 && grid[i][j + 1] == 'O')
 					live_neighbors++;
-				if (i < map.height - 1 && j > 0 && grid[i + 1][j - 1] == '0')
+				if (i < map.height - 1 && j > 0 && grid[i + 1][j - 1] == 'O')
 					live_neighbors++;
-				if (i < map.height - 1 && grid[i + 1][j] == '0')
+				if (i < map.height - 1 && grid[i + 1][j] == 'O')
 					live_neighbors++;
-				if (i < map.height - 1 && j < map.width - 1 && grid[i + 1][j + 1] == '0')
+				if (i < map.height - 1 && j < map.width - 1 && grid[i + 1][j + 1] == 'O')
 					live_neighbors++;
 
-				if (grid[i][j] == '0' && (live_neighbors < 2 || live_neighbors > 3))
+				if (grid[i][j] == 'O' && (live_neighbors < 2 || live_neighbors > 3))
 					tmp[i][j] = ' ';
 				else if (grid[i][j] == ' ' && live_neighbors == 3)
-					tmp[i][j] = '0';
+					tmp[i][j] = 'O';
 			}
 
 		for (int i = 0, j; i < map.height; ++i)
