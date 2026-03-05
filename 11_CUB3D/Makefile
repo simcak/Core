@@ -30,29 +30,29 @@ INIT_DIR		= $(SRC_DIR)/1_init
 
 UTILS_SRC		= \
 	0a_helpers.c \
-	safe_free_zp.c \
-	0b_helpers_zp.c \
+	safe_free.c \
+	0b_helpers.c \
 	ft_gnl.c \
 	ft_atoi.c \
 	ft_strjoin.c \
 	debug.c \
 	ft_gnl_utils.c \
 	ft_split.c \
-	safe_malloc_zp.c \
+	safe_malloc.c \
 	ft_substr.c \
 	safe_exit.c \
 	ft_str_utils.c
 
 PARSER_SRC		= \
-	4a_define_grid_zp.c \
+	4a_define_grid.c \
 	4_parser_map.c \
-	3a_utils_zp.c \
-	3_parser_color_zp.c \
-	2_parser_texture_zp.c \
-	4b_max_map_zp.c \
-	1_parser_file_zp.c \
+	3a_utils.c \
+	3_parser_color.c \
+	2_parser_texture.c \
+	4b_max_map.c \
+	1_parser_file.c \
 	2a_utils.c \
-	0_parser_zp.c
+	0_parser.c
 
 REYCAST_SRC		= \
 	3_key_down.c \
@@ -65,7 +65,7 @@ INIT_SRC		= \
 	1_init_default.c \
 	0_init_hub.c
 
-MAIN_SRC		= ./algorithm/main_zp.c
+MAIN_SRC		= ./algorithm/main.c
 
 # Combine all source files
 SRC				= \
