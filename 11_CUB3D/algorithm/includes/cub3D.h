@@ -66,13 +66,13 @@
 # define MAXI_MAP			2
 
 /* ********************************* Screen ********************************* */
-# define SWIDTH				1501
-# define SHEIGHT			1001
+# define SWIDTH				1200
+# define SHEIGHT			666
 # define MAXI_GRID			10
 # define TILE_SIZE			70
-# define FOV				75
-# define MOVE_SPEED			4.2
-# define ROTATION_SPEED		0.07
+# define FOV				66
+# define MOVE_SPEED			3.2
+# define ROTATION_SPEED		0.04
 
 /* ********************************* MiniMap ******************************** */
 # define PLAYER_COLOR		RED
