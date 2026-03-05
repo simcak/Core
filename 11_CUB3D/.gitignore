@@ -1,0 +1,6 @@
+# Ignore the MLX42 library files
+/MLX42/
+# ignore the object files
+*.o
+# ignore the executable
+/cub3D
