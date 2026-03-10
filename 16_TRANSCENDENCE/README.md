@@ -1,3 +1,8 @@
+## Frontend
+In the nutshell - all the frontend is a JavaScript. The choises are only how we want to write it. We can use a framework like React (technically library), Vue, Angular, Svelte, etc. Or we can write it in pure JavaScript. We can say that we can use different language - TypeScript for example, but TypeScript is just a superset of JavaScript...
+
+We decided to use React, because it is the most popular frontend framework (library) and it is good for CV.
+
 ## Resources
 |    link   |  description  |
 |     -     |       -       |
