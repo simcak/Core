@@ -1,0 +1,212 @@
+%-------------------------
+% CV in LaTex
+% Author : Petr Simcak
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{fontawesome5}
+\usepackage[scale=0.90,lf]{FiraMono}
+\usepackage{tabularx}
+\usepackage{contour}
+\usepackage[normalem]{ulem}
+\usepackage{tgheros}
+
+\renewcommand*\familydefault{\sfdefault}
+
+% colors
+\definecolor{light-grey}{gray}{0.83}
+\definecolor{dark-grey}{gray}{0.3}
+\definecolor{text-grey}{gray}{.08}
+
+% underline helper
+\renewcommand{\ULdepth}{1.8pt}
+\contourlength{0.8pt}
+\newcommand{\myuline}[1]{%
+  \uline{\phantom{#1}}%
+  \llap{\contour{white}{#1}}%
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{0in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+\color{text-grey}
+
+% section style
+\titleformat{\section}{
+  \bfseries \vspace{2pt} \raggedright \large
+}{}{0em}{}[\color{light-grey}{\titlerule[2pt]} \vspace{-4pt}]
+
+% custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{{#1 \vspace{-1pt}}}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+  \begin{tabular*}{\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & {\color{dark-grey}\small #2}\vspace{1pt}\\
+    \textit{#3} & {\color{dark-grey}\small #4}\\
+  \end{tabular*}\vspace{-4pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+    #1 & {\color{dark-grey}\small #2} \\
+  \end{tabular*}\vspace{-4pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.18in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{0pt}}
+
+%-------------------------------------------
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge Petr Simcak} \\ \vspace{5pt}
+    \small
+    \faPhone* \hspace{2pt} \texttt{601 381 619} \hspace{6pt} $|$ \hspace{6pt}
+    \faEnvelope \hspace{2pt} \href{mailto:peta.simcak@gmail.com}{\texttt{peta.simcak@gmail.com}} \hspace{6pt} $|$ \hspace{6pt}
+    \faLinkedin \hspace{2pt} \href{https://www.linkedin.com/in/petr-simcak}{\texttt{linkedin.com/in/petr-simcak}} \hspace{6pt} $|$ \hspace{6pt}
+    \faGithub \hspace{2pt} \href{https://github.com/simcak}{\texttt{github.com/simcak}} \hspace{6pt} $|$ \hspace{6pt}
+    \faMapMarker* \hspace{2pt} \texttt{Prague, Czech Republic}
+\end{center}
+
+\vspace{4pt}
+\small
+Software developer with strong foundations in systems programming, backend development, and project-based problem solving through 42 Prague and independent technical work. Strongest in C, C++, and Python, with experience in parsing, networking, Linux, Docker, and signal-processing workflows.
+
+%-----------EDUCATION-----------
+\section{EDUCATION}
+\resumeSubHeadingListStart
+
+  \resumeSubheading
+    {42 Prague}{2023 -- 2026}
+    {Software Engineering Curriculum}{Prague, Czech Republic}
+    \resumeItemListStart
+      \resumeItem{Project-based training focused on systems programming, backend development, algorithms, teamwork, and fast adaptation to new technologies}
+      \resumeItem{Completed projects including \textbf{Cub3D}, \textbf{ft\_irc}, \textbf{minishell}, and \textbf{Inception}; currently working on \textbf{ft\_transcendence}}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {Brno University of Technology}{2020 -- 2025}
+    {Bachelor's Degree in Sport Technology}{Brno, Czech Republic}
+    \resumeItemListStart
+      \resumeItem{Bachelor thesis: \textbf{Heart Rate Estimation from the PPG Signals}}
+      \resumeItem{Developed and evaluated signal-processing approaches for heart-rate estimation and PPG signal-quality assessment}
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{PROJECTS}
+\resumeSubHeadingListStart
+
+  \resumeProjectHeading
+    {\textbf{Cub3D} $|$ C, MLX42, Linux}{2025}
+    \resumeItemListStart
+      \resumeItem{Built a simplified Wolfenstein 3D-style raycasting engine in C as part of the 42 curriculum}
+      \resumeItem{Implemented \textbf{map parsing} and core \textbf{raycasting logic}, converting 2D map data into real-time pseudo-3D rendering}
+      \resumeItem{Solved key challenges in parser design and raycasting geometry under project constraints}
+      \resumeItem{\textbf{Code:} \href{https://github.com/simcak/Core/tree/main/11_CUB3D}{\myuline{GitHub repository}}}
+    \resumeItemListEnd
+
+  \resumeProjectHeading
+    {\textbf{ft\_irc} $|$ C++98, sockets, poll(), Linux}{2026}
+    \resumeItemListStart
+      \resumeItem{Developed a minimal multi-client IRC server in C++98 in a team of three}
+      \resumeItem{Worked on cleaning and improving \textbf{server-side architecture} and implementing core \textbf{IRC commands}}
+      \resumeItem{Built practical experience with non-blocking sockets, a single \texttt{poll()} event loop, IRC line parsing, registration flow, and channel/user state management}
+      \resumeItem{\textbf{Code:} \href{https://github.com/simcak/Core/tree/main/14_IRC}{\myuline{GitHub repository}}}
+    \resumeItemListEnd
+
+  \resumeProjectHeading
+    {\textbf{Bachelor Thesis: Heart Rate Estimation from the PPG Signals} $|$ Python, LaTeX, signal processing}{2025}
+    \resumeItemListStart
+      \resumeItem{Compared three approaches to heart-rate estimation from PPG signals: Elgendi's algorithm, a custom peak-detection method, and a novel Hjorth descriptor-based approach}
+      \resumeItem{Evaluated methods on the CapnoBase and BUT PPG datasets and analyzed performance across clean and noisy signals}
+      \resumeItem{Developed an automatic PPG signal-quality classifier using Shannon entropy and spectral power index}
+      \resumeItem{\textbf{Code \& thesis:} \href{https://github.com/simcak/bakalarka}{\myuline{GitHub repository}}}
+    \resumeItemListEnd
+
+  \resumeProjectHeading
+    {\textbf{minishell} $|$ C, Unix processes}{2025}
+    \resumeItemListStart
+      \resumeItem{Built a Unix-like shell in C, working with process creation, pipes, redirections, and command execution flow}
+      \resumeItem{Strengthened understanding of Unix system calls, process management, and error handling}
+    \resumeItemListEnd
+
+  \resumeProjectHeading
+    {\textbf{Inception} $|$ Docker, Linux, Nginx}{2025}
+    \resumeItemListStart
+      \resumeItem{Built a containerized multi-service environment using Docker as part of the 42 curriculum}
+      \resumeItem{Worked with service orchestration, isolated environments, networking, and deployment configuration}
+    \resumeItemListEnd
+
+  \resumeProjectHeading
+    {\textbf{ft\_transcendence} $|$ full-stack web application}{2026 -- ongoing}
+    \resumeItemListStart
+      \resumeItem{Currently contributing to a team-based full-stack web application as part of the 42 curriculum}
+      \resumeItem{Participating in architecture decisions, implementation, and collaborative development of a larger end-to-end project}
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------SKILLS-----------
+\section{SKILLS}
+\begin{itemize}[leftmargin=0in, label={}]
+  \small{\item{
+    \textbf{Languages}{: C, C++, Python, Bash, MATLAB} \vspace{2pt} \\
+    \textbf{Tools \& Platforms}{: Git, Docker, Linux, Nginx, LaTeX} \vspace{2pt} \\
+    \textbf{Core Areas}{: systems programming, backend development, parsing, networking, signal processing}
+  }}
+\end{itemize}
+
+%-----------ADDITIONAL EXPERIENCE-----------
+\section{ADDITIONAL EXPERIENCE}
+\resumeSubHeadingListStart
+
+  \resumeSubheading
+    {Theatre Actor}{2009 -- 2015}
+    {Brno City Theatre (\href{https://www.mdb.cz/cs/lide/petr-simcak}{\myuline{profile}})}{Brno, Czech Republic}
+    \resumeItemListStart
+      \resumeItem{Professional stage experience in ensemble-based productions, developing communication, adaptability, and performance under pressure}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {Movie Actor}{2013 -- 2021}
+    {Film work (\href{https://www.imdb.com/name/nm5791331/}{\myuline{IMDb}})}{Czech Republic / International}
+    \resumeItemListStart
+      \resumeItem{Worked across long-term collaborative productions in demanding environments with a strong emphasis on preparation, discipline, and teamwork}
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+\end{document}
