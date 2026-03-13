@@ -1,0 +1,7 @@
+# LaTeX intermediate files
+*.aux
+*.out
+*.log
+*.fls
+*.fdb_latexmk
+*.gz
