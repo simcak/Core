@@ -48,6 +48,7 @@
 \addtolength{\textwidth}{1in}
 \addtolength{\topmargin}{-.5in}
 \addtolength{\textheight}{1.0in}
+\setlength{\footskip}{4.08003pt}
 
 \urlstyle{same}
 \raggedbottom
@@ -90,29 +91,31 @@
 
 %----------HEADING----------
 \begin{center}
-    \textbf{\Huge Petr Simcak} \\ \vspace{5pt}
+    \textbf{\Huge Petr Šimčák} \\ \vspace{5pt}
+    \href{https://simcak.github.io}{\small\texttt{simcak.github.io}} \\ \vspace{2pt}
     \small
     \faPhone* \hspace{2pt} \texttt{601 381 619} \hspace{6pt} $|$ \hspace{6pt}
     \faEnvelope \hspace{2pt} \href{mailto:peta.simcak@gmail.com}{\texttt{peta.simcak@gmail.com}} \hspace{6pt} $|$ \hspace{6pt}
-    \faLinkedin \hspace{2pt} \href{https://www.linkedin.com/in/petr-simcak}{\texttt{linkedin.com/in/petr-simcak}} \hspace{6pt} $|$ \hspace{6pt}
-    \faGithub \hspace{2pt} \href{https://github.com/simcak}{\texttt{github.com/simcak}} \hspace{6pt} $|$ \hspace{6pt}
-    \faMapMarker* \hspace{2pt} \texttt{Prague, Czech Republic}
+    \faLinkedin \hspace{2pt} \href{https://www.linkedin.com/in/petr-simcak}{\texttt{in/petr-simcak}} \hspace{6pt} $|$ \hspace{6pt}
+    \faGithub \hspace{2pt} \href{https://github.com/simcak}{\texttt{simcak}} \hspace{6pt} $|$ \hspace{6pt}
+    \faMapMarker* \hspace{2pt} \texttt{Prague}
 \end{center}
 
 \vspace{4pt}
 \small
-Software developer with strong foundations in systems programming, backend development, and project-based problem solving through 42 Prague and independent technical work. Strongest in C, C++, and Python, with experience in parsing, networking, Linux, Docker, and signal-processing workflows.
+Software developer with strong foundations in systems programming, backend development, and project-based problem solving through 42 school.
+Strongest in C, C++, and Python, with experience in networking, Linux, Docker, and signal-processing workflows.
 
 %-----------EDUCATION-----------
 \section{EDUCATION}
 \resumeSubHeadingListStart
 
   \resumeSubheading
-    {42 Prague}{2023 -- 2026}
-    {Software Engineering Curriculum}{Prague, Czech Republic}
+    {42Prague / 42Heilbronn}{2023 -- 2026 / 2024 -- 2025}
+    {Software Engineering Curriculum}{Prague, Czech Republic / Heilbronn, Germany}
     \resumeItemListStart
-      \resumeItem{Project-based training focused on systems programming, backend development, algorithms, teamwork, and fast adaptation to new technologies}
-      \resumeItem{Completed projects including \textbf{Cub3D}, \textbf{ft\_irc}, \textbf{minishell}, and \textbf{Inception}; currently working on \textbf{ft\_transcendence}}
+      \resumeItem{Project-based learning focused on systems programming, backend development, algorithms, teamwork, and fast adaptation to new technologies}
+      \resumeItem{Completed projects including \textbf{cub3D}, \textbf{ft\_irc}, \textbf{minishell}, and \textbf{Inception}; currently working on \textbf{ft\_transcendence}}
     \resumeItemListEnd
 
   \resumeSubheading
@@ -130,7 +133,7 @@ Software developer with strong foundations in systems programming, backend devel
 \resumeSubHeadingListStart
 
   \resumeProjectHeading
-    {\textbf{Cub3D} $|$ C, MLX42, Linux}{2025}
+    {\textbf{Cub3D} $|$ C, MLX42, MacOS}{2025}
     \resumeItemListStart
       \resumeItem{Built a simplified Wolfenstein 3D-style raycasting engine in C as part of the 42 curriculum}
       \resumeItem{Implemented \textbf{map parsing} and core \textbf{raycasting logic}, converting 2D map data into real-time pseudo-3D rendering}
@@ -139,25 +142,16 @@ Software developer with strong foundations in systems programming, backend devel
     \resumeItemListEnd
 
   \resumeProjectHeading
-    {\textbf{ft\_irc} $|$ C++98, sockets, poll(), Linux}{2026}
-    \resumeItemListStart
-      \resumeItem{Developed a minimal multi-client IRC server in C++98 in a team of three}
-      \resumeItem{Worked on cleaning and improving \textbf{server-side architecture} and implementing core \textbf{IRC commands}}
-      \resumeItem{Built practical experience with non-blocking sockets, a single \texttt{poll()} event loop, IRC line parsing, registration flow, and channel/user state management}
-      \resumeItem{\textbf{Code:} \href{https://github.com/simcak/Core/tree/main/14_IRC}{\myuline{GitHub repository}}}
-    \resumeItemListEnd
-
-  \resumeProjectHeading
     {\textbf{Bachelor Thesis: Heart Rate Estimation from the PPG Signals} $|$ Python, LaTeX, signal processing}{2025}
     \resumeItemListStart
-      \resumeItem{Compared three approaches to heart-rate estimation from PPG signals: Elgendi's algorithm, a custom peak-detection method, and a novel Hjorth descriptor-based approach}
+      \resumeItem{Compared three approaches to heart-rate estimation from PPG signals: Elgendi's algorithm, a custom peak-detection method, and mainly a novel Hjorth descriptor-based approach}
       \resumeItem{Evaluated methods on the CapnoBase and BUT PPG datasets and analyzed performance across clean and noisy signals}
       \resumeItem{Developed an automatic PPG signal-quality classifier using Shannon entropy and spectral power index}
       \resumeItem{\textbf{Code \& thesis:} \href{https://github.com/simcak/bakalarka}{\myuline{GitHub repository}}}
     \resumeItemListEnd
 
   \resumeProjectHeading
-    {\textbf{minishell} $|$ C, Unix processes}{2025}
+    {\textbf{minishell} $|$ C, Unix processes}{2024}
     \resumeItemListStart
       \resumeItem{Built a Unix-like shell in C, working with process creation, pipes, redirections, and command execution flow}
       \resumeItem{Strengthened understanding of Unix system calls, process management, and error handling}
@@ -168,6 +162,15 @@ Software developer with strong foundations in systems programming, backend devel
     \resumeItemListStart
       \resumeItem{Built a containerized multi-service environment using Docker as part of the 42 curriculum}
       \resumeItem{Worked with service orchestration, isolated environments, networking, and deployment configuration}
+    \resumeItemListEnd
+
+  \resumeProjectHeading
+    {\textbf{ft\_irc} $|$ C++98, sockets, poll(), Linux}{2026}
+    \resumeItemListStart
+      \resumeItem{Developed a minimal multi-client IRC server in C++98 in a team of three}
+      \resumeItem{Worked on cleaning and improving \textbf{server-side architecture} and implementing core \textbf{IRC commands}}
+      \resumeItem{Built practical experience with non-blocking sockets, a single \texttt{poll()} event loop, IRC line parsing, registration flow, and channel/user state management}
+      \resumeItem{\textbf{Code:} \href{https://github.com/simcak/Core/tree/main/14_IRC}{\myuline{GitHub repository}}}
     \resumeItemListEnd
 
   \resumeProjectHeading
@@ -185,13 +188,30 @@ Software developer with strong foundations in systems programming, backend devel
   \small{\item{
     \textbf{Languages}{: C, C++, Python, Bash, MATLAB} \vspace{2pt} \\
     \textbf{Tools \& Platforms}{: Git, Docker, Linux, Nginx, LaTeX} \vspace{2pt} \\
-    \textbf{Core Areas}{: systems programming, backend development, parsing, networking, signal processing}
+    \textbf{Core Areas}{: systems programming, backend development, parsing, networking, signal processing} \\
+    \textbf{Languages}{: Czech (native), English (fluent), German (B1)}
   }}
 \end{itemize}
 
 %-----------ADDITIONAL EXPERIENCE-----------
 \section{ADDITIONAL EXPERIENCE}
 \resumeSubHeadingListStart
+
+  \resumeSubheading
+    {3D Printer Maintenance and Support}{2022 -- Present}
+    {Brno University of Technology / 42 Prague}{Brno / Prague, Czech Republic}
+    \resumeItemListStart
+      \resumeItem{Assembled a 3D printer at Brno University of Technology and later took responsibility for its maintenance and operation at 42 Prague}
+      \resumeItem{Handled practical troubleshooting, upkeep, and day-to-day technical support related to the printer}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {Tutor}{since 2026}
+    {42 Prague}{Prague, Czech Republic}
+    \resumeItemListStart
+      \resumeItem{Support other students in understanding project requirements, debugging technical issues, and improving problem-solving approaches}
+      \resumeItem{Help peers navigate C/C++ projects and adapt to new technical concepts in the 42 project-based environment}
+    \resumeItemListEnd
 
   \resumeSubheading
     {Theatre Actor}{2009 -- 2015}
