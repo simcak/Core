@@ -1,0 +1,181 @@
+%-------------------------
+% CV in LaTex
+% Author : Petr Simcak
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{fontawesome5}
+\usepackage[scale=0.90,lf]{FiraMono}
+\usepackage{tabularx}
+\usepackage{contour}
+\usepackage[normalem]{ulem}
+\usepackage{tgheros}
+
+\renewcommand*\familydefault{\sfdefault}
+
+% colors
+\definecolor{light-grey}{gray}{0.83}
+\definecolor{dark-grey}{gray}{0.3}
+\definecolor{text-grey}{gray}{.08}
+
+% underline helper
+\renewcommand{\ULdepth}{1.8pt}
+\contourlength{0.8pt}
+\newcommand{\myuline}[1]{%
+  \uline{\phantom{#1}}%
+  \llap{\contour{white}{#1}}%
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{0in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+\setlength{\footskip}{4.08003pt}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+\color{text-grey}
+
+% section style
+\titleformat{\section}{
+  \bfseries \vspace{2pt} \raggedright \large
+}{}{0em}{}[\color{light-grey}{\titlerule[2pt]} \vspace{-4pt}]
+
+% custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{{#1 \vspace{-1pt}}}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+  \begin{tabular*}{\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & {\color{dark-grey}\small #2}\vspace{1pt}\\
+    \textit{#3} & {\color{dark-grey}\small #4}\\
+  \end{tabular*}\vspace{-4pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+    #1 & {\color{dark-grey}\small #2} \\
+  \end{tabular*}\vspace{-4pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.18in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{0pt}}
+
+%-------------------------------------------
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge PÁL KOSTURA} \\ \vspace{10pt}
+    \faGlobe \hspace{2pt} \href{https://sombru.github.io/}{\texttt{sombru.github.io}} \hspace{6pt} $|$ \hspace{6pt}
+    \faLinkedin \hspace{2pt} \href{https://www.linkedin.com/in/pál-kostura-7a94a223a/}{\texttt{in/pál-kostura}} \hspace{6pt} $|$ \hspace{6pt}
+    \faGithub \hspace{2pt} \href{https://github.com/Sombru}{\texttt{Sombru}} \hspace{6pt} $|$ \hspace{6pt}
+    \faMapMarker* \hspace{2pt} \texttt{Prague}
+\end{center}
+
+\vspace{4pt}
+\small
+Software developer with strong foundations in systems programming, backend development, and project-based problem solving through 42 school.
+Strongest in C, C++, and Python, with experience in networking, Linux, Docker, and signal-processing workflows.
+Practical experience with quality assurance.
+Permanent resident of the Czechia.
+
+%-----------SKILLS-----------
+\section{SKILLS}
+\begin{itemize}[leftmargin=0in, label={}]
+  \small{\item{
+    \textbf{Languages}{: C, C++, Python, Shell, SQL} \vspace{2pt} \\
+    \textbf{Tools \& Platforms}{: Git, Docker, Linux, Nginx} \vspace{2pt} \\
+    \textbf{Core Areas}{: systems programming, backend development, networking, signal processing, debugging (GDB)} \\
+    \textbf{Languages}{: Ukrainian, English (C1), Czech (C1), Hungarian (B2)}
+  }}
+\end{itemize}
+
+%-----------EDUCATION-----------
+\section{EDUCATION}
+\resumeSubHeadingListStart
+
+  \resumeSubheading
+    {42Prague}{2023 -- 2026}
+    {Software Engineering Curriculum}{Prague, Czech Republic}
+    \resumeItemListStart
+      \resumeItem{Project-based learning focused on systems programming, backend development, algorithms, teamwork, and fast adaptation to new technologies}
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{PROJECTS}
+\resumeSubHeadingListStart
+
+  \resumeProjectHeading
+    {\textbf{Inception} $|$ Docker, Linux, Nginx, WordPress, mySQL}{2026}
+    \resumeItemListStart
+      \resumeItem{Built a containerized multi-service environment using Docker, with focus on service orchestration and deployment setup}
+    \resumeItemListEnd
+
+  \resumeProjectHeading
+    {\textbf{webserv} $|$ C++98, sockets, poll(), Linux}{2025}
+    \resumeItemListStart
+      \resumeItem{Developed a fully functional multi-client web server in C++98 in a team of three}
+      \resumeItem{I was a team lead, responsible for the core server architecture, socket management, and HTTP request handling}
+      \resumeItem{\textbf{Code:} \href{https://github.com/Sombru/webserv}{\myuline{GitHub repository}}}
+    \resumeItemListEnd
+
+  \resumeProjectHeading
+    {\textbf{Cub3D} $|$ C, minilibx, Linux}{2025}
+    \resumeItemListStart
+      \resumeItem{Built a simplified Wolfenstein 3D-style raycasting engine in C as part of the 42 curriculum using the minilibx graphics library}
+      \resumeItem{Implemented map parsing and core raycasting logic for real-time pseudo-3D rendering}
+      \resumeItem{\textbf{Code:} \href{https://github.com/Sombru/cube3D}{\myuline{GitHub repository}}}
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{EXPERIENCE}
+\resumeSubHeadingListStart
+
+  \resumeSubheading
+    {Tutor}{since 2025}
+    {42 Prague}{Prague, Czech Republic}
+    \resumeItemListStart
+      \resumeItem{Support other students in understanding project requirements, debugging technical issues, and improving problem-solving approaches}
+      \resumeItem{Help peers navigate C/C++ projects and adapt to new technical concepts in the 42 project-based environment}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {Tutoring international students}{2024 -- 2026}
+    {Private}{Prague, Czech Republic}
+    \resumeItemListStart
+      \resumeItem{Provided personalized tutoring in English, Math, and Programming to international students}
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+\end{document}
