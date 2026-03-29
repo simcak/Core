@@ -1,0 +1,19 @@
+from elevenlabs.client import ElevenLabs
+# from elevenlabs.play import play
+
+client = ElevenLabs(
+    api_key="sk_b75875db4b630c860873966462b134cdf7cd716e2625dd2a"
+)
+
+audio = client.text_to_speech.convert(
+    text="[whispers] The Republic of Plato is the longest of his works [shouts] with the exception of the Laws, and is certainly the greatest of them. [laughing]",
+    voice_id="EkK5I93UQWFDigLMpZcX",
+    model_id="eleven_v3",
+    # output_format="mp3_44100_128",
+)
+
+# play(audio)
+
+with open("output.mp3", "wb") as f:
+    for chunk in audio:
+        f.write(chunk)
