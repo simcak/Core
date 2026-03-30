@@ -51,6 +51,9 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# Virtual environment
+.venv/*
+
 # Local files
 .DS_Store
 
