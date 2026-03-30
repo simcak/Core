@@ -52,6 +52,8 @@ Mkfile.old
 dkms.conf
 
 # Virtual environment
+.venv
+.venv/
 .venv/*
 
 # Local files
