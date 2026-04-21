@@ -61,6 +61,7 @@ dkms.conf
 
 # Python cache
 __pycache__/
+*.py[cod]
 
 # Secrets
 .env
