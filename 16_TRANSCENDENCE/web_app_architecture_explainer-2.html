@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web App Architecture Explainer</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f9f9f7;
+    color: #1a1a18;
+    padding: 32px 16px;
+    min-height: 100vh;
+  }
+  .card {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    padding: 28px 28px 32px;
+  }
+  h1 { font-size: 18px; font-weight: 500; margin-bottom: 20px; color: #1a1a18; }
+
+  .tab-bar { display:flex; gap:6px; margin-bottom:20px; flex-wrap:wrap; }
+  .tab { padding:6px 14px; border-radius:8px; border:0.5px solid rgba(0,0,0,0.2); font-size:13px; cursor:pointer; background:#fff; color:#666; transition:all .15s; font-family:inherit; }
+  .tab.active { background:#e6f1fb; color:#185fa5; border-color:transparent; font-weight:500; }
+  .tab:hover:not(.active) { background:#f1efe8; }
+  .panel { display:none; } .panel.active { display:block; }
+
+  .arch-row { display:flex; gap:8px; margin-bottom:8px; align-items:stretch; }
+  .arch-box { flex:1; border-radius:8px; border:0.5px solid rgba(0,0,0,0.12); padding:10px 12px; font-size:13px; cursor:pointer; transition:border-color .15s; }
+  .arch-box:hover { border-color:rgba(0,0,0,0.3); }
+  .arch-box .label { font-weight:500; font-size:13px; margin-bottom:2px; }
+  .arch-box .sub { font-size:12px; color:#888; }
+
+  .box-blue { background:#e6f1fb; border-color:#b5d4f4; }
+  .box-blue .label { color:#185fa5; }
+  .box-teal { background:#e1f5ee; border-color:#5dcaa5; }
+  .box-teal .label { color:#0f6e56; }
+  .box-purple { background:#eeedfe; border-color:#afa9ec; }
+  .box-purple .label { color:#3c3489; }
+  .box-amber { background:#faeeda; border-color:#ef9f27; }
+  .box-amber .label { color:#633806; }
+  .box-gray { background:#f1efe8; border-color:#d3d1c7; }
+  .box-gray .label { color:#1a1a18; }
+
+  .arrow-down { text-align:center; font-size:18px; color:#b4b2a9; line-height:1; margin:-2px 0; }
+  .callout { background:#f1efe8; border-left:3px solid #b5d4f4; border-radius:0 8px 8px 0; padding:10px 14px; margin-bottom:14px; font-size:13px; color:#666; }
+  .callout strong { color:#1a1a18; font-weight:500; }
+  .detail-box { background:#fff; border:0.5px solid rgba(0,0,0,0.12); border-radius:12px; padding:14px 16px; margin-top:14px; font-size:13px; line-height:1.7; color:#666; display:none; }
+  .detail-box.visible { display:block; }
+  .detail-box strong { color:#1a1a18; font-weight:500; display:block; margin-bottom:4px; }
+  code { font-family: "SF Mono", "Fira Code", monospace; font-size:12px; background:#f1efe8; padding:1px 4px; border-radius:4px; }
+
+  .badge { display:inline-block; font-size:11px; padding:2px 8px; border-radius:99px; font-weight:500; margin-left:6px; }
+  .badge-green { background:#eaf3de; color:#3b6d11; }
+  .badge-red { background:#fcebeb; color:#a32d2d; }
+
+  .vs-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media (max-width: 500px) { .vs-grid { grid-template-columns:1fr; } }
+
+  .flow-step { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+  .flow-num { width:24px; height:24px; border-radius:50%; background:#e6f1fb; color:#185fa5; font-size:12px; font-weight:500; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .flow-text { font-size:13px; color:#666; line-height:1.6; }
+  .flow-text strong { color:#1a1a18; font-weight:500; }
+
+  .client-row { display:flex; gap:8px; justify-content:center; margin-bottom:8px; flex-wrap:wrap; }
+  .client-pill { border:0.5px solid rgba(0,0,0,0.15); border-radius:99px; padding:5px 14px; font-size:12px; color:#666; background:#f1efe8; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Web app architecture — interactive explainer</h1>
+
+  <div class="tab-bar">
+    <button class="tab active" onclick="showTab('what')">What is a service?</button>
+    <button class="tab" onclick="showTab('mono')">Monolith vs microservices</button>
+    <button class="tab" onclick="showTab('layers')">Modern app layers</button>
+    <button class="tab" onclick="showTab('future')">Multi-client future-proofing</button>
+    <button class="tab" onclick="showTab('flow')">Request workflow</button>
+  </div>
+
+  <!-- PANEL 1 -->
+  <div id="panel-what" class="panel active">
+    <div class="callout"><strong>A "service" is just a program that runs somewhere and listens for requests.</strong> It does one job, runs independently, and talks to others over a network.</div>
+    <div style="font-size:13px;color:#888;margin-bottom:12px;">Click any service to see what it actually does:</div>
+    <div class="arch-row">
+      <div class="arch-box box-blue" onclick="showDetail('d-auth')">
+        <div class="label">Auth service</div><div class="sub">Handles login &amp; tokens</div>
+      </div>
+      <div class="arch-box box-teal" onclick="showDetail('d-api')">
+        <div class="label">API service</div><div class="sub">Serves data to clients</div>
+      </div>
+      <div class="arch-box box-purple" onclick="showDetail('d-db')">
+        <div class="label">Database</div><div class="sub">Stores all state</div>
+      </div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-box box-amber" onclick="showDetail('d-queue')">
+        <div class="label">Queue / worker</div><div class="sub">Background jobs</div>
+      </div>
+      <div class="arch-box box-gray" onclick="showDetail('d-storage')">
+        <div class="label">File storage</div><div class="sub">Images, uploads</div>
+      </div>
+      <div class="arch-box box-gray" onclick="showDetail('d-cache')">
+        <div class="label">Cache</div><div class="sub">Fast temporary data</div>
+      </div>
+    </div>
+    <div id="d-auth" class="detail-box"><strong>Auth service</strong>When a user logs in, they send their password here. It checks credentials, then returns a token (JWT) — a signed string the client includes in every future request to prove identity. No other service needs to know the password, only the token.</div>
+    <div id="d-api" class="detail-box"><strong>API service</strong>The main brain. A client (browser, phone) sends a request — "give me all the books". The API checks the token, queries the database, and sends back JSON. Your <code>/catalog/</code> service is one of these.</div>
+    <div id="d-db" class="detail-box"><strong>Database</strong>Persistent storage. Everything that needs to survive a restart lives here. PostgreSQL, MySQL, SQLite are popular choices. Your app uses Alembic to manage its schema (the shape of its tables).</div>
+    <div id="d-queue" class="detail-box"><strong>Queue / worker</strong>Some jobs are too slow to do inline — sending emails, resizing images, generating reports. Instead you drop a task into a queue (like Redis or RabbitMQ) and a worker picks it up in the background. The user never waits.</div>
+    <div id="d-storage" class="detail-box"><strong>File storage</strong>Databases are bad at storing big blobs like images and videos. Instead you upload files to object storage (AWS S3, Cloudflare R2) and only store the URL in the database.</div>
+    <div id="d-cache" class="detail-box"><strong>Cache</strong>Redis or Memcached. If computing something takes 200ms (a complex DB query), you store the result for 60 seconds. The next 1000 requests get it instantly. Caches are temporary — they can be wiped and rebuilt.</div>
+  </div>
+
+  <!-- PANEL 2 -->
+  <div id="panel-mono" class="panel">
+    <div class="callout"><strong>This is the most important architectural decision you'll make early on.</strong> Neither is wrong — they have different tradeoffs.</div>
+    <div class="vs-grid">
+      <div class="arch-box box-teal" style="cursor:default">
+        <div class="label">Monolith <span class="badge badge-green">start here</span></div>
+        <div class="sub" style="margin-top:6px;line-height:1.6">One codebase, one deployable, one database.<br><br>Auth, catalog, audio — all in the same app.<br><br>✓ Easy to build and reason about<br>✓ Easy to debug (one log stream)<br>✓ No network calls between services<br>✓ One database transaction across features<br>✗ Hard to scale one part independently<br>✗ A crash takes everything down</div>
+      </div>
+      <div class="arch-box box-purple" style="cursor:default">
+        <div class="label">Microservices <span class="badge badge-red">later, if needed</span></div>
+        <div class="sub" style="margin-top:6px;line-height:1.6">Many codebases, each deployed separately.<br><br>Your project is already doing this.<br><br>✓ Scale hot parts independently<br>✓ Teams own separate codebases<br>✓ One service crashes, others keep running<br>✗ Much more complex to operate<br>✗ Network failures between services<br>✗ Hard to do cross-service transactions</div>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:12px"><strong>Rule of thumb:</strong> Start with a monolith. Split into services only when you have a specific, proven reason — a part is too slow to scale with the rest, or separate teams need to work independently. Most apps never need microservices.</div>
+  </div>
+
+  <!-- PANEL 3 -->
+  <div id="panel-layers" class="panel">
+    <div class="callout"><strong>Every web app, monolith or not, has the same logical layers.</strong> Click any layer to understand its job.</div>
+    <div class="arch-row">
+      <div class="arch-box box-gray" onclick="showDetail('l-client')" style="text-align:center">
+        <div class="label">Client</div><div class="sub">Browser / app</div>
+      </div>
+    </div>
+    <div class="arrow-down">↕</div>
+    <div class="arch-row">
+      <div class="arch-box box-blue" onclick="showDetail('l-gateway')" style="text-align:center">
+        <div class="label">API Gateway / reverse proxy</div><div class="sub">nginx, Traefik, Kong</div>
+      </div>
+    </div>
+    <div class="arrow-down">↕</div>
+    <div class="arch-row">
+      <div class="arch-box box-teal" onclick="showDetail('l-biz1')">
+        <div class="label">Business logic</div><div class="sub">Auth service</div>
+      </div>
+      <div class="arch-box box-teal" onclick="showDetail('l-biz2')">
+        <div class="label">Business logic</div><div class="sub">Catalog service</div>
+      </div>
+      <div class="arch-box box-teal" onclick="showDetail('l-biz3')">
+        <div class="label">Business logic</div><div class="sub">Audio service</div>
+      </div>
+    </div>
+    <div class="arrow-down">↕</div>
+    <div class="arch-row">
+      <div class="arch-box box-purple" onclick="showDetail('l-data1')" style="text-align:center">
+        <div class="label">Data layer</div><div class="sub">PostgreSQL + migrations</div>
+      </div>
+      <div class="arch-box box-amber" onclick="showDetail('l-data2')" style="text-align:center">
+        <div class="label">Cache layer</div><div class="sub">Redis</div>
+      </div>
+    </div>
+    <div id="l-client" class="detail-box"><strong>Client layer</strong>Your React app (or native iOS/Android app). It only knows how to make HTTP requests and render UI. It has no business logic — it sends requests and shows what comes back. This layer is stateless on the server; its state lives in the browser.</div>
+    <div id="l-gateway" class="detail-box"><strong>API gateway / reverse proxy</strong>The single entry point for all traffic. It routes <code>/api/auth</code> to the auth service, <code>/api/catalog</code> to the catalog service, and <code>/</code> to the frontend. It also handles SSL termination, rate limiting, and load balancing. Your <code>/nginx/</code> folder does this.</div>
+    <div id="l-biz1" class="detail-box"><strong>Business logic layer</strong>This is the "real" backend. It enforces rules — "a user can only delete their own books", "a free account can upload max 3 files". It reads/writes the database and calls other services. Keep all rules here, never in the client.</div>
+    <div id="l-biz2" class="detail-box"><strong>Catalog service</strong>Manages books data. It exposes REST endpoints like <code>GET /books</code>, <code>POST /books</code>. Other services call it over HTTP just like a browser would.</div>
+    <div id="l-biz3" class="detail-box"><strong>Audio service</strong>Handles audio files, transcription, or playback metadata. Isolated so audio bugs don't affect auth or catalog.</div>
+    <div id="l-data1" class="detail-box"><strong>Data layer</strong>The database. Only the business logic layer talks to it directly — never the client. Alembic migrations define the schema and track changes over time, so your database evolves safely as your app grows.</div>
+    <div id="l-data2" class="detail-box"><strong>Cache layer</strong>Redis sits in front of the database for frequently-read data. Hot data (a user's profile, a popular book listing) is served from memory in microseconds instead of hitting the database every time.</div>
+  </div>
+
+  <!-- PANEL 4 -->
+  <div id="panel-future" class="panel">
+    <div class="callout"><strong>The key insight:</strong> if all your business logic lives behind an API, every client (web, iOS, Android, Watch) is just a different way to call the same endpoints. The backend doesn't know or care what's calling it.</div>
+    <div class="client-row">
+      <div class="client-pill">Web browser</div>
+      <div class="client-pill">iPhone app</div>
+      <div class="client-pill">Android app</div>
+      <div class="client-pill">Apple Watch</div>
+      <div class="client-pill">CLI tool</div>
+      <div class="client-pill">3rd party API</div>
+    </div>
+    <div class="arrow-down" style="font-size:22px;margin:4px 0">↓</div>
+    <div class="arch-row">
+      <div class="arch-box box-blue" style="text-align:center;cursor:default">
+        <div class="label">Your REST (or GraphQL) API</div>
+        <div class="sub">All clients call the same endpoints</div>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-text"><strong>Never put logic in the frontend.</strong> If the frontend calculates something — a price, a permission check — it'll have to be duplicated in every future client. Keep all rules in the API.</div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-text"><strong>Use token-based auth (JWT).</strong> Cookies are browser-only. JWTs work on iOS, Android, watches, CLI — any client just puts the token in an <code>Authorization</code> header.</div></div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-text"><strong>Version your API.</strong> Prefix all routes with <code>/api/v1/</code>. When you change a response shape, you can add <code>/v2/</code> without breaking old clients still on <code>/v1/</code>.</div></div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-text"><strong>Return data, not views.</strong> The API returns JSON. Each client decides how to render it. Never return HTML from the API.</div></div>
+      <div class="flow-step"><div class="flow-num">5</div><div class="flow-text"><strong>Document your API.</strong> Use OpenAPI / Swagger. When a native dev joins later, they can work independently from the spec without asking you how every endpoint works.</div></div>
+    </div>
+  </div>
+
+  <!-- PANEL 5 -->
+  <div id="panel-flow" class="panel">
+    <div class="callout"><strong>Follow one request from the user's finger to the database and back.</strong></div>
+    <div style="font-size:13px;color:#888;margin-bottom:14px">Scenario: a logged-in user taps "search for books" on the web app.</div>
+    <div class="flow-step"><div class="flow-num">1</div><div class="flow-text"><strong>Client sends a request.</strong> The browser makes <code>GET /api/v1/catalog/books?q=harry</code> with an <code>Authorization: Bearer &lt;token&gt;</code> header.</div></div>
+    <div class="flow-step"><div class="flow-num">2</div><div class="flow-text"><strong>nginx receives it.</strong> It sees <code>/api/v1/catalog</code> and forwards the request to the catalog service. The browser doesn't know this address exists.</div></div>
+    <div class="flow-step"><div class="flow-num">3</div><div class="flow-text"><strong>Catalog service validates the token.</strong> It calls the auth service: "is this token valid?". Auth confirms: "yes, this is user #42". Catalog now knows who is asking.</div></div>
+    <div class="flow-step"><div class="flow-num">4</div><div class="flow-text"><strong>Check the cache.</strong> Has someone searched "harry" in the last 30 seconds? If yes, return the cached result instantly — no database needed.</div></div>
+    <div class="flow-step"><div class="flow-num">5</div><div class="flow-text"><strong>Query the database.</strong> Cache miss — catalog runs <code>SELECT * FROM books WHERE title ILIKE '%harry%'</code> on PostgreSQL. Gets 7 results.</div></div>
+    <div class="flow-step"><div class="flow-num">6</div><div class="flow-text"><strong>Store in cache, return response.</strong> Saves the result in Redis for 30s. Returns JSON to nginx, which passes it back to the browser.</div></div>
+    <div class="flow-step"><div class="flow-num">7</div><div class="flow-text"><strong>React re-renders.</strong> The component receives the JSON, maps over the array, and displays the 7 books. Total time: ~50ms.</div></div>
+  </div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+  document.querySelectorAll('.detail-box').forEach(d => d.classList.remove('visible'));
+}
+function showDetail(id) {
+  const box = document.getElementById(id);
+  const wasVisible = box.classList.contains('visible');
+  document.querySelectorAll('.detail-box').forEach(d => d.classList.remove('visible'));
+  if (!wasVisible) box.classList.add('visible');
+}
+</script>
+</body>
+</html>
