@@ -16,7 +16,7 @@ int	extract_message(char **buf, char **msg)
 
 	*msg = 0;
 	if (*buf == 0)
-		return 0;
+		return (0);
 	i = -1;
 	while ((*buf)[++i])
 	{
@@ -24,15 +24,15 @@ int	extract_message(char **buf, char **msg)
 		{
 			newbuf = calloc(1, sizeof(*newbuf) * (strlen(*buf + i + 1) + 1));
 			if (newbuf == 0)
-				return -1;
+				return (-1);
 			strcpy(newbuf, *buf + i + 1);
 			*msg = *buf;
 			(*msg)[i + 1] = 0;
 			*buf = newbuf;
-			return 1;
+			return (1);
 		}
 	}
-	return 0;
+	return (0);
 }
 
 char	*str_join(char *buf, char *add)
@@ -46,13 +46,13 @@ char	*str_join(char *buf, char *add)
 		len = strlen(buf);
 	newbuf = malloc(sizeof(*newbuf) * (len + strlen(add) + 1));
 	if (newbuf == 0)
-		return 0;
+		return (0);
 	newbuf[0] = 0;
 	if (buf != 0)
 		strcat(newbuf, buf);
 	free(buf);
 	strcat(newbuf, add);
-	return newbuf;
+	return (newbuf);
 }
 
 int	main()

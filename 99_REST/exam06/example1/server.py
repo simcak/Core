@@ -1,6 +1,7 @@
 # https://github.com/artygo8/examRank06
 
 import socket
+import sys	# added for sys.exit()
 
 host = 'localhost'
 port = 9990
