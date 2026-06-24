@@ -1,12 +1,11 @@
+#include <errno.h>
+#include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
+#include <netdb.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <sys/select.h> // added, probably not neccessary
-#include <errno.h>
-#include <netdb.h>
 
 int		count = 0, max_fd = 0;
 int		ids[88888];
