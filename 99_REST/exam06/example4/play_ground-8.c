@@ -64,7 +64,7 @@ char	*str_join(char *buf, char *add)
 void	fatal_error()
 {
 	write(2, "Fatal error\n", 12);
-	exit (1);
+	exit(1);
 }
 
 void	notify_others(int author, char *str)
@@ -163,7 +163,7 @@ int	main(int ac, char **av)
 				{
 					register_client(connfd);
 					break;
-				}
+				} 
 			}
 			else
 			{
