@@ -15,6 +15,12 @@ fd_set	rfds, wfds, afds;
 char	buf_read[99999], buf_write[42];
 
 
+void	fatal_error()
+{
+	write(2, "Fatal error\n", 12);
+	exit(1);
+}
+
 int	extract_message(char **buf, char **msg)
 {
 	char	*newbuf;
@@ -30,7 +36,7 @@ int	extract_message(char **buf, char **msg)
 		{
 			newbuf = calloc(1, sizeof(*newbuf) * (strlen(*buf + i + 1) + 1));
 			if (newbuf == 0)
-				return (-1);
+				fatal_error();
 			strcpy(newbuf, *buf + i + 1);
 			*msg = *buf;
 			(*msg)[i + 1] = 0;
@@ -52,19 +58,13 @@ char	*str_join(char *buf, char *add)
 		len = strlen(buf);
 	newbuf = malloc(sizeof(*newbuf) * (len + strlen(add) + 1));
 	if (newbuf == 0)
-		return (0);
+		fatal_error();
 	newbuf[0] = 0;
 	if (buf != 0)
 		strcat(newbuf, buf);
 	free(buf);
 	strcat(newbuf, add);
 	return (newbuf);
-}
-
-void	fatal_error()
-{
-	write(2, "Fatal error\n", 12);
-	exit(1);
 }
 
 void	notify_others(int author, char *str)
@@ -117,11 +117,8 @@ int	main(int ac, char **av)
 	// socket create and verification 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0); 
 	if (sockfd == -1) { 
-		printf("socket creation failed...\n"); 
-		exit(0); 
-	} 
-	else
-		printf("Socket successfully created..\n"); 
+		fatal_error();
+	}
 	bzero(&servaddr, sizeof(servaddr)); 
 
 	// assign IP, PORT 
@@ -132,12 +129,9 @@ int	main(int ac, char **av)
 	// Binding newly created socket to given IP and verification 
 	if ((bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr))) != 0) { 
 		fatal_error();
-	} 
-	else
-		printf("Socket successfully binded..\n");
+	}
 	if (listen(sockfd, 10) != 0) {
-		printf("cannot listen\n"); 
-		exit(0); 
+		fatal_error();
 	}
 	max_fd = sockfd;
 	FD_SET(max_fd, &afds);
