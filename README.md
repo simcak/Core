@@ -6,3 +6,8 @@
 - [git remote = how to share the commit history in 42Heilbronn projects](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories) (avoiding Plagiarism)
 - [Markdown Guide](https://www.markdownguide.org) - for beautifull README.md
 - [GitHub Achievemnts](https://githubachievements.com/) - collecting achievements for the GitHub projects
+
+<br>
+
+## Holy Graph after Common Core:
+![Holy Graph](./99_REST/HolyGraph.png "Holy Graph")
