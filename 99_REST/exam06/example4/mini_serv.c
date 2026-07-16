@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+//+++++++++ Global variables
 int		count = 0, max_fd = 0;
 int		ids[99999];
 char	*msgs[99999];
@@ -15,12 +16,14 @@ fd_set	rfds, wfds, afds;
 char	buf_read[99999], buf_write[42];
 
 
+//+++++++++ fatal error used everywhere (even in the code copied from main.c)
 void	fatal_error()
 {
 	write(2, "Fatal error\n", 12);
 	exit(1);
 }
 
+//========== Function copied from main.c (with minor change)
 int	extract_message(char **buf, char **msg)
 {
 	char	*newbuf;
@@ -36,7 +39,7 @@ int	extract_message(char **buf, char **msg)
 		{
 			newbuf = calloc(1, sizeof(*newbuf) * (strlen(*buf + i + 1) + 1));
 			if (newbuf == 0)
-				fatal_error();
+				fatal_error();	//+++++++++ minor change
 			strcpy(newbuf, *buf + i + 1);
 			*msg = *buf;
 			(*msg)[i + 1] = 0;
@@ -47,6 +50,7 @@ int	extract_message(char **buf, char **msg)
 	return (0);
 }
 
+//========== Function copied from main.c (with minor change)
 char	*str_join(char *buf, char *add)
 {
 	char	*newbuf;
@@ -58,7 +62,7 @@ char	*str_join(char *buf, char *add)
 		len = strlen(buf);
 	newbuf = malloc(sizeof(*newbuf) * (len + strlen(add) + 1));
 	if (newbuf == 0)
-		fatal_error();
+		fatal_error();	//+++++++++ minor change
 	newbuf[0] = 0;
 	if (buf != 0)
 		strcat(newbuf, buf);
@@ -67,6 +71,7 @@ char	*str_join(char *buf, char *add)
 	return (newbuf);
 }
 
+//+++++++++ Notify all clients except the author of the message
 void	notify_others(int author, char *str)
 {
 	for (int fd = 0; fd <= max_fd; fd++)
@@ -74,6 +79,7 @@ void	notify_others(int author, char *str)
 			send(fd, str, strlen(str), 0);
 }
 
+//+++++++++ Register a new client
 void	register_client(int fd)
 {
 	max_fd = fd > max_fd ? fd : max_fd;
@@ -84,6 +90,7 @@ void	register_client(int fd)
 	notify_others(fd, buf_write);
 }
 
+//+++++++++ Remove a client from the list of active clients
 void	remove_client(int fd)
 {
 	sprintf(buf_write, "server: client %d just left\n", ids[fd]);
@@ -93,6 +100,7 @@ void	remove_client(int fd)
 	close(fd);
 }
 
+//+++++++++ Send all messages from a client to all other clients
 void	send_msg(int fd)
 {
 	char	*msg;
@@ -106,33 +114,39 @@ void	send_msg(int fd)
 	}
 }
 
+//=====++++++++++++ Main function copied from main.c (with major changes)
 int	main(int ac, char **av)
 {
-	int					sockfd, connfd;
+	int					sockfd, connfd;	//---- removed len var
 	struct sockaddr_in	servaddr, cli;
 
+	//+++++++++ Checker added
 	if (ac != 2) { return(write(2, "Wrong number of arguments\n", 26), 1); }
 	FD_ZERO(&afds);
+	//+++++++++
 
+	//========== Copied part from main.c (with minor changes)
 	// socket create and verification 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0); 
 	if (sockfd == -1) { 
-		fatal_error();
+		fatal_error();	//+++++++++ minor change
 	}
 	bzero(&servaddr, sizeof(servaddr)); 
 
 	// assign IP, PORT 
 	servaddr.sin_family = AF_INET; 
 	servaddr.sin_addr.s_addr = htonl(2130706433); //127.0.0.1
-	servaddr.sin_port = htons(atoi(av[1]));
+	servaddr.sin_port = htons(atoi(av[1]));	//+++++++++ minor change
 
 	// Binding newly created socket to given IP and verification 
 	if ((bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr))) != 0) { 
-		fatal_error();
+		fatal_error();	//+++++++++ minor change
 	}
 	if (listen(sockfd, 10) != 0) {
-		fatal_error();
+		fatal_error();	//+++++++++ minor change
 	}
+	//========== End of copied part from main.c
+	//++++++++++ Start of the main loop / major change
 	max_fd = sockfd;
 	FD_SET(max_fd, &afds);
 
