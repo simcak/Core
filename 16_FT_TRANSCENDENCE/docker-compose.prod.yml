@@ -1,0 +1,234 @@
+
+services:
+  nginx:
+    image: registry.gitlab.com/sombru-group/ft_transendence/nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      # External HTTPS port the HTTP->HTTPS redirect points browsers to.
+      HTTPS_PORT: 443
+      # Only substitute HTTPS_PORT in the template, leave nginx's own $vars alone.
+      NGINX_ENVSUBST_FILTER: "HTTPS_PORT"
+    depends_on:
+      frontend:
+        condition: service_started
+      catalog:
+        condition: service_started
+      auth:
+        condition: service_healthy
+      audio:
+        condition: service_healthy
+    volumes:
+      - /etc/letsencrypt/live/audioberry.ddns.net/fullchain.pem:/etc/nginx/certs/cert.pem:ro
+      - /etc/letsencrypt/live/audioberry.ddns.net/privkey.pem:/etc/nginx/certs/key.pem:ro
+      - /root/transcendence/kibana.htpasswd:/etc/nginx/kibana.htpasswd:ro
+    networks:
+      - transcendence_network
+
+  frontend:
+    image: registry.gitlab.com/sombru-group/ft_transendence/frontend:latest
+    container_name: frontend
+    restart: unless-stopped
+    networks:
+      - transcendence_network
+
+  catalog-migrate:
+    image: registry.gitlab.com/sombru-group/ft_transendence/catalog:latest
+    command: ["alembic", "-c", "migrations/alembic.ini", "upgrade", "head"]
+    restart: no
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      DB_SCHEMA: catalog
+    networks:
+      - transcendence_network
+  catalog:
+    image: registry.gitlab.com/sombru-group/ft_transendence/catalog:latest
+    container_name: catalog
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_COVERS_BUCKET: ${MINIO_COVERS_BUCKET:-covers}
+      MINIO_BUCKET: ${MINIO_BUCKET:-covers}
+      SECRET_KEY: ${SECRET_KEY}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+    networks:
+      - transcendence_network
+  auth:
+    image: registry.gitlab.com/sombru-group/ft_transendence/auth:latest
+    container_name: auth
+    env_file: ".env"
+    depends_on:
+      auth-migrate:
+        condition: service_completed_successfully
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_AVATARS_BUCKET: ${MINIO_AVATARS_BUCKET:-avatars}
+      SECRET_KEY: ${SECRET_KEY}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      OAUTH_42_REDIRECT_URI: ${OAUTH_42_REDIRECT_URI:-https://audioberry.ddns.net/auth/42/callback}
+      OAUTH_FRONTEND_REDIRECT_URI: ${OAUTH_FRONTEND_REDIRECT_URI:-/}
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health',
+        timeout=2)" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    networks:
+      - transcendence_network
+  auth-migrate:
+    image: registry.gitlab.com/sombru-group/ft_transendence/auth:latest
+    command: ["alembic", "-c", "migrations/alembic.ini", "upgrade", "head"]
+    restart: no
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      DB_SCHEMA: auth
+    networks:
+      - transcendence_network
+  audio-migrate:
+    image: registry.gitlab.com/sombru-group/ft_transendence/audio:latest
+    command: ["alembic", "-c", "migrations/alembic.ini", "upgrade", "head"]
+    restart: no
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      DB_SCHEMA: audio
+    networks:
+      - transcendence_network
+  audio:
+    image: registry.gitlab.com/sombru-group/ft_transendence/audio:latest
+    container_name: audio
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_BUCKET: ${MINIO_BUCKET:-audio-files}
+      SECRET_KEY: ${SECRET_KEY}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health',
+        timeout=2)" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    networks:
+      - transcendence_network
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-transcendence}
+      POSTGRES_USER: ${POSTGRES_USER:-transcendence}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-transcendence}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-transcendence} -d ${POSTGRES_DB:-transcendence}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - transcendence_network
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    # ports:
+    #   - "6379:6379"
+    networks:
+      - transcendence_network
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    command: ["server", "/data", "--console-address", ":9001"]
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    networks:
+      - transcendence_network
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+      mc mb --ignore-existing local/audio-files;
+      mc mb --ignore-existing local/covers;
+      mc anonymous set download local/covers;
+      mc mb --ignore-existing local/avatars;
+      exit 0;
+      "
+    networks:
+      - transcendence_network
+
+networks:
+  transcendence_network:
+
+volumes:
+  postgres_data:
+  minio_data:

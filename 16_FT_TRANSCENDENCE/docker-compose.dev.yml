@@ -1,0 +1,16 @@
+services:
+  frontend:
+    image: alpine
+    command: ["true"]
+    restart: "no"
+
+  nginx:
+    depends_on:
+      catalog:
+        condition: service_started
+      auth:
+        condition: service_healthy
+      audio:
+        condition: service_healthy
+    volumes:
+      - ./nginx/nginx.dev.conf:/etc/nginx/conf.d/nginx.conf:ro

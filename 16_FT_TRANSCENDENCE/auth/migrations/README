@@ -1,0 +1,19 @@
+Generic single-database configuration.
+
+
+# 1) local shell from auth/migrations/
+DB_HOST=localhost DB_PORT=5434 alembic -c alembic.ini revision --autogenerate -m "describe change"
+
+# 2) rebuild auth migration image so container sees new file
+docker compose build auth-migrate auth
+
+# 3) apply migration
+docker compose run --rm auth-migrate alembic -c migrations/alembic.ini upgrade head
+
+# 4) verify revision
+docker compose exec -T postgres psql -U transcendence -d transcendence -c "SELECT * FROM auth.alembic_version;"
+
+# DOWNGRADE
+n = number of versions to remove ex: -1 to move one version back
+
+DB_HOST=localhost DB_PORT=5434 alembic downgrade <n>

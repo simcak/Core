@@ -1,0 +1,77 @@
+groups:
+  - name: transcendence.services
+    rules:
+      - alert: ServiceDown
+        expr: up{job=~"auth|catalog|audio"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "Prometheus cannot scrape {{ $labels.job }}. The service is unreachable for more than 1 minute."
+
+      - alert: HighErrorRate
+        expr: |
+          sum by (job) (rate(http_requests_total{status="5xx"}[5m]))
+          /
+          sum by (job) (rate(http_requests_total[5m]))
+          > 0.05
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High 5xx error rate on {{ $labels.job }}"
+          description: "More than 5% of requests to {{ $labels.job }} are returning 5xx errors (current: {{ $value | humanizePercentage }})."
+
+      - alert: HighLatencyP95
+        expr: |
+          histogram_quantile(0.95,
+            sum by (job, le) (rate(http_request_duration_seconds_bucket[5m]))
+          ) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High P95 latency on {{ $labels.job }}"
+          description: "95th percentile request latency on {{ $labels.job }} exceeds 2s (current: {{ $value | humanizeDuration }})."
+
+      - alert: HighMemoryUsage
+        expr: |
+          process_resident_memory_bytes{job=~"auth|catalog|audio"} > 512 * 1024 * 1024
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on {{ $labels.job }}"
+          description: "{{ $labels.job }} is using more than 512MB of resident memory (current: {{ $value | humanize1024 }}B)."
+
+  - name: transcendence.infrastructure
+    rules:
+      - alert: NodeExporterDown
+        expr: up{job="node-exporter"} == 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "node-exporter is down"
+          description: "Host system metrics are unavailable."
+
+      - alert: HighHostCPU
+        expr: |
+          100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High host CPU usage"
+          description: "Host CPU usage is above 85% for 5 minutes (current: {{ $value | humanize }}%)."
+
+      - alert: LowDiskSpace
+        expr: |
+          (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 15
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Low disk space on host"
+          description: "Less than 15% disk space remaining on / (current: {{ $value | humanize }}%)."

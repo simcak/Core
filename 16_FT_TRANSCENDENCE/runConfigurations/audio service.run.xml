@@ -1,0 +1,40 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="audio service" type="PythonConfigurationType" factoryName="Python">
+    <module name="Sombru-project" />
+    <option name="ENV_FILES" value="" />
+    <option name="INTERPRETER_OPTIONS" value="" />
+    <option name="PARENT_ENVS" value="true" />
+    <envs>
+      <env name="PYTHONUNBUFFERED" value="1" />
+      <env name="CORS_ORIGINS" value="http://localhost:5173,http://localhost:8001" />
+      <env name="DB_HOST" value="localhost" />
+      <env name="DB_NAME" value="transcendence" />
+      <env name="DB_PASSWORD" value="transcendence" />
+      <env name="DB_PORT" value="5434" />
+      <env name="DB_USER" value="transcendence" />
+      <env name="MINIO_ACCESS_KEY" value="minio" />
+      <env name="MINIO_ENDPOINT" value="localhost:9000" />
+      <env name="MINIO_ROOT_PASSWORD" value="minio1234" />
+      <env name="MINIO_ROOT_USER" value="minio" />
+      <env name="MINIO_SECRET_KEY" value="minio1234" />
+      <env name="SECRET_KEY" value="REPLACE_ME" />
+    </envs>
+    <option name="SDK_HOME" value="" />
+    <option name="SDK_NAME" value="Python 3.12 (Sombru-project)" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/audio" />
+    <option name="IS_MODULE_SDK" value="false" />
+    <option name="ADD_CONTENT_ROOTS" value="true" />
+    <option name="ADD_SOURCE_ROOTS" value="true" />
+    <option name="DEBUG_JUST_MY_CODE" value="false" />
+    <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+    <option name="RUN_TOOL" value="" />
+    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/auth/.venv/bin/uvicorn" />
+    <option name="PARAMETERS" value="router:app --host 0.0.0.0 --port 8001 --reload" />
+    <option name="SHOW_COMMAND_LINE" value="false" />
+    <option name="EMULATE_TERMINAL" value="false" />
+    <option name="MODULE_MODE" value="false" />
+    <option name="REDIRECT_INPUT" value="false" />
+    <option name="INPUT_FILE" value="" />
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,0 +1,156 @@
+%% Data model across the auth, catalog and audio services.
+%% Solid lines are real foreign keys; dashed lines are logical
+%% cross-service references (the services own separate databases).
+erDiagram
+    %% ----- auth service -----
+    ROLE {
+        bigint id PK
+        varchar role_name
+    }
+    USERS {
+        bigint id PK
+        varchar username
+        varchar email
+        varchar password_hash
+        bigint role_id FK
+        varchar status
+        varchar first_name
+        varchar last_name
+        varchar avatar_filename
+        varchar phone
+        timestamp last_login_at
+        timestamp last_seen_at
+        boolean email_verified
+        timestamp email_verified_at
+        timestamp created_at
+        timestamp updated_at
+        varchar oauth_provider
+        varchar oauth_id
+    }
+    REFRESH_TOKENS {
+        bigint id PK
+        varchar token_hash
+        bigint user_id FK
+        timestamp created_at
+        timestamp expires_at
+        boolean revoked
+    }
+    FOLLOWERS {
+        bigint id PK
+        bigint follower_id FK
+        bigint followed_id FK
+        timestamp created_at
+    }
+    USERS_LIBRARY {
+        bigint id PK
+        bigint user_id FK
+        varchar name
+    }
+    USERS_LIBRARY_BOOK {
+        bigint library_id PK,FK
+        bigint book_id PK
+    }
+    PUBLIC_API_KEYS {
+        bigint id PK
+        varchar token_hash
+        varchar name
+        timestamp created_at
+        timestamp expires_at
+        timestamp last_used_at
+        boolean revoked
+    }
+
+    %% ----- catalog service -----
+    AUTHOR {
+        bigint id PK
+        text author_name
+    }
+    PUBLISHER {
+        bigint id PK
+        text publisher_name
+    }
+    PUBLISHER_FOLLOWERS {
+        bigint id PK
+        bigint user_id
+        bigint publisher_id FK
+        timestamp created_at
+    }
+    BOOK_CATEGORY {
+        bigint id PK
+        bigint parent_id FK
+        text category_name
+    }
+    BOOK {
+        bigint id PK
+        bigint author_id FK
+        bigint publisher_id FK
+        numeric price
+        varchar currency
+        varchar language_code
+        varchar isbn
+        varchar product_status
+        timestamp created_at
+        timestamp updated_at
+    }
+    BOOK_TRANSLATIONS {
+        bigint id PK
+        bigint book_id FK
+        varchar lang
+        varchar title
+        text description
+        text cover_image_filename
+        text sample_url
+        timestamp created_at
+        timestamp updated_at
+    }
+    BOOK_BOOK_CATEGORY {
+        bigint book_id PK,FK
+        bigint category_id PK,FK
+    }
+    BOOK_REVIEW {
+        bigint id PK
+        bigint book_id FK
+        bigint user_id
+        varchar username
+        smallint rating
+        text text
+        timestamp created_at
+    }
+
+    %% ----- audio service -----
+    AUDIO_FILES {
+        bigint id PK
+        bigint book_id
+        text storage_key
+        varchar original_filename
+        bigint file_size
+        float duration_seconds
+        varchar mime_type
+        varchar status
+        bigint publisher_id
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% ----- relationships (foreign keys) -----
+    ROLE ||--o{ USERS : "assigned to"
+    USERS ||--o{ REFRESH_TOKENS : has
+    USERS ||--o{ FOLLOWERS : "follower"
+    USERS ||--o{ FOLLOWERS : "followed"
+    USERS ||--o{ USERS_LIBRARY : owns
+    USERS_LIBRARY ||--o{ USERS_LIBRARY_BOOK : contains
+    AUTHOR ||--o{ BOOK : writes
+    PUBLISHER |o--o{ BOOK : publishes
+    PUBLISHER ||--o{ PUBLISHER_FOLLOWERS : "followed by"
+    BOOK_CATEGORY |o--o{ BOOK_CATEGORY : "parent of"
+    BOOK ||--o{ BOOK_TRANSLATIONS : "translated as"
+    BOOK ||--o{ BOOK_REVIEW : "reviewed in"
+    BOOK ||--o{ BOOK_BOOK_CATEGORY : "categorized by"
+    BOOK_CATEGORY ||--o{ BOOK_BOOK_CATEGORY : groups
+
+    %% ----- relationships (logical, cross-service) -----
+    USERS ||..o{ PUBLISHER_FOLLOWERS : "follows publisher"
+    USERS ||..o{ BOOK_REVIEW : writes
+    BOOK ||..o{ USERS_LIBRARY_BOOK : "saved in"
+    BOOK ||..o{ AUDIO_FILES : "has audio"
+    PUBLISHER ||..o{ AUDIO_FILES : "uploaded by"

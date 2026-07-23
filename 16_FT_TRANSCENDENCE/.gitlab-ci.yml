@@ -1,0 +1,85 @@
+stages:
+  - lint
+  - build 
+  - test
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+
+lint:
+  stage: lint
+  image: python:3.11
+  script:
+    - pip install flake8
+    - flake8 audio/ auth/ catalog/
+
+lint:frontend:
+  stage: lint
+  image: node:20
+  script:
+    - cd frontend
+    - npm ci
+    - npm run lint
+  rules:
+    - changes:
+        - frontend/**/*
+
+build:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/audio:$CI_COMMIT_SHA -t $CI_REGISTRY_IMAGE/audio:latest -f audio/Dockerfile audio/
+    - docker build -t $CI_REGISTRY_IMAGE/auth:$CI_COMMIT_SHA -t $CI_REGISTRY_IMAGE/auth:latest -f auth/Dockerfile auth/
+    - docker build -t $CI_REGISTRY_IMAGE/catalog:$CI_COMMIT_SHA -t $CI_REGISTRY_IMAGE/catalog:latest -f catalog/Dockerfile catalog/
+    - docker build -t $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHA -t $CI_REGISTRY_IMAGE/frontend:latest -f frontend/Dockerfile frontend/
+    - docker build -t $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA -t $CI_REGISTRY_IMAGE/nginx:latest -f nginx/Dockerfile nginx/
+    - docker push $CI_REGISTRY_IMAGE/audio:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/audio:latest
+    - docker push $CI_REGISTRY_IMAGE/auth:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/auth:latest
+    - docker push $CI_REGISTRY_IMAGE/catalog:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/catalog:latest
+    - docker push $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/frontend:latest
+    - docker push $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/nginx:latest
+
+test:unit:auth:
+    stage: test
+    image: python:3.12
+    script:
+      - pip install pytest
+      - pip install -r auth/requirements.txt
+      - pytest auth/ -v
+
+deploy:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+      when: manual
+  stage: deploy
+  image: alpine:3.20
+  environment:
+    name: production
+  before_script:
+    - apk add --no-cache openssh rsync
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
+  script:
+    - rsync -az docker-compose.prod.yml docker-compose.elk.yml docker-compose.elk.prod.yml docker-compose.monitoring.yml docker-compose.monitoring.prod.yml root@$DEPLOY_HOST:/root/transcendence/
+    - rsync -az elk monitoring root@$DEPLOY_HOST:/root/transcendence/
+    - ssh root@$DEPLOY_HOST "
+        docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
+        cd /root/transcendence &&
+        docker compose -f docker-compose.prod.yml -f docker-compose.elk.yml -f docker-compose.elk.prod.yml -f docker-compose.monitoring.yml -f docker-compose.monitoring.prod.yml pull &&
+        docker compose -f docker-compose.prod.yml -f docker-compose.elk.yml -f docker-compose.elk.prod.yml -f docker-compose.monitoring.yml -f docker-compose.monitoring.prod.yml up -d --remove-orphans
+      "

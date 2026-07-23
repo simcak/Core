@@ -1,0 +1,332 @@
+
+services:
+  nginx:
+    build:
+      context: ./nginx # need this for easier paths 
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - "8000:80"
+      - "4443:443"
+    environment:
+      # External HTTPS port the HTTP->HTTPS redirect points browsers to.
+      # School computers block 80/443, so dev exposes HTTPS on 4443.
+      HTTPS_PORT: 4443
+      # Only substitute HTTPS_PORT in the template, leave nginx's own $vars alone.
+      NGINX_ENVSUBST_FILTER: "HTTPS_PORT"
+    depends_on:
+      frontend:
+        condition: service_started
+      catalog:
+        condition: service_started
+      auth:
+        condition: service_healthy
+      audio:
+        condition: service_healthy
+    networks:
+      - transcendence_network
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: /api
+    container_name: frontend
+    restart: unless-stopped
+    networks:
+      - transcendence_network
+
+  catalog-migrate:
+    build:
+      context: ./catalog
+      dockerfile: Dockerfile
+    command: ["alembic", "-c", "migrations/alembic.ini", "upgrade", "head"]
+    restart: no
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      DB_SCHEMA: catalog
+    networks:
+      - transcendence_network
+  catalog:
+    build:
+      context: catalog
+      dockerfile: Dockerfile
+    container_name: catalog
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minio}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minio1234}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_BUCKET: ${MINIO_BUCKET:-covers}
+      SECRET_KEY: ${SECRET_KEY}
+      MINIO_COVERS_BUCKET: ${MINIO_COVERS_BUCKET:-covers}
+    networks:
+      - transcendence_network
+  catalog-seed:
+    build:
+      context: catalog
+      dockerfile: Dockerfile
+    command: ["python", "seed.py"]
+    restart: no
+    depends_on:
+      catalog-migrate:
+        condition: service_completed_successfully
+      minio-init:
+        condition: service_completed_successfully
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      DB_SCHEMA: catalog
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minio}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minio1234}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_COVERS_BUCKET: ${MINIO_BUCKET:-covers}
+    networks:
+      - transcendence_network
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    container_name: auth
+    env_file: ".env"
+    depends_on:
+      auth-migrate:
+        condition: service_completed_successfully
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      SECRET_KEY: ${SECRET_KEY}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minio}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minio1234}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_AVATARS_BUCKET: ${MINIO_AVATARS_BUCKET:-avatars}
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health',
+        timeout=2)" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    networks:
+      - transcendence_network
+  auth-migrate:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    command: ["alembic", "-c", "migrations/alembic.ini", "upgrade", "head"]
+    restart: no
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      DB_SCHEMA: auth
+    networks:
+      - transcendence_network
+  auth-seed:
+    build:
+      context: auth
+      dockerfile: Dockerfile
+    command: [ "python", "seed.py" ]
+    restart: no
+    depends_on:
+      auth-migrate:
+        condition: service_completed_successfully
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      DB_SCHEMA: auth
+    networks:
+      - transcendence_network
+  audio-migrate:
+    build:
+      context: audio
+      dockerfile: Dockerfile
+    command: ["alembic", "-c", "migrations/alembic.ini", "upgrade", "head"]
+    restart: no
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      DB_SCHEMA: audio
+    networks:
+      - transcendence_network
+
+  audio-seed:
+    build:
+      context: audio
+      dockerfile: Dockerfile
+    command: ["python", "seed.py"]
+    restart: no
+    depends_on:
+      audio-migrate:
+        condition: service_completed_successfully
+      minio-init:
+        condition: service_completed_successfully
+    volumes:
+      - ./audiobooks:/audiobooks:ro   # your MP3 files, read-only inside container
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      DB_SCHEMA: audio
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minio}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minio1234}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_BUCKET: ${MINIO_BUCKET:-audio-files}
+      AUDIOBOOKS_DIR: /audiobooks
+    networks:
+      - transcendence_network
+
+  audio:
+    build:
+      context: audio
+      dockerfile: Dockerfile
+    container_name: audio
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-transcendence}
+      DB_USER: ${DB_USER:-transcendence}
+      DB_PASSWORD: ${DB_PASSWORD:-transcendence}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minio}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minio1234}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_BUCKET: ${MINIO_BUCKET:-audio-files}
+      SECRET_KEY: ${SECRET_KEY}
+      MINIO_EXTERNAL_ENDPOINT: ${MINIO_EXTERNAL_ENDPOINT:-host.docker.internal:9000}
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health',
+        timeout=2)" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    networks:
+      - transcendence_network
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-transcendence}
+      POSTGRES_USER: ${POSTGRES_USER:-transcendence}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-transcendence}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-transcendence} -d ${POSTGRES_DB:-transcendence}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - transcendence_network
+    ports:
+      - "5434:5432"
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    # ports:
+    #   - "6379:6379"
+    networks:
+      - transcendence_network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: transcendence_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - transcendence_network
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    command: ["server", "/data", "--console-address", ":9001"]
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minio}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio1234}
+    networks:
+      - transcendence_network
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 ${MINIO_ROOT_USER:-minio} ${MINIO_ROOT_PASSWORD:-minio1234};
+      mc mb --ignore-existing local/audio-files;
+      mc mb --ignore-existing local/covers;
+      mc anonymous set download local/covers;
+      mc mb --ignore-existing local/avatars;
+      exit 0;
+      "
+    networks:
+      - transcendence_network
+
+networks:
+  transcendence_network:
+
+volumes:
+  postgres_data:

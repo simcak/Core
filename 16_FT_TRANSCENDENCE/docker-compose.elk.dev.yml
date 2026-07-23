@@ -1,0 +1,4 @@
+services:
+  kibana:
+    ports:
+      - "5601:5601"

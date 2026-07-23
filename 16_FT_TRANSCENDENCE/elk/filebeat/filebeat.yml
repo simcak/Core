@@ -1,0 +1,19 @@
+filebeat.inputs:
+    - type: container
+      paths:
+        - /var/lib/docker/containers/*/*.log
+      multiline.type: pattern
+      multiline.pattern: '^[[:space:]]'
+      multiline.negate: false
+      multiline.match: after
+      processors:
+        - dissect:
+            tokenizer: "/var/lib/docker/containers/%{container.id}/%{?rest}"
+            field: "log.file.path"
+            target_prefix: ""
+        - add_docker_metadata:
+            host: "unix:///var/run/docker.sock"
+            match_fields: ["container.id"]
+
+output.logstash:
+  hosts: ["logstash:5044"]

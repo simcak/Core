@@ -1,0 +1,11 @@
+services:
+  kibana:
+    environment:
+      - SERVER_BASEPATH=/kibana
+      - SERVER_REWRITEBASEPATH=true
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:5601/kibana/api/status | grep -q '\"level\":\"available\"'"]
+
+  elk-setup:
+    environment:
+      - KIBANA_URL=http://kibana:5601/kibana

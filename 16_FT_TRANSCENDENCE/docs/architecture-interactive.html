@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AudioBerry — Architecture & Service Interactions</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --text3: #6e7681;
+    --accent: #f97316;
+    --accent2: #fb923c;
+    --blue: #58a6ff;
+    --green: #3fb950;
+    --purple: #bc8cff;
+    --yellow: #e3b341;
+    --red: #f85149;
+    --pink: #f778ba;
+    --teal: #39d353;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.5; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Header */
+  header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 100; }
+  .logo { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: #fff; flex-shrink: 0; }
+  header h1 { font-size: 18px; font-weight: 600; }
+  header .subtitle { color: var(--text2); font-size: 13px; }
+  .badge { background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; padding: 2px 10px; font-size: 11px; color: var(--text2); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--bg2); padding: 0 32px; overflow-x: auto; }
+  .tab { padding: 12px 20px; cursor: pointer; border-bottom: 2px solid transparent; color: var(--text2); font-size: 13px; font-weight: 500; white-space: nowrap; transition: all .15s; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* Content */
+  .content { max-width: 1200px; margin: 0 auto; padding: 32px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Section */
+  .section { margin-bottom: 40px; }
+  h2 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+  h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+  p { color: var(--text2); margin-bottom: 12px; }
+
+  /* Arch Diagram */
+  .arch-wrap { overflow-x: auto; padding: 8px 0; }
+  .arch-svg { min-width: 780px; }
+
+  /* Service Cards */
+  .service-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
+  .service-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color .2s; }
+  .service-card:hover { border-color: var(--accent); }
+  .service-card .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .service-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .service-card .card-name { font-weight: 600; font-size: 15px; }
+  .service-card .card-tech { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; }
+  .service-card .card-desc { color: var(--text2); font-size: 13px; margin-bottom: 12px; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 1px 8px; font-size: 11px; color: var(--text2); }
+  .tag.green { border-color: #3fb95040; color: var(--green); background: #3fb95010; }
+  .tag.blue { border-color: #58a6ff40; color: var(--blue); background: #58a6ff10; }
+  .tag.purple { border-color: #bc8cff40; color: var(--purple); background: #bc8cff10; }
+  .tag.orange { border-color: #f9731640; color: var(--accent); background: #f9731610; }
+  .tag.yellow { border-color: #e3b34140; color: var(--yellow); background: #e3b34110; }
+  .tag.pink { border-color: #f778ba40; color: var(--pink); background: #f778ba10; }
+
+  /* API Reference */
+  .api-service { margin-bottom: 32px; }
+  .api-service-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .api-service-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .endpoint-list { display: flex; flex-direction: column; gap: 8px; }
+  .endpoint { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .endpoint-header { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; cursor: pointer; user-select: none; }
+  .endpoint-header:hover { background: var(--bg3); }
+  .method { font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; min-width: 52px; text-align: center; flex-shrink: 0; }
+  .method.GET { background: #3fb95020; color: var(--green); border: 1px solid #3fb95040; }
+  .method.POST { background: #58a6ff20; color: var(--blue); border: 1px solid #58a6ff40; }
+  .method.PUT { background: #e3b34120; color: var(--yellow); border: 1px solid #e3b34140; }
+  .method.DELETE { background: #f8514920; color: var(--red); border: 1px solid #f8514940; }
+  .method.PATCH { background: #bc8cff20; color: var(--purple); border: 1px solid #bc8cff40; }
+  .endpoint-path { font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 13px; color: var(--text); flex: 1; word-break: break-all; }
+  .endpoint-desc { color: var(--text2); font-size: 12px; margin-top: 2px; }
+  .auth-badge { font-size: 10px; padding: 1px 6px; border-radius: 3px; flex-shrink: 0; margin-top: 2px; }
+  .auth-badge.required { background: #f9731620; color: var(--accent); border: 1px solid #f9731640; }
+  .auth-badge.admin { background: #bc8cff20; color: var(--purple); border: 1px solid #bc8cff40; }
+  .auth-badge.pub { background: #e3b34120; color: var(--yellow); border: 1px solid #e3b34140; }
+  .endpoint-body { display: none; padding: 12px 16px; border-top: 1px solid var(--border); background: var(--bg); }
+  .endpoint-body.open { display: block; }
+  .endpoint-body pre { font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 12px; color: var(--text2); white-space: pre-wrap; }
+  .endpoint-body .note { color: var(--text2); font-size: 12px; }
+  .endpoint-body .note strong { color: var(--text); }
+
+  /* Data Models */
+  .schema-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-top: 16px; }
+  .schema-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .schema-header { padding: 12px 16px; background: var(--bg3); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .schema-header .schema-name { font-weight: 600; font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 13px; }
+  .schema-header .schema-svc { font-size: 11px; color: var(--text3); }
+  .schema-fields { padding: 8px 0; }
+  .field-row { display: flex; align-items: baseline; gap: 8px; padding: 4px 16px; }
+  .field-row:hover { background: var(--bg3); }
+  .field-name { font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 12px; color: var(--text); min-width: 130px; }
+  .field-type { font-size: 11px; color: var(--text3); font-family: 'SF Mono', 'Fira Mono', monospace; }
+  .field-pk { font-size: 10px; color: var(--yellow); border: 1px solid #e3b34140; background: #e3b34110; padding: 0 4px; border-radius: 3px; }
+  .field-fk { font-size: 10px; color: var(--blue); border: 1px solid #58a6ff40; background: #58a6ff10; padding: 0 4px; border-radius: 3px; }
+  .field-null { font-size: 10px; color: var(--text3); }
+
+  /* Auth Flow */
+  .flow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px; }
+  @media (max-width: 700px) { .flow-grid { grid-template-columns: 1fr; } }
+  .flow-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .flow-title { font-weight: 600; margin-bottom: 16px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+  .flow-steps { display: flex; flex-direction: column; gap: 0; }
+  .flow-step { display: flex; gap: 12px; position: relative; padding-bottom: 16px; }
+  .flow-step:last-child { padding-bottom: 0; }
+  .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--text2); flex-shrink: 0; z-index: 1; }
+  .flow-step:not(:last-child) .step-num::after { content: ''; position: absolute; left: 11px; top: 24px; bottom: 0; width: 1px; background: var(--border); z-index: 0; }
+  .step-content { padding-top: 2px; }
+  .step-label { font-size: 13px; font-weight: 500; color: var(--text); }
+  .step-detail { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .step-code { font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 11px; background: var(--bg3); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px; display: inline-block; margin-top: 4px; color: var(--text); }
+
+  /* Nginx routing table */
+  .route-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .route-table th { background: var(--bg3); color: var(--text2); font-size: 12px; text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); font-weight: 500; }
+  .route-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
+  .route-table tr:hover td { background: var(--bg2); }
+  .route-table .path { font-family: 'SF Mono', 'Fira Mono', monospace; color: var(--text); }
+  .route-table .target { color: var(--blue); font-family: 'SF Mono', 'Fira Mono', monospace; }
+  .route-table .note { color: var(--text2); font-size: 12px; }
+
+  /* Info box */
+  .info-box { background: #58a6ff10; border: 1px solid #58a6ff30; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 13px; color: var(--text2); }
+  .info-box strong { color: var(--blue); }
+  .warn-box { background: #e3b34110; border: 1px solid #e3b34130; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 13px; color: var(--text2); }
+  .warn-box strong { color: var(--yellow); }
+
+  /* Divider */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* Tooltip */
+  [title] { cursor: help; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🎧</div>
+  <div>
+    <h1>AudioBerry</h1>
+    <div class="subtitle">Architecture &amp; Service Interaction Reference</div>
+  </div>
+  <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;">
+    <span class="badge">ft_transcendence</span>
+    <span class="badge">3 microservices</span>
+    <span class="badge">React + FastAPI</span>
+  </div>
+</header>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" onclick="showTab('overview')">Overview</div>
+  <div class="tab" onclick="showTab('services')">Services</div>
+  <div class="tab" onclick="showTab('apis')">API Reference</div>
+  <div class="tab" onclick="showTab('models')">Data Models</div>
+  <div class="tab" onclick="showTab('auth')">Auth Flows</div>
+  <div class="tab" onclick="showTab('nginx')">Nginx Routing</div>
+</div>
+
+<!-- ═══════════════════════════════ OVERVIEW ═══════════════════════════════ -->
+<div class="content">
+<div class="panel active" id="panel-overview">
+  <div class="section">
+    <h2>System Architecture</h2>
+    <p>AudioBerry is a microservices-based audiobook platform. All external traffic enters through Nginx, which routes requests to the appropriate backend service. Services share a single PostgreSQL instance using separate schemas. Object storage (MinIO) holds audio files, book cover images, and user avatars.</p>
+  </div>
+
+  <div class="arch-wrap">
+    <svg class="arch-svg" viewBox="0 0 800 540" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:900px;display:block;">
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#8b949e"/>
+        </marker>
+        <marker id="arr-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#58a6ff"/>
+        </marker>
+        <marker id="arr-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#3fb950"/>
+        </marker>
+        <marker id="arr-orange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#f97316"/>
+        </marker>
+      </defs>
+
+      <!-- Browser -->
+      <rect x="330" y="10" width="140" height="52" rx="10" fill="#21262d" stroke="#f97316" stroke-width="1.5"/>
+      <text x="400" y="31" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="600">Browser</text>
+      <text x="400" y="50" text-anchor="middle" fill="#8b949e" font-size="10">React SPA</text>
+
+      <!-- Arrow browser -> nginx -->
+      <line x1="400" y1="62" x2="400" y2="100" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="415" y="84" fill="#8b949e" font-size="10">HTTP / HTTPS</text>
+
+      <!-- Nginx -->
+      <rect x="280" y="100" width="240" height="52" rx="10" fill="#21262d" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="400" y="121" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="600">Nginx</text>
+      <text x="400" y="140" text-anchor="middle" fill="#8b949e" font-size="10">Reverse Proxy • TLS Termination • Routing</text>
+
+      <!-- Arrow nginx -> frontend -->
+      <line x1="310" y1="152" x2="130" y2="210" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="185" y="183" fill="#8b949e" font-size="9">/ →</text>
+
+      <!-- Frontend -->
+      <rect x="20" y="210" width="180" height="52" rx="10" fill="#21262d" stroke="#f97316" stroke-width="1.5"/>
+      <text x="110" y="231" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="600">Frontend</text>
+      <text x="110" y="250" text-anchor="middle" fill="#f97316" font-size="10">React + Vite • Nginx</text>
+
+      <!-- Arrow nginx -> auth -->
+      <line x1="370" y1="152" x2="240" y2="210" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="270" y="183" fill="#8b949e" font-size="9">/auth/*</text>
+
+      <!-- Auth Service -->
+      <rect x="160" y="210" width="160" height="52" rx="10" fill="#21262d" stroke="#bc8cff" stroke-width="1.5"/>
+      <text x="240" y="231" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="600">Auth</text>
+      <text x="240" y="250" text-anchor="middle" fill="#bc8cff" font-size="10">FastAPI • Python</text>
+
+      <!-- Arrow nginx -> catalog -->
+      <line x1="400" y1="152" x2="400" y2="210" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="415" y="184" fill="#8b949e" font-size="9">/api/*</text>
+
+      <!-- Catalog Service -->
+      <rect x="320" y="210" width="160" height="52" rx="10" fill="#21262d" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="400" y="231" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="600">Catalog</text>
+      <text x="400" y="250" text-anchor="middle" fill="#3fb950" font-size="10">FastAPI • Python</text>
+
+      <!-- Arrow nginx -> audio -->
+      <line x1="450" y1="152" x2="555" y2="210" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="490" y="183" fill="#8b949e" font-size="9">/api/audio/*</text>
+
+      <!-- Audio Service -->
+      <rect x="480" y="210" width="160" height="52" rx="10" fill="#21262d" stroke="#e3b341" stroke-width="1.5"/>
+      <text x="560" y="231" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="600">Audio</text>
+      <text x="560" y="250" text-anchor="middle" fill="#e3b341" font-size="10">FastAPI • Python</text>
+
+      <!-- PostgreSQL -->
+      <rect x="200" y="360" width="240" height="52" rx="10" fill="#21262d" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="320" y="381" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="600">PostgreSQL</text>
+      <text x="320" y="400" text-anchor="middle" fill="#8b949e" font-size="10">auth schema • catalog schema • audio schema</text>
+
+      <!-- Auth -> PG -->
+      <line x1="240" y1="262" x2="280" y2="360" stroke="#3fb950" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-green)"/>
+      <!-- Catalog -> PG -->
+      <line x1="380" y1="262" x2="340" y2="360" stroke="#3fb950" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-green)"/>
+      <!-- Audio -> PG -->
+      <line x1="530" y1="262" x2="420" y2="360" stroke="#3fb950" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-green)"/>
+
+      <!-- MinIO -->
+      <rect x="520" y="360" width="180" height="52" rx="10" fill="#21262d" stroke="#e3b341" stroke-width="1.5"/>
+      <text x="610" y="381" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="600">MinIO</text>
+      <text x="610" y="400" text-anchor="middle" fill="#8b949e" font-size="10">audio-files • covers • avatars</text>
+
+      <!-- Auth -> MinIO (avatars) -->
+      <line x1="310" y1="262" x2="540" y2="360" stroke="#e3b341" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-orange)"/>
+      <!-- Catalog -> MinIO (covers) -->
+      <line x1="450" y1="262" x2="570" y2="360" stroke="#e3b341" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-orange)"/>
+      <!-- Audio -> MinIO (audio) -->
+      <line x1="600" y1="262" x2="630" y2="360" stroke="#e3b341" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-orange)"/>
+
+      <!-- Redis -->
+      <rect x="20" y="360" width="160" height="52" rx="10" fill="#21262d" stroke="#f85149" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="100" y="381" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="600">Redis</text>
+      <text x="100" y="400" text-anchor="middle" fill="#8b949e" font-size="10">Reserved (cache / queue)</text>
+
+      <!-- ELK overlay -->
+      <rect x="20" y="450" width="340" height="72" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="190" y="470" text-anchor="middle" fill="#6e7681" font-size="11" font-weight="600">ELK Stack (optional overlay)</text>
+      <text x="190" y="489" text-anchor="middle" fill="#6e7681" font-size="10">Filebeat → Logstash → Elasticsearch → Kibana</text>
+      <text x="190" y="508" text-anchor="middle" fill="#6e7681" font-size="10">make up-elk  •  /kibana/</text>
+
+      <!-- Monitoring overlay -->
+      <rect x="380" y="450" width="320" height="72" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="540" y="470" text-anchor="middle" fill="#6e7681" font-size="11" font-weight="600">Monitoring (optional overlay)</text>
+      <text x="540" y="489" text-anchor="middle" fill="#6e7681" font-size="10">Prometheus (scrapes /metrics from each service)</text>
+      <text x="540" y="508" text-anchor="middle" fill="#6e7681" font-size="10">Grafana dashboards  •  make up-monitoring</text>
+
+      <!-- Legend -->
+      <text x="20" y="530" fill="#6e7681" font-size="10">─── request path</text>
+      <line x1="130" y1="527" x2="145" y2="527" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="150" y="530" fill="#6e7681" font-size="10">DB read/write</text>
+      <line x1="220" y1="527" x2="235" y2="527" stroke="#e3b341" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="240" y="530" fill="#6e7681" font-size="10">object storage</text>
+    </svg>
+  </div>
+
+  <div class="info-box">
+    <strong>Dev shortcut:</strong> Run <code>make up</code> for the full stack on <strong>http://localhost:8000</strong> (HTTP → HTTPS redirect) or <strong>https://localhost:4443</strong>. pgAdmin is at <strong>http://localhost:5050</strong>. MinIO console at <strong>http://localhost:9001</strong>.
+  </div>
+
+  <hr class="divider">
+  <h3>Startup Order (docker compose)</h3>
+  <p>Services start in dependency order enforced by health-checks:</p>
+  <ol style="color:var(--text2);font-size:13px;padding-left:20px;line-height:2;">
+    <li>PostgreSQL — waits until <code>pg_isready</code> passes</li>
+    <li>MinIO → minio-init (creates buckets: <code>audio-files</code>, <code>covers</code>, <code>avatars</code>)</li>
+    <li>auth-migrate / catalog-migrate / audio-migrate (Alembic <code>upgrade head</code>)</li>
+    <li>auth-seed / catalog-seed / audio-seed (dev only)</li>
+    <li>Auth, Catalog, Audio services (wait for their migrate job)</li>
+    <li>Frontend, Nginx (wait for services)</li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════ SERVICES ═══════════════════════════════ -->
+<div class="panel" id="panel-services">
+  <div class="section">
+    <h2>Microservices</h2>
+    <p>Each backend service is an independent FastAPI application running in its own Docker container. Services communicate externally through Nginx — they do not call each other directly.</p>
+  </div>
+
+  <div class="service-grid">
+    <div class="service-card">
+      <div class="card-header">
+        <div class="service-icon" style="background:#f9731615;font-size:22px;">🌐</div>
+        <div>
+          <div class="card-name">Frontend</div>
+          <div class="card-tech">React + Vite + TypeScript</div>
+        </div>
+      </div>
+      <div class="card-desc">Single-page application built with React 19, Vite, and shadcn/ui components. Served as compiled static assets via an Nginx container. In dev mode, Vite runs outside Docker on port 5173 with hot-reload.</div>
+      <div class="tag-list">
+        <span class="tag orange">React 19</span>
+        <span class="tag orange">Vite</span>
+        <span class="tag orange">TypeScript</span>
+        <span class="tag orange">shadcn/ui</span>
+        <span class="tag orange">react-router-dom</span>
+        <span class="tag orange">i18n</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="card-header">
+        <div class="service-icon" style="background:#bc8cff15;font-size:22px;">🔐</div>
+        <div>
+          <div class="card-name">Auth Service</div>
+          <div class="card-tech">FastAPI • Python 3.12</div>
+        </div>
+      </div>
+      <div class="card-desc">Owns all identity concerns: user registration, login, JWT access + refresh token lifecycle, avatar uploads, user search, follower/following graph. Supports both email/password and 42 intra OAuth.</div>
+      <div class="tag-list">
+        <span class="tag purple">JWT (access + refresh)</span>
+        <span class="tag purple">42 OAuth</span>
+        <span class="tag purple">bcrypt</span>
+        <span class="tag purple">MinIO avatars</span>
+        <span class="tag purple">Followers</span>
+        <span class="tag purple">Admin CRUD</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="card-header">
+        <div class="service-icon" style="background:#3fb95015;font-size:22px;">📚</div>
+        <div>
+          <div class="card-name">Catalog Service</div>
+          <div class="card-tech">FastAPI • Python 3.12</div>
+        </div>
+      </div>
+      <div class="card-desc">Owns book metadata: books, authors, publishers, categories (hierarchical), multi-language translations, cover images, reviews and ratings. Supports full-text search and category/publisher/author filtering.</div>
+      <div class="tag-list">
+        <span class="tag green">Books CRUD</span>
+        <span class="tag green">Search</span>
+        <span class="tag green">Categories</span>
+        <span class="tag green">Reviews</span>
+        <span class="tag green">Publisher follows</span>
+        <span class="tag green">Cover images</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="card-header">
+        <div class="service-icon" style="background:#e3b34115;font-size:22px;">🎧</div>
+        <div>
+          <div class="card-name">Audio Service</div>
+          <div class="card-tech">FastAPI • Python 3.12</div>
+        </div>
+      </div>
+      <div class="card-desc">Owns audio file management: upload (multipart or presigned URL), storage in MinIO, streaming with HTTP Range support (seek), public listing per book. Publishers and admins can upload; any authenticated user can stream.</div>
+      <div class="tag-list">
+        <span class="tag yellow">Streaming (Range)</span>
+        <span class="tag yellow">Upload</span>
+        <span class="tag yellow">Presign URL</span>
+        <span class="tag yellow">MinIO audio-files</span>
+        <span class="tag yellow">Publisher role</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="card-header">
+        <div class="service-icon" style="background:#58a6ff15;font-size:22px;">⚙️</div>
+        <div>
+          <div class="card-name">Nginx</div>
+          <div class="card-tech">Nginx 1.27 • Custom Dockerfile</div>
+        </div>
+      </div>
+      <div class="card-desc">Entry point for all external traffic. Terminates TLS, routes by URL prefix to the correct backend service, enforces <code>client_max_body_size 512m</code> for audio uploads, and reverse-proxies Kibana and Grafana under sub-paths.</div>
+      <div class="tag-list">
+        <span class="tag blue">TLS termination</span>
+        <span class="tag blue">Routing</span>
+        <span class="tag blue">Kibana proxy</span>
+        <span class="tag blue">Grafana proxy</span>
+        <span class="tag blue">Port 80 / 443</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="card-header">
+        <div class="service-icon" style="background:#58a6ff15;font-size:22px;">🐘</div>
+        <div>
+          <div class="card-name">PostgreSQL 16</div>
+          <div class="card-tech">Shared instance, 3 schemas</div>
+        </div>
+      </div>
+      <div class="card-desc">Single Postgres container shared by all three services. Each service owns its own Alembic schema (<code>auth</code>, <code>catalog</code>, <code>audio</code>) and runs migrations independently on startup. Data persisted in a named Docker volume.</div>
+      <div class="tag-list">
+        <span class="tag blue">auth schema</span>
+        <span class="tag blue">catalog schema</span>
+        <span class="tag blue">audio schema</span>
+        <span class="tag blue">SQLAlchemy ORM</span>
+        <span class="tag blue">Alembic</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="card-header">
+        <div class="service-icon" style="background:#e3b34115;font-size:22px;">🪣</div>
+        <div>
+          <div class="card-name">MinIO</div>
+          <div class="card-tech">S3-compatible object storage</div>
+        </div>
+      </div>
+      <div class="card-desc">Local S3-compatible storage. Three buckets: <code>audio-files</code> (streamed MP3s), <code>covers</code> (book cover images), <code>avatars</code> (user avatars). Supports presigned upload URLs for large audio files.</div>
+      <div class="tag-list">
+        <span class="tag yellow">audio-files bucket</span>
+        <span class="tag yellow">covers bucket</span>
+        <span class="tag yellow">avatars bucket</span>
+        <span class="tag yellow">Presigned URLs</span>
+      </div>
+    </div>
+
+    <div class="service-card" style="border-color:var(--border);opacity:.7;">
+      <div class="card-header">
+        <div class="service-icon" style="background:#8b949e15;font-size:22px;">🔴</div>
+        <div>
+          <div class="card-name">Redis</div>
+          <div class="card-tech">In docker-compose, not yet wired</div>
+        </div>
+      </div>
+      <div class="card-desc">Redis container is present and healthy in the stack but services do not yet use it. Reserved for session caching, rate limiting, or async job queues.</div>
+      <div class="tag-list">
+        <span class="tag">Reserved</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ API REFERENCE ═══════════════════════════════ -->
+<div class="panel" id="panel-apis">
+  <div class="section">
+    <h2>API Reference</h2>
+    <p>All endpoints are accessed through Nginx. The base URL in production is <code>https://localhost:4443</code> (or the configured domain). Click any endpoint to expand details.</p>
+    <div class="info-box">
+      <strong>Authentication:</strong> The auth service uses HttpOnly cookies (<code>access_token</code>, <code>refresh_token</code>). Cookies are set on login and sent automatically with each request. No manual header needed from the frontend — Nginx forwards them. Swagger UI is at <strong>/auth/docs</strong>.
+    </div>
+  </div>
+
+  <!-- AUTH -->
+  <div class="api-service">
+    <div class="api-service-header">
+      <div class="api-service-dot" style="background:#bc8cff;"></div>
+      <h3>Auth Service</h3>
+      <span class="tag purple" style="margin-left:4px;">prefix: /auth/</span>
+      <span class="tag" style="margin-left:4px;">Swagger: /auth/docs</span>
+    </div>
+    <div class="endpoint-list">
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/auth/register</div>
+            <div class="endpoint-desc">Register a new user with email + password</div>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p class="note"><strong>Request body:</strong></p>
+          <pre>{ "email": "user@example.com", "password": "Str0ng!", "username": "myhandle",
+  "first_name": "Jane", "last_name": "Doe", "phone": "+420..." }</pre>
+          <p class="note" style="margin-top:8px;"><strong>Returns:</strong> 201 UserResponse • 409 email/username conflict</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/auth/login</div>
+            <div class="endpoint-desc">Authenticate and receive JWT cookies</div>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p class="note"><strong>Request body:</strong></p>
+          <pre>{ "email": "user@example.com", "password": "Str0ng!" }</pre>
+          <p class="note" style="margin-top:8px;"><strong>Side effects:</strong> Sets <code>access_token</code> + <code>refresh_token</code> HttpOnly cookies.</p>
+          <p class="note"><strong>Returns:</strong> 200 { access_token, token_type, user } • 401 invalid credentials</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/auth/jwt/refresh</div>
+            <div class="endpoint-desc">Get a new access token using the refresh cookie</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body">
+          <p class="note">Sends the <code>refresh_token</code> cookie. Returns a new <code>access_token</code> in the response JSON and refreshes the cookie.</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/auth/logout</div>
+            <div class="endpoint-desc">Revoke refresh token and clear auth cookies</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body">
+          <p class="note">Marks the refresh token as revoked in the DB and deletes both cookies. Returns 200 null.</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/me</div>
+            <div class="endpoint-desc">Get the currently authenticated user</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body">
+          <p class="note"><strong>Returns:</strong> UserResponse (id, username, email, first_name, last_name, role, avatar_filename, …)</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method PUT">PUT</span>
+          <div>
+            <div class="endpoint-path">/auth/editProfile</div>
+            <div class="endpoint-desc">Update own profile (name, phone, avatar_filename)</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body">
+          <pre>{ "first_name": "Jane", "last_name": "Doe", "phone": "+420...", "avatar_filename": "..." }</pre>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/auth/me/avatar</div>
+            <div class="endpoint-desc">Upload avatar image (JPEG/PNG/WebP, max 10 MB)</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body">
+          <p class="note">Multipart upload. Stores in MinIO <code>avatars</code> bucket under <code>users/{id}/{uuid}/{filename}</code>.</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/me/avatar</div>
+            <div class="endpoint-desc">Stream own avatar image from MinIO</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns the image as a StreamingResponse with correct MIME type.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/users/{user_id}/avatar</div>
+            <div class="endpoint-desc">Get any user's avatar by ID</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">Public endpoint — no auth required.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/search/users?q=&lt;query&gt;&amp;limit=10</div>
+            <div class="endpoint-desc">Search users by username or name</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns ranked list (exact match → prefix → contains). Max 30 results.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/users/{user_id}</div>
+            <div class="endpoint-desc">Get a user by ID</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns UserResponse or 404.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/me/followers</div>
+            <div class="endpoint-desc">Get users who follow the authenticated user</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns list of UserResponse ordered by follow date desc.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/me/following</div>
+            <div class="endpoint-desc">Get users the authenticated user follows</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns list of UserResponse ordered by follow date desc.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/auth/me/follow/{target_user_id}</div>
+            <div class="endpoint-desc">Follow another user</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns 204. 400 if already following or self-follow attempt.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/auth/heartbeat</div>
+            <div class="endpoint-desc">Mark the user as recently active (online presence)</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Stamps <code>last_seen_at = now</code>. A user is "online" while last seen within 60 s. Returns 204.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/me/libraries</div>
+            <div class="endpoint-desc">Personal book lists ("My Library") with their books</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Also: <code>POST</code> create, <code>PATCH /{id}</code> rename, <code>DELETE /{id}</code> remove. Names are unique per user (409 on duplicate).</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/auth/me/libraries/{library_id}/books/{book_id}</div>
+            <div class="endpoint-desc">Add / remove a book in a list</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note"><code>POST</code> adds (201), <code>DELETE</code> removes (204). <code>GET /auth/me/books/{book_id}/libraries</code> returns which lists contain a book.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/42  •  /auth/42/callback</div>
+            <div class="endpoint-desc">OAuth 2.0 login via 42 intra</div>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p class="note">Redirects to 42 authorize URL. On callback, creates or links user, sets auth cookies, redirects to frontend.</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/admin/users</div>
+            <div class="endpoint-desc">List all users (admin only)</div>
+          </div>
+          <span class="auth-badge admin">admin</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Full list without pagination. Admin role required.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/auth/admin/users</div>
+            <div class="endpoint-desc">Create a user (admin only)</div>
+          </div>
+          <span class="auth-badge admin">admin</span>
+        </div>
+        <div class="endpoint-body">
+          <pre>{ "username": "...", "email": "...", "password": "...", "role_id": 1,
+  "first_name": "...", "last_name": "...", "phone": "..." }</pre>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method PUT">PUT</span>
+          <div>
+            <div class="endpoint-path">/auth/admin/users/{user_id}</div>
+            <div class="endpoint-desc">Update a user (admin only)</div>
+          </div>
+          <span class="auth-badge admin">admin</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Partial update — only send fields to change.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method DELETE">DELETE</span>
+          <div>
+            <div class="endpoint-path">/auth/admin/users/{user_id}</div>
+            <div class="endpoint-desc">Delete a user (admin only)</div>
+          </div>
+          <span class="auth-badge admin">admin</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Also deletes refresh tokens. Returns 204.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/auth/admin/public-api-keys</div>
+            <div class="endpoint-desc">Manage Public API keys (admin only)</div>
+          </div>
+          <span class="auth-badge admin">admin</span>
+        </div>
+        <div class="endpoint-body"><p class="note"><code>GET</code> list · <code>POST</code> create (returns the raw <code>abp_…</code> token <strong>once</strong>) · <code>PATCH /{id}/revoke</code> · <code>DELETE /{id}</code>. Only the SHA-256 hash is stored.</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PUBLIC API -->
+  <div class="api-service">
+    <div class="api-service-header">
+      <div class="api-service-dot" style="background:#58a6ff;"></div>
+      <h3>Public API</h3>
+      <span class="tag blue" style="margin-left:4px;">prefix: /api/public/</span>
+      <span class="tag" style="margin-left:4px;">Swagger: /api/public/docs</span>
+    </div>
+    <p class="note" style="margin-bottom:12px;">Key-gated surface, separate from the session cookies. Send <code>X-API-Key: &lt;key&gt;</code> or <code>Authorization: Bearer &lt;key&gt;</code>. Nginx rate limits every <code>/api/public/*</code> route to <strong>10 r/m per IP</strong> (429 over limit). An aggregated Swagger UI at <code>/api/public/docs</code> merges the auth, catalog and audio OpenAPI schemas.</p>
+    <div class="endpoint-list">
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/public/auth/users/{user_id}</div>
+            <div class="endpoint-desc">Read / update / scrub public user data</div>
+          </div>
+          <span class="auth-badge required">api-key</span>
+        </div>
+        <div class="endpoint-body"><p class="note"><code>GET</code> returns id, username, names, avatar, status. <code>PATCH</code> updates username/names/avatar (unique username enforced). <code>DELETE</code> soft-erases personal fields (keeps the account).</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/public/catalog/...</div>
+            <div class="endpoint-desc">Catalog resources (GET / PATCH / DELETE)</div>
+          </div>
+          <span class="auth-badge required">api-key</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Mirror of the catalog data behind an API key. See <code>/api/public/catalog/docs</code>.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/public/{auth,catalog,audio}/test</div>
+            <div class="endpoint-desc">Connectivity check per service</div>
+          </div>
+          <span class="auth-badge required">api-key</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns <code>{ "message": "hello world", "service": "…" }</code> — handy for verifying a key works.</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CATALOG -->
+  <div class="api-service">
+    <div class="api-service-header">
+      <div class="api-service-dot" style="background:#3fb950;"></div>
+      <h3>Catalog Service</h3>
+      <span class="tag green" style="margin-left:4px;">prefix: /api/</span>
+    </div>
+    <div class="endpoint-list">
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/health</div>
+            <div class="endpoint-desc">Health check (routed to auth service by Nginx)</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns { status: "ok", service: "auth", db: "connected" }</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/books?category_id=&amp;publisher_id=&amp;author_id=</div>
+            <div class="endpoint-desc">List books with optional filters</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns list of ShortBookResponse. All query params are optional and combinable.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/books/{book_id}</div>
+            <div class="endpoint-desc">Get full book detail including translations and categories</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns BookResponse with all translations, author, publisher, categories.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/api/books</div>
+            <div class="endpoint-desc">Create a book (admin only)</div>
+          </div>
+          <span class="auth-badge admin">admin</span>
+        </div>
+        <div class="endpoint-body">
+          <pre>{ "author_name": "Tolkien", "publisher_name": "HarperCollins",
+  "price": 9.99, "currency": "EUR", "language_code": "en",
+  "isbn": "...", "product_status": "active",
+  "translations": [{ "lang": "en", "title": "...", "description": "...", "cover_image_filename": null, "sample_url": null }],
+  "category_ids": [1, 3] }</pre>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method PUT">PUT</span>
+          <div>
+            <div class="endpoint-path">/api/books/{book_id}</div>
+            <div class="endpoint-desc">Update a book (admin only)</div>
+          </div>
+          <span class="auth-badge admin">admin</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Partial update. Existing translations matched by <code>lang</code>; new langs added.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method DELETE">DELETE</span>
+          <div>
+            <div class="endpoint-path">/api/books/{book_id}</div>
+            <div class="endpoint-desc">Delete a book (admin only)</div>
+          </div>
+          <span class="auth-badge admin">admin</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns 204. Cascade-deletes translations.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/api/books/{book_id}/cover</div>
+            <div class="endpoint-desc">Upload cover image (admin only, JPEG/PNG/WebP, max 10 MB)</div>
+          </div>
+          <span class="auth-badge admin">admin</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Stores in MinIO <code>covers</code> bucket. Updates all translations' <code>cover_image_filename</code>.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/books/{book_id}/reviews</div>
+            <div class="endpoint-desc">Get reviews and average rating for a book</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns { average_rating, count, reviews[] }. Public endpoint.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/api/books/{book_id}/reviews</div>
+            <div class="endpoint-desc">Post a review (1–5 stars)</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body">
+          <pre>{ "username": "myhandle", "rating": 4, "text": "Great book!" }</pre>
+          <p class="note" style="margin-top:6px;">One review per user per book. 409 if already reviewed.</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/search?q=&lt;query&gt;&amp;limit=6</div>
+            <div class="endpoint-desc">Search books by title, author, publisher</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns list of SearchResult (id, title, author, cover). Max 50 results.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/categories</div>
+            <div class="endpoint-desc">List all book categories (hierarchical)</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns [{ id, name, parent_id }]. parent_id null = top-level genre.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/authors  •  /api/authors/{author_id}</div>
+            <div class="endpoint-desc">List or get author</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">List returns all authors. Single returns AuthorResponse with books.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/publishers/{publisher_id}</div>
+            <div class="endpoint-desc">Get publisher detail</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns PublisherResponse with books and follower count.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/api/publishers/{publisher_id}/follow</div>
+            <div class="endpoint-desc">Follow a publisher</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns 204. 400 if already following.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method DELETE">DELETE</span>
+          <div>
+            <div class="endpoint-path">/api/publishers/{publisher_id}/follow</div>
+            <div class="endpoint-desc">Unfollow a publisher</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns 204. 404 if not following.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/me/following/publishers</div>
+            <div class="endpoint-desc">List publishers the current user follows</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns list of PublisherResponse ordered by follow date desc.</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AUDIO -->
+  <div class="api-service">
+    <div class="api-service-header">
+      <div class="api-service-dot" style="background:#e3b341;"></div>
+      <h3>Audio Service</h3>
+      <span class="tag yellow" style="margin-left:4px;">prefix: /api/audio/</span>
+    </div>
+    <div class="endpoint-list">
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/audio/health</div>
+            <div class="endpoint-desc">Health check</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns { status: "ok", service: "audio", db: "connected" }</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/api/audio/upload</div>
+            <div class="endpoint-desc">Upload audio file directly (publisher/admin, max 500 MB)</div>
+          </div>
+          <span class="auth-badge pub">publisher</span>
+        </div>
+        <div class="endpoint-body">
+          <p class="note">Multipart form: <code>file</code> (audio/mpeg, ogg, wav, mp4, aac) + <code>book_id</code>. Stores in MinIO, registers in DB. Status goes uploading → ready.</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/api/audio/presign  <span style="color:var(--text3);font-size:11px;">(internal path /presign)</span></div>
+            <div class="endpoint-desc">Get a presigned MinIO upload URL for large files</div>
+          </div>
+          <span class="auth-badge pub">publisher</span>
+        </div>
+        <div class="endpoint-body">
+          <pre>{ "filename": "chapter1.mp3", "content_type": "audio/mpeg", "size": 52428800, "book_id": 3 }</pre>
+          <p class="note" style="margin-top:6px;">Returns { upload_url, object_key }. Client PUTs the file directly to MinIO, then calls <code>/files/register</code>.</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method POST">POST</span>
+          <div>
+            <div class="endpoint-path">/api/audio/files/register  <span style="color:var(--text3);font-size:11px;">(internal /files/register)</span></div>
+            <div class="endpoint-desc">Register an already-uploaded file in the DB</div>
+          </div>
+          <span class="auth-badge pub">publisher</span>
+        </div>
+        <div class="endpoint-body">
+          <pre>{ "book_id": 3, "object_key": "books/3/uuid/file.mp3",
+  "original_filename": "file.mp3", "file_size": 52428800, "mime_type": "audio/mpeg" }</pre>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/audio/public/{book_id}</div>
+            <div class="endpoint-desc">List ready audio files for a book (public)</div>
+          </div>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns PublicAudioFileResponse list (id, book_id, original_filename, mime_type). No auth required.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/audio/stream/{file_id}</div>
+            <div class="endpoint-desc">Stream audio with HTTP Range support</div>
+          </div>
+          <span class="auth-badge required">auth</span>
+        </div>
+        <div class="endpoint-body">
+          <p class="note">Supports <code>Range: bytes=start-end</code> header for seeking. Returns 206 Partial Content on range requests. Streams from MinIO without buffering the entire file in memory.</p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method GET">GET</span>
+          <div>
+            <div class="endpoint-path">/api/audio/files/{book_id}</div>
+            <div class="endpoint-desc">List all audio files for a book (publisher/admin)</div>
+          </div>
+          <span class="auth-badge pub">publisher</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Returns full AudioFileResponse list including status and file_size.</p></div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+          <span class="method DELETE">DELETE</span>
+          <div>
+            <div class="endpoint-path">/api/audio/files/{file_id}</div>
+            <div class="endpoint-desc">Delete an audio file (publisher/admin)</div>
+          </div>
+          <span class="auth-badge pub">publisher</span>
+        </div>
+        <div class="endpoint-body"><p class="note">Deletes from MinIO first, then from DB. 204 on success.</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ DATA MODELS ═══════════════════════════════ -->
+<div class="panel" id="panel-models">
+  <div class="section">
+    <h2>Data Models</h2>
+    <p>All three services share a single PostgreSQL instance. Each service manages its own schema via Alembic. There are no cross-schema foreign keys — services reference IDs from other schemas by convention only.</p>
+  </div>
+
+  <h3 style="margin-bottom:12px;">Auth Schema</h3>
+  <div class="schema-grid">
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">users</span>
+        <span class="schema-svc">auth schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">bigint</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">username</span><span class="field-type">varchar(150)</span></div>
+        <div class="field-row"><span class="field-name">email</span><span class="field-type">varchar unique</span></div>
+        <div class="field-row"><span class="field-name">password_hash</span><span class="field-type">varchar(255)</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">role_id</span><span class="field-type">bigint</span><span class="field-fk">FK→role</span></div>
+        <div class="field-row"><span class="field-name">status</span><span class="field-type">varchar(20)</span></div>
+        <div class="field-row"><span class="field-name">first_name</span><span class="field-type">varchar(150)</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">last_name</span><span class="field-type">varchar(150)</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">avatar_filename</span><span class="field-type">varchar(255)</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">phone</span><span class="field-type">varchar(30)</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">email_verified</span><span class="field-type">bool</span></div>
+        <div class="field-row"><span class="field-name">oauth_provider</span><span class="field-type">varchar(50)</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">oauth_id</span><span class="field-type">varchar(255)</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">last_login_at</span><span class="field-type">datetime</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">last_seen_at</span><span class="field-type">datetime</span><span class="field-null">nullable · online presence (60 s)</span></div>
+        <div class="field-row"><span class="field-name">created_at / updated_at</span><span class="field-type">datetime</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">role</span>
+        <span class="schema-svc">auth schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">int</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">role_name</span><span class="field-type">varchar unique</span></div>
+        <div class="field-row" style="padding:8px 16px;color:var(--text3);font-size:12px;">Roles: user, admin, publisher</div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">refresh_tokens</span>
+        <span class="schema-svc">auth schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">int</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">token_hash</span><span class="field-type">varchar(255) unique</span></div>
+        <div class="field-row"><span class="field-name">user_id</span><span class="field-type">bigint</span><span class="field-fk">FK→users</span></div>
+        <div class="field-row"><span class="field-name">created_at / expires_at</span><span class="field-type">datetime</span></div>
+        <div class="field-row"><span class="field-name">revoked</span><span class="field-type">bool</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">followers</span>
+        <span class="schema-svc">auth schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">int</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">follower_id</span><span class="field-type">bigint</span><span class="field-fk">FK→users</span></div>
+        <div class="field-row"><span class="field-name">followed_id</span><span class="field-type">bigint</span><span class="field-fk">FK→users</span></div>
+        <div class="field-row"><span class="field-name">created_at</span><span class="field-type">datetime</span></div>
+        <div class="field-row" style="padding:8px 16px;color:var(--text3);font-size:12px;">UNIQUE(follower_id, followed_id)</div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">public_api_keys</span>
+        <span class="schema-svc">auth schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">bigint</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">name</span><span class="field-type">varchar(100)</span></div>
+        <div class="field-row"><span class="field-name">token_hash</span><span class="field-type">varchar(255) unique</span></div>
+        <div class="field-row"><span class="field-name">created_at</span><span class="field-type">datetime</span></div>
+        <div class="field-row"><span class="field-name">expires_at</span><span class="field-type">datetime</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">last_used_at</span><span class="field-type">datetime</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">revoked</span><span class="field-type">bool</span></div>
+        <div class="field-row" style="padding:8px 16px;color:var(--text3);font-size:12px;">Public API keys — raw token (abp_…) shown once, only the hash is stored</div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">users_library</span>
+        <span class="schema-svc">auth schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">bigint</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">user_id</span><span class="field-type">bigint</span><span class="field-fk">FK→users</span></div>
+        <div class="field-row"><span class="field-name">name</span><span class="field-type">varchar(100)</span></div>
+        <div class="field-row" style="padding:8px 16px;color:var(--text3);font-size:12px;">Personal book lists · UNIQUE(user_id, name)</div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">users_library_book</span>
+        <span class="schema-svc">auth schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">library_id</span><span class="field-type">bigint</span><span class="field-pk">PK</span><span class="field-fk">FK→users_library</span></div>
+        <div class="field-row"><span class="field-name">book_id</span><span class="field-type">bigint</span><span class="field-pk">PK</span><span class="field-null">ref (no FK)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:28px;margin-bottom:12px;">Catalog Schema</h3>
+  <div class="schema-grid">
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">book</span>
+        <span class="schema-svc">catalog schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">bigint</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">author_id</span><span class="field-type">bigint</span><span class="field-fk">FK→author</span></div>
+        <div class="field-row"><span class="field-name">publisher_id</span><span class="field-type">bigint</span><span class="field-fk">FK→publisher</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">price</span><span class="field-type">numeric</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">currency</span><span class="field-type">varchar</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">language_code</span><span class="field-type">varchar</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">isbn</span><span class="field-type">varchar</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">product_status</span><span class="field-type">varchar</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">created_at / updated_at</span><span class="field-type">datetime</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">book_translations</span>
+        <span class="schema-svc">catalog schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">bigint</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">book_id</span><span class="field-type">bigint</span><span class="field-fk">FK→book</span></div>
+        <div class="field-row"><span class="field-name">lang</span><span class="field-type">varchar(10)</span></div>
+        <div class="field-row"><span class="field-name">title</span><span class="field-type">varchar(255)</span></div>
+        <div class="field-row"><span class="field-name">description</span><span class="field-type">text</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">cover_image_filename</span><span class="field-type">text</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">sample_url</span><span class="field-type">text</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">created_at / updated_at</span><span class="field-type">datetime</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">book_review</span>
+        <span class="schema-svc">catalog schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">bigint</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">book_id</span><span class="field-type">bigint</span><span class="field-fk">FK→book</span></div>
+        <div class="field-row"><span class="field-name">user_id</span><span class="field-type">bigint</span><span class="field-null">ref (no FK)</span></div>
+        <div class="field-row"><span class="field-name">username</span><span class="field-type">varchar</span></div>
+        <div class="field-row"><span class="field-name">rating</span><span class="field-type">smallint (1–5)</span></div>
+        <div class="field-row"><span class="field-name">text</span><span class="field-type">text</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">created_at</span><span class="field-type">datetime</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">book_category  &amp;  book_book_category</span>
+        <span class="schema-svc">catalog schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id / parent_id</span><span class="field-type">bigint, self-ref</span></div>
+        <div class="field-row"><span class="field-name">category_name</span><span class="field-type">text</span></div>
+        <div class="field-row" style="padding:6px 16px;color:var(--text3);font-size:11px;">↕ Many-to-many via book_book_category(book_id, category_id)</div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">publisher  &amp;  publisher_followers</span>
+        <span class="schema-svc">catalog schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">bigint</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">publisher_name</span><span class="field-type">text</span></div>
+        <div class="field-row" style="padding:6px 16px;color:var(--text3);font-size:11px;">publisher_followers: user_id + publisher_id (UNIQUE)</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:28px;margin-bottom:12px;">Audio Schema</h3>
+  <div class="schema-grid">
+    <div class="schema-card">
+      <div class="schema-header">
+        <span class="schema-name">audio_files</span>
+        <span class="schema-svc">audio schema</span>
+      </div>
+      <div class="schema-fields">
+        <div class="field-row"><span class="field-name">id</span><span class="field-type">bigint</span><span class="field-pk">PK</span></div>
+        <div class="field-row"><span class="field-name">book_id</span><span class="field-type">bigint</span><span class="field-null">ref (no FK)</span></div>
+        <div class="field-row"><span class="field-name">storage_key</span><span class="field-type">text unique</span></div>
+        <div class="field-row"><span class="field-name">original_filename</span><span class="field-type">varchar(255)</span></div>
+        <div class="field-row"><span class="field-name">file_size</span><span class="field-type">bigint (bytes)</span></div>
+        <div class="field-row"><span class="field-name">duration_seconds</span><span class="field-type">float</span><span class="field-null">nullable</span></div>
+        <div class="field-row"><span class="field-name">mime_type</span><span class="field-type">varchar(50)</span></div>
+        <div class="field-row"><span class="field-name">status</span><span class="field-type">uploading | ready | error</span></div>
+        <div class="field-row"><span class="field-name">publisher_id</span><span class="field-type">bigint</span><span class="field-null">ref (no FK)</span></div>
+        <div class="field-row"><span class="field-name">created_at / updated_at</span><span class="field-type">datetime</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ AUTH FLOWS ═══════════════════════════════ -->
+<div class="panel" id="panel-auth">
+  <div class="section">
+    <h2>Authentication Flows</h2>
+    <p>The auth service issues short-lived JWT access tokens and longer-lived refresh tokens. Both are stored as HttpOnly cookies set by the auth service and forwarded automatically by the browser on every request through Nginx.</p>
+  </div>
+
+  <div class="flow-grid">
+    <div class="flow-card">
+      <div class="flow-title">📧 Email + Password Login</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">User submits credentials</div>
+            <div class="step-code">POST /auth/login { email, password }</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Auth service validates</div>
+            <div class="step-detail">Looks up user by email, verifies bcrypt hash</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">Issues JWT access token</div>
+            <div class="step-detail">Signed JWT with user_id + role. Short-lived (minutes).</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-label">Issues refresh token</div>
+            <div class="step-detail">Random opaque token stored hashed in DB. Long-lived (days).</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <div class="step-label">Sets HttpOnly cookies</div>
+            <div class="step-code">Set-Cookie: access_token=...; HttpOnly; Secure; SameSite=Lax</div>
+            <div class="step-code" style="margin-top:4px;">Set-Cookie: refresh_token=...; HttpOnly; Secure; SameSite=Lax</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <div class="step-label">Frontend stores nothing</div>
+            <div class="step-detail">Cookies sent automatically by the browser on all subsequent requests.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-title">🔐 42 OAuth Login</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">User clicks "Login with 42"</div>
+            <div class="step-code">GET /auth/42</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Redirect to 42 authorize URL</div>
+            <div class="step-detail">Authlib builds the authorization URL and redirects the browser.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">42 redirects back to callback</div>
+            <div class="step-code">GET /auth/42/callback?code=...</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-label">Exchange code → fetch 42 profile</div>
+            <div class="step-detail">Gets id, email, login from api.intra.42.fr/v2/me</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <div class="step-label">Upsert user in DB</div>
+            <div class="step-detail">Find by oauth_id → link if email matches → create new. Marks email_verified=true.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <div class="step-label">Set cookies + redirect to frontend</div>
+            <div class="step-detail">Same cookie mechanism as email login. Redirects to configured frontend URL.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-title">🔄 Token Refresh</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">Access token expires</div>
+            <div class="step-detail">API returns 401. Frontend detects this.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Frontend calls refresh endpoint</div>
+            <div class="step-code">POST /auth/jwt/refresh</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">Service validates refresh token cookie</div>
+            <div class="step-detail">Checks token_hash in DB, not expired, not revoked.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-label">Issues new access token</div>
+            <div class="step-detail">Sets new access_token cookie. Refresh token is NOT rotated on every refresh.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-title">🎯 Request Authorization</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">Browser sends request with cookies</div>
+            <div class="step-detail">access_token cookie attached automatically.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Nginx forwards to correct service</div>
+            <div class="step-detail">No auth check at Nginx level — services validate independently.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">Service runs <code>verify_jwt_access()</code> dependency</div>
+            <div class="step-detail">Reads access_token cookie, verifies signature, extracts user_id + role.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-label">Role check (if required)</div>
+            <div class="step-detail"><code>verify_jwt_access(["admin"])</code> — 403 if role not in list.<br><code>verify_jwt_access(["publisher","admin"])</code> — for publisher endpoints.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ NGINX ROUTING ═══════════════════════════════ -->
+<div class="panel" id="panel-nginx">
+  <div class="section">
+    <h2>Nginx Routing</h2>
+    <p>Nginx is the single entry point for all traffic. It terminates TLS, enforces <code>client_max_body_size 512m</code> (for audio uploads), and routes by URL prefix to the correct upstream. HTTP on port 80 redirects to HTTPS on port 443.</p>
+  </div>
+
+  <div class="warn-box">
+    <strong>Port mapping:</strong> Nginx listens on container port 80/443, exposed to host as <strong>8000:80</strong> and <strong>4443:443</strong>. The dev stack uses self-signed certs — accept the browser warning or add the cert to trust store.
+  </div>
+
+  <table class="route-table">
+    <thead>
+      <tr>
+        <th>URL Pattern</th>
+        <th>Upstream</th>
+        <th>Rewrite / Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="path">= /api/health</td>
+        <td class="target">auth:8000/health</td>
+        <td class="note">Exact match — beats the /api/ prefix rule</td>
+      </tr>
+      <tr>
+        <td class="path">/auth/</td>
+        <td class="target">auth:8000</td>
+        <td class="note">Direct proxy, no rewrite</td>
+      </tr>
+      <tr>
+        <td class="path">/api/auth/</td>
+        <td class="target">auth:8000</td>
+        <td class="note">Rewrite: <code>/api/auth/X</code> → <code>/auth/X</code> on the upstream</td>
+      </tr>
+      <tr>
+        <td class="path">/api/public/auth/<br>/api/public/catalog/<br>/api/public/audio/</td>
+        <td class="target">auth · catalog · audio</td>
+        <td class="note">Public API (API-key auth). <code>limit_req</code> zone <code>public_api_limit</code> = <strong>10 r/m per IP</strong>, returns <code>429</code> over limit.</td>
+      </tr>
+      <tr>
+        <td class="path">= /api/public/docs<br>= /api/public/openapi.json</td>
+        <td class="target">auth:8000</td>
+        <td class="note">Aggregated public API Swagger UI / merged OpenAPI schema</td>
+      </tr>
+      <tr>
+        <td class="path">/api/audio/</td>
+        <td class="target">audio:8000</td>
+        <td class="note">Rewrite: strips <code>/api/audio/</code> prefix. <code>proxy_buffering off</code> for streaming.</td>
+      </tr>
+      <tr>
+        <td class="path">/api/</td>
+        <td class="target">catalog:8000</td>
+        <td class="note">Catch-all for <code>/api/*</code> — routes to Catalog service</td>
+      </tr>
+      <tr>
+        <td class="path">/</td>
+        <td class="target">frontend:80</td>
+        <td class="note">React SPA container. Handles all non-API paths including SPA client-side routes.</td>
+      </tr>
+      <tr>
+        <td class="path">/kibana/</td>
+        <td class="target">kibana:5601</td>
+        <td class="note">Basic auth protected. Only available when ELK overlay is running (<code>make up-elk</code>).</td>
+      </tr>
+      <tr>
+        <td class="path">/grafana/</td>
+        <td class="target">grafana:3000</td>
+        <td class="note">Only available when monitoring overlay is running (<code>make up-monitoring</code>).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="divider">
+  <h3>Dev Mode — Frontend Outside Docker</h3>
+  <p>Running <code>make frontend</code> starts Vite on <code>localhost:5173</code> outside Docker. The Nginx config switches to <code>nginx.dev.conf</code>, which has no frontend upstream. Vite proxies <code>/api</code> to <code>localhost:8000</code>. CORS origins must include <code>http://localhost:5173</code> in <code>.env</code>.</p>
+
+  <hr class="divider">
+  <h3>Metrics Scraping</h3>
+  <p>Each backend service exposes <code>/metrics</code> via <code>prometheus_fastapi_instrumentator</code>. Prometheus (when running) scrapes all three services directly on the internal Docker network — it does not go through Nginx.</p>
+</div>
+
+</div><!-- /content -->
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleEndpoint(header) {
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+</script>
+</body>
+</html>

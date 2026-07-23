@@ -1,0 +1,6 @@
+export { default as AuthorPage } from './AuthorPage'
+export { default as BookPage } from './BookPage'
+export { default as GenrePage } from './GenrePage'
+export { default as HomePage } from './HomePage'
+export { default as ShelfPage } from './ShelfPage'
+export { default as LoginPage } from './LoginPage'
