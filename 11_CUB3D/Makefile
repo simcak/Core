@@ -13,7 +13,7 @@
 NAME			= cub3D
 COM				= cc
 FLAGS			= -Wall -Wextra -Werror -g
-APPLE_FLAGS		= -framework Cocoa -framework OpenGL -framework IOKit
+APPLE_FLAGS		= -L$(shell brew --prefix glfw)/lib -framework Cocoa -framework OpenGL -framework IOKit
 LINUX_FLAGS		= -Iinc -Ilib/libft -ldl -lglfw -pthread -lm
 
 MLX_DIR			= ./MLX42
