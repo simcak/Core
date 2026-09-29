@@ -1,0 +1,67 @@
+% Shared layout for all language versions of the CV.
+% The document itself only loads babel (language) and this package.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cvstyle}[2026/09/29 Two-column CV layout]
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[margin=0mm]{geometry}
+\RequirePackage[stretch=20,shrink=20,tracking=true,letterspace=25]{microtype}
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{eso-pic}
+\RequirePackage{etoolbox}
+\RequirePackage{marvosym}
+\RequirePackage{fontawesome5}
+\RequirePackage{enumitem}
+\RequirePackage[lining]{FiraSans}
+\RequirePackage[colorlinks=true,urlcolor=white,linkcolor=white]{hyperref}
+
+\renewcommand{\familydefault}{\sfdefault}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\topskip}{0pt}
+
+\definecolor{cvblue}{HTML}{304263}
+\definecolor{softblue}{HTML}{41597E}
+
+% --- Page geometry (A4 = 210 mm wide) ---------------------------------------
+\newlength{\sidebarband}\setlength{\sidebarband}{69mm} % blue background
+\newlength{\sidepad}    \setlength{\sidepad}{5.5mm}    % padding inside band
+\newlength{\sidewidth}  \setlength{\sidewidth}{58mm}   % sidebar text width
+\newlength{\colgap}     \setlength{\colgap}{12.5mm}    % sidebar -> main column
+\newlength{\mainwidth}  \setlength{\mainwidth}{121mm}  % main column width
+
+\AddToShipoutPictureBG{\color{cvblue}\rule{\sidebarband}{\paperheight}}
+
+\setlist{parsep=0pt,topsep=1pt,partopsep=0pt,itemsep=1.5pt,leftmargin=4.5mm}
+
+% --- Columns -----------------------------------------------------------------
+\newenvironment{sidebar}{%
+  \noindent\hspace*{\sidepad}%
+  \begin{minipage}[t]{\sidewidth}\vspace*{7mm}\raggedright\color{white}%
+}{\end{minipage}}
+
+\newenvironment{maincolumn}{%
+  \hspace*{\colgap}%
+  \begin{minipage}[t]{\mainwidth}\vspace*{5mm}\raggedright
+  \hypersetup{urlcolor=softblue}%
+}{\end{minipage}}
+
+% --- Headings ----------------------------------------------------------------
+\newcommand{\sidehead}[1]{%
+  \vspace*{2.2ex}\textsc{\textbf{#1}}\par\vspace*{-1.2ex}\hrulefill\par\vspace*{0.5ex}}
+\newcommand{\mainhead}[1]{%
+  \vspace*{1.6ex}{\large\color{cvblue}\textsc{#1}}\par\vspace*{-1.5ex}%
+  {\color{cvblue}\hrulefill}\par\vspace*{0.6ex}}
+
+% --- Entries -----------------------------------------------------------------
+% \cventry{role / title}{organisation or tech stack}{dates}{body}
+\newcommand{\cventry}[4]{%
+  {\textbf{#1}\ifstrempty{#2}{}{\ {\color{softblue}| #2}}\hfill
+   {\small\color{softblue}#3}}\par\vspace*{0.3ex}
+  {\small #4}\par\vspace*{1.3ex}}
+
+% Contact line with a fixed-width, centred icon so the texts align.
+\newcommand{\contact}[2]{\makebox[1.5em][l]{#1}#2\\[0.4ex]}
